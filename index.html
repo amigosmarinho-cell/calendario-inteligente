@@ -1,4 +1,420 @@
-<!-- SUBSTITUA TODO O SCRIPT PELO CÓDIGO ABAIXO -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LeoTecnologia Agenda</title>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+
+    background:
+    linear-gradient(
+    135deg,
+    #020617,
+    #0f172a,
+    #1e3a8a
+    );
+
+    min-height:100vh;
+
+    color:white;
+
+    padding:10px;
+}
+
+.container{
+
+    width:100%;
+    max-width:520px;
+    margin:auto;
+}
+
+.company-header{
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    margin-bottom:15px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,0.1);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.logo-space{
+
+    width:140px;
+    height:140px;
+
+    margin:auto;
+    margin-bottom:15px;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,0.05);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.logo-space img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.company-name{
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff6a00,
+    #00a2ff
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.company-info{
+
+    font-size:15px;
+
+    line-height:1.8;
+
+    opacity:0.95;
+}
+
+.language-box{
+
+    margin-top:15px;
+}
+
+.language-box select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#0f172a;
+
+    color:white;
+}
+
+.calendar-box{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:10px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.fc{
+
+    color:black;
+}
+
+/* DIAS DISPONÍVEIS */
+
+.fc-daygrid-day{
+
+    background:#00cc6620;
+}
+
+/* EVENTOS OCUPADOS */
+
+.fc-event{
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    font-weight:bold;
+}
+
+/* DIA ATUAL */
+
+.fc-day-today{
+
+    background:#2563eb30 !important;
+}
+
+.fc-toolbar-title{
+
+    font-size:18px !important;
+}
+
+.event-form{
+
+    margin-top:15px;
+
+    background:rgba(255,255,255,0.08);
+
+    padding:20px;
+
+    border-radius:25px;
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.event-form h2{
+
+    margin-bottom:15px;
+
+    font-size:24px;
+}
+
+input,
+select,
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    border:none;
+
+    border-radius:14px;
+
+    font-size:16px;
+}
+
+input,
+select{
+
+    background:white;
+}
+
+button{
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff6a00,
+    #0072ff
+    );
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+button:hover{
+
+    transform:scale(1.02);
+}
+
+.status-box{
+
+    margin-bottom:15px;
+}
+
+.status-green{
+
+    background:#00cc66;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    margin-bottom:10px;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+.status-red{
+
+    background:#ff4d4d;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+@media(max-width:500px){
+
+    .company-name{
+
+        font-size:26px;
+    }
+
+    .fc-toolbar{
+
+        display:flex !important;
+
+        flex-direction:column !important;
+
+        gap:10px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="company-header">
+
+<div class="logo-space">
+
+<img src="logo.png" alt="LeoTecnologia">
+
+</div>
+
+<div class="company-name">
+
+LeoTecnologia
+
+</div>
+
+<div class="company-info">
+
+📞 (98) 99994-2905 <br>
+
+📍 Avenida Três Qd-M Parque Araçagy <br>
+
+✉️ leotecnologia25@gmail.com
+
+</div>
+
+<div class="language-box">
+
+<select id="languageSwitcher">
+
+<option value="pt">
+🇧🇷 Português
+</option>
+
+<option value="en">
+🇺🇸 English
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="calendar-box">
+
+<div id="calendar"></div>
+
+</div>
+
+<div class="event-form">
+
+<h2 id="formTitle">
+
+📅 Novo Agendamento
+
+</h2>
+
+<div class="status-box">
+
+<div class="status-green">
+
+🟢 Disponível
+
+</div>
+
+<div class="status-red">
+
+🔴 Ocupado
+
+</div>
+
+</div>
+
+<input
+type="text"
+id="clientName"
+placeholder="Nome do Cliente">
+
+<input
+type="tel"
+id="clientPhone"
+placeholder="Telefone do Cliente">
+
+<input
+type="text"
+id="title"
+placeholder="Nome do Evento">
+
+<input
+type="datetime-local"
+id="start">
+
+<button onclick="addEvent()"
+id="saveButton">
+
+Salvar Agendamento
+
+</button>
+
+</div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
@@ -78,7 +494,7 @@ document.getElementById('calendar');
 calendar =
 new FullCalendar.Calendar(calendarEl,{
 
-initialView:'timeGridWeek',
+initialView:'dayGridMonth',
 
 locale:'pt-br',
 
@@ -86,52 +502,19 @@ editable:true,
 
 selectable:true,
 
-allDaySlot:false,
-
-slotMinTime:"08:00:00",
-
-slotMaxTime:"22:00:00",
-
-slotDuration:"00:30:00",
-
 height:"auto",
 
 headerToolbar:{
 
-left:'prev,next today',
+left:'prev,next',
 
 center:'title',
 
-right:'dayGridMonth,timeGridWeek,timeGridDay'
+right:'today'
 },
 
 events:
 JSON.parse(localStorage.getItem("eventos")) || [],
-
-/* AO CLICAR NO HORÁRIO */
-
-select:function(info){
-
-document.getElementById("start").value =
-formatDateTimeLocal(info.start);
-
-},
-
-/* MOSTRAR NOME NO EVENTO */
-
-eventContent:function(arg){
-
-return {
-
-html: `
-<div style="padding:5px;">
-<strong>${arg.event.title}</strong>
-</div>
-`
-
-};
-
-},
 
 eventClick:function(info){
 
@@ -154,20 +537,6 @@ saveEvents();
 calendar.render();
 
 });
-
-/* FORMATAR DATA */
-
-function formatDateTimeLocal(date){
-
-const pad = n => n.toString().padStart(2,'0');
-
-return `${date.getFullYear()}-${
-pad(date.getMonth()+1)}-${
-pad(date.getDate())}T${
-pad(date.getHours())}:${
-pad(date.getMinutes())}`;
-
-}
 
 /* ADICIONAR EVENTO */
 
@@ -199,20 +568,17 @@ translations[currentLang].alertFill
 return;
 }
 
-/* TEXTO EVENTO */
-
 const fullTitle =
 
 `${title}
-👤 ${clientName}`;
-
-/* ADICIONAR */
+👤 ${clientName}
+📞 ${clientPhone}`;
 
 calendar.addEvent({
 
 title:fullTitle,
 
-start:start,
+start,
 
 color:"#ff4d4d"
 });
@@ -305,3 +671,6 @@ window.open(url,"_blank");
 }
 
 </script>
+
+</body>
+</html>
