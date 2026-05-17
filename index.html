@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Calendário Inteligente</title>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#141e30,#243b55);
+    min-height:100vh;
+    color:white;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.header h1{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.header p{
+    opacity:0.8;
+}
+
+#calendar{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    color:black;
+}
+
+.fc-toolbar-title{
+    color:#243b55;
+}
+
+.event-form{
+    margin-top:20px;
+    background:rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:20px;
+    backdrop-filter: blur(10px);
+}
+
+.event-form h2{
+    margin-bottom:15px;
+}
+
+input, select{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:10px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#00c6ff;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0072ff;
+}
+
+.color-preview{
+    width:100%;
+    height:40px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>📅 Calendário Inteligente</h1>
+        <p>Agendamento com cores, horários e notificações</p>
+    </div>
+
+    <div id="calendar"></div>
+
+    <div class="event-form">
+        <h2>Adicionar Evento</h2>
+
+        <input type="text" id="title" placeholder="Título do evento">
+
+        <input type="datetime-local" id="start">
+
+        <select id="color">
+            <option value="#ff4d4d">🔴 Vermelho</option>
+            <option value="#4d79ff">🔵 Azul</option>
+            <option value="#00cc66">🟢 Verde</option>
+            <option value="#ffcc00">🟡 Amarelo</option>
+            <option value="#cc66ff">🟣 Roxo</option>
+        </select>
+
+        <div class="color-preview" id="preview"></div>
+
+        <button onclick="addEvent()">Salvar Evento</button>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<script>
+let calendar;
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const calendarEl = document.getElementById('calendar');
+
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        selectable: true,
+        editable: true,
+        height: "auto",
+
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+
+        events: JSON.parse(localStorage.getItem("eventos")) || [],
+
+        eventClick: function(info){
+            if(confirm("Deseja remover este evento?")){
+                info.event.remove();
+                saveEvents();
+            }
+        },
+
+        eventChange: function(){
+            saveEvents();
+        }
+    });
+
+    calendar.render();
+
+    document.getElementById("preview").style.background =
+    document.getElementById("color").value;
+
+});
+
+document.getElementById("color").addEventListener("change", function(){
+    document.getElementById("preview").style.background = this.value;
+});
+
+function addEvent(){
+
+    const title = document.getElementById("title").value;
+    const start = document.getElementById("start").value;
+    const color = document.getElementById("color").value;
+
+    if(title === "" || start === ""){
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    calendar.addEvent({
+        title,
+        start,
+        color
+    });
+
+    saveEvents();
+
+    scheduleNotification(title, start);
+
+    alert("Evento adicionado!");
+
+    document.getElementById("title").value = "";
+    document.getElementById("start").value = "";
+}
+
+function saveEvents(){
+
+    const events = [];
+
+    calendar.getEvents().forEach(event => {
+        events.push({
+            title: event.title,
+            start: event.start,
+            color: event.backgroundColor
+        });
+    });
+
+    localStorage.setItem("eventos", JSON.stringify(events));
+}
+
+function scheduleNotification(title, start){
+
+    const eventTime = new Date(start).getTime();
+    const now = new Date().getTime();
+
+    const delay = eventTime - now;
+
+    if(delay > 0){
+
+        Notification.requestPermission().then(permission => {
+
+            if(permission === "granted"){
+
+                setTimeout(() => {
+
+                    new Notification("⏰ Lembrete do Evento", {
+                        body: title
+                    });
+
+                }, delay);
+            }
+        });
+    }
+}
+</script>
+
+</body>
+</html>
