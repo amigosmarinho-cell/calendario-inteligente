@@ -156,6 +156,33 @@ body{
     color:black;
 }
 
+/* DIAS DISPONÍVEIS */
+
+.fc-daygrid-day{
+
+    background:#00cc6620;
+}
+
+/* EVENTOS OCUPADOS */
+
+.fc-event{
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    font-weight:bold;
+}
+
+/* DIA ATUAL */
+
+.fc-day-today{
+
+    background:#2563eb30 !important;
+}
+
 .fc-toolbar-title{
 
     font-size:18px !important;
@@ -229,13 +256,37 @@ button:hover{
     transform:scale(1.02);
 }
 
-.color-preview{
+.status-box{
 
-    height:40px;
+    margin-bottom:15px;
+}
+
+.status-green{
+
+    background:#00cc66;
+
+    padding:12px;
 
     border-radius:12px;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+.status-red{
+
+    background:#ff4d4d;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:bold;
 }
 
 @media(max-width:500px){
@@ -319,6 +370,22 @@ LeoTecnologia
 
 </h2>
 
+<div class="status-box">
+
+<div class="status-green">
+
+🟢 Disponível
+
+</div>
+
+<div class="status-red">
+
+🔴 Ocupado
+
+</div>
+
+</div>
+
 <input
 type="text"
 id="clientName"
@@ -337,33 +404,6 @@ placeholder="Nome do Evento">
 <input
 type="datetime-local"
 id="start">
-
-<select id="color">
-
-<option value="#ff4d4d">
-🔴 Vermelho
-</option>
-
-<option value="#00cc66">
-🟢 Verde
-</option>
-
-<option value="#4d79ff">
-🔵 Azul
-</option>
-
-<option value="#ffcc00">
-🟡 Amarelo
-</option>
-
-<option value="#cc66ff">
-🟣 Roxo
-</option>
-
-</select>
-
-<div class="color-preview"
-id="preview"></div>
 
 <button onclick="addEvent()"
 id="saveButton">
@@ -496,21 +536,6 @@ saveEvents();
 
 calendar.render();
 
-document.getElementById("preview")
-.style.background =
-document.getElementById("color").value;
-
-});
-
-/* COR */
-
-document.getElementById("color")
-.addEventListener("change",function(){
-
-document.getElementById("preview")
-.style.background =
-this.value;
-
 });
 
 /* ADICIONAR EVENTO */
@@ -528,9 +553,6 @@ document.getElementById("title").value;
 
 const start =
 document.getElementById("start").value;
-
-const color =
-document.getElementById("color").value;
 
 if(
 clientName === "" ||
@@ -558,12 +580,12 @@ title:fullTitle,
 
 start,
 
-color
+color:"#ff4d4d"
 });
 
 saveEvents();
 
-/* WHATSAPP AUTOMÁTICO */
+/* WHATSAPP */
 
 sendWhatsAppToOwner(
 clientName,
@@ -602,7 +624,8 @@ title:event.title,
 
 start:event.start,
 
-color:event.backgroundColor
+color:"#ff4d4d"
+
 });
 
 });
@@ -614,7 +637,7 @@ JSON.stringify(events)
 
 }
 
-/* WHATSAPP PROPRIETÁRIO */
+/* WHATSAPP */
 
 function sendWhatsAppToOwner(
 clientName,
