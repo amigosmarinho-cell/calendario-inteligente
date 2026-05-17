@@ -7,7 +7,6 @@
 
 <title>LeoTecnologia Agenda</title>
 
-<!-- FULLCALENDAR -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
 
 <style>
@@ -36,18 +35,12 @@ body{
     padding:10px;
 }
 
-/* CONTAINER */
-
 .container{
 
     width:100%;
-
     max-width:520px;
-
     margin:auto;
 }
-
-/* HEADER */
 
 .company-header{
 
@@ -68,16 +61,12 @@ body{
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* LOGO */
-
 .logo-space{
 
     width:140px;
-
     height:140px;
 
     margin:auto;
-
     margin-bottom:15px;
 
     border-radius:25px;
@@ -89,20 +78,16 @@ body{
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 }
 
 .logo-space img{
 
     width:100%;
-
     height:100%;
 
     object-fit:cover;
 }
-
-/* EMPRESA */
 
 .company-name{
 
@@ -133,8 +118,6 @@ body{
     opacity:0.95;
 }
 
-/* IDIOMA */
-
 .language-box{
 
     margin-top:15px;
@@ -154,8 +137,6 @@ body{
 
     color:white;
 }
-
-/* CALENDÁRIO */
 
 .calendar-box{
 
@@ -179,8 +160,6 @@ body{
 
     font-size:18px !important;
 }
-
-/* FORM */
 
 .event-form{
 
@@ -259,19 +238,6 @@ button:hover{
     margin-bottom:12px;
 }
 
-.history-box{
-
-    margin-top:15px;
-
-    background:rgba(255,255,255,0.08);
-
-    padding:15px;
-
-    border-radius:20px;
-}
-
-/* RESPONSIVO */
-
 @media(max-width:500px){
 
     .company-name{
@@ -297,13 +263,9 @@ button:hover{
 
 <div class="container">
 
-<!-- HEADER -->
-
 <div class="company-header">
 
 <div class="logo-space">
-
-<!-- ENVIE SUA LOGO COM O NOME logo.png -->
 
 <img src="logo.png" alt="LeoTecnologia">
 
@@ -343,15 +305,11 @@ LeoTecnologia
 
 </div>
 
-<!-- CALENDÁRIO -->
-
 <div class="calendar-box">
 
 <div id="calendar"></div>
 
 </div>
-
-<!-- FORM -->
 
 <div class="event-form">
 
@@ -361,23 +319,23 @@ LeoTecnologia
 
 </h2>
 
-<input type="email"
-id="clientEmail"
-placeholder="E-mail do Cliente">
-
-<input type="text"
+<input
+type="text"
 id="clientName"
 placeholder="Nome do Cliente">
 
-<input type="tel"
+<input
+type="tel"
 id="clientPhone"
 placeholder="Telefone do Cliente">
 
-<input type="text"
+<input
+type="text"
 id="title"
 placeholder="Nome do Evento">
 
-<input type="datetime-local"
+<input
+type="datetime-local"
 id="start">
 
 <select id="color">
@@ -414,39 +372,13 @@ Salvar Agendamento
 
 </button>
 
-<button onclick="showHistory()">
-
-📜 Histórico
-
-</button>
-
-<button onclick="generateDailyPDF()">
-
-📄 Gerar PDF
-
-</button>
-
 </div>
 
 </div>
-
-<!-- FULLCALENDAR -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-<!-- EMAILJS -->
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<!-- JSPDF -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
-
-/* CONFIG EMAILJS */
-
-emailjs.init("SUA_PUBLIC_KEY");
 
 /* TRADUÇÕES */
 
@@ -491,7 +423,7 @@ updateLanguage();
 
 });
 
-/* TROCAR IDIOMA */
+/* IDIOMA */
 
 function updateLanguage(){
 
@@ -502,6 +434,11 @@ translations[currentLang].formTitle;
 document.getElementById("saveButton")
 .innerText =
 translations[currentLang].save;
+
+calendar.setOption(
+"locale",
+currentLang === "pt" ? "pt-br" : "en"
+);
 
 }
 
@@ -580,9 +517,6 @@ this.value;
 
 function addEvent(){
 
-const clientEmail =
-document.getElementById("clientEmail").value;
-
 const clientName =
 document.getElementById("clientName").value;
 
@@ -599,7 +533,6 @@ const color =
 document.getElementById("color").value;
 
 if(
-clientEmail === "" ||
 clientName === "" ||
 clientPhone === "" ||
 title === "" ||
@@ -612,16 +545,6 @@ translations[currentLang].alertFill
 
 return;
 }
-
-const eventData = {
-
-title,
-clientName,
-clientPhone,
-clientEmail,
-start,
-color
-};
 
 const fullTitle =
 
@@ -638,52 +561,22 @@ start,
 color
 });
 
-/* HISTÓRICO */
-
-let history =
-
-JSON.parse(
-localStorage.getItem("history")
-) || [];
-
-history.push(eventData);
-
-localStorage.setItem(
-"history",
-JSON.stringify(history)
-);
-
 saveEvents();
 
-/* WHATSAPP */
+/* WHATSAPP AUTOMÁTICO */
 
-sendWhatsApp(
+sendWhatsAppToOwner(
+clientName,
 clientPhone,
-clientName,
 title,
 start
 );
-
-/* EMAIL */
-
-sendConfirmationEmail(
-clientEmail,
-clientName,
-title,
-start
-);
-
-/* PDF */
-
-generateDailyPDF();
 
 alert(
 translations[currentLang].alertSaved
 );
 
 /* LIMPAR */
-
-document.getElementById("clientEmail").value = "";
 
 document.getElementById("clientName").value = "";
 
@@ -721,691 +614,36 @@ JSON.stringify(events)
 
 }
 
-/* WHATSAPP */
+/* WHATSAPP PROPRIETÁRIO */
 
-function sendWhatsApp(
-phone,
-name,
+function sendWhatsAppToOwner(
+clientName,
+clientPhone,
 title,
 date
 ){
+
+const ownerPhone = "5598999942905";
 
 const message =
 
-`Olá ${name}!
+`📅 NOVO AGENDAMENTO
 
-Seu agendamento foi confirmado.
+👤 Cliente: ${clientName}
 
-📅 Evento: ${title}
+📞 Telefone: ${clientPhone}
+
+📌 Evento: ${title}
 
 ⏰ Data: ${date}
 
-LeoTecnologia`;
-
-const cleanPhone =
-
-phone.replace(/\D/g,'');
+Sistema LeoTecnologia`;
 
 const url =
 
-`https://wa.me/55${cleanPhone}?text=${encodeURIComponent(message)}`;
+`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
-window.open(url,'_blank');
-
-}
-
-/* EMAIL */
-
-function sendConfirmationEmail(
-email,
-name,
-title,
-date
-){
-
-emailjs.send(
-
-"SEU_SERVICE_ID",
-
-"SEU_TEMPLATE_ID",
-
-{
-
-client_email:email,
-
-client_name:name,
-
-event_title:title,
-
-event_date:date,
-
-company_name:"LeoTecnologia"
-
-}
-
-).then(function(){
-
-console.log("Email enviado!");
-
-});
-
-}
-
-/* HISTÓRICO */
-
-function showHistory(){
-
-const history =
-
-JSON.parse(
-localStorage.getItem("history")
-) || [];
-
-let text = "HISTÓRICO:\n\n";
-
-history.forEach((item,index)=>{
-
-text +=
-
-`${index+1} - ${item.title}
-
-Cliente: ${item.clientName}
-
-Telefone: ${item.clientPhone}
-
-Email: ${item.clientEmail}
-
-Data: ${item.start}
-
----------------------
-
-`;
-
-});
-
-alert(text);
-
-}
-
-/* PDF */
-
-async function generateDailyPDF(){
-
-const { jsPDF } = window.jspdf;
-
-const doc = new jsPDF();
-
-const history =
-
-JSON.parse(
-localStorage.getItem("history")
-) || [];
-
-let y = 20;
-
-doc.setFontSize(18);
-
-doc.text(
-"LeoTecnologia - Agendamentos",
-20,
-y
-);
-
-y += 15;
-
-history.forEach((item,index)=>{
-
-doc.setFontSize(12);
-
-doc.text(
-`${index+1} - ${item.title}`,
-20,
-y
-);
-
-y += 8;
-
-doc.text(
-`Cliente: ${item.clientName}`,
-20,
-y
-);
-
-y += 8;
-
-doc.text(
-`Telefone: ${item.clientPhone}`,
-20,
-y
-);
-
-y += 8;
-
-doc.text(
-`Email: ${item.clientEmail}`,
-20,
-y
-);
-
-y += 8;
-
-doc.text(
-`Data: ${item.start}`,
-20,
-y
-);
-
-y += 15;
-
-});
-
-doc.save("agendamentos.pdf");
-
-}
-
-</script>
-
-</body>
-</html>
-
-.container{
-    width:100%;
-    max-width:520px;
-    margin:auto;
-}
-
-/* HEADER */
-
-.company-header{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter: blur(15px);
-    border-radius:30px;
-    padding:25px;
-    margin-bottom:15px;
-    text-align:center;
-    border:1px solid rgba(255,255,255,0.1);
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-
-/* LOGO */
-
-.logo-space{
-    width:140px;
-    height:140px;
-    margin:auto;
-    margin-bottom:15px;
-    border-radius:25px;
-    overflow:hidden;
-    background:rgba(255,255,255,0.05);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border:2px solid rgba(255,255,255,0.1);
-}
-
-.logo-space img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* NOME EMPRESA */
-
-.company-name{
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:10px;
-    background:linear-gradient(90deg,#ff6a00,#00a2ff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-/* INFO */
-
-.company-info{
-    font-size:15px;
-    line-height:1.8;
-    opacity:0.95;
-}
-
-/* SELECT LANGUAGE */
-
-.language-box{
-    margin-top:15px;
-}
-
-.language-box select{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    background:#0f172a;
-    color:white;
-    font-size:15px;
-}
-
-/* CALENDÁRIO */
-
-.calendar-box{
-    background:white;
-    border-radius:25px;
-    padding:10px;
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-
-.fc{
-    color:black;
-}
-
-.fc-toolbar-title{
-    font-size:18px !important;
-    font-weight:bold;
-}
-
-.fc-button{
-    border-radius:10px !important;
-}
-
-/* FORM */
-
-.event-form{
-    margin-top:15px;
-    background:rgba(255,255,255,0.08);
-    padding:20px;
-    border-radius:25px;
-    backdrop-filter: blur(15px);
-    border:1px solid rgba(255,255,255,0.1);
-}
-
-.event-form h2{
-    margin-bottom:15px;
-    font-size:24px;
-}
-
-input,
-select,
-button{
-    width:100%;
-    padding:14px;
-    margin-bottom:12px;
-    border:none;
-    border-radius:14px;
-    font-size:16px;
-}
-
-input,
-select{
-    background:white;
-}
-
-button{
-    background:linear-gradient(90deg,#ff6a00,#0072ff);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    transform:scale(1.02);
-}
-
-.color-preview{
-    height:40px;
-    border-radius:12px;
-    margin-bottom:12px;
-}
-
-/* RESPONSIVO */
-
-@media(max-width:500px){
-
-    .container{
-        max-width:100%;
-    }
-
-    .company-name{
-        font-size:26px;
-    }
-
-    .fc-toolbar{
-        display:flex !important;
-        flex-direction:column !important;
-        gap:10px;
-    }
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <!-- HEADER -->
-
-    <div class="company-header">
-
-        <div class="logo-space">
-
-            <!-- COLOQUE SUA LOGO AQUI -->
-            <img src="logo.png" alt="LeoTecnologia">
-
-        </div>
-
-        <div class="company-name" id="companyTitle">
-            LeoTecnologia
-        </div>
-
-        <div class="company-info" id="companyInfo">
-
-            📞 (98) 99994-2905<br>
-
-            📍 Avenida Três Qd-M Parque Araçagy<br>
-
-            ✉️ leotecnologia25@gmail.com
-
-        </div>
-
-        <!-- IDIOMA -->
-
-        <div class="language-box">
-
-            <select id="languageSwitcher">
-
-                <option value="pt">🇧🇷 Português</option>
-
-                <option value="en">🇺🇸 English</option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-    <!-- CALENDÁRIO -->
-
-    <div class="calendar-box">
-
-        <div id="calendar"></div>
-
-    </div>
-
-    <!-- FORMULÁRIO -->
-
-    <div class="event-form">
-
-        <h2 id="formTitle">
-            📅 Novo Agendamento
-        </h2>
-
-        <input type="text"
-        id="title"
-        placeholder="Nome do evento">
-
-        <input type="datetime-local"
-        id="start">
-
-        <select id="color">
-
-            <option value="#ff4d4d">🔴 Vermelho</option>
-
-            <option value="#00cc66">🟢 Verde</option>
-
-            <option value="#4d79ff">🔵 Azul</option>
-
-            <option value="#ffcc00">🟡 Amarelo</option>
-
-            <option value="#cc66ff">🟣 Roxo</option>
-
-        </select>
-
-        <div class="color-preview"
-        id="preview"></div>
-
-        <button onclick="addEvent()"
-        id="saveButton">
-
-            Salvar Agendamento
-
-        </button>
-
-    </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-
-<script>
-
-let calendar;
-
-/* IDIOMAS */
-
-const translations = {
-
-    pt: {
-
-        formTitle: "📅 Novo Agendamento",
-
-        placeholder: "Nome do evento",
-
-        save: "Salvar Agendamento",
-
-        alertFill: "Preencha todos os campos!",
-
-        alertSaved: "Agendamento salvo!",
-
-        deleteConfirm: "Deseja excluir este evento?"
-    },
-
-    en: {
-
-        formTitle: "📅 New Appointment",
-
-        placeholder: "Event name",
-
-        save: "Save Appointment",
-
-        alertFill: "Fill all fields!",
-
-        alertSaved: "Appointment saved!",
-
-        deleteConfirm: "Do you want to delete this event?"
-    }
-
-};
-
-let currentLang = "pt";
-
-/* TROCAR IDIOMA */
-
-document.getElementById("languageSwitcher")
-.addEventListener("change", function(){
-
-    currentLang = this.value;
-
-    updateLanguage();
-
-});
-
-function updateLanguage(){
-
-    document.getElementById("formTitle")
-    .innerText = translations[currentLang].formTitle;
-
-    document.getElementById("title")
-    .placeholder = translations[currentLang].placeholder;
-
-    document.getElementById("saveButton")
-    .innerText = translations[currentLang].save;
-}
-
-/* CALENDÁRIO */
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const calendarEl =
-    document.getElementById('calendar');
-
-    calendar = new FullCalendar.Calendar(calendarEl, {
-
-        initialView: 'dayGridMonth',
-
-        locale:'pt-br',
-
-        editable:true,
-
-        selectable:true,
-
-        height:"auto",
-
-        headerToolbar:{
-
-            left:'prev,next',
-
-            center:'title',
-
-            right:'today'
-        },
-
-        events:
-        JSON.parse(localStorage.getItem("eventos")) || [],
-
-        eventClick:function(info){
-
-            if(confirm(translations[currentLang].deleteConfirm)){
-
-                info.event.remove();
-
-                saveEvents();
-            }
-
-        },
-
-        eventChange:function(){
-
-            saveEvents();
-        }
-
-    });
-
-    calendar.render();
-
-    document.getElementById("preview")
-    .style.background =
-    document.getElementById("color").value;
-
-});
-
-/* PREVIEW COR */
-
-document.getElementById("color")
-.addEventListener("change", function(){
-
-    document.getElementById("preview")
-    .style.background = this.value;
-
-});
-
-/* ADICIONAR EVENTO */
-
-function addEvent(){
-
-    const title =
-    document.getElementById("title").value;
-
-    const start =
-    document.getElementById("start").value;
-
-    const color =
-    document.getElementById("color").value;
-
-    if(title === "" || start === ""){
-
-        alert(translations[currentLang].alertFill);
-
-        return;
-    }
-
-    calendar.addEvent({
-
-        title,
-        start,
-        color
-    });
-
-    saveEvents();
-
-    scheduleNotification(title,start);
-
-    alert(translations[currentLang].alertSaved);
-
-    document.getElementById("title").value = "";
-
-    document.getElementById("start").value = "";
-
-}
-
-/* SALVAR */
-
-function saveEvents(){
-
-    const events = [];
-
-    calendar.getEvents().forEach(event => {
-
-        events.push({
-
-            title:event.title,
-
-            start:event.start,
-
-            color:event.backgroundColor
-        });
-
-    });
-
-    localStorage.setItem("eventos",
-    JSON.stringify(events));
-
-}
-
-/* NOTIFICAÇÃO */
-
-function scheduleNotification(title,start){
-
-    const eventTime =
-    new Date(start).getTime();
-
-    const now =
-    new Date().getTime();
-
-    const delay = eventTime - now;
-
-    if(delay > 0){
-
-        Notification.requestPermission()
-        .then(permission => {
-
-            if(permission === "granted"){
-
-                setTimeout(() => {
-
-                    new Notification("⏰ Reminder",{
-
-                        body:title
-                    });
-
-                },delay);
-
-            }
-
-        });
-
-    }
+window.open(url,"_blank");
 
 }
 
