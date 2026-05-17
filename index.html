@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Agenda Empresarial</title>
+<title>LeoTecnologia Agenda</title>
 
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
 
@@ -18,9 +18,9 @@
 }
 
 body{
-    background: linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
+    background: linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
     min-height:100vh;
+    color:white;
     padding:10px;
 }
 
@@ -28,36 +28,37 @@ body{
 
 .container{
     width:100%;
-    max-width:500px;
+    max-width:520px;
     margin:auto;
 }
 
-/* HEADER EMPRESA */
+/* HEADER */
 
 .company-header{
     background:rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    border-radius:25px;
-    padding:20px;
+    backdrop-filter: blur(15px);
+    border-radius:30px;
+    padding:25px;
     margin-bottom:15px;
     text-align:center;
     border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 /* LOGO */
 
 .logo-space{
-    width:100px;
-    height:100px;
+    width:140px;
+    height:140px;
     margin:auto;
     margin-bottom:15px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.1);
+    border-radius:25px;
+    overflow:hidden;
+    background:rgba(255,255,255,0.05);
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
-    border:2px dashed rgba(255,255,255,0.3);
+    border:2px solid rgba(255,255,255,0.1);
 }
 
 .logo-space img{
@@ -66,26 +67,42 @@ body{
     object-fit:cover;
 }
 
-.logo-text{
-    font-size:13px;
-    opacity:0.7;
-}
-
-/* EMPRESA */
+/* NOME EMPRESA */
 
 .company-name{
-    font-size:28px;
+    font-size:32px;
     font-weight:bold;
     margin-bottom:10px;
+    background:linear-gradient(90deg,#ff6a00,#00a2ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
+
+/* INFO */
 
 .company-info{
-    font-size:14px;
-    opacity:0.9;
+    font-size:15px;
     line-height:1.8;
+    opacity:0.95;
 }
 
-/* CALENDARIO */
+/* SELECT LANGUAGE */
+
+.language-box{
+    margin-top:15px;
+}
+
+.language-box select{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:#0f172a;
+    color:white;
+    font-size:15px;
+}
+
+/* CALENDÁRIO */
 
 .calendar-box{
     background:white;
@@ -95,18 +112,13 @@ body{
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-#calendar{
-    width:100%;
-}
-
-/* FULLCALENDAR */
-
 .fc{
     color:black;
 }
 
 .fc-toolbar-title{
     font-size:18px !important;
+    font-weight:bold;
 }
 
 .fc-button{
@@ -120,22 +132,23 @@ body{
     background:rgba(255,255,255,0.08);
     padding:20px;
     border-radius:25px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
 }
 
 .event-form h2{
     margin-bottom:15px;
-    font-size:22px;
+    font-size:24px;
 }
 
 input,
 select,
 button{
     width:100%;
+    padding:14px;
     margin-bottom:12px;
     border:none;
     border-radius:14px;
-    padding:14px;
     font-size:16px;
 }
 
@@ -145,7 +158,7 @@ select{
 }
 
 button{
-    background:linear-gradient(90deg,#00c6ff,#0072ff);
+    background:linear-gradient(90deg,#ff6a00,#0072ff);
     color:white;
     font-weight:bold;
     cursor:pointer;
@@ -166,12 +179,12 @@ button:hover{
 
 @media(max-width:500px){
 
-    body{
-        padding:5px;
-    }
-
     .container{
         max-width:100%;
+    }
+
+    .company-name{
+        font-size:26px;
     }
 
     .fc-toolbar{
@@ -180,13 +193,6 @@ button:hover{
         gap:10px;
     }
 
-    .fc-header-toolbar{
-        padding:10px 0;
-    }
-
-    .company-name{
-        font-size:22px;
-    }
 }
 
 </style>
@@ -196,29 +202,43 @@ button:hover{
 
 <div class="container">
 
-    <!-- HEADER EMPRESA -->
+    <!-- HEADER -->
 
     <div class="company-header">
 
         <div class="logo-space">
-            <!-- INSERIR LOGO -->
-            <!-- Exemplo -->
-            <!-- <img src="logo.png"> -->
 
-            <span class="logo-text">
-                SUA LOGO
-            </span>
+            <!-- COLOQUE SUA LOGO AQUI -->
+            <img src="logo.png" alt="LeoTecnologia">
+
         </div>
 
-        <div class="company-name">
-            Nome da Empresa
+        <div class="company-name" id="companyTitle">
+            LeoTecnologia
         </div>
 
-        <div class="company-info">
-            📍 Endereço da empresa<br>
-            📞 (99) 99999-9999<br>
-            ✉️ empresa@email.com<br>
-            🌐 www.seusite.com.br
+        <div class="company-info" id="companyInfo">
+
+            📞 (98) 99994-2905<br>
+
+            📍 Avenida Três Qd-M Parque Araçagy<br>
+
+            ✉️ leotecnologia25@gmail.com
+
+        </div>
+
+        <!-- IDIOMA -->
+
+        <div class="language-box">
+
+            <select id="languageSwitcher">
+
+                <option value="pt">🇧🇷 Português</option>
+
+                <option value="en">🇺🇸 English</option>
+
+            </select>
+
         </div>
 
     </div>
@@ -226,31 +246,48 @@ button:hover{
     <!-- CALENDÁRIO -->
 
     <div class="calendar-box">
+
         <div id="calendar"></div>
+
     </div>
 
     <!-- FORMULÁRIO -->
 
     <div class="event-form">
 
-        <h2>📅 Novo Agendamento</h2>
+        <h2 id="formTitle">
+            📅 Novo Agendamento
+        </h2>
 
-        <input type="text" id="title" placeholder="Nome do evento">
+        <input type="text"
+        id="title"
+        placeholder="Nome do evento">
 
-        <input type="datetime-local" id="start">
+        <input type="datetime-local"
+        id="start">
 
         <select id="color">
+
             <option value="#ff4d4d">🔴 Vermelho</option>
+
             <option value="#00cc66">🟢 Verde</option>
+
             <option value="#4d79ff">🔵 Azul</option>
+
             <option value="#ffcc00">🟡 Amarelo</option>
+
             <option value="#cc66ff">🟣 Roxo</option>
+
         </select>
 
-        <div class="color-preview" id="preview"></div>
+        <div class="color-preview"
+        id="preview"></div>
 
-        <button onclick="addEvent()">
+        <button onclick="addEvent()"
+        id="saveButton">
+
             Salvar Agendamento
+
         </button>
 
     </div>
@@ -263,15 +300,79 @@ button:hover{
 
 let calendar;
 
+/* IDIOMAS */
+
+const translations = {
+
+    pt: {
+
+        formTitle: "📅 Novo Agendamento",
+
+        placeholder: "Nome do evento",
+
+        save: "Salvar Agendamento",
+
+        alertFill: "Preencha todos os campos!",
+
+        alertSaved: "Agendamento salvo!",
+
+        deleteConfirm: "Deseja excluir este evento?"
+    },
+
+    en: {
+
+        formTitle: "📅 New Appointment",
+
+        placeholder: "Event name",
+
+        save: "Save Appointment",
+
+        alertFill: "Fill all fields!",
+
+        alertSaved: "Appointment saved!",
+
+        deleteConfirm: "Do you want to delete this event?"
+    }
+
+};
+
+let currentLang = "pt";
+
+/* TROCAR IDIOMA */
+
+document.getElementById("languageSwitcher")
+.addEventListener("change", function(){
+
+    currentLang = this.value;
+
+    updateLanguage();
+
+});
+
+function updateLanguage(){
+
+    document.getElementById("formTitle")
+    .innerText = translations[currentLang].formTitle;
+
+    document.getElementById("title")
+    .placeholder = translations[currentLang].placeholder;
+
+    document.getElementById("saveButton")
+    .innerText = translations[currentLang].save;
+}
+
+/* CALENDÁRIO */
+
 document.addEventListener('DOMContentLoaded', function () {
 
-    const calendarEl = document.getElementById('calendar');
+    const calendarEl =
+    document.getElementById('calendar');
 
     calendar = new FullCalendar.Calendar(calendarEl, {
 
         initialView: 'dayGridMonth',
 
-        locale: 'pt-br',
+        locale:'pt-br',
 
         editable:true,
 
@@ -280,21 +381,26 @@ document.addEventListener('DOMContentLoaded', function () {
         height:"auto",
 
         headerToolbar:{
+
             left:'prev,next',
+
             center:'title',
+
             right:'today'
         },
 
-        events: JSON.parse(localStorage.getItem("eventos")) || [],
+        events:
+        JSON.parse(localStorage.getItem("eventos")) || [],
 
         eventClick:function(info){
 
-            if(confirm("Deseja excluir este evento?")){
+            if(confirm(translations[currentLang].deleteConfirm)){
 
                 info.event.remove();
 
                 saveEvents();
             }
+
         },
 
         eventChange:function(){
@@ -306,17 +412,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 
-    document.getElementById("preview").style.background =
+    document.getElementById("preview")
+    .style.background =
     document.getElementById("color").value;
 
 });
 
-/* ALTERAR PREVIEW DA COR */
+/* PREVIEW COR */
 
-document.getElementById("color").addEventListener("change", function(){
+document.getElementById("color")
+.addEventListener("change", function(){
 
-    document.getElementById("preview").style.background =
-    this.value;
+    document.getElementById("preview")
+    .style.background = this.value;
+
 });
 
 /* ADICIONAR EVENTO */
@@ -334,7 +443,7 @@ function addEvent(){
 
     if(title === "" || start === ""){
 
-        alert("Preencha todos os campos!");
+        alert(translations[currentLang].alertFill);
 
         return;
     }
@@ -350,11 +459,12 @@ function addEvent(){
 
     scheduleNotification(title,start);
 
-    alert("Agendamento salvo!");
+    alert(translations[currentLang].alertSaved);
 
     document.getElementById("title").value = "";
 
     document.getElementById("start").value = "";
+
 }
 
 /* SALVAR */
@@ -368,13 +478,17 @@ function saveEvents(){
         events.push({
 
             title:event.title,
+
             start:event.start,
+
             color:event.backgroundColor
         });
 
     });
 
-    localStorage.setItem("eventos",JSON.stringify(events));
+    localStorage.setItem("eventos",
+    JSON.stringify(events));
+
 }
 
 /* NOTIFICAÇÃO */
@@ -391,13 +505,14 @@ function scheduleNotification(title,start){
 
     if(delay > 0){
 
-        Notification.requestPermission().then(permission => {
+        Notification.requestPermission()
+        .then(permission => {
 
             if(permission === "granted"){
 
                 setTimeout(() => {
 
-                    new Notification("⏰ Lembrete",{
+                    new Notification("⏰ Reminder",{
 
                         body:title
                     });
