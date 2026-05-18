@@ -44,7 +44,7 @@ CONTAINER
 }
 
 /* =========================================
-HEADER EMPRESA
+HEADER
 ========================================= */
 
 .company-header{
@@ -108,7 +108,7 @@ LOGO
 }
 
 /* =========================================
-NOME EMPRESA
+EMPRESA
 ========================================= */
 
 .company-name{
@@ -130,10 +130,6 @@ NOME EMPRESA
 
     -webkit-text-fill-color:transparent;
 }
-
-/* =========================================
-INFORMAÇÕES
-========================================= */
 
 .company-info{
 
@@ -243,10 +239,6 @@ FULLCALENDAR
     padding:2px !important;
 
     border-radius:6px !important;
-
-    color:white !important;
-
-    font-weight:600;
 }
 
 .fc-col-header-cell-cushion{
@@ -384,6 +376,10 @@ HORÁRIOS
 .time-slot.occupied{
 
     background:#ff4d4d;
+
+    cursor:not-allowed;
+
+    opacity:0.9;
 }
 
 /* =========================================
@@ -452,9 +448,9 @@ button{
 
 button:hover{
 
-    transform:translateY(-2px);
+    opacity:0.9;
 
-    opacity:0.95;
+    transform:scale(1.01);
 }
 
 /* =========================================
@@ -502,7 +498,7 @@ MODAL
     position:relative;
 
     box-shadow:
-    0 15px 40px rgba(0,0,0,0.5);
+    0 10px 30px rgba(0,0,0,0.5);
 }
 
 .close-modal{
@@ -554,10 +550,6 @@ MODAL
     font-size:12px;
 }
 
-/* =========================================
-BOTÃO DELETE
-========================================= */
-
 .delete-btn{
 
     background:
@@ -569,36 +561,10 @@ BOTÃO DELETE
 }
 
 /* =========================================
-SCROLLBAR
-========================================= */
-
-::-webkit-scrollbar{
-
-    width:6px;
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:#2563eb;
-
-    border-radius:10px;
-}
-
-/* =========================================
 RESPONSIVO
 ========================================= */
 
 @media(max-width:480px){
-
-    .container{
-
-        max-width:100%;
-    }
-
-    .company-name{
-
-        font-size:20px;
-    }
 
     .fc-toolbar{
 
@@ -614,11 +580,9 @@ RESPONSIVO
         font-size:11px !important;
     }
 
-    .fc-button{
+    .company-name{
 
-        font-size:8px !important;
-
-        padding:3px 5px !important;
+        font-size:20px;
     }
 
     .times-grid{
