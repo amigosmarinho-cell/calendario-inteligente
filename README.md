@@ -1,2 +1,0 @@
-# calendario-inteligente
-calendario-inteligente
