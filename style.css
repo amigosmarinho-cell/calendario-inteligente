@@ -25,7 +25,7 @@ body{
 
     min-height:100vh;
 
-    padding:8px;
+    padding:10px;
 
     color:white;
 }
@@ -55,11 +55,11 @@ HEADER
     backdrop-filter:
     blur(15px);
 
-    border-radius:22px;
+    border-radius:24px;
 
-    padding:14px;
+    padding:18px;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
     text-align:center;
 
@@ -76,13 +76,13 @@ LOGO
 
 .logo-space{
 
-    width:80px;
+    width:90px;
 
-    height:80px;
+    height:90px;
 
     margin:auto;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
     border-radius:20px;
 
@@ -113,11 +113,11 @@ EMPRESA
 
 .company-name{
 
-    font-size:22px;
+    font-size:24px;
 
     font-weight:700;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
     background:
     linear-gradient(
@@ -166,126 +166,6 @@ EMPRESA
 }
 
 /* =========================================
-CALENDÁRIO
-========================================= */
-
-.calendar-box{
-
-    background:white;
-
-    border-radius:18px;
-
-    padding:6px;
-
-    margin-bottom:10px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 10px 25px rgba(0,0,0,0.35);
-}
-
-/* =========================================
-FULLCALENDAR
-========================================= */
-
-.fc{
-
-    font-size:10px !important;
-
-    color:#111827;
-}
-
-.fc-toolbar{
-
-    margin-bottom:4px !important;
-}
-
-.fc-toolbar-title{
-
-    font-size:13px !important;
-
-    font-weight:600;
-}
-
-.fc-button{
-
-    padding:4px 6px !important;
-
-    font-size:9px !important;
-
-    border-radius:8px !important;
-}
-
-.fc td,
-.fc th{
-
-    padding:2px !important;
-}
-
-.fc-timegrid-slot{
-
-    height:24px !important;
-}
-
-.fc-event{
-
-    background:#ff4d4d !important;
-
-    border:none !important;
-
-    font-size:9px !important;
-
-    padding:2px !important;
-
-    border-radius:6px !important;
-
-    cursor:pointer;
-}
-
-.fc-col-header-cell-cushion{
-
-    font-size:9px !important;
-}
-
-.fc-timegrid-axis-cushion{
-
-    font-size:8px !important;
-}
-
-/* =========================================
-FORMULÁRIO
-========================================= */
-
-.event-form{
-
-    background:
-    rgba(255,255,255,0.08);
-
-    backdrop-filter:
-    blur(15px);
-
-    border-radius:22px;
-
-    padding:15px;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
-}
-
-.event-form h2{
-
-    text-align:center;
-
-    margin-bottom:14px;
-
-    font-size:18px;
-}
-
-/* =========================================
 STATUS
 ========================================= */
 
@@ -295,7 +175,7 @@ STATUS
 
     gap:8px;
 
-    margin-bottom:14px;
+    margin-bottom:15px;
 }
 
 .status{
@@ -304,11 +184,11 @@ STATUS
 
     text-align:center;
 
-    padding:9px;
+    padding:10px;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    font-size:11px;
+    font-size:12px;
 
     font-weight:600;
 }
@@ -329,14 +209,16 @@ HORÁRIOS
 
 .available-times{
 
-    margin-bottom:14px;
+    margin-bottom:15px;
 }
 
 .available-times h3{
 
     margin-bottom:10px;
 
-    font-size:13px;
+    font-size:14px;
+
+    font-weight:600;
 }
 
 .times-grid{
@@ -357,11 +239,11 @@ HORÁRIOS
 
     border:none;
 
-    padding:10px;
+    padding:12px;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    font-size:11px;
+    font-size:12px;
 
     font-weight:600;
 
@@ -377,11 +259,43 @@ HORÁRIOS
 
 .time-slot.occupied{
 
-    background:#ff4d4d;
+    background:#ff4d4d !important;
 
     cursor:not-allowed;
 
-    opacity:0.8;
+    opacity:.9;
+}
+
+/* =========================================
+FORMULÁRIO
+========================================= */
+
+.event-form{
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter:
+    blur(15px);
+
+    border-radius:24px;
+
+    padding:18px;
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+.event-form h2{
+
+    text-align:center;
+
+    margin-bottom:16px;
+
+    font-size:20px;
 }
 
 /* =========================================
@@ -398,15 +312,17 @@ textarea{
 
     outline:none;
 
-    border-radius:12px;
+    border-radius:14px;
 
-    padding:12px;
+    padding:13px;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
-    font-size:12px;
+    font-size:13px;
 
     background:white;
+
+    color:#111827;
 }
 
 textarea{
@@ -424,9 +340,9 @@ button{
 
     border:none;
 
-    border-radius:12px;
+    border-radius:14px;
 
-    padding:13px;
+    padding:14px;
 
     background:
     linear-gradient(
@@ -437,13 +353,13 @@ button{
 
     color:white;
 
-    font-size:13px;
+    font-size:14px;
 
     font-weight:600;
 
     cursor:pointer;
 
-    transition:0.3s;
+    transition:.3s;
 }
 
 button:hover{
@@ -476,7 +392,7 @@ MODAL
 
     align-items:center;
 
-    padding:14px;
+    padding:15px;
 
     z-index:999;
 }
@@ -504,11 +420,9 @@ MODAL
 
     right:15px;
 
-    font-size:26px;
+    font-size:28px;
 
     cursor:pointer;
-
-    color:white;
 }
 
 .modal-content h2{
@@ -561,24 +475,37 @@ RESPONSIVO
 
 @media(max-width:480px){
 
-    .fc-toolbar{
+    .container{
 
-        display:flex !important;
-
-        flex-direction:row !important;
-
-        gap:4px;
+        max-width:100%;
     }
 
-    .fc-toolbar-title{
+    .company-name{
 
-        font-size:11px !important;
+        font-size:21px;
     }
 
     .times-grid{
 
         grid-template-columns:
         repeat(2,1fr);
+    }
+
+    .time-slot{
+
+        font-size:11px;
+
+        padding:11px;
+    }
+
+    .event-form{
+
+        padding:15px;
+    }
+
+    .status{
+
+        font-size:11px;
     }
 
 }
