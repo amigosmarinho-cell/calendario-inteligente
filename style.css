@@ -25,11 +25,9 @@ body{
 
     min-height:100vh;
 
+    padding:8px;
+
     color:white;
-
-    overflow-x:hidden;
-
-    padding:10px;
 }
 
 /* =========================================
@@ -46,7 +44,7 @@ CONTAINER
 }
 
 /* =========================================
-HEADER
+HEADER EMPRESA
 ========================================= */
 
 .company-header{
@@ -57,11 +55,11 @@ HEADER
     backdrop-filter:
     blur(15px);
 
-    border-radius:24px;
+    border-radius:22px;
 
-    padding:18px;
+    padding:14px;
 
-    margin-bottom:14px;
+    margin-bottom:10px;
 
     text-align:center;
 
@@ -70,9 +68,6 @@ HEADER
 
     box-shadow:
     0 10px 30px rgba(0,0,0,0.35);
-
-    animation:
-    fadeUp .5s ease;
 }
 
 /* =========================================
@@ -81,20 +76,20 @@ LOGO
 
 .logo-space{
 
-    width:90px;
+    width:80px;
 
-    height:90px;
+    height:80px;
 
     margin:auto;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 
-    border-radius:22px;
+    border-radius:20px;
 
     overflow:hidden;
 
     background:
-    rgba(255,255,255,0.08);
+    rgba(255,255,255,0.05);
 
     display:flex;
 
@@ -113,16 +108,16 @@ LOGO
 }
 
 /* =========================================
-COMPANY NAME
+NOME EMPRESA
 ========================================= */
 
 .company-name{
 
-    font-size:24px;
+    font-size:22px;
 
     font-weight:700;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 
     background:
     linear-gradient(
@@ -137,7 +132,7 @@ COMPANY NAME
 }
 
 /* =========================================
-COMPANY INFO
+INFORMAÇÕES
 ========================================= */
 
 .company-info{
@@ -146,7 +141,7 @@ COMPANY INFO
 
     flex-direction:column;
 
-    gap:10px;
+    gap:8px;
 }
 
 .company-info p{
@@ -154,9 +149,11 @@ COMPANY INFO
     background:
     rgba(255,255,255,0.05);
 
-    padding:12px;
+    padding:10px;
 
-    border-radius:14px;
+    border-radius:12px;
+
+    font-size:12px;
 
     display:flex;
 
@@ -165,11 +162,6 @@ COMPANY INFO
     justify-content:center;
 
     gap:8px;
-
-    font-size:13px;
-
-    border:
-    1px solid rgba(255,255,255,0.04);
 }
 
 .company-info i{
@@ -178,26 +170,23 @@ COMPANY INFO
 }
 
 /* =========================================
-CALENDAR
+CALENDÁRIO
 ========================================= */
 
 .calendar-box{
 
     background:white;
 
-    border-radius:24px;
+    border-radius:18px;
 
-    padding:10px;
+    padding:6px;
+
+    margin-bottom:10px;
 
     overflow:hidden;
 
-    margin-bottom:14px;
-
     box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
-
-    animation:
-    fadeUp .6s ease;
+    0 10px 25px rgba(0,0,0,0.35);
 }
 
 /* =========================================
@@ -206,58 +195,42 @@ FULLCALENDAR
 
 .fc{
 
-    color:black;
+    font-size:10px !important;
 
-    font-size:12px;
+    color:#111827;
 }
 
 .fc-toolbar{
 
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    gap:8px;
+    margin-bottom:4px !important;
 }
 
 .fc-toolbar-title{
 
-    font-size:15px !important;
-
-    text-align:center;
+    font-size:13px !important;
 
     font-weight:600;
 }
 
 .fc-button{
 
-    border:none !important;
+    padding:4px 6px !important;
 
-    background:#2563eb !important;
+    font-size:9px !important;
 
-    border-radius:10px !important;
-
-    padding:7px 10px !important;
-
-    font-size:11px !important;
-
-    transition:.3s !important;
+    border-radius:8px !important;
 }
 
-.fc-button:hover{
+.fc td,
+.fc th{
 
-    transform:scale(1.03);
+    padding:2px !important;
 }
 
-.fc-day-today{
+.fc-timegrid-slot{
 
-    background:
-    #2563eb20 !important;
+    height:24px !important;
 }
-
-/* =========================================
-EVENTS
-========================================= */
 
 .fc-event{
 
@@ -265,19 +238,29 @@ EVENTS
 
     border:none !important;
 
+    font-size:9px !important;
+
+    padding:2px !important;
+
+    border-radius:6px !important;
+
     color:white !important;
-
-    border-radius:10px !important;
-
-    padding:3px !important;
-
-    font-size:10px !important;
 
     font-weight:600;
 }
 
+.fc-col-header-cell-cushion{
+
+    font-size:9px !important;
+}
+
+.fc-timegrid-axis-cushion{
+
+    font-size:8px !important;
+}
+
 /* =========================================
-FORM
+FORMULÁRIO
 ========================================= */
 
 .event-form{
@@ -288,33 +271,24 @@ FORM
     backdrop-filter:
     blur(15px);
 
-    border-radius:24px;
+    border-radius:22px;
 
-    padding:18px;
+    padding:15px;
 
     border:
     1px solid rgba(255,255,255,0.08);
 
     box-shadow:
     0 10px 30px rgba(0,0,0,0.35);
-
-    animation:
-    fadeUp .7s ease;
 }
-
-/* =========================================
-TITLE
-========================================= */
 
 .event-form h2{
 
     text-align:center;
 
-    margin-bottom:16px;
+    margin-bottom:14px;
 
-    font-size:19px;
-
-    font-weight:600;
+    font-size:18px;
 }
 
 /* =========================================
@@ -327,18 +301,18 @@ STATUS
 
     gap:8px;
 
-    margin-bottom:16px;
+    margin-bottom:14px;
 }
 
 .status{
 
     flex:1;
 
-    padding:10px;
-
-    border-radius:12px;
-
     text-align:center;
+
+    padding:9px;
+
+    border-radius:10px;
 
     font-size:11px;
 
@@ -361,19 +335,15 @@ HORÁRIOS
 
 .available-times{
 
-    margin-bottom:16px;
+    margin-bottom:14px;
 }
 
 .available-times h3{
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 
-    font-size:14px;
+    font-size:13px;
 }
-
-/* =========================================
-GRID
-========================================= */
 
 .times-grid{
 
@@ -385,10 +355,6 @@ GRID
     gap:8px;
 }
 
-/* =========================================
-TIME SLOT
-========================================= */
-
 .time-slot{
 
     background:#00c853;
@@ -397,11 +363,11 @@ TIME SLOT
 
     border:none;
 
-    padding:11px;
+    padding:10px;
 
-    border-radius:12px;
+    border-radius:10px;
 
-    font-size:12px;
+    font-size:11px;
 
     font-weight:600;
 
@@ -412,18 +378,12 @@ TIME SLOT
 
 .time-slot:hover{
 
-    transform:scale(1.04);
-
-    background:#2563eb;
+    transform:scale(1.03);
 }
 
 .time-slot.occupied{
 
     background:#ff4d4d;
-
-    pointer-events:none;
-
-    opacity:.85;
 }
 
 /* =========================================
@@ -440,27 +400,17 @@ textarea{
 
     outline:none;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    padding:13px;
+    padding:12px;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 
-    font-size:13px;
+    font-size:12px;
 
     background:white;
 
-    transition:.3s;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-
-    transform:scale(1.01);
-
-    box-shadow:
-    0 0 0 3px rgba(37,99,235,0.25);
+    color:#111827;
 }
 
 textarea{
@@ -469,7 +419,7 @@ textarea{
 }
 
 /* =========================================
-BUTTON
+BOTÃO
 ========================================= */
 
 button{
@@ -478,9 +428,9 @@ button{
 
     border:none;
 
-    padding:14px;
+    border-radius:12px;
 
-    border-radius:14px;
+    padding:13px;
 
     background:
     linear-gradient(
@@ -491,25 +441,20 @@ button{
 
     color:white;
 
-    font-size:14px;
+    font-size:13px;
 
     font-weight:600;
 
     cursor:pointer;
 
-    transition:.3s;
-
-    box-shadow:
-    0 10px 25px rgba(37,99,235,0.35);
+    transition:0.3s;
 }
 
 button:hover{
 
-    transform:
-    translateY(-2px);
+    transform:translateY(-2px);
 
-    box-shadow:
-    0 15px 35px rgba(37,99,235,0.45);
+    opacity:0.95;
 }
 
 /* =========================================
@@ -522,8 +467,6 @@ MODAL
 
     position:fixed;
 
-    z-index:9999;
-
     left:0;
 
     top:0;
@@ -533,86 +476,58 @@ MODAL
     height:100%;
 
     background:
-    rgba(0,0,0,0.75);
-
-    backdrop-filter:
-    blur(6px);
+    rgba(0,0,0,0.8);
 
     justify-content:center;
 
     align-items:center;
 
-    padding:15px;
-}
+    padding:14px;
 
-/* =========================================
-MODAL CONTENT
-========================================= */
+    z-index:999;
+}
 
 .modal-content{
 
     width:100%;
 
-    max-width:380px;
+    max-width:340px;
 
-    background:
-    linear-gradient(
-    180deg,
-    #0f172a,
-    #111827
-    );
+    background:#111827;
 
-    border-radius:24px;
+    border-radius:20px;
 
-    padding:24px;
+    padding:20px;
 
     position:relative;
 
-    color:white;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
     box-shadow:
-    0 10px 30px rgba(0,0,0,0.45);
-
-    animation:
-    fadeUp .3s ease;
+    0 15px 40px rgba(0,0,0,0.5);
 }
-
-/* =========================================
-CLOSE MODAL
-========================================= */
 
 .close-modal{
 
     position:absolute;
 
-    top:12px;
+    top:10px;
 
     right:15px;
 
-    font-size:28px;
+    font-size:26px;
 
     cursor:pointer;
-}
 
-/* =========================================
-MODAL TITLE
-========================================= */
+    color:white;
+}
 
 .modal-content h2{
 
     text-align:center;
 
-    margin-bottom:20px;
+    margin-bottom:16px;
 
-    font-size:22px;
+    font-size:18px;
 }
-
-/* =========================================
-MODAL INFO
-========================================= */
 
 .modal-info{
 
@@ -620,9 +535,9 @@ MODAL INFO
 
     flex-direction:column;
 
-    gap:12px;
+    gap:10px;
 
-    margin-bottom:20px;
+    margin-bottom:16px;
 }
 
 .modal-info p{
@@ -630,17 +545,17 @@ MODAL INFO
     background:
     rgba(255,255,255,0.06);
 
-    padding:14px;
+    padding:12px;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    line-height:1.6;
+    line-height:1.5;
 
-    font-size:14px;
+    font-size:12px;
 }
 
 /* =========================================
-DELETE BUTTON
+BOTÃO DELETE
 ========================================= */
 
 .delete-btn{
@@ -654,26 +569,19 @@ DELETE BUTTON
 }
 
 /* =========================================
-ANIMATION
+SCROLLBAR
 ========================================= */
 
-@keyframes fadeUp{
+::-webkit-scrollbar{
 
-    from{
+    width:6px;
+}
 
-        opacity:0;
+::-webkit-scrollbar-thumb{
 
-        transform:
-        translateY(20px);
-    }
+    background:#2563eb;
 
-    to{
-
-        opacity:1;
-
-        transform:
-        translateY(0);
-    }
+    border-radius:10px;
 }
 
 /* =========================================
@@ -682,9 +590,9 @@ RESPONSIVO
 
 @media(max-width:480px){
 
-    body{
+    .container{
 
-        padding:6px;
+        max-width:100%;
     }
 
     .company-name{
@@ -692,27 +600,31 @@ RESPONSIVO
         font-size:20px;
     }
 
+    .fc-toolbar{
+
+        display:flex !important;
+
+        flex-direction:row !important;
+
+        gap:4px;
+    }
+
     .fc-toolbar-title{
 
-        font-size:13px !important;
+        font-size:11px !important;
     }
 
     .fc-button{
 
-        font-size:10px !important;
+        font-size:8px !important;
 
-        padding:6px 8px !important;
+        padding:3px 5px !important;
     }
 
     .times-grid{
 
         grid-template-columns:
         repeat(2,1fr);
-    }
-
-    button{
-
-        font-size:13px;
     }
 
 }
