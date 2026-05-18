@@ -6,7 +6,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:'Poppins',sans-serif;
 }
 
 /* =========================================
@@ -17,19 +17,19 @@ body{
 
     background:
     linear-gradient(
-    135deg,
+    180deg,
     #020617,
     #0f172a,
-    #1e3a8a
+    #111827
     );
 
     min-height:100vh;
 
     color:white;
 
-    padding:10px;
-
     overflow-x:hidden;
+
+    padding:8px;
 }
 
 /* =========================================
@@ -40,7 +40,7 @@ body{
 
     width:100%;
 
-    max-width:520px;
+    max-width:430px;
 
     margin:auto;
 }
@@ -55,17 +55,17 @@ body{
 
     backdrop-filter:blur(15px);
 
-    border-radius:30px;
+    border-radius:20px;
 
-    padding:25px;
+    padding:14px;
 
-    margin-bottom:15px;
+    margin-bottom:10px;
 
     text-align:center;
 
-    border:1px solid rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.08);
 
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    animation:fadeUp .5s ease;
 }
 
 /* =========================================
@@ -74,27 +74,25 @@ body{
 
 .logo-space{
 
-    width:140px;
+    width:75px;
 
-    height:140px;
+    height:75px;
 
     margin:auto;
 
-    margin-bottom:15px;
+    margin-bottom:10px;
 
-    border-radius:25px;
+    border-radius:18px;
 
     overflow:hidden;
 
-    background:rgba(255,255,255,0.05);
+    background:rgba(255,255,255,0.08);
 
     display:flex;
 
     align-items:center;
 
     justify-content:center;
-
-    border:2px solid rgba(255,255,255,0.1);
 }
 
 .logo-space img{
@@ -107,22 +105,22 @@ body{
 }
 
 /* =========================================
-   COMPANY NAME
+   TITLE
 ========================================= */
 
 .company-name{
 
-    font-size:32px;
+    font-size:22px;
 
-    font-weight:bold;
+    font-weight:700;
 
-    margin-bottom:10px;
+    margin-bottom:5px;
 
     background:
     linear-gradient(
     90deg,
-    #ff6a00,
-    #00a2ff
+    #00c6ff,
+    #0072ff
     );
 
     -webkit-background-clip:text;
@@ -131,63 +129,33 @@ body{
 }
 
 /* =========================================
-   COMPANY INFO
+   INFO
 ========================================= */
 
 .company-info{
 
-    font-size:15px;
+    font-size:12px;
 
-    line-height:1.8;
-
-    opacity:0.95;
+    opacity:0.9;
 }
 
 /* =========================================
-   LANGUAGE
-========================================= */
-
-.language-box{
-
-    margin-top:15px;
-}
-
-.language-box select{
-
-    width:100%;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#0f172a;
-
-    color:white;
-
-    font-size:15px;
-
-    outline:none;
-}
-
-/* =========================================
-   CALENDAR BOX
+   CALENDAR
 ========================================= */
 
 .calendar-box{
 
     background:white;
 
-    border-radius:25px;
+    border-radius:20px;
 
-    padding:10px;
+    padding:5px;
 
     overflow:hidden;
 
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom:10px;
 
-    margin-bottom:15px;
+    animation:fadeUp .6s ease;
 }
 
 /* =========================================
@@ -197,49 +165,25 @@ body{
 .fc{
 
     color:black;
+
+    font-size:12px;
 }
 
-/* DIAS DISPONÍVEIS */
+.fc-toolbar{
 
-.fc-daygrid-day{
+    display:flex !important;
 
-    background:#00cc6620;
+    flex-direction:column !important;
+
+    gap:6px;
 }
-
-/* EVENTOS OCUPADOS */
-
-.fc-event{
-
-    background:#ff4d4d !important;
-
-    border:none !important;
-
-    color:white !important;
-
-    font-weight:bold !important;
-
-    padding:3px !important;
-
-    border-radius:8px !important;
-}
-
-/* DIA ATUAL */
-
-.fc-day-today{
-
-    background:#2563eb30 !important;
-}
-
-/* TÍTULO */
 
 .fc-toolbar-title{
 
-    font-size:18px !important;
+    font-size:15px !important;
 
-    font-weight:bold;
+    text-align:center;
 }
-
-/* BOTÕES */
 
 .fc-button{
 
@@ -249,14 +193,44 @@ body{
 
     border-radius:10px !important;
 
-    padding:8px 12px !important;
+    padding:6px 10px !important;
 
-    font-weight:bold !important;
+    font-size:11px !important;
+
+    transition:.3s !important;
 }
 
 .fc-button:hover{
 
-    opacity:0.9;
+    transform:scale(1.03);
+}
+
+/* =========================================
+   EVENTS
+========================================= */
+
+.fc-event{
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    font-size:10px !important;
+
+    border-radius:8px !important;
+
+    padding:2px !important;
+}
+
+/* =========================================
+   TODAY
+========================================= */
+
+.fc-day-today{
+
+    background:#2563eb20 !important;
 }
 
 /* =========================================
@@ -267,28 +241,64 @@ body{
 
     background:rgba(255,255,255,0.08);
 
-    padding:20px;
+    padding:14px;
 
-    border-radius:25px;
+    border-radius:20px;
 
     backdrop-filter:blur(15px);
 
-    border:1px solid rgba(255,255,255,0.1);
-
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:fadeUp .7s ease;
 }
 
 /* =========================================
-   FORM TITLE
+   TITLE FORM
 ========================================= */
 
 .event-form h2{
 
-    margin-bottom:15px;
+    font-size:18px;
 
-    font-size:24px;
+    margin-bottom:12px;
 
     text-align:center;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-box{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:12px;
+}
+
+.status{
+
+    flex:1;
+
+    text-align:center;
+
+    padding:8px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:600;
+}
+
+.available-status{
+
+    background:#00c853;
+}
+
+.busy-status{
+
+    background:#ff4d4d;
 }
 
 /* =========================================
@@ -300,207 +310,201 @@ select{
 
     width:100%;
 
-    padding:14px;
-
-    margin-bottom:12px;
+    padding:12px;
 
     border:none;
 
     border-radius:14px;
 
-    font-size:16px;
+    margin-bottom:10px;
 
-    background:white;
-
-    color:#0f172a;
+    font-size:13px;
 
     outline:none;
 
-    transition:0.3s;
+    transition:.3s;
+
+    background:white;
 }
 
 input:focus,
 select:focus{
 
-    border:2px solid #2563eb;
-
     transform:scale(1.01);
+
+    box-shadow:
+    0 0 0 3px rgba(37,99,235,0.25);
 }
 
 /* =========================================
-   BUTTONS
+   BUTTON
 ========================================= */
 
 button{
 
     width:100%;
 
-    padding:15px;
-
-    margin-bottom:12px;
+    padding:13px;
 
     border:none;
 
     border-radius:14px;
 
-    font-size:16px;
-
-    font-weight:bold;
+    background:
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+    );
 
     color:white;
 
+    font-size:14px;
+
+    font-weight:600;
+
     cursor:pointer;
 
-    transition:0.3s;
+    transition:.3s;
 
-    background:
-    linear-gradient(
-    90deg,
-    #ff6a00,
-    #0072ff
-    );
+    box-shadow:
+    0 10px 25px rgba(37,99,235,0.35);
 }
 
 button:hover{
 
-    transform:scale(1.02);
+    transform:translateY(-2px);
 
-    opacity:0.95;
+    box-shadow:
+    0 15px 35px rgba(37,99,235,0.45);
 }
 
 /* =========================================
-   STATUS
+   HORÁRIOS
 ========================================= */
 
-.status-box{
+.available-times{
 
     margin-bottom:15px;
 }
 
-.status-green{
-
-    background:#00cc66;
-
-    padding:12px;
-
-    border-radius:12px;
+.available-times h3{
 
     margin-bottom:10px;
 
-    text-align:center;
-
-    font-weight:bold;
+    font-size:15px;
 }
 
-.status-red{
+/* =========================================
+   GRID
+========================================= */
 
-    background:#ff4d4d;
+.times-grid{
 
-    padding:12px;
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:8px;
+}
+
+/* =========================================
+   TIME SLOT
+========================================= */
+
+.time-slot{
+
+    padding:10px;
+
+    border:none;
 
     border-radius:12px;
 
-    text-align:center;
+    background:#00c853;
 
-    font-weight:bold;
+    color:white;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
 }
 
-/* =========================================
-   SCROLLBAR
-========================================= */
+.time-slot:hover{
 
-::-webkit-scrollbar{
-
-    width:8px;
-}
-
-::-webkit-scrollbar-track{
-
-    background:#0f172a;
-}
-
-::-webkit-scrollbar-thumb{
+    transform:scale(1.04);
 
     background:#2563eb;
-
-    border-radius:20px;
 }
 
 /* =========================================
-   RESPONSIVO
+   OCCUPIED
 ========================================= */
 
-@media(max-width:768px){
+.time-slot.occupied{
 
-    .container{
+    background:#ff4d4d;
 
-        max-width:100%;
-    }
+    pointer-events:none;
 
-    .company-name{
-
-        font-size:28px;
-    }
-
-    .event-form h2{
-
-        font-size:22px;
-    }
-
-    .fc-toolbar{
-
-        display:flex !important;
-
-        flex-direction:column !important;
-
-        gap:10px;
-    }
-
-    .fc-toolbar-title{
-
-        text-align:center;
-    }
-
+    opacity:.85;
 }
 
 /* =========================================
-   MOBILE PEQUENO
+   ANIMATION
+========================================= */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+}
+
+/* =========================================
+   RESPONSIVE
 ========================================= */
 
 @media(max-width:480px){
 
-    body{
-
-        padding:5px;
-    }
-
-    .company-header{
-
-        padding:20px;
-    }
-
-    .logo-space{
-
-        width:110px;
-
-        height:110px;
-    }
-
     .company-name{
 
-        font-size:24px;
+        font-size:20px;
     }
 
-    .company-info{
+    .fc-toolbar-title{
 
-        font-size:14px;
+        font-size:13px !important;
     }
 
-    input,
-    button,
-    select{
+    .fc-button{
 
-        font-size:15px;
+        font-size:10px !important;
+    }
+
+    .times-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+    button{
+
+        font-size:13px;
     }
 
 }
