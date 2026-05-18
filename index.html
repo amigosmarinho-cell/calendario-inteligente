@@ -10,6 +10,18 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Agenda Inteligente</title>
 
+<!-- GOOGLE FONTS -->
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
 <!-- FONT AWESOME -->
 
 <link rel="stylesheet"
@@ -21,445 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
 rel="stylesheet">
 
-<style>
+<!-- CSS -->
 
-/* RESET */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-/* BODY */
-
-body{
-
-    background:
-    linear-gradient(
-    180deg,
-    #020617,
-    #0f172a,
-    #111827
-    );
-
-    min-height:100vh;
-
-    color:white;
-
-    overflow-x:hidden;
-
-    padding:8px;
-}
-
-/* CONTAINER */
-
-.container{
-
-    width:100%;
-
-    max-width:430px;
-
-    margin:auto;
-}
-
-/* HEADER */
-
-.company-header{
-
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(15px);
-
-    border-radius:20px;
-
-    padding:14px;
-
-    margin-bottom:10px;
-
-    text-align:center;
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    animation:fadeUp .5s ease;
-}
-
-/* LOGO */
-
-.logo-space{
-
-    width:75px;
-
-    height:75px;
-
-    margin:auto;
-
-    margin-bottom:10px;
-
-    border-radius:18px;
-
-    overflow:hidden;
-
-    background:rgba(255,255,255,0.08);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-}
-
-.logo-space img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-}
-
-/* TITLE */
-
-.company-name{
-
-    font-size:22px;
-
-    font-weight:700;
-
-    margin-bottom:5px;
-
-    background:
-    linear-gradient(
-    90deg,
-    #00c6ff,
-    #0072ff
-    );
-
-    -webkit-background-clip:text;
-
-    -webkit-text-fill-color:transparent;
-}
-
-/* INFO */
-
-.company-info{
-
-    font-size:12px;
-
-    opacity:0.9;
-}
-
-/* CALENDAR */
-
-.calendar-box{
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:5px;
-
-    overflow:hidden;
-
-    margin-bottom:10px;
-
-    animation:fadeUp .6s ease;
-}
-
-/* FULLCALENDAR */
-
-.fc{
-
-    color:black;
-
-    font-size:12px;
-}
-
-.fc-toolbar{
-
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    gap:6px;
-}
-
-.fc-toolbar-title{
-
-    font-size:15px !important;
-
-    text-align:center;
-}
-
-.fc-button{
-
-    border:none !important;
-
-    background:#2563eb !important;
-
-    border-radius:10px !important;
-
-    padding:6px 10px !important;
-
-    font-size:11px !important;
-}
-
-/* EVENT */
-
-.fc-event{
-
-    background:#ff4d4d !important;
-
-    border:none !important;
-
-    color:white !important;
-
-    font-size:10px !important;
-
-    border-radius:8px !important;
-
-    padding:2px !important;
-}
-
-/* FORM */
-
-.event-form{
-
-    background:rgba(255,255,255,0.08);
-
-    padding:14px;
-
-    border-radius:20px;
-
-    backdrop-filter:blur(15px);
-
-    animation:fadeUp .7s ease;
-}
-
-/* TITLE FORM */
-
-.event-form h2{
-
-    font-size:18px;
-
-    margin-bottom:12px;
-
-    text-align:center;
-}
-
-/* STATUS */
-
-.status-box{
-
-    display:flex;
-
-    gap:8px;
-
-    margin-bottom:12px;
-}
-
-.status{
-
-    flex:1;
-
-    text-align:center;
-
-    padding:8px;
-
-    border-radius:12px;
-
-    font-size:11px;
-
-    font-weight:600;
-}
-
-.available-status{
-
-    background:#00c853;
-}
-
-.busy-status{
-
-    background:#ff4d4d;
-}
-
-/* INPUTS */
-
-input,
-select{
-
-    width:100%;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:14px;
-
-    margin-bottom:10px;
-
-    font-size:13px;
-
-    outline:none;
-
-    transition:.3s;
-}
-
-input:focus,
-select:focus{
-
-    transform:scale(1.01);
-
-    box-shadow:
-    0 0 0 3px rgba(37,99,235,0.25);
-}
-
-/* BUTTON */
-
-button{
-
-    width:100%;
-
-    padding:13px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    );
-
-    color:white;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    box-shadow:
-    0 10px 25px rgba(37,99,235,0.35);
-}
-
-button:hover{
-
-    transform:translateY(-2px);
-}
-
-/* HORÁRIOS */
-
-.available-times{
-
-    margin-bottom:15px;
-}
-
-.available-times h3{
-
-    margin-bottom:10px;
-
-    font-size:15px;
-}
-
-/* GRID */
-
-.times-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(3,1fr);
-
-    gap:8px;
-}
-
-/* TIME BUTTON */
-
-.time-slot{
-
-    padding:10px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#00c853;
-
-    color:white;
-
-    font-size:12px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.time-slot:hover{
-
-    transform:scale(1.04);
-
-    background:#2563eb;
-}
-
-/* OCCUPIED */
-
-.time-slot.occupied{
-
-    background:#ff4d4d;
-
-    pointer-events:none;
-
-    opacity:.85;
-}
-
-/* ANIMATION */
-
-@keyframes fadeUp{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(20px);
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-    }
-}
-
-/* RESPONSIVE */
-
-@media(max-width:480px){
-
-    .company-name{
-
-        font-size:20px;
-    }
-
-    .fc-toolbar-title{
-
-        font-size:13px !important;
-    }
-
-    .fc-button{
-
-        font-size:10px !important;
-    }
-}
-
-</style>
+<link rel="stylesheet"
+href="style.css">
 
 </head>
 
@@ -473,7 +50,8 @@ button:hover{
 
 <div class="logo-space">
 
-<img src="logo.png" alt="Logo">
+<img src="logo.png"
+alt="Logo">
 
 </div>
 
@@ -491,7 +69,7 @@ Sistema Premium de Agendamentos
 
 </div>
 
-<!-- CALENDAR -->
+<!-- CALENDÁRIO -->
 
 <div class="calendar-box">
 
@@ -499,13 +77,16 @@ Sistema Premium de Agendamentos
 
 </div>
 
-<!-- FORM -->
+<!-- FORMULÁRIO -->
 
 <div class="event-form">
 
 <h2>
+
 <i class="fa-solid fa-calendar-check"></i>
- Novo Agendamento
+
+Novo Agendamento
+
 </h2>
 
 <!-- STATUS -->
@@ -634,11 +215,50 @@ placeholder="📌 Descrição do Evento">
 type="datetime-local"
 id="start">
 
-<!-- BUTTON -->
+<!-- BOTÃO -->
 
 <button onclick="addEvent()">
 
 Salvar Agendamento
+
+</button>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="eventModal"
+class="modal">
+
+<div class="modal-content">
+
+<span class="close-modal"
+onclick="closeModal()">
+
+&times;
+
+</span>
+
+<h2>
+
+📅 Detalhes do Agendamento
+
+</h2>
+
+<div class="modal-info">
+
+<p id="modalTitle"></p>
+
+<p id="modalDate"></p>
+
+</div>
+
+<button class="delete-btn"
+onclick="deleteSelectedEvent()">
+
+🗑️ Deletar Agendamento
 
 </button>
 
@@ -654,7 +274,11 @@ Salvar Agendamento
 
 let calendar;
 
-/* CALENDÁRIO */
+let selectedEvent = null;
+
+/* =========================================
+   CALENDÁRIO
+========================================= */
 
 document.addEventListener(
 'DOMContentLoaded',
@@ -703,6 +327,8 @@ JSON.parse(
 localStorage.getItem("eventos")
 ) || [],
 
+/* SELECIONAR HORÁRIO */
+
 select:function(info){
 
 document
@@ -712,17 +338,30 @@ formatDate(info.start);
 
 },
 
+/* ABRIR MODAL */
+
 eventClick:function(info){
 
-if(confirm(
-"Deseja excluir este evento?"
-)){
+selectedEvent =
+info.event;
 
-info.event.remove();
+document
+.getElementById("modalTitle")
+.innerHTML =
 
-saveEvents();
+`<strong>Evento:</strong><br>
+${info.event.title}`;
 
-}
+document
+.getElementById("modalDate")
+.innerHTML =
+
+`<strong>Data:</strong><br>
+${info.event.start.toLocaleString()}`;
+
+document
+.getElementById("eventModal")
+.style.display = "flex";
 
 }
 
@@ -732,7 +371,9 @@ calendar.render();
 
 });
 
-/* FORMAT DATE */
+/* =========================================
+   FORMATAR DATA
+========================================= */
 
 function formatDate(date){
 
@@ -748,7 +389,9 @@ pad(date.getMinutes())}`;
 
 }
 
-/* SELECT TIME */
+/* =========================================
+   SELECIONAR HORÁRIO
+========================================= */
 
 function selectTime(time){
 
@@ -774,7 +417,9 @@ document.getElementById("start")
 
 }
 
-/* ADD EVENT */
+/* =========================================
+   ADICIONAR EVENTO
+========================================= */
 
 function addEvent(){
 
@@ -868,7 +513,9 @@ document
 
 }
 
-/* SAVE */
+/* =========================================
+   SALVAR
+========================================= */
 
 function saveEvents(){
 
@@ -896,7 +543,9 @@ JSON.stringify(events)
 
 }
 
-/* BLOCK TIME */
+/* =========================================
+   BLOQUEAR HORÁRIO
+========================================= */
 
 function blockTime(start){
 
@@ -922,7 +571,9 @@ btn.innerText =
 
 }
 
-/* WHATSAPP */
+/* =========================================
+   WHATSAPP
+========================================= */
 
 function sendWhatsAppToOwner(
 clientName,
@@ -932,7 +583,7 @@ date
 ){
 
 const ownerPhone =
-"5598999942905";
+"5598999999999";
 
 const message =
 
@@ -955,6 +606,57 @@ encodeURIComponent(message)
 }`;
 
 window.open(url,"_blank");
+
+}
+
+/* =========================================
+   FECHAR MODAL
+========================================= */
+
+function closeModal(){
+
+document
+.getElementById("eventModal")
+.style.display = "none";
+
+}
+
+/* =========================================
+   DELETAR EVENTO
+========================================= */
+
+function deleteSelectedEvent(){
+
+if(selectedEvent){
+
+selectedEvent.remove();
+
+saveEvents();
+
+closeModal();
+
+alert(
+"Agendamento deletado!"
+);
+
+}
+
+}
+
+/* =========================================
+   FECHAR MODAL AO CLICAR FORA
+========================================= */
+
+window.onclick = function(event){
+
+const modal =
+document.getElementById("eventModal");
+
+if(event.target === modal){
+
+closeModal();
+
+}
 
 }
 
