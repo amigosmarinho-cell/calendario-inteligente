@@ -1,5 +1,5 @@
 /* =========================================
-   RESET
+RESET
 ========================================= */
 
 *{
@@ -10,7 +10,7 @@
 }
 
 /* =========================================
-   BODY
+BODY
 ========================================= */
 
 body{
@@ -29,11 +29,11 @@ body{
 
     overflow-x:hidden;
 
-    padding:8px;
+    padding:10px;
 }
 
 /* =========================================
-   CONTAINER
+CONTAINER
 ========================================= */
 
 .container{
@@ -46,7 +46,7 @@ body{
 }
 
 /* =========================================
-   HEADER
+HEADER
 ========================================= */
 
 .company-header{
@@ -57,39 +57,39 @@ body{
     backdrop-filter:
     blur(15px);
 
-    border-radius:22px;
+    border-radius:24px;
 
-    padding:16px;
+    padding:18px;
 
-    margin-bottom:12px;
+    margin-bottom:14px;
 
     text-align:center;
 
     border:
     1px solid rgba(255,255,255,0.08);
 
-    animation:
-    fadeUp .5s ease;
-
     box-shadow:
     0 10px 30px rgba(0,0,0,0.35);
+
+    animation:
+    fadeUp .5s ease;
 }
 
 /* =========================================
-   LOGO
+LOGO
 ========================================= */
 
 .logo-space{
 
-    width:80px;
+    width:90px;
 
-    height:80px;
+    height:90px;
 
     margin:auto;
 
     margin-bottom:12px;
 
-    border-radius:20px;
+    border-radius:22px;
 
     overflow:hidden;
 
@@ -113,7 +113,7 @@ body{
 }
 
 /* =========================================
-   COMPANY NAME
+COMPANY NAME
 ========================================= */
 
 .company-name{
@@ -122,13 +122,13 @@ body{
 
     font-weight:700;
 
-    margin-bottom:6px;
+    margin-bottom:12px;
 
     background:
     linear-gradient(
     90deg,
-    #00c6ff,
-    #0072ff
+    #38bdf8,
+    #2563eb
     );
 
     -webkit-background-clip:text;
@@ -137,41 +137,71 @@ body{
 }
 
 /* =========================================
-   COMPANY INFO
+COMPANY INFO
 ========================================= */
 
 .company-info{
 
-    font-size:12px;
+    display:flex;
 
-    opacity:.9;
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.company-info p{
+
+    background:
+    rgba(255,255,255,0.05);
+
+    padding:12px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    font-size:13px;
+
+    border:
+    1px solid rgba(255,255,255,0.04);
+}
+
+.company-info i{
+
+    color:#38bdf8;
 }
 
 /* =========================================
-   CALENDAR BOX
+CALENDAR
 ========================================= */
 
 .calendar-box{
 
     background:white;
 
-    border-radius:22px;
+    border-radius:24px;
 
-    padding:8px;
+    padding:10px;
 
     overflow:hidden;
 
-    margin-bottom:12px;
-
-    animation:
-    fadeUp .6s ease;
+    margin-bottom:14px;
 
     box-shadow:
     0 10px 30px rgba(0,0,0,0.35);
+
+    animation:
+    fadeUp .6s ease;
 }
 
 /* =========================================
-   FULLCALENDAR
+FULLCALENDAR
 ========================================= */
 
 .fc{
@@ -187,7 +217,7 @@ body{
 
     flex-direction:column !important;
 
-    gap:6px;
+    gap:8px;
 }
 
 .fc-toolbar-title{
@@ -207,7 +237,7 @@ body{
 
     border-radius:10px !important;
 
-    padding:6px 10px !important;
+    padding:7px 10px !important;
 
     font-size:11px !important;
 
@@ -219,8 +249,14 @@ body{
     transform:scale(1.03);
 }
 
+.fc-day-today{
+
+    background:
+    #2563eb20 !important;
+}
+
 /* =========================================
-   EVENTS
+EVENTS
 ========================================= */
 
 .fc-event{
@@ -231,27 +267,17 @@ body{
 
     color:white !important;
 
+    border-radius:10px !important;
+
+    padding:3px !important;
+
     font-size:10px !important;
-
-    border-radius:8px !important;
-
-    padding:2px !important;
 
     font-weight:600;
 }
 
 /* =========================================
-   TODAY
-========================================= */
-
-.fc-day-today{
-
-    background:
-    #2563eb20 !important;
-}
-
-/* =========================================
-   FORM
+FORM
 ========================================= */
 
 .event-form{
@@ -259,40 +285,40 @@ body{
     background:
     rgba(255,255,255,0.08);
 
-    padding:16px;
-
-    border-radius:22px;
-
     backdrop-filter:
     blur(15px);
 
-    animation:
-    fadeUp .7s ease;
+    border-radius:24px;
+
+    padding:18px;
 
     border:
     1px solid rgba(255,255,255,0.08);
 
     box-shadow:
     0 10px 30px rgba(0,0,0,0.35);
+
+    animation:
+    fadeUp .7s ease;
 }
 
 /* =========================================
-   FORM TITLE
+TITLE
 ========================================= */
 
 .event-form h2{
 
-    font-size:18px;
-
-    margin-bottom:14px;
-
     text-align:center;
+
+    margin-bottom:16px;
+
+    font-size:19px;
 
     font-weight:600;
 }
 
 /* =========================================
-   STATUS
+STATUS
 ========================================= */
 
 .status-box{
@@ -301,18 +327,18 @@ body{
 
     gap:8px;
 
-    margin-bottom:14px;
+    margin-bottom:16px;
 }
 
 .status{
 
     flex:1;
 
-    text-align:center;
-
-    padding:9px;
+    padding:10px;
 
     border-radius:12px;
+
+    text-align:center;
 
     font-size:11px;
 
@@ -330,25 +356,23 @@ body{
 }
 
 /* =========================================
-   AVAILABLE TIMES
+HORÁRIOS
 ========================================= */
 
 .available-times{
 
-    margin-bottom:15px;
+    margin-bottom:16px;
 }
 
 .available-times h3{
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
     font-size:14px;
-
-    font-weight:600;
 }
 
 /* =========================================
-   GRID
+GRID
 ========================================= */
 
 .times-grid{
@@ -362,20 +386,20 @@ body{
 }
 
 /* =========================================
-   TIME SLOT
+TIME SLOT
 ========================================= */
 
 .time-slot{
 
-    padding:10px;
-
-    border:none;
-
-    border-radius:12px;
-
     background:#00c853;
 
     color:white;
+
+    border:none;
+
+    padding:11px;
+
+    border-radius:12px;
 
     font-size:12px;
 
@@ -393,10 +417,6 @@ body{
     background:#2563eb;
 }
 
-/* =========================================
-   OCCUPIED
-========================================= */
-
 .time-slot.occupied{
 
     background:#ff4d4d;
@@ -407,33 +427,35 @@ body{
 }
 
 /* =========================================
-   INPUTS
+INPUTS
 ========================================= */
 
 input,
-select{
+select,
+textarea{
 
     width:100%;
 
-    padding:12px;
-
     border:none;
-
-    border-radius:14px;
-
-    margin-bottom:10px;
-
-    font-size:13px;
 
     outline:none;
 
-    transition:.3s;
+    border-radius:14px;
+
+    padding:13px;
+
+    margin-bottom:12px;
+
+    font-size:13px;
 
     background:white;
+
+    transition:.3s;
 }
 
 input:focus,
-select:focus{
+select:focus,
+textarea:focus{
 
     transform:scale(1.01);
 
@@ -441,17 +463,22 @@ select:focus{
     0 0 0 3px rgba(37,99,235,0.25);
 }
 
+textarea{
+
+    resize:none;
+}
+
 /* =========================================
-   BUTTONS
+BUTTON
 ========================================= */
 
 button{
 
     width:100%;
 
-    padding:13px;
-
     border:none;
+
+    padding:14px;
 
     border-radius:14px;
 
@@ -486,7 +513,7 @@ button:hover{
 }
 
 /* =========================================
-   MODAL
+MODAL
 ========================================= */
 
 .modal{
@@ -509,7 +536,7 @@ button:hover{
     rgba(0,0,0,0.75);
 
     backdrop-filter:
-    blur(5px);
+    blur(6px);
 
     justify-content:center;
 
@@ -519,7 +546,7 @@ button:hover{
 }
 
 /* =========================================
-   MODAL CONTENT
+MODAL CONTENT
 ========================================= */
 
 .modal-content{
@@ -535,83 +562,85 @@ button:hover{
     #111827
     );
 
-    border-radius:22px;
+    border-radius:24px;
 
-    padding:25px;
-
-    color:white;
+    padding:24px;
 
     position:relative;
 
-    animation:
-    fadeUp .3s ease;
+    color:white;
 
     border:
     1px solid rgba(255,255,255,0.08);
 
     box-shadow:
-    0 10px 30px rgba(0,0,0,0.5);
+    0 10px 30px rgba(0,0,0,0.45);
+
+    animation:
+    fadeUp .3s ease;
 }
 
 /* =========================================
-   CLOSE MODAL
+CLOSE MODAL
 ========================================= */
 
 .close-modal{
 
     position:absolute;
 
-    right:15px;
-
     top:12px;
+
+    right:15px;
 
     font-size:28px;
 
     cursor:pointer;
-
-    color:white;
 }
 
 /* =========================================
-   MODAL TITLE
+MODAL TITLE
 ========================================= */
 
 .modal-content h2{
 
+    text-align:center;
+
     margin-bottom:20px;
 
     font-size:22px;
-
-    text-align:center;
 }
 
 /* =========================================
-   MODAL INFO
+MODAL INFO
 ========================================= */
 
 .modal-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
 
     margin-bottom:20px;
 }
 
 .modal-info p{
 
-    margin-bottom:12px;
-
     background:
     rgba(255,255,255,0.06);
 
-    padding:12px;
+    padding:14px;
 
-    border-radius:12px;
+    border-radius:14px;
+
+    line-height:1.6;
 
     font-size:14px;
-
-    line-height:1.5;
 }
 
 /* =========================================
-   DELETE BUTTON
+DELETE BUTTON
 ========================================= */
 
 .delete-btn{
@@ -625,7 +654,7 @@ button:hover{
 }
 
 /* =========================================
-   ANIMATION
+ANIMATION
 ========================================= */
 
 @keyframes fadeUp{
@@ -648,10 +677,15 @@ button:hover{
 }
 
 /* =========================================
-   RESPONSIVE
+RESPONSIVO
 ========================================= */
 
 @media(max-width:480px){
+
+    body{
+
+        padding:6px;
+    }
 
     .company-name{
 
@@ -666,6 +700,8 @@ button:hover{
     .fc-button{
 
         font-size:10px !important;
+
+        padding:6px 8px !important;
     }
 
     .times-grid{
