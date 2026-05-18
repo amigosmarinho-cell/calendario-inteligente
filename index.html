@@ -44,7 +44,9 @@ href="style.css">
 
 <div class="container">
 
-<!-- HEADER -->
+<!-- =========================================
+HEADER
+========================================= -->
 
 <div class="company-header">
 
@@ -57,7 +59,7 @@ alt="Logo">
 
 <div class="company-name">
 
-Leo Tecnologia  
+Sua Empresa
 
 </div>
 
@@ -67,8 +69,7 @@ Leo Tecnologia
 
 <i class="fa-solid fa-location-dot"></i>
 
-Avenida Três, QD-M 
-Parque Araçagy  
+Seu Endereço
 
 </p>
 
@@ -76,7 +77,7 @@ Parque Araçagy
 
 <i class="fa-solid fa-phone"></i>
 
-(98) 99994-2905
+(99) 99999-9999
 
 </p>
 
@@ -84,7 +85,7 @@ Parque Araçagy
 
 <i class="fa-brands fa-instagram"></i>
 
-@leotecnologia25
+@instagram
 
 </p>
 
@@ -92,7 +93,9 @@ Parque Araçagy
 
 </div>
 
-<!-- CALENDÁRIO -->
+<!-- =========================================
+CALENDÁRIO
+========================================= -->
 
 <div class="calendar-box">
 
@@ -100,7 +103,9 @@ Parque Araçagy
 
 </div>
 
-<!-- FORMULÁRIO -->
+<!-- =========================================
+FORMULÁRIO
+========================================= -->
 
 <div class="event-form">
 
@@ -109,6 +114,8 @@ Parque Araçagy
 📅 Novo Agendamento
 
 </h2>
+
+<!-- STATUS -->
 
 <div class="status-box">
 
@@ -132,55 +139,64 @@ Parque Araçagy
 
 <h3>
 
-🕒 Horários
+🕒 Horários Disponíveis e Ocupados
 
 </h3>
 
 <div class="times-grid">
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="08:00"
 onclick="selectTime('08:00')">
-08:00
+🟢 08:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="09:00"
 onclick="selectTime('09:00')">
-09:00
+🟢 09:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="10:00"
 onclick="selectTime('10:00')">
-10:00
+🟢 10:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="11:00"
 onclick="selectTime('11:00')">
-11:00
+🟢 11:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="13:00"
 onclick="selectTime('13:00')">
-13:00
+🟢 13:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="14:00"
 onclick="selectTime('14:00')">
-14:00
+🟢 14:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="15:00"
 onclick="selectTime('15:00')">
-15:00
+🟢 15:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="16:00"
 onclick="selectTime('16:00')">
-16:00
+🟢 16:00
 </button>
 
-<button class="time-slot"
+<button class="time-slot available"
+data-time="17:00"
 onclick="selectTime('17:00')">
-17:00
+🟢 17:00
 </button>
 
 </div>
@@ -213,7 +229,7 @@ onclick="selectTime('17:00')">
 
 </select>
 
-<!-- CAMPOS -->
+<!-- INPUTS -->
 
 <input
 type="text"
@@ -246,7 +262,9 @@ Salvar Agendamento
 
 </div>
 
-<!-- MODAL -->
+<!-- =========================================
+MODAL
+========================================= -->
 
 <div id="eventModal"
 class="modal">
@@ -287,7 +305,9 @@ onclick="deleteSelectedEvent()">
 
 </div>
 
-<!-- FULLCALENDAR -->
+<!-- =========================================
+FULLCALENDAR
+========================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
@@ -348,6 +368,8 @@ JSON.parse(
 localStorage.getItem("eventos")
 ) || [],
 
+/* SELECIONAR DATA */
+
 select:function(info){
 
 document
@@ -356,6 +378,8 @@ document
 formatDate(info.start);
 
 },
+
+/* ABRIR EVENTO */
 
 eventClick:function(info){
 
@@ -440,7 +464,7 @@ currentDate.getDate()
 const selectedDateTime =
 `${year}-${month}-${day}T${time}`;
 
-/* VERIFICAR SE JÁ ESTÁ OCUPADO */
+/* VERIFICAR SE ESTÁ OCUPADO */
 
 const events =
 calendar.getEvents();
@@ -512,13 +536,13 @@ start === ""
 ){
 
 alert(
-"Preencha todos os campos!"
+"⚠️ Preencha todos os campos!"
 );
 
 return;
 }
 
-/* VERIFICAR CONFLITO */
+/* VERIFICAR DUPLICIDADE */
 
 const events =
 calendar.getEvents();
@@ -540,10 +564,9 @@ alert(
 );
 
 return;
-
 }
 
-/* ADICIONAR EVENTO */
+/* ADICIONAR */
 
 calendar.addEvent({
 
@@ -609,20 +632,32 @@ function updateOccupiedSlots(){
 const buttons =
 document.querySelectorAll(".time-slot");
 
+/* RESETAR */
+
 buttons.forEach(btn => {
 
 btn.classList.remove(
 "occupied"
 );
 
+btn.classList.add(
+"available"
+);
+
+const originalTime =
+btn.getAttribute("data-time");
+
 btn.innerHTML =
-btn.getAttribute("data-time")
-|| btn.innerText;
+`🟢 ${originalTime}`;
 
 });
 
+/* PEGAR EVENTOS */
+
 const events =
 calendar.getEvents();
+
+/* MARCAR OCUPADOS */
 
 events.forEach(event => {
 
@@ -633,14 +668,21 @@ event.start
 
 buttons.forEach(btn => {
 
-if(btn.innerText === hour){
+const btnTime =
+btn.getAttribute("data-time");
+
+if(btnTime === hour){
+
+btn.classList.remove(
+"available"
+);
 
 btn.classList.add(
 "occupied"
 );
 
 btn.innerHTML =
-"🔴 Ocupado";
+`🔴 ${hour}`;
 
 }
 
@@ -696,7 +738,7 @@ date
 ){
 
 const ownerPhone =
-"5598999942905";
+"5599999999999";
 
 const message =
 
@@ -714,13 +756,13 @@ ${description}
 ⏰ Data:
 ${date}
 
-✅ Confirmação automática enviada pelo sistema.`;
+✅ Confirmação automática enviada pelo sistema`;
 
 const url =
 
 `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
-/* REDIRECIONA PARA WHATSAPP */
+/* REDIRECIONAR */
 
 window.location.href = url;
 
@@ -755,7 +797,7 @@ updateOccupiedSlots();
 closeModal();
 
 alert(
-"Agendamento deletado!"
+"🗑️ Agendamento deletado!"
 );
 
 }
