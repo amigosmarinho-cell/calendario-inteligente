@@ -35,566 +35,492 @@ rel="stylesheet">
 
 <style>
 
-/* =========================================
-RESET
-========================================= */
+/* RESET */
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
-/* =========================================
-BODY
-========================================= */
+/* BODY */
 
 body{
 
-    background:
-    linear-gradient(
-    180deg,
-    #020617,
-    #0f172a,
-    #111827
-    );
+background:
+linear-gradient(
+180deg,
+#020617,
+#0f172a,
+#111827
+);
 
-    min-height:100vh;
+min-height:100vh;
 
-    padding:8px;
+padding:8px;
 
-    color:white;
+color:white;
 }
 
-/* =========================================
-CONTAINER
-========================================= */
+/* CONTAINER */
 
 .container{
 
-    width:100%;
+width:100%;
 
-    max-width:430px;
+max-width:430px;
 
-    margin:auto;
+margin:auto;
 }
 
-/* =========================================
-HEADER
-========================================= */
+/* HEADER */
 
 .company-header{
 
-    background:
-    rgba(255,255,255,0.08);
+background:
+rgba(255,255,255,0.08);
 
-    backdrop-filter:
-    blur(15px);
+backdrop-filter:
+blur(15px);
 
-    border-radius:22px;
+border-radius:22px;
 
-    padding:14px;
+padding:14px;
 
-    margin-bottom:10px;
+margin-bottom:10px;
 
-    text-align:center;
+text-align:center;
 
-    border:
-    1px solid rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+box-shadow:
+0 10px 30px rgba(0,0,0,0.35);
 }
 
-/* =========================================
-LOGO
-========================================= */
+/* LOGO */
 
 .logo-space{
 
-    width:80px;
+width:80px;
 
-    height:80px;
+height:80px;
 
-    margin:auto;
+margin:auto;
 
-    margin-bottom:10px;
+margin-bottom:10px;
 
-    border-radius:20px;
+border-radius:20px;
 
-    overflow:hidden;
+overflow:hidden;
 
-    background:
-    rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-    display:flex;
+display:flex;
 
-    align-items:center;
+align-items:center;
 
-    justify-content:center;
+justify-content:center;
 }
 
 .logo-space img{
 
-    width:100%;
+width:100%;
 
-    height:100%;
+height:100%;
 
-    object-fit:cover;
+object-fit:cover;
 }
 
-/* =========================================
-EMPRESA
-========================================= */
+/* EMPRESA */
 
 .company-name{
 
-    font-size:22px;
+font-size:22px;
 
-    font-weight:700;
+font-weight:700;
 
-    margin-bottom:10px;
+margin-bottom:10px;
 
-    background:
-    linear-gradient(
-    90deg,
-    #38bdf8,
-    #2563eb
-    );
+background:
+linear-gradient(
+90deg,
+#38bdf8,
+#2563eb
+);
 
-    -webkit-background-clip:text;
+-webkit-background-clip:text;
 
-    -webkit-text-fill-color:transparent;
+-webkit-text-fill-color:transparent;
 }
 
 .company-info{
 
-    display:flex;
+display:flex;
 
-    flex-direction:column;
+flex-direction:column;
 
-    gap:8px;
+gap:8px;
 }
 
 .company-info p{
 
-    background:
-    rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-    padding:10px;
+padding:10px;
 
-    border-radius:12px;
+border-radius:12px;
 
-    font-size:12px;
+font-size:12px;
 
-    display:flex;
+display:flex;
 
-    align-items:center;
+align-items:center;
 
-    justify-content:center;
+justify-content:center;
 
-    gap:8px;
+gap:8px;
 }
 
-.company-info i{
-
-    color:#38bdf8;
-}
-
-/* =========================================
-CALENDÁRIO
-========================================= */
+/* CALENDÁRIO */
 
 .calendar-box{
 
-    background:white;
+background:white;
 
-    border-radius:18px;
+border-radius:18px;
 
-    padding:6px;
+padding:6px;
 
-    margin-bottom:10px;
+margin-bottom:10px;
 
-    overflow:hidden;
+overflow:hidden;
 
-    box-shadow:
-    0 10px 25px rgba(0,0,0,0.35);
+box-shadow:
+0 10px 25px rgba(0,0,0,0.35);
 }
 
-/* =========================================
-FULLCALENDAR
-========================================= */
+/* FULLCALENDAR */
 
 .fc{
 
-    font-size:10px !important;
+font-size:10px !important;
 
-    color:#111827;
-}
-
-.fc-toolbar{
-
-    margin-bottom:4px !important;
+color:#111827;
 }
 
 .fc-toolbar-title{
 
-    font-size:13px !important;
-
-    font-weight:600;
+font-size:13px !important;
 }
 
 .fc-button{
 
-    padding:4px 6px !important;
+padding:4px 6px !important;
 
-    font-size:9px !important;
+font-size:9px !important;
 
-    border-radius:8px !important;
-}
-
-.fc td,
-.fc th{
-
-    padding:2px !important;
+border-radius:8px !important;
 }
 
 .fc-timegrid-slot{
 
-    height:24px !important;
+height:24px !important;
 }
 
 .fc-event{
 
-    background:#ff4d4d !important;
+background:#ff4d4d !important;
 
-    border:none !important;
+border:none !important;
 
-    font-size:9px !important;
+font-size:9px !important;
 
-    padding:2px !important;
+padding:2px !important;
 
-    border-radius:6px !important;
+border-radius:6px !important;
 }
 
-.fc-col-header-cell-cushion{
-
-    font-size:9px !important;
-}
-
-.fc-timegrid-axis-cushion{
-
-    font-size:8px !important;
-}
-
-/* =========================================
-FORMULÁRIO
-========================================= */
+/* FORMULÁRIO */
 
 .event-form{
 
-    background:
-    rgba(255,255,255,0.08);
+background:
+rgba(255,255,255,0.08);
 
-    backdrop-filter:
-    blur(15px);
+backdrop-filter:
+blur(15px);
 
-    border-radius:22px;
+border-radius:22px;
 
-    padding:15px;
+padding:15px;
 
-    border:
-    1px solid rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+box-shadow:
+0 10px 30px rgba(0,0,0,0.35);
 }
 
 .event-form h2{
 
-    text-align:center;
+text-align:center;
 
-    margin-bottom:14px;
+margin-bottom:14px;
 
-    font-size:18px;
+font-size:18px;
 }
 
-/* =========================================
-STATUS
-========================================= */
+/* STATUS */
 
 .status-box{
 
-    display:flex;
+display:flex;
 
-    gap:8px;
+gap:8px;
 
-    margin-bottom:14px;
+margin-bottom:14px;
 }
 
 .status{
 
-    flex:1;
+flex:1;
 
-    text-align:center;
+text-align:center;
 
-    padding:9px;
+padding:9px;
 
-    border-radius:10px;
+border-radius:10px;
 
-    font-size:11px;
+font-size:11px;
 
-    font-weight:600;
+font-weight:600;
 }
 
 .available-status{
 
-    background:#00c853;
+background:#00c853;
 }
 
 .busy-status{
 
-    background:#ff4d4d;
+background:#ff4d4d;
 }
 
-/* =========================================
-HORÁRIOS
-========================================= */
+/* HORÁRIOS */
 
 .available-times{
 
-    margin-bottom:14px;
-}
-
-.available-times h3{
-
-    margin-bottom:10px;
-
-    font-size:13px;
+margin-bottom:14px;
 }
 
 .times-grid{
 
-    display:grid;
+display:grid;
 
-    grid-template-columns:
-    repeat(3,1fr);
+grid-template-columns:
+repeat(3,1fr);
 
-    gap:8px;
+gap:8px;
 }
 
 .time-slot{
 
-    background:#00c853;
+background:#00c853;
 
-    color:white;
+color:white;
 
-    border:none;
+border:none;
 
-    padding:10px;
+padding:10px;
 
-    border-radius:10px;
+border-radius:10px;
 
-    font-size:11px;
+font-size:11px;
 
-    font-weight:600;
+font-weight:600;
 
-    cursor:pointer;
+cursor:pointer;
 
-    transition:.3s;
+transition:.3s;
 }
 
 .time-slot:hover{
 
-    transform:scale(1.03);
+transform:scale(1.03);
 }
 
 .time-slot.occupied{
 
-    background:#ff4d4d;
+background:#ff4d4d !important;
+
+cursor:not-allowed;
+
+opacity:0.8;
 }
 
-/* =========================================
-INPUTS
-========================================= */
+/* INPUTS */
 
 input,
 select,
 textarea{
 
-    width:100%;
+width:100%;
 
-    border:none;
+border:none;
 
-    outline:none;
+outline:none;
 
-    border-radius:12px;
+border-radius:12px;
 
-    padding:12px;
+padding:12px;
 
-    margin-bottom:10px;
+margin-bottom:10px;
 
-    font-size:12px;
+font-size:12px;
 }
 
 textarea{
 
-    resize:none;
+resize:none;
 }
 
-/* =========================================
-BOTÃO
-========================================= */
+/* BOTÃO */
 
-button{
+.save-btn{
 
-    width:100%;
+width:100%;
 
-    border:none;
+border:none;
 
-    border-radius:12px;
+border-radius:12px;
 
-    padding:13px;
+padding:13px;
 
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    );
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#06b6d4
+);
 
-    color:white;
+color:white;
 
-    font-size:13px;
+font-size:13px;
 
-    font-weight:600;
+font-weight:600;
 
-    cursor:pointer;
+cursor:pointer;
 }
 
-/* =========================================
-MODAL
-========================================= */
+/* MODAL */
 
 .modal{
 
-    display:none;
+display:none;
 
-    position:fixed;
+position:fixed;
 
-    left:0;
+left:0;
 
-    top:0;
+top:0;
 
-    width:100%;
+width:100%;
 
-    height:100%;
+height:100%;
 
-    background:
-    rgba(0,0,0,0.8);
+background:
+rgba(0,0,0,0.8);
 
-    justify-content:center;
+justify-content:center;
 
-    align-items:center;
+align-items:center;
 
-    padding:14px;
+padding:14px;
 
-    z-index:999;
+z-index:999;
 }
 
 .modal-content{
 
-    width:100%;
+width:100%;
 
-    max-width:340px;
+max-width:340px;
 
-    background:#111827;
+background:#111827;
 
-    border-radius:20px;
+border-radius:20px;
 
-    padding:20px;
+padding:20px;
 
-    position:relative;
+position:relative;
 }
 
 .close-modal{
 
-    position:absolute;
+position:absolute;
 
-    top:10px;
+top:10px;
 
-    right:15px;
+right:15px;
 
-    font-size:26px;
+font-size:26px;
 
-    cursor:pointer;
-}
-
-.modal-content h2{
-
-    text-align:center;
-
-    margin-bottom:16px;
-
-    font-size:18px;
+cursor:pointer;
 }
 
 .modal-info{
 
-    display:flex;
+display:flex;
 
-    flex-direction:column;
+flex-direction:column;
 
-    gap:10px;
+gap:10px;
 
-    margin-bottom:16px;
+margin-top:14px;
+
+margin-bottom:16px;
 }
 
 .modal-info p{
 
-    background:
-    rgba(255,255,255,0.06);
+background:
+rgba(255,255,255,0.06);
 
-    padding:12px;
+padding:12px;
 
-    border-radius:12px;
+border-radius:12px;
 
-    line-height:1.5;
+line-height:1.5;
 
-    font-size:12px;
+font-size:12px;
 }
 
 .delete-btn{
 
-    background:
-    linear-gradient(
-    135deg,
-    #ff4d4d,
-    #dc2626
-    );
-}
+width:100%;
 
-/* =========================================
-RESPONSIVO
-========================================= */
+padding:12px;
 
-@media(max-width:480px){
+border:none;
 
-    .fc-toolbar{
+border-radius:12px;
 
-        display:flex !important;
+background:
+linear-gradient(
+135deg,
+#ff4d4d,
+#dc2626
+);
 
-        flex-direction:row !important;
+color:white;
 
-        gap:4px;
-    }
+font-weight:600;
 
-    .fc-toolbar-title{
-
-        font-size:11px !important;
-    }
-
+cursor:pointer;
 }
 
 </style>
@@ -625,27 +551,18 @@ Sua Empresa
 <div class="company-info">
 
 <p>
-
 <i class="fa-solid fa-location-dot"></i>
-
 Seu Endereço
-
 </p>
 
 <p>
-
 <i class="fa-solid fa-phone"></i>
-
 (99) 99999-9999
-
 </p>
 
 <p>
-
 <i class="fa-brands fa-instagram"></i>
-
 @instagram
-
 </p>
 
 </div>
@@ -660,39 +577,27 @@ Seu Endereço
 
 </div>
 
-<!-- FORM -->
+<!-- FORMULÁRIO -->
 
 <div class="event-form">
 
 <h2>
-
 📅 Novo Agendamento
-
 </h2>
 
 <div class="status-box">
 
 <div class="status available-status">
-
 🟢 Disponível
-
 </div>
 
 <div class="status busy-status">
-
 🔴 Ocupado
-
 </div>
 
 </div>
 
 <div class="available-times">
-
-<h3>
-
-🕒 Horários
-
-</h3>
 
 <div class="times-grid">
 
@@ -764,7 +669,7 @@ onclick="selectTime('17:00')">
 </option>
 
 <option value="Designer">
-🎨 Designer Gráfico
+🎨 Designer
 </option>
 
 </select>
@@ -788,10 +693,9 @@ rows="3"></textarea>
 type="datetime-local"
 id="start">
 
-<button onclick="addEvent()">
-
+<button class="save-btn"
+onclick="addEvent()">
 Salvar Agendamento
-
 </button>
 
 </div>
@@ -813,9 +717,7 @@ onclick="closeModal()">
 </span>
 
 <h2>
-
 📅 Agendamento
-
 </h2>
 
 <div class="modal-info">
@@ -849,9 +751,7 @@ let calendar;
 
 let selectedEvent = null;
 
-/* =========================================
-INICIAR CALENDÁRIO
-========================================= */
+/* INICIAR */
 
 document.addEventListener(
 'DOMContentLoaded',
@@ -865,10 +765,7 @@ new FullCalendar.Calendar(
 calendarEl,
 {
 
-initialView:
-window.innerWidth < 768
-? 'timeGridDay'
-: 'timeGridWeek',
+initialView:'timeGridDay',
 
 locale:'pt-br',
 
@@ -880,7 +777,7 @@ allDaySlot:false,
 
 slotMinTime:"08:00:00",
 
-slotMaxTime:"22:00:00",
+slotMaxTime:"18:00:00",
 
 slotDuration:"01:00:00",
 
@@ -945,11 +842,11 @@ document
 
 calendar.render();
 
+loadOccupiedTimes();
+
 });
 
-/* =========================================
-FORMATAR DATA
-========================================= */
+/* FORMATAR DATA */
 
 function formatDate(date){
 
@@ -965,9 +862,7 @@ pad(date.getMinutes())}`;
 
 }
 
-/* =========================================
-SELECIONAR HORÁRIO
-========================================= */
+/* SELECIONAR HORÁRIO */
 
 function selectTime(time){
 
@@ -995,36 +890,24 @@ document
 
 }
 
-/* =========================================
-ADICIONAR EVENTO
-========================================= */
+/* ADICIONAR EVENTO */
 
 function addEvent(){
 
 const clientName =
-document
-.getElementById("clientName")
-.value;
+document.getElementById("clientName").value;
 
 const clientPhone =
-document
-.getElementById("clientPhone")
-.value;
+document.getElementById("clientPhone").value;
 
 const serviceType =
-document
-.getElementById("serviceType")
-.value;
+document.getElementById("serviceType").value;
 
 const description =
-document
-.getElementById("description")
-.value;
+document.getElementById("description").value;
 
 const start =
-document
-.getElementById("start")
-.value;
+document.getElementById("start").value;
 
 if(
 clientName === "" ||
@@ -1034,12 +917,43 @@ description === "" ||
 start === ""
 ){
 
+alert("Preencha todos os campos!");
+
+return;
+}
+
+/* VERIFICAR HORÁRIO */
+
+const existingEvents =
+calendar.getEvents();
+
+const horarioOcupado =
+existingEvents.some(event => {
+
+const eventDate =
+new Date(event.start)
+.toISOString()
+.slice(0,16);
+
+const newDate =
+new Date(start)
+.toISOString()
+.slice(0,16);
+
+return eventDate === newDate;
+
+});
+
+if(horarioOcupado){
+
 alert(
-"Preencha todos os campos!"
+"❌ Este horário já está ocupado!"
 );
 
 return;
 }
+
+/* ADICIONAR */
 
 calendar.addEvent({
 
@@ -1056,41 +970,27 @@ color:"#ff4d4d"
 
 saveEvents();
 
-sendWhatsAppToOwner(
-clientName,
-clientPhone,
-serviceType,
-description,
-start
-);
+blockTime(start);
 
 alert(
-"Agendamento salvo!"
+"✅ Agendamento salvo!"
 );
 
 /* LIMPAR */
 
-document
-.getElementById("clientName")
-.value = "";
+document.getElementById("clientName").value = "";
 
-document
-.getElementById("clientPhone")
-.value = "";
+document.getElementById("clientPhone").value = "";
 
-document
-.getElementById("description")
-.value = "";
+document.getElementById("description").value = "";
 
-document
-.getElementById("start")
-.value = "";
+document.getElementById("start").value = "";
+
+document.getElementById("serviceType").value = "";
 
 }
 
-/* =========================================
-SALVAR
-========================================= */
+/* SALVAR */
 
 function saveEvents(){
 
@@ -1121,48 +1021,53 @@ JSON.stringify(events)
 
 }
 
-/* =========================================
-WHATSAPP
-========================================= */
+/* BLOQUEAR HORÁRIO */
 
-function sendWhatsAppToOwner(
-clientName,
-clientPhone,
-serviceType,
-description,
-date
-){
+function blockTime(start){
 
-const ownerPhone =
-"5598999942905";
+const time =
+start.split("T")[1]
+.substring(0,5);
 
-const message =
+document
+.querySelectorAll(".time-slot")
+.forEach(btn => {
 
-`📅 NOVO AGENDAMENTO
+if(btn.innerText === time){
 
-👤 Cliente: ${clientName}
+btn.classList.add(
+"occupied"
+);
 
-📞 Telefone: ${clientPhone}
+btn.disabled = true;
 
-🛠️ Serviço: ${serviceType}
-
-📝 Descrição:
-${description}
-
-⏰ Data:
-${date}`;
-
-const url =
-
-`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
-
-window.open(url,"_blank");
+btn.innerText =
+"🔴 Ocupado";
 
 }
 
-/* =========================================
-FECHAR MODAL
-========================================= */
+});
+
+}
+
+/* CARREGAR OCUPADOS */
+
+function loadOccupiedTimes(){
+
+const events =
+JSON.parse(
+localStorage.getItem("eventos")
+) || [];
+
+events.forEach(event => {
+
+blockTime(event.start);
+
+});
+
+}
+
+/* FECHAR MODAL */
 
 function closeModal(){
 
@@ -1172,9 +1077,7 @@ document
 
 }
 
-/* =========================================
-DELETAR EVENTO
-========================================= */
+/* DELETAR */
 
 function deleteSelectedEvent(){
 
@@ -1184,28 +1087,7 @@ selectedEvent.remove();
 
 saveEvents();
 
-closeModal();
-
-alert(
-"Agendamento deletado!"
-);
-
-}
-
-}
-
-/* =========================================
-FECHAR MODAL FORA
-========================================= */
-
-window.onclick = function(event){
-
-const modal =
-document.getElementById("eventModal");
-
-if(event.target === modal){
-
-closeModal();
+location.reload();
 
 }
 
