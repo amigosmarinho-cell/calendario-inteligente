@@ -44,32 +44,64 @@ href="style.css">
 
 <div class="container">
 
-<!-- HEADER -->
+<!-- =========================================
+HEADER EMPRESA
+========================================= -->
 
 <div class="company-header">
 
-<div class="logo-space">
+    <!-- LOGO -->
 
-<img src="logo.png"
-alt="Logo">
+    <div class="logo-space">
+
+        <img src="logo.png"
+        alt="Logo Empresa">
+
+    </div>
+
+    <!-- NOME EMPRESA -->
+
+    <div class="company-name">
+
+        Sua Empresa
+
+    </div>
+
+    <!-- INFORMAÇÕES -->
+
+    <div class="company-info">
+
+        <p>
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            Avenida Principal, 1000
+
+        </p>
+
+        <p>
+
+            <i class="fa-solid fa-phone"></i>
+
+            (99) 99999-9999
+
+        </p>
+
+        <p>
+
+            <i class="fa-brands fa-instagram"></i>
+
+            @suaempresa
+
+        </p>
+
+    </div>
 
 </div>
 
-<div class="company-name">
-
-Agenda Inteligente
-
-</div>
-
-<div class="company-info">
-
-Sistema Premium de Agendamentos
-
-</div>
-
-</div>
-
-<!-- CALENDÁRIO -->
+<!-- =========================================
+CALENDÁRIO
+========================================= -->
 
 <div class="calendar-box">
 
@@ -77,7 +109,9 @@ Sistema Premium de Agendamentos
 
 </div>
 
-<!-- FORMULÁRIO -->
+<!-- =========================================
+FORMULÁRIO
+========================================= -->
 
 <div class="event-form">
 
@@ -209,7 +243,12 @@ placeholder="📞 Telefone">
 <input
 type="text"
 id="title"
-placeholder="📌 Descrição do Evento">
+placeholder="📌 Título do Evento">
+
+<textarea
+id="description"
+placeholder="📝 Descrição do serviço"
+rows="4"></textarea>
 
 <input
 type="datetime-local"
@@ -227,7 +266,9 @@ Salvar Agendamento
 
 </div>
 
-<!-- MODAL -->
+<!-- =========================================
+MODAL
+========================================= -->
 
 <div id="eventModal"
 class="modal">
@@ -251,6 +292,8 @@ onclick="closeModal()">
 
 <p id="modalTitle"></p>
 
+<p id="modalDescription"></p>
+
 <p id="modalDate"></p>
 
 </div>
@@ -266,7 +309,9 @@ onclick="deleteSelectedEvent()">
 
 </div>
 
-<!-- FULLCALENDAR -->
+<!-- =========================================
+FULLCALENDAR
+========================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
@@ -277,7 +322,7 @@ let calendar;
 let selectedEvent = null;
 
 /* =========================================
-   CALENDÁRIO
+CALENDÁRIO
 ========================================= */
 
 document.addEventListener(
@@ -338,7 +383,7 @@ formatDate(info.start);
 
 },
 
-/* ABRIR MODAL */
+/* CLICAR EVENTO */
 
 eventClick:function(info){
 
@@ -351,6 +396,13 @@ document
 
 `<strong>Evento:</strong><br>
 ${info.event.title}`;
+
+document
+.getElementById("modalDescription")
+.innerHTML =
+
+`<strong>Descrição:</strong><br>
+${info.event.extendedProps.description}`;
 
 document
 .getElementById("modalDate")
@@ -372,7 +424,7 @@ calendar.render();
 });
 
 /* =========================================
-   FORMATAR DATA
+FORMATAR DATA
 ========================================= */
 
 function formatDate(date){
@@ -390,7 +442,7 @@ pad(date.getMinutes())}`;
 }
 
 /* =========================================
-   SELECIONAR HORÁRIO
+SELECIONAR HORÁRIO
 ========================================= */
 
 function selectTime(time){
@@ -418,7 +470,7 @@ document.getElementById("start")
 }
 
 /* =========================================
-   ADICIONAR EVENTO
+ADICIONAR EVENTO
 ========================================= */
 
 function addEvent(){
@@ -443,6 +495,11 @@ document
 .getElementById("title")
 .value;
 
+const description =
+document
+.getElementById("description")
+.value;
+
 const start =
 document
 .getElementById("start")
@@ -453,6 +510,7 @@ clientName === "" ||
 clientPhone === "" ||
 serviceType === "" ||
 title === "" ||
+description === "" ||
 start === ""
 ){
 
@@ -474,6 +532,8 @@ title:fullTitle,
 
 start:start,
 
+description:description,
+
 color:"#ff4d4d"
 
 });
@@ -486,6 +546,7 @@ sendWhatsAppToOwner(
 clientName,
 clientPhone,
 serviceType,
+description,
 start
 );
 
@@ -508,13 +569,17 @@ document
 .value = "";
 
 document
+.getElementById("description")
+.value = "";
+
+document
 .getElementById("start")
 .value = "";
 
 }
 
 /* =========================================
-   SALVAR
+SALVAR
 ========================================= */
 
 function saveEvents(){
@@ -530,6 +595,9 @@ title:event.title,
 
 start:event.start,
 
+description:
+event.extendedProps.description,
+
 color:"#ff4d4d"
 
 });
@@ -544,7 +612,7 @@ JSON.stringify(events)
 }
 
 /* =========================================
-   BLOQUEAR HORÁRIO
+BLOQUEAR HORÁRIO
 ========================================= */
 
 function blockTime(start){
@@ -572,18 +640,19 @@ btn.innerText =
 }
 
 /* =========================================
-   WHATSAPP
+WHATSAPP
 ========================================= */
 
 function sendWhatsAppToOwner(
 clientName,
 clientPhone,
 serviceType,
+description,
 date
 ){
 
 const ownerPhone =
-"5598999942905";
+"5599999999999";
 
 const message =
 
@@ -594,6 +663,9 @@ const message =
 📞 Telefone: ${clientPhone}
 
 🛠️ Serviço: ${serviceType}
+
+📝 Descrição:
+${description}
 
 ⏰ Data: ${date}`;
 
@@ -610,7 +682,7 @@ window.open(url,"_blank");
 }
 
 /* =========================================
-   FECHAR MODAL
+FECHAR MODAL
 ========================================= */
 
 function closeModal(){
@@ -622,7 +694,7 @@ document
 }
 
 /* =========================================
-   DELETAR EVENTO
+DELETAR EVENTO
 ========================================= */
 
 function deleteSelectedEvent(){
@@ -644,7 +716,7 @@ alert(
 }
 
 /* =========================================
-   FECHAR MODAL AO CLICAR FORA
+FECHAR MODAL FORA
 ========================================= */
 
 window.onclick = function(event){
