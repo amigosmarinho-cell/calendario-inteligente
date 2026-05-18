@@ -33,497 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
 rel="stylesheet">
 
-<style>
+<!-- CSS -->
 
-/* RESET */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-/* BODY */
-
-body{
-
-background:
-linear-gradient(
-180deg,
-#020617,
-#0f172a,
-#111827
-);
-
-min-height:100vh;
-
-padding:8px;
-
-color:white;
-}
-
-/* CONTAINER */
-
-.container{
-
-width:100%;
-
-max-width:430px;
-
-margin:auto;
-}
-
-/* HEADER */
-
-.company-header{
-
-background:
-rgba(255,255,255,0.08);
-
-backdrop-filter:
-blur(15px);
-
-border-radius:22px;
-
-padding:14px;
-
-margin-bottom:10px;
-
-text-align:center;
-
-border:
-1px solid rgba(255,255,255,0.08);
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.35);
-}
-
-/* LOGO */
-
-.logo-space{
-
-width:80px;
-
-height:80px;
-
-margin:auto;
-
-margin-bottom:10px;
-
-border-radius:20px;
-
-overflow:hidden;
-
-background:
-rgba(255,255,255,0.05);
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-}
-
-.logo-space img{
-
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-}
-
-/* EMPRESA */
-
-.company-name{
-
-font-size:22px;
-
-font-weight:700;
-
-margin-bottom:10px;
-
-background:
-linear-gradient(
-90deg,
-#38bdf8,
-#2563eb
-);
-
--webkit-background-clip:text;
-
--webkit-text-fill-color:transparent;
-}
-
-.company-info{
-
-display:flex;
-
-flex-direction:column;
-
-gap:8px;
-}
-
-.company-info p{
-
-background:
-rgba(255,255,255,0.05);
-
-padding:10px;
-
-border-radius:12px;
-
-font-size:12px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:8px;
-}
-
-/* CALENDÁRIO */
-
-.calendar-box{
-
-background:white;
-
-border-radius:18px;
-
-padding:6px;
-
-margin-bottom:10px;
-
-overflow:hidden;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,0.35);
-}
-
-/* FULLCALENDAR */
-
-.fc{
-
-font-size:10px !important;
-
-color:#111827;
-}
-
-.fc-toolbar-title{
-
-font-size:13px !important;
-}
-
-.fc-button{
-
-padding:4px 6px !important;
-
-font-size:9px !important;
-
-border-radius:8px !important;
-}
-
-.fc-timegrid-slot{
-
-height:24px !important;
-}
-
-.fc-event{
-
-background:#ff4d4d !important;
-
-border:none !important;
-
-font-size:9px !important;
-
-padding:2px !important;
-
-border-radius:6px !important;
-}
-
-/* FORMULÁRIO */
-
-.event-form{
-
-background:
-rgba(255,255,255,0.08);
-
-backdrop-filter:
-blur(15px);
-
-border-radius:22px;
-
-padding:15px;
-
-border:
-1px solid rgba(255,255,255,0.08);
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.35);
-}
-
-.event-form h2{
-
-text-align:center;
-
-margin-bottom:14px;
-
-font-size:18px;
-}
-
-/* STATUS */
-
-.status-box{
-
-display:flex;
-
-gap:8px;
-
-margin-bottom:14px;
-}
-
-.status{
-
-flex:1;
-
-text-align:center;
-
-padding:9px;
-
-border-radius:10px;
-
-font-size:11px;
-
-font-weight:600;
-}
-
-.available-status{
-
-background:#00c853;
-}
-
-.busy-status{
-
-background:#ff4d4d;
-}
-
-/* HORÁRIOS */
-
-.available-times{
-
-margin-bottom:14px;
-}
-
-.times-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:8px;
-}
-
-.time-slot{
-
-background:#00c853;
-
-color:white;
-
-border:none;
-
-padding:10px;
-
-border-radius:10px;
-
-font-size:11px;
-
-font-weight:600;
-
-cursor:pointer;
-
-transition:.3s;
-}
-
-.time-slot:hover{
-
-transform:scale(1.03);
-}
-
-.time-slot.occupied{
-
-background:#ff4d4d !important;
-
-cursor:not-allowed;
-
-opacity:0.8;
-}
-
-/* INPUTS */
-
-input,
-select,
-textarea{
-
-width:100%;
-
-border:none;
-
-outline:none;
-
-border-radius:12px;
-
-padding:12px;
-
-margin-bottom:10px;
-
-font-size:12px;
-}
-
-textarea{
-
-resize:none;
-}
-
-/* BOTÃO */
-
-.save-btn{
-
-width:100%;
-
-border:none;
-
-border-radius:12px;
-
-padding:13px;
-
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#06b6d4
-);
-
-color:white;
-
-font-size:13px;
-
-font-weight:600;
-
-cursor:pointer;
-}
-
-/* MODAL */
-
-.modal{
-
-display:none;
-
-position:fixed;
-
-left:0;
-
-top:0;
-
-width:100%;
-
-height:100%;
-
-background:
-rgba(0,0,0,0.8);
-
-justify-content:center;
-
-align-items:center;
-
-padding:14px;
-
-z-index:999;
-}
-
-.modal-content{
-
-width:100%;
-
-max-width:340px;
-
-background:#111827;
-
-border-radius:20px;
-
-padding:20px;
-
-position:relative;
-}
-
-.close-modal{
-
-position:absolute;
-
-top:10px;
-
-right:15px;
-
-font-size:26px;
-
-cursor:pointer;
-}
-
-.modal-info{
-
-display:flex;
-
-flex-direction:column;
-
-gap:10px;
-
-margin-top:14px;
-
-margin-bottom:16px;
-}
-
-.modal-info p{
-
-background:
-rgba(255,255,255,0.06);
-
-padding:12px;
-
-border-radius:12px;
-
-line-height:1.5;
-
-font-size:12px;
-}
-
-.delete-btn{
-
-width:100%;
-
-padding:12px;
-
-border:none;
-
-border-radius:12px;
-
-background:
-linear-gradient(
-135deg,
-#ff4d4d,
-#dc2626
-);
-
-color:white;
-
-font-weight:600;
-
-cursor:pointer;
-}
-
-</style>
+<link rel="stylesheet"
+href="style.css">
 
 </head>
 
@@ -544,25 +57,34 @@ alt="Logo">
 
 <div class="company-name">
 
-LeoTecnologia
+Sua Empresa
 
 </div>
 
 <div class="company-info">
 
 <p>
+
 <i class="fa-solid fa-location-dot"></i>
-Avenida Três QD-M S/N Parque Araçagy
+
+Seu Endereço
+
 </p>
 
 <p>
+
 <i class="fa-solid fa-phone"></i>
-(98) 99994-2905
+
+(99) 99999-9999
+
 </p>
 
 <p>
+
 <i class="fa-brands fa-instagram"></i>
-https://www.instagram.com/leotecnologia25/
+
+@instagram
+
 </p>
 
 </div>
@@ -582,22 +104,36 @@ https://www.instagram.com/leotecnologia25/
 <div class="event-form">
 
 <h2>
+
 📅 Novo Agendamento
+
 </h2>
 
 <div class="status-box">
 
 <div class="status available-status">
+
 🟢 Disponível
+
 </div>
 
 <div class="status busy-status">
+
 🔴 Ocupado
+
 </div>
 
 </div>
+
+<!-- HORÁRIOS -->
 
 <div class="available-times">
+
+<h3>
+
+🕒 Horários
+
+</h3>
 
 <div class="times-grid">
 
@@ -650,6 +186,8 @@ onclick="selectTime('17:00')">
 
 </div>
 
+<!-- SERVIÇOS -->
+
 <select id="serviceType">
 
 <option value="">
@@ -669,10 +207,12 @@ onclick="selectTime('17:00')">
 </option>
 
 <option value="Designer">
-🎨 Designer
+🎨 Designer Gráfico
 </option>
 
 </select>
+
+<!-- CAMPOS -->
 
 <input
 type="text"
@@ -693,9 +233,12 @@ rows="3"></textarea>
 type="datetime-local"
 id="start">
 
-<button class="save-btn"
-onclick="addEvent()">
+<!-- BOTÃO -->
+
+<button onclick="addEvent()">
+
 Salvar Agendamento
+
 </button>
 
 </div>
@@ -717,7 +260,9 @@ onclick="closeModal()">
 </span>
 
 <h2>
+
 📅 Agendamento
+
 </h2>
 
 <div class="modal-info">
@@ -751,7 +296,9 @@ let calendar;
 
 let selectedEvent = null;
 
-/* INICIAR */
+/* =========================================
+INICIAR CALENDÁRIO
+========================================= */
 
 document.addEventListener(
 'DOMContentLoaded',
@@ -765,7 +312,10 @@ new FullCalendar.Calendar(
 calendarEl,
 {
 
-initialView:'timeGridDay',
+initialView:
+window.innerWidth < 768
+? 'timeGridDay'
+: 'timeGridWeek',
 
 locale:'pt-br',
 
@@ -777,7 +327,7 @@ allDaySlot:false,
 
 slotMinTime:"08:00:00",
 
-slotMaxTime:"18:00:00",
+slotMaxTime:"22:00:00",
 
 slotDuration:"01:00:00",
 
@@ -842,11 +392,13 @@ document
 
 calendar.render();
 
-loadOccupiedTimes();
+updateOccupiedSlots();
 
 });
 
-/* FORMATAR DATA */
+/* =========================================
+FORMATAR DATA
+========================================= */
 
 function formatDate(date){
 
@@ -862,7 +414,9 @@ pad(date.getMinutes())}`;
 
 }
 
-/* SELECIONAR HORÁRIO */
+/* =========================================
+SELECIONAR HORÁRIO
+========================================= */
 
 function selectTime(time){
 
@@ -882,32 +436,71 @@ String(
 currentDate.getDate()
 ).padStart(2,'0');
 
-document
-.getElementById("start")
-.value =
-
+const selectedDateTime =
 `${year}-${month}-${day}T${time}`;
+
+/* VERIFICAR SE JÁ ESTÁ OCUPADO */
+
+const events =
+calendar.getEvents();
+
+const occupied =
+events.some(event => {
+
+const eventDate =
+formatDate(event.start);
+
+return eventDate === selectedDateTime;
+
+});
+
+if(occupied){
+
+alert(
+"❌ Este horário já está ocupado!"
+);
+
+return;
 
 }
 
-/* ADICIONAR EVENTO */
+document
+.getElementById("start")
+.value =
+selectedDateTime;
+
+}
+
+/* =========================================
+ADICIONAR EVENTO
+========================================= */
 
 function addEvent(){
 
 const clientName =
-document.getElementById("clientName").value;
+document
+.getElementById("clientName")
+.value;
 
 const clientPhone =
-document.getElementById("clientPhone").value;
+document
+.getElementById("clientPhone")
+.value;
 
 const serviceType =
-document.getElementById("serviceType").value;
+document
+.getElementById("serviceType")
+.value;
 
 const description =
-document.getElementById("description").value;
+document
+.getElementById("description")
+.value;
 
 const start =
-document.getElementById("start").value;
+document
+.getElementById("start")
+.value;
 
 if(
 clientName === "" ||
@@ -917,43 +510,39 @@ description === "" ||
 start === ""
 ){
 
-alert("Preencha todos os campos!");
-
-return;
-}
-
-/* VERIFICAR HORÁRIO */
-
-const existingEvents =
-calendar.getEvents();
-
-const horarioOcupado =
-existingEvents.some(event => {
-
-const eventDate =
-new Date(event.start)
-.toISOString()
-.slice(0,16);
-
-const newDate =
-new Date(start)
-.toISOString()
-.slice(0,16);
-
-return eventDate === newDate;
-
-});
-
-if(horarioOcupado){
-
 alert(
-"❌ Este horário já está ocupado!"
+"Preencha todos os campos!"
 );
 
 return;
 }
 
-/* ADICIONAR */
+/* VERIFICAR CONFLITO */
+
+const events =
+calendar.getEvents();
+
+const alreadyExists =
+events.some(event => {
+
+const eventDate =
+formatDate(event.start);
+
+return eventDate === start;
+
+});
+
+if(alreadyExists){
+
+alert(
+"❌ Este horário já foi agendado!"
+);
+
+return;
+
+}
+
+/* ADICIONAR EVENTO */
 
 calendar.addEvent({
 
@@ -970,7 +559,17 @@ color:"#ff4d4d"
 
 saveEvents();
 
-blockTime(start);
+updateOccupiedSlots();
+
+/* WHATSAPP */
+
+sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+start
+);
 
 alert(
 "✅ Agendamento salvo!"
@@ -978,19 +577,81 @@ alert(
 
 /* LIMPAR */
 
-document.getElementById("clientName").value = "";
+document
+.getElementById("clientName")
+.value = "";
 
-document.getElementById("clientPhone").value = "";
+document
+.getElementById("clientPhone")
+.value = "";
 
-document.getElementById("description").value = "";
+document
+.getElementById("description")
+.value = "";
 
-document.getElementById("start").value = "";
+document
+.getElementById("start")
+.value = "";
 
-document.getElementById("serviceType").value = "";
+document
+.getElementById("serviceType")
+.value = "";
 
 }
 
-/* SALVAR */
+/* =========================================
+ATUALIZAR HORÁRIOS
+========================================= */
+
+function updateOccupiedSlots(){
+
+const buttons =
+document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn => {
+
+btn.classList.remove(
+"occupied"
+);
+
+btn.innerHTML =
+btn.getAttribute("data-time")
+|| btn.innerText;
+
+});
+
+const events =
+calendar.getEvents();
+
+events.forEach(event => {
+
+const hour =
+event.start
+.toTimeString()
+.slice(0,5);
+
+buttons.forEach(btn => {
+
+if(btn.innerText === hour){
+
+btn.classList.add(
+"occupied"
+);
+
+btn.innerHTML =
+"🔴 Ocupado";
+
+}
+
+});
+
+});
+
+}
+
+/* =========================================
+SALVAR
+========================================= */
 
 function saveEvents(){
 
@@ -1021,53 +682,52 @@ JSON.stringify(events)
 
 }
 
-/* BLOQUEAR HORÁRIO */
+/* =========================================
+WHATSAPP
+========================================= */
 
-function blockTime(start){
+function sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+date
+){
 
-const time =
-start.split("T")[1]
-.substring(0,5);
+const ownerPhone =
+"5599999999999";
 
-document
-.querySelectorAll(".time-slot")
-.forEach(btn => {
+const message =
 
-if(btn.innerText === time){
+`📅 NOVO AGENDAMENTO
 
-btn.classList.add(
-"occupied"
-);
+👤 Cliente: ${clientName}
 
-btn.disabled = true;
+📞 Telefone: ${clientPhone}
 
-btn.innerText =
-"🔴 Ocupado";
+🛠️ Serviço: ${serviceType}
 
-}
+📝 Descrição:
+${description}
 
-});
+⏰ Data:
+${date}
 
-}
+✅ Confirmação automática enviada pelo sistema.`;
 
-/* CARREGAR OCUPADOS */
+const url =
 
-function loadOccupiedTimes(){
+`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
-const events =
-JSON.parse(
-localStorage.getItem("eventos")
-) || [];
+/* REDIRECIONA PARA WHATSAPP */
 
-events.forEach(event => {
-
-blockTime(event.start);
-
-});
+window.location.href = url;
 
 }
 
-/* FECHAR MODAL */
+/* =========================================
+FECHAR MODAL
+========================================= */
 
 function closeModal(){
 
@@ -1077,7 +737,9 @@ document
 
 }
 
-/* DELETAR */
+/* =========================================
+DELETAR EVENTO
+========================================= */
 
 function deleteSelectedEvent(){
 
@@ -1087,7 +749,30 @@ selectedEvent.remove();
 
 saveEvents();
 
-location.reload();
+updateOccupiedSlots();
+
+closeModal();
+
+alert(
+"Agendamento deletado!"
+);
+
+}
+
+}
+
+/* =========================================
+FECHAR MODAL AO CLICAR FORA
+========================================= */
+
+window.onclick = function(event){
+
+const modal =
+document.getElementById("eventModal");
+
+if(event.target === modal){
+
+closeModal();
 
 }
 
