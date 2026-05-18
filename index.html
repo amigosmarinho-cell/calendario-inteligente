@@ -33,10 +33,571 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
 rel="stylesheet">
 
-<!-- CSS -->
+<style>
 
-<link rel="stylesheet"
-href="style.css">
+/* =========================================
+RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* =========================================
+BODY
+========================================= */
+
+body{
+
+    background:
+    linear-gradient(
+    180deg,
+    #020617,
+    #0f172a,
+    #111827
+    );
+
+    min-height:100vh;
+
+    padding:8px;
+
+    color:white;
+}
+
+/* =========================================
+CONTAINER
+========================================= */
+
+.container{
+
+    width:100%;
+
+    max-width:430px;
+
+    margin:auto;
+}
+
+/* =========================================
+HEADER
+========================================= */
+
+.company-header{
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter:
+    blur(15px);
+
+    border-radius:22px;
+
+    padding:14px;
+
+    margin-bottom:10px;
+
+    text-align:center;
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* =========================================
+LOGO
+========================================= */
+
+.logo-space{
+
+    width:80px;
+
+    height:80px;
+
+    margin:auto;
+
+    margin-bottom:10px;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:
+    rgba(255,255,255,0.05);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.logo-space img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+/* =========================================
+EMPRESA
+========================================= */
+
+.company-name{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #38bdf8,
+    #2563eb
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.company-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.company-info p{
+
+    background:
+    rgba(255,255,255,0.05);
+
+    padding:10px;
+
+    border-radius:12px;
+
+    font-size:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+}
+
+.company-info i{
+
+    color:#38bdf8;
+}
+
+/* =========================================
+CALENDÁRIO
+========================================= */
+
+.calendar-box{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:6px;
+
+    margin-bottom:10px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* =========================================
+FULLCALENDAR
+========================================= */
+
+.fc{
+
+    font-size:10px !important;
+
+    color:#111827;
+}
+
+.fc-toolbar{
+
+    margin-bottom:4px !important;
+}
+
+.fc-toolbar-title{
+
+    font-size:13px !important;
+
+    font-weight:600;
+}
+
+.fc-button{
+
+    padding:4px 6px !important;
+
+    font-size:9px !important;
+
+    border-radius:8px !important;
+}
+
+.fc td,
+.fc th{
+
+    padding:2px !important;
+}
+
+.fc-timegrid-slot{
+
+    height:24px !important;
+}
+
+.fc-event{
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    font-size:9px !important;
+
+    padding:2px !important;
+
+    border-radius:6px !important;
+}
+
+.fc-col-header-cell-cushion{
+
+    font-size:9px !important;
+}
+
+.fc-timegrid-axis-cushion{
+
+    font-size:8px !important;
+}
+
+/* =========================================
+FORMULÁRIO
+========================================= */
+
+.event-form{
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter:
+    blur(15px);
+
+    border-radius:22px;
+
+    padding:15px;
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+.event-form h2{
+
+    text-align:center;
+
+    margin-bottom:14px;
+
+    font-size:18px;
+}
+
+/* =========================================
+STATUS
+========================================= */
+
+.status-box{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:14px;
+}
+
+.status{
+
+    flex:1;
+
+    text-align:center;
+
+    padding:9px;
+
+    border-radius:10px;
+
+    font-size:11px;
+
+    font-weight:600;
+}
+
+.available-status{
+
+    background:#00c853;
+}
+
+.busy-status{
+
+    background:#ff4d4d;
+}
+
+/* =========================================
+HORÁRIOS
+========================================= */
+
+.available-times{
+
+    margin-bottom:14px;
+}
+
+.available-times h3{
+
+    margin-bottom:10px;
+
+    font-size:13px;
+}
+
+.times-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:8px;
+}
+
+.time-slot{
+
+    background:#00c853;
+
+    color:white;
+
+    border:none;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.time-slot:hover{
+
+    transform:scale(1.03);
+}
+
+.time-slot.occupied{
+
+    background:#ff4d4d;
+}
+
+/* =========================================
+INPUTS
+========================================= */
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    margin-bottom:10px;
+
+    font-size:12px;
+}
+
+textarea{
+
+    resize:none;
+}
+
+/* =========================================
+BOTÃO
+========================================= */
+
+button{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:13px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+    );
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+/* =========================================
+MODAL
+========================================= */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:
+    rgba(0,0,0,0.8);
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:14px;
+
+    z-index:999;
+}
+
+.modal-content{
+
+    width:100%;
+
+    max-width:340px;
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    position:relative;
+}
+
+.close-modal{
+
+    position:absolute;
+
+    top:10px;
+
+    right:15px;
+
+    font-size:26px;
+
+    cursor:pointer;
+}
+
+.modal-content h2{
+
+    text-align:center;
+
+    margin-bottom:16px;
+
+    font-size:18px;
+}
+
+.modal-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    margin-bottom:16px;
+}
+
+.modal-info p{
+
+    background:
+    rgba(255,255,255,0.06);
+
+    padding:12px;
+
+    border-radius:12px;
+
+    line-height:1.5;
+
+    font-size:12px;
+}
+
+.delete-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #ff4d4d,
+    #dc2626
+    );
+}
+
+/* =========================================
+RESPONSIVO
+========================================= */
+
+@media(max-width:480px){
+
+    .fc-toolbar{
+
+        display:flex !important;
+
+        flex-direction:row !important;
+
+        gap:4px;
+    }
+
+    .fc-toolbar-title{
+
+        font-size:11px !important;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -44,64 +605,54 @@ href="style.css">
 
 <div class="container">
 
-<!-- =========================================
-HEADER EMPRESA
-========================================= -->
+<!-- HEADER -->
 
 <div class="company-header">
 
-    <!-- LOGO -->
+<div class="logo-space">
 
-    <div class="logo-space">
-
-        <img src="logo.png"
-        alt="Logo Empresa">
-
-    </div>
-
-    <!-- NOME EMPRESA -->
-
-    <div class="company-name">
-
-        Sua Empresa
-
-    </div>
-
-    <!-- INFORMAÇÕES -->
-
-    <div class="company-info">
-
-        <p>
-
-            <i class="fa-solid fa-location-dot"></i>
-
-            Avenida Principal, 1000
-
-        </p>
-
-        <p>
-
-            <i class="fa-solid fa-phone"></i>
-
-            (99) 99999-9999
-
-        </p>
-
-        <p>
-
-            <i class="fa-brands fa-instagram"></i>
-
-            @suaempresa
-
-        </p>
-
-    </div>
+<img src="logo.png"
+alt="Logo">
 
 </div>
 
-<!-- =========================================
-CALENDÁRIO
-========================================= -->
+<div class="company-name">
+
+Sua Empresa
+
+</div>
+
+<div class="company-info">
+
+<p>
+
+<i class="fa-solid fa-location-dot"></i>
+
+Seu Endereço
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-phone"></i>
+
+(99) 99999-9999
+
+</p>
+
+<p>
+
+<i class="fa-brands fa-instagram"></i>
+
+@instagram
+
+</p>
+
+</div>
+
+</div>
+
+<!-- CALENDÁRIO -->
 
 <div class="calendar-box">
 
@@ -109,21 +660,15 @@ CALENDÁRIO
 
 </div>
 
-<!-- =========================================
-FORMULÁRIO
-========================================= -->
+<!-- FORM -->
 
 <div class="event-form">
 
 <h2>
 
-<i class="fa-solid fa-calendar-check"></i>
-
-Novo Agendamento
+📅 Novo Agendamento
 
 </h2>
-
-<!-- STATUS -->
 
 <div class="status-box">
 
@@ -141,13 +686,11 @@ Novo Agendamento
 
 </div>
 
-<!-- HORÁRIOS -->
-
 <div class="available-times">
 
 <h3>
 
-🕒 Horários Disponíveis
+🕒 Horários
 
 </h3>
 
@@ -202,8 +745,6 @@ onclick="selectTime('17:00')">
 
 </div>
 
-<!-- SERVIÇOS -->
-
 <select id="serviceType">
 
 <option value="">
@@ -218,17 +759,15 @@ onclick="selectTime('17:00')">
 🖥️ Instalação
 </option>
 
-<option value="Manutenção">
+<option value="Manicure">
 💅 Manicure
 </option>
 
-<option value="Consultoria">
-📊 Designer Grafico
+<option value="Designer">
+🎨 Designer Gráfico
 </option>
 
 </select>
-
-<!-- INPUTS -->
 
 <input
 type="text"
@@ -240,21 +779,14 @@ type="tel"
 id="clientPhone"
 placeholder="📞 Telefone">
 
-<input
-type="text"
-id="title"
-placeholder="📌 Título do Evento">
-
 <textarea
 id="description"
-placeholder="📝 Descrição do serviço"
-rows="4"></textarea>
+placeholder="📝 Descrição"
+rows="3"></textarea>
 
 <input
 type="datetime-local"
 id="start">
-
-<!-- BOTÃO -->
 
 <button onclick="addEvent()">
 
@@ -266,9 +798,7 @@ Salvar Agendamento
 
 </div>
 
-<!-- =========================================
-MODAL
-========================================= -->
+<!-- MODAL -->
 
 <div id="eventModal"
 class="modal">
@@ -284,7 +814,7 @@ onclick="closeModal()">
 
 <h2>
 
-📅 Detalhes do Agendamento
+📅 Agendamento
 
 </h2>
 
@@ -301,7 +831,7 @@ onclick="closeModal()">
 <button class="delete-btn"
 onclick="deleteSelectedEvent()">
 
-🗑️ Deletar Agendamento
+🗑️ Deletar
 
 </button>
 
@@ -309,9 +839,7 @@ onclick="deleteSelectedEvent()">
 
 </div>
 
-<!-- =========================================
-FULLCALENDAR
-========================================= -->
+<!-- FULLCALENDAR -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
@@ -322,7 +850,7 @@ let calendar;
 let selectedEvent = null;
 
 /* =========================================
-CALENDÁRIO
+INICIAR CALENDÁRIO
 ========================================= */
 
 document.addEventListener(
@@ -354,9 +882,9 @@ slotMinTime:"08:00:00",
 
 slotMaxTime:"22:00:00",
 
-slotDuration:"00:30:00",
+slotDuration:"01:00:00",
 
-height:"auto",
+height:300,
 
 headerToolbar:{
 
@@ -372,8 +900,6 @@ JSON.parse(
 localStorage.getItem("eventos")
 ) || [],
 
-/* SELECIONAR HORÁRIO */
-
 select:function(info){
 
 document
@@ -382,8 +908,6 @@ document
 formatDate(info.start);
 
 },
-
-/* CLICAR EVENTO */
 
 eventClick:function(info){
 
@@ -394,7 +918,7 @@ document
 .getElementById("modalTitle")
 .innerHTML =
 
-`<strong>Evento:</strong><br>
+`<strong>Cliente:</strong><br>
 ${info.event.title}`;
 
 document
@@ -463,8 +987,10 @@ String(
 currentDate.getDate()
 ).padStart(2,'0');
 
-document.getElementById("start")
+document
+.getElementById("start")
 .value =
+
 `${year}-${month}-${day}T${time}`;
 
 }
@@ -490,11 +1016,6 @@ document
 .getElementById("serviceType")
 .value;
 
-const title =
-document
-.getElementById("title")
-.value;
-
 const description =
 document
 .getElementById("description")
@@ -509,7 +1030,6 @@ if(
 clientName === "" ||
 clientPhone === "" ||
 serviceType === "" ||
-title === "" ||
 description === "" ||
 start === ""
 ){
@@ -521,14 +1041,10 @@ alert(
 return;
 }
 
-const fullTitle =
-
-`${serviceType}
-👤 ${clientName}`;
-
 calendar.addEvent({
 
-title:fullTitle,
+title:
+`${serviceType} - ${clientName}`,
 
 start:start,
 
@@ -539,8 +1055,6 @@ color:"#ff4d4d"
 });
 
 saveEvents();
-
-blockTime(start);
 
 sendWhatsAppToOwner(
 clientName,
@@ -562,10 +1076,6 @@ document
 
 document
 .getElementById("clientPhone")
-.value = "";
-
-document
-.getElementById("title")
 .value = "";
 
 document
@@ -612,34 +1122,6 @@ JSON.stringify(events)
 }
 
 /* =========================================
-BLOQUEAR HORÁRIO
-========================================= */
-
-function blockTime(start){
-
-const time =
-start.split("T")[1];
-
-document
-.querySelectorAll(".time-slot")
-.forEach(btn => {
-
-if(btn.innerText === time){
-
-btn.classList.add(
-"occupied"
-);
-
-btn.innerText =
-"Ocupado";
-
-}
-
-});
-
-}
-
-/* =========================================
 WHATSAPP
 ========================================= */
 
@@ -652,7 +1134,7 @@ date
 ){
 
 const ownerPhone =
-"5598999942905";
+"5599999999999";
 
 const message =
 
@@ -667,15 +1149,12 @@ const message =
 📝 Descrição:
 ${description}
 
-⏰ Data: ${date}`;
+⏰ Data:
+${date}`;
 
 const url =
 
-`https://wa.me/${
-ownerPhone
-}?text=${
-encodeURIComponent(message)
-}`;
+`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
 window.open(url,"_blank");
 
