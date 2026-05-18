@@ -1,0 +1,506 @@
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+body{
+
+    background:
+    linear-gradient(
+    135deg,
+    #020617,
+    #0f172a,
+    #1e3a8a
+    );
+
+    min-height:100vh;
+
+    color:white;
+
+    padding:10px;
+
+    overflow-x:hidden;
+}
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.container{
+
+    width:100%;
+
+    max-width:520px;
+
+    margin:auto;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.company-header{
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    margin-bottom:15px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,0.1);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo-space{
+
+    width:140px;
+
+    height:140px;
+
+    margin:auto;
+
+    margin-bottom:15px;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,0.05);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:2px solid rgba(255,255,255,0.1);
+}
+
+.logo-space img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+/* =========================================
+   COMPANY NAME
+========================================= */
+
+.company-name{
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff6a00,
+    #00a2ff
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+/* =========================================
+   COMPANY INFO
+========================================= */
+
+.company-info{
+
+    font-size:15px;
+
+    line-height:1.8;
+
+    opacity:0.95;
+}
+
+/* =========================================
+   LANGUAGE
+========================================= */
+
+.language-box{
+
+    margin-top:15px;
+}
+
+.language-box select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#0f172a;
+
+    color:white;
+
+    font-size:15px;
+
+    outline:none;
+}
+
+/* =========================================
+   CALENDAR BOX
+========================================= */
+
+.calendar-box{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:10px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+
+    margin-bottom:15px;
+}
+
+/* =========================================
+   FULLCALENDAR
+========================================= */
+
+.fc{
+
+    color:black;
+}
+
+/* DIAS DISPONÍVEIS */
+
+.fc-daygrid-day{
+
+    background:#00cc6620;
+}
+
+/* EVENTOS OCUPADOS */
+
+.fc-event{
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    font-weight:bold !important;
+
+    padding:3px !important;
+
+    border-radius:8px !important;
+}
+
+/* DIA ATUAL */
+
+.fc-day-today{
+
+    background:#2563eb30 !important;
+}
+
+/* TÍTULO */
+
+.fc-toolbar-title{
+
+    font-size:18px !important;
+
+    font-weight:bold;
+}
+
+/* BOTÕES */
+
+.fc-button{
+
+    border:none !important;
+
+    background:#2563eb !important;
+
+    border-radius:10px !important;
+
+    padding:8px 12px !important;
+
+    font-weight:bold !important;
+}
+
+.fc-button:hover{
+
+    opacity:0.9;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.event-form{
+
+    background:rgba(255,255,255,0.08);
+
+    padding:20px;
+
+    border-radius:25px;
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,0.1);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* =========================================
+   FORM TITLE
+========================================= */
+
+.event-form h2{
+
+    margin-bottom:15px;
+
+    font-size:24px;
+
+    text-align:center;
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+
+input,
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    border:none;
+
+    border-radius:14px;
+
+    font-size:16px;
+
+    background:white;
+
+    color:#0f172a;
+
+    outline:none;
+
+    transition:0.3s;
+}
+
+input:focus,
+select:focus{
+
+    border:2px solid #2563eb;
+
+    transform:scale(1.01);
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    border:none;
+
+    border-radius:14px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff6a00,
+    #0072ff
+    );
+}
+
+button:hover{
+
+    transform:scale(1.02);
+
+    opacity:0.95;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-box{
+
+    margin-bottom:15px;
+}
+
+.status-green{
+
+    background:#00cc66;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    margin-bottom:10px;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+.status-red{
+
+    background:#ff4d4d;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar{
+
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0f172a;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:20px;
+}
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media(max-width:768px){
+
+    .container{
+
+        max-width:100%;
+    }
+
+    .company-name{
+
+        font-size:28px;
+    }
+
+    .event-form h2{
+
+        font-size:22px;
+    }
+
+    .fc-toolbar{
+
+        display:flex !important;
+
+        flex-direction:column !important;
+
+        gap:10px;
+    }
+
+    .fc-toolbar-title{
+
+        text-align:center;
+    }
+
+}
+
+/* =========================================
+   MOBILE PEQUENO
+========================================= */
+
+@media(max-width:480px){
+
+    body{
+
+        padding:5px;
+    }
+
+    .company-header{
+
+        padding:20px;
+    }
+
+    .logo-space{
+
+        width:110px;
+
+        height:110px;
+    }
+
+    .company-name{
+
+        font-size:24px;
+    }
+
+    .company-info{
+
+        font-size:14px;
+    }
+
+    input,
+    button,
+    select{
+
+        font-size:15px;
+    }
+
+}
