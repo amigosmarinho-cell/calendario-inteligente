@@ -239,6 +239,8 @@ FULLCALENDAR
     padding:2px !important;
 
     border-radius:6px !important;
+
+    cursor:pointer;
 }
 
 .fc-col-header-cell-cushion{
@@ -379,7 +381,7 @@ HORÁRIOS
 
     cursor:not-allowed;
 
-    opacity:0.9;
+    opacity:0.8;
 }
 
 /* =========================================
@@ -405,8 +407,6 @@ textarea{
     font-size:12px;
 
     background:white;
-
-    color:#111827;
 }
 
 textarea{
@@ -448,9 +448,7 @@ button{
 
 button:hover{
 
-    opacity:0.9;
-
-    transform:scale(1.01);
+    transform:scale(1.02);
 }
 
 /* =========================================
@@ -496,9 +494,6 @@ MODAL
     padding:20px;
 
     position:relative;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.5);
 }
 
 .close-modal{
@@ -578,11 +573,6 @@ RESPONSIVO
     .fc-toolbar-title{
 
         font-size:11px !important;
-    }
-
-    .company-name{
-
-        font-size:20px;
     }
 
     .times-grid{
