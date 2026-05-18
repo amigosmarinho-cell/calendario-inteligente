@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<link rel="stylesheet" href="style.css">
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LeoTecnologia Agenda</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+<title>Agenda Inteligente</title>
+
+<!-- FULLCALENDAR -->
+
+<link
+href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
+rel="stylesheet">
 
 <style>
+
+/* RESET */
 
 *{
     margin:0;
@@ -17,6 +26,8 @@
     box-sizing:border-box;
     font-family:Arial,sans-serif;
 }
+
+/* BODY */
 
 body{
 
@@ -32,76 +43,90 @@ body{
 
     color:white;
 
-    padding:10px;
+    overflow-x:hidden;
+
+    padding:6px;
 }
+
+/* CONTAINER */
 
 .container{
 
     width:100%;
-    max-width:520px;
+
+    max-width:100%;
+
     margin:auto;
 }
+
+/* HEADER */
 
 .company-header{
 
     background:rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:blur(10px);
 
-    border-radius:30px;
+    border-radius:18px;
 
-    padding:25px;
+    padding:12px;
 
-    margin-bottom:15px;
+    margin-bottom:8px;
 
     text-align:center;
 
     border:1px solid rgba(255,255,255,0.1);
-
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
+
+/* LOGO */
 
 .logo-space{
 
-    width:140px;
-    height:140px;
+    width:70px;
+
+    height:70px;
 
     margin:auto;
-    margin-bottom:15px;
 
-    border-radius:25px;
+    margin-bottom:8px;
+
+    border-radius:18px;
 
     overflow:hidden;
 
-    background:rgba(255,255,255,0.05);
+    background:rgba(255,255,255,0.08);
 
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 }
 
 .logo-space img{
 
     width:100%;
+
     height:100%;
 
     object-fit:cover;
 }
 
+/* NOME */
+
 .company-name{
 
-    font-size:32px;
+    font-size:22px;
 
     font-weight:bold;
 
-    margin-bottom:10px;
+    margin-bottom:5px;
 
     background:
     linear-gradient(
     90deg,
-    #ff6a00,
-    #00a2ff
+    #00c6ff,
+    #0072ff
     );
 
     -webkit-background-clip:text;
@@ -109,61 +134,97 @@ body{
     -webkit-text-fill-color:transparent;
 }
 
+/* INFO */
+
 .company-info{
 
-    font-size:15px;
+    font-size:12px;
 
-    line-height:1.8;
+    line-height:1.5;
 
-    opacity:0.95;
+    opacity:0.9;
 }
+
+/* IDIOMA */
 
 .language-box{
 
-    margin-top:15px;
+    margin-top:8px;
 }
 
 .language-box select{
 
     width:100%;
 
-    padding:12px;
+    padding:10px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:10px;
 
     background:#0f172a;
 
     color:white;
+
+    font-size:13px;
 }
+
+/* CALENDÁRIO */
 
 .calendar-box{
 
     background:white;
 
-    border-radius:25px;
+    border-radius:18px;
 
-    padding:10px;
+    padding:5px;
 
     overflow:hidden;
 
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom:8px;
 }
+
+/* FULLCALENDAR */
 
 .fc{
 
     color:black;
+
+    font-size:12px;
 }
 
-/* DIAS DISPONÍVEIS */
+.fc-toolbar{
 
-.fc-daygrid-day{
+    display:flex !important;
 
-    background:#00cc6620;
+    flex-direction:column !important;
+
+    gap:5px;
 }
 
-/* EVENTOS OCUPADOS */
+.fc-toolbar-title{
+
+    font-size:15px !important;
+
+    text-align:center;
+}
+
+/* BOTÕES */
+
+.fc-button{
+
+    border:none !important;
+
+    background:#2563eb !important;
+
+    border-radius:8px !important;
+
+    padding:5px 8px !important;
+
+    font-size:11px !important;
+}
+
+/* EVENTOS */
 
 .fc-event{
 
@@ -173,168 +234,177 @@ body{
 
     color:white !important;
 
-    font-weight:bold;
+    font-size:10px !important;
+
+    border-radius:6px !important;
+
+    padding:2px !important;
 }
 
 /* DIA ATUAL */
 
 .fc-day-today{
 
-    background:#2563eb30 !important;
+    background:#2563eb20 !important;
 }
 
-.fc-toolbar-title{
-
-    font-size:18px !important;
-}
+/* FORM */
 
 .event-form{
 
-    margin-top:15px;
-
     background:rgba(255,255,255,0.08);
 
-    padding:20px;
+    padding:12px;
 
-    border-radius:25px;
+    border-radius:18px;
 
-    backdrop-filter:blur(15px);
-
-    border:1px solid rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
 }
+
+/* TÍTULO */
 
 .event-form h2{
 
-    margin-bottom:15px;
+    margin-bottom:10px;
 
-    font-size:24px;
+    font-size:18px;
+
+    text-align:center;
 }
 
-input,
-select,
-button{
-
-    width:100%;
-
-    padding:14px;
-
-    margin-bottom:12px;
-
-    border:none;
-
-    border-radius:14px;
-
-    font-size:16px;
-}
-
-input,
-select{
-
-    background:white;
-}
-
-button{
-
-    background:
-    linear-gradient(
-    90deg,
-    #ff6a00,
-    #0072ff
-    );
-
-    color:white;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:0.3s;
-}
-
-button:hover{
-
-    transform:scale(1.02);
-}
+/* STATUS */
 
 .status-box{
 
-    margin-bottom:15px;
+    display:flex;
+
+    gap:5px;
+
+    margin-bottom:10px;
+}
+
+.status-green,
+.status-red{
+
+    flex:1;
+
+    padding:8px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    font-size:11px;
+
+    font-weight:bold;
 }
 
 .status-green{
 
     background:#00cc66;
-
-    padding:12px;
-
-    border-radius:12px;
-
-    margin-bottom:10px;
-
-    text-align:center;
-
-    font-weight:bold;
 }
 
 .status-red{
 
     background:#ff4d4d;
+}
+
+/* INPUTS */
+
+input,
+select{
+
+    width:100%;
+
+    padding:10px;
+
+    margin-bottom:8px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:13px;
+
+    outline:none;
+}
+
+/* BOTÃO */
+
+button{
+
+    width:100%;
 
     padding:12px;
 
+    border:none;
+
     border-radius:12px;
 
-    text-align:center;
+    font-size:14px;
 
     font-weight:bold;
+
+    background:
+    linear-gradient(
+    90deg,
+    #00c6ff,
+    #0072ff
+    );
+
+    color:white;
+
+    cursor:pointer;
 }
 
-@media(max-width:500px){
+/* RESPONSIVO */
+
+@media(max-width:480px){
 
     .company-name{
 
-        font-size:26px;
+        font-size:20px;
     }
 
-    .fc-toolbar{
+    .fc-toolbar-title{
 
-        display:flex !important;
+        font-size:13px !important;
+    }
 
-        flex-direction:column !important;
+    .fc-button{
 
-        gap:10px;
+        font-size:10px !important;
     }
 
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
+<!-- HEADER -->
+
 <div class="company-header">
 
 <div class="logo-space">
 
-<img src="logo.png" alt="LeoTecnologia">
+<img src="logo.png" alt="Logo">
 
 </div>
 
 <div class="company-name">
 
-LeoTecnologia
+Agenda Inteligente
 
 </div>
 
 <div class="company-info">
 
-📞 (98) 99994-2905 <br>
-
-📍 Avenida Três Qd-M Parque Araçagy <br>
-
-✉️ leotecnologia25@gmail.com
+📅 Sistema Online de Agendamentos
 
 </div>
 
@@ -356,11 +426,15 @@ LeoTecnologia
 
 </div>
 
+<!-- CALENDÁRIO -->
+
 <div class="calendar-box">
 
 <div id="calendar"></div>
 
 </div>
+
+<!-- FORM -->
 
 <div class="event-form">
 
@@ -374,7 +448,7 @@ LeoTecnologia
 
 <div class="status-green">
 
-🟢 Disponível
+🟢 Livre
 
 </div>
 
@@ -394,18 +468,19 @@ placeholder="Nome do Cliente">
 <input
 type="tel"
 id="clientPhone"
-placeholder="Telefone do Cliente">
+placeholder="Telefone">
 
 <input
 type="text"
 id="title"
-placeholder="Nome do Evento">
+placeholder="Evento">
 
 <input
 type="datetime-local"
 id="start">
 
-<button onclick="addEvent()"
+<button
+onclick="addEvent()"
 id="saveButton">
 
 Salvar Agendamento
@@ -415,6 +490,8 @@ Salvar Agendamento
 </div>
 
 </div>
+
+<!-- FULLCALENDAR -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
@@ -447,14 +524,17 @@ alertFill:"Fill all fields!",
 
 alertSaved:"Appointment saved!",
 
-deleteConfirm:"Do you want to delete this event?"
+deleteConfirm:"Delete this event?"
 }
 
 };
 
 let currentLang = "pt";
 
-document.getElementById("languageSwitcher")
+/* TROCAR IDIOMA */
+
+document
+.getElementById("languageSwitcher")
 .addEventListener("change",function(){
 
 currentLang = this.value;
@@ -463,21 +543,23 @@ updateLanguage();
 
 });
 
-/* IDIOMA */
-
 function updateLanguage(){
 
-document.getElementById("formTitle")
+document
+.getElementById("formTitle")
 .innerText =
 translations[currentLang].formTitle;
 
-document.getElementById("saveButton")
+document
+.getElementById("saveButton")
 .innerText =
 translations[currentLang].save;
 
 calendar.setOption(
 "locale",
-currentLang === "pt" ? "pt-br" : "en"
+currentLang === "pt"
+? "pt-br"
+: "en"
 );
 
 }
@@ -486,21 +568,33 @@ currentLang === "pt" ? "pt-br" : "en"
 
 let calendar;
 
-document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener(
+'DOMContentLoaded',
+function(){
 
 const calendarEl =
 document.getElementById('calendar');
 
 calendar =
-new FullCalendar.Calendar(calendarEl,{
+new FullCalendar.Calendar(
+calendarEl,
+{
 
-initialView:'dayGridMonth',
+initialView:'timeGridWeek',
 
 locale:'pt-br',
 
 editable:true,
 
 selectable:true,
+
+allDaySlot:false,
+
+slotMinTime:"08:00:00",
+
+slotMaxTime:"22:00:00",
+
+slotDuration:"00:30:00",
 
 height:"auto",
 
@@ -514,22 +608,36 @@ right:'today'
 },
 
 events:
-JSON.parse(localStorage.getItem("eventos")) || [],
+JSON.parse(
+localStorage.getItem("eventos")
+) || [],
+
+/* CLICAR NO HORÁRIO */
+
+select:function(info){
+
+document
+.getElementById("start")
+.value =
+formatDate(info.start);
+
+},
+
+/* EXCLUIR */
 
 eventClick:function(info){
 
-if(confirm(translations[currentLang].deleteConfirm)){
+if(confirm(
+translations[currentLang]
+.deleteConfirm
+)){
 
 info.event.remove();
 
 saveEvents();
+
 }
 
-},
-
-eventChange:function(){
-
-saveEvents();
 }
 
 });
@@ -538,21 +646,45 @@ calendar.render();
 
 });
 
+/* FORMATAR DATA */
+
+function formatDate(date){
+
+const pad =
+n => n.toString()
+.padStart(2,'0');
+
+return `${date.getFullYear()}-${
+pad(date.getMonth()+1)}-${
+pad(date.getDate())}T${
+pad(date.getHours())}:${
+pad(date.getMinutes())}`;
+
+}
+
 /* ADICIONAR EVENTO */
 
 function addEvent(){
 
 const clientName =
-document.getElementById("clientName").value;
+document
+.getElementById("clientName")
+.value;
 
 const clientPhone =
-document.getElementById("clientPhone").value;
+document
+.getElementById("clientPhone")
+.value;
 
 const title =
-document.getElementById("title").value;
+document
+.getElementById("title")
+.value;
 
 const start =
-document.getElementById("start").value;
+document
+.getElementById("start")
+.value;
 
 if(
 clientName === "" ||
@@ -562,25 +694,31 @@ start === ""
 ){
 
 alert(
-translations[currentLang].alertFill
+translations[currentLang]
+.alertFill
 );
 
 return;
+
 }
+
+/* TEXTO */
 
 const fullTitle =
 
 `${title}
-👤 ${clientName}
-📞 ${clientPhone}`;
+👤 ${clientName}`;
+
+/* ADICIONAR */
 
 calendar.addEvent({
 
 title:fullTitle,
 
-start,
+start:start,
 
 color:"#ff4d4d"
+
 });
 
 saveEvents();
@@ -595,18 +733,27 @@ start
 );
 
 alert(
-translations[currentLang].alertSaved
+translations[currentLang]
+.alertSaved
 );
 
 /* LIMPAR */
 
-document.getElementById("clientName").value = "";
+document
+.getElementById("clientName")
+.value = "";
 
-document.getElementById("clientPhone").value = "";
+document
+.getElementById("clientPhone")
+.value = "";
 
-document.getElementById("title").value = "";
+document
+.getElementById("title")
+.value = "";
 
-document.getElementById("start").value = "";
+document
+.getElementById("start")
+.value = "";
 
 }
 
@@ -616,7 +763,8 @@ function saveEvents(){
 
 const events = [];
 
-calendar.getEvents().forEach(event => {
+calendar.getEvents()
+.forEach(event => {
 
 events.push({
 
@@ -646,7 +794,8 @@ title,
 date
 ){
 
-const ownerPhone = "5598999942905";
+const ownerPhone =
+"5598999999999";
 
 const message =
 
@@ -658,18 +807,20 @@ const message =
 
 📌 Evento: ${title}
 
-⏰ Data: ${date}
-
-Sistema LeoTecnologia`;
+⏰ Data: ${date}`;
 
 const url =
 
-`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+`https://wa.me/${
+ownerPhone
+}?text=${
+encodeURIComponent(message)
+}`;
 
 window.open(url,"_blank");
 
 }
-<link rel="stylesheet" href="style.css">
+
 </script>
 
 </body>
