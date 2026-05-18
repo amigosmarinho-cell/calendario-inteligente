@@ -51,21 +51,28 @@ body{
 
 .company-header{
 
-    background:rgba(255,255,255,0.08);
+    background:
+    rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:
+    blur(15px);
 
-    border-radius:20px;
+    border-radius:22px;
 
-    padding:14px;
+    padding:16px;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
     text-align:center;
 
-    border:1px solid rgba(255,255,255,0.08);
+    border:
+    1px solid rgba(255,255,255,0.08);
 
-    animation:fadeUp .5s ease;
+    animation:
+    fadeUp .5s ease;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* =========================================
@@ -74,19 +81,20 @@ body{
 
 .logo-space{
 
-    width:75px;
+    width:80px;
 
-    height:75px;
+    height:80px;
 
     margin:auto;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
-    border-radius:18px;
+    border-radius:20px;
 
     overflow:hidden;
 
-    background:rgba(255,255,255,0.08);
+    background:
+    rgba(255,255,255,0.08);
 
     display:flex;
 
@@ -105,16 +113,16 @@ body{
 }
 
 /* =========================================
-   TITLE
+   COMPANY NAME
 ========================================= */
 
 .company-name{
 
-    font-size:22px;
+    font-size:24px;
 
     font-weight:700;
 
-    margin-bottom:5px;
+    margin-bottom:6px;
 
     background:
     linear-gradient(
@@ -129,33 +137,37 @@ body{
 }
 
 /* =========================================
-   INFO
+   COMPANY INFO
 ========================================= */
 
 .company-info{
 
     font-size:12px;
 
-    opacity:0.9;
+    opacity:.9;
 }
 
 /* =========================================
-   CALENDAR
+   CALENDAR BOX
 ========================================= */
 
 .calendar-box{
 
     background:white;
 
-    border-radius:20px;
+    border-radius:22px;
 
-    padding:5px;
+    padding:8px;
 
     overflow:hidden;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
-    animation:fadeUp .6s ease;
+    animation:
+    fadeUp .6s ease;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* =========================================
@@ -183,6 +195,8 @@ body{
     font-size:15px !important;
 
     text-align:center;
+
+    font-weight:600;
 }
 
 .fc-button{
@@ -222,6 +236,8 @@ body{
     border-radius:8px !important;
 
     padding:2px !important;
+
+    font-weight:600;
 }
 
 /* =========================================
@@ -230,7 +246,8 @@ body{
 
 .fc-day-today{
 
-    background:#2563eb20 !important;
+    background:
+    #2563eb20 !important;
 }
 
 /* =========================================
@@ -239,28 +256,39 @@ body{
 
 .event-form{
 
-    background:rgba(255,255,255,0.08);
+    background:
+    rgba(255,255,255,0.08);
 
-    padding:14px;
+    padding:16px;
 
-    border-radius:20px;
+    border-radius:22px;
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:
+    blur(15px);
 
-    animation:fadeUp .7s ease;
+    animation:
+    fadeUp .7s ease;
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* =========================================
-   TITLE FORM
+   FORM TITLE
 ========================================= */
 
 .event-form h2{
 
     font-size:18px;
 
-    margin-bottom:12px;
+    margin-bottom:14px;
 
     text-align:center;
+
+    font-weight:600;
 }
 
 /* =========================================
@@ -273,7 +301,7 @@ body{
 
     gap:8px;
 
-    margin-bottom:12px;
+    margin-bottom:14px;
 }
 
 .status{
@@ -282,7 +310,7 @@ body{
 
     text-align:center;
 
-    padding:8px;
+    padding:9px;
 
     border-radius:12px;
 
@@ -302,85 +330,7 @@ body{
 }
 
 /* =========================================
-   INPUTS
-========================================= */
-
-input,
-select{
-
-    width:100%;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:14px;
-
-    margin-bottom:10px;
-
-    font-size:13px;
-
-    outline:none;
-
-    transition:.3s;
-
-    background:white;
-}
-
-input:focus,
-select:focus{
-
-    transform:scale(1.01);
-
-    box-shadow:
-    0 0 0 3px rgba(37,99,235,0.25);
-}
-
-/* =========================================
-   BUTTON
-========================================= */
-
-button{
-
-    width:100%;
-
-    padding:13px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    );
-
-    color:white;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    box-shadow:
-    0 10px 25px rgba(37,99,235,0.35);
-}
-
-button:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-    0 15px 35px rgba(37,99,235,0.45);
-}
-
-/* =========================================
-   HORÁRIOS
+   AVAILABLE TIMES
 ========================================= */
 
 .available-times{
@@ -392,7 +342,9 @@ button:hover{
 
     margin-bottom:10px;
 
-    font-size:15px;
+    font-size:14px;
+
+    font-weight:600;
 }
 
 /* =========================================
@@ -455,6 +407,224 @@ button:hover{
 }
 
 /* =========================================
+   INPUTS
+========================================= */
+
+input,
+select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:14px;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+
+    outline:none;
+
+    transition:.3s;
+
+    background:white;
+}
+
+input:focus,
+select:focus{
+
+    transform:scale(1.01);
+
+    box-shadow:
+    0 0 0 3px rgba(37,99,235,0.25);
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button{
+
+    width:100%;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+    );
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,0.35);
+}
+
+button:hover{
+
+    transform:
+    translateY(-2px);
+
+    box-shadow:
+    0 15px 35px rgba(37,99,235,0.45);
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    z-index:9999;
+
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:
+    rgba(0,0,0,0.75);
+
+    backdrop-filter:
+    blur(5px);
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:15px;
+}
+
+/* =========================================
+   MODAL CONTENT
+========================================= */
+
+.modal-content{
+
+    width:100%;
+
+    max-width:380px;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0f172a,
+    #111827
+    );
+
+    border-radius:22px;
+
+    padding:25px;
+
+    color:white;
+
+    position:relative;
+
+    animation:
+    fadeUp .3s ease;
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* =========================================
+   CLOSE MODAL
+========================================= */
+
+.close-modal{
+
+    position:absolute;
+
+    right:15px;
+
+    top:12px;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    color:white;
+}
+
+/* =========================================
+   MODAL TITLE
+========================================= */
+
+.modal-content h2{
+
+    margin-bottom:20px;
+
+    font-size:22px;
+
+    text-align:center;
+}
+
+/* =========================================
+   MODAL INFO
+========================================= */
+
+.modal-info{
+
+    margin-bottom:20px;
+}
+
+.modal-info p{
+
+    margin-bottom:12px;
+
+    background:
+    rgba(255,255,255,0.06);
+
+    padding:12px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    line-height:1.5;
+}
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.delete-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #ff4d4d,
+    #dc2626
+    );
+}
+
+/* =========================================
    ANIMATION
 ========================================= */
 
@@ -464,14 +634,16 @@ button:hover{
 
         opacity:0;
 
-        transform:translateY(20px);
+        transform:
+        translateY(20px);
     }
 
     to{
 
         opacity:1;
 
-        transform:translateY(0);
+        transform:
+        translateY(0);
     }
 }
 
