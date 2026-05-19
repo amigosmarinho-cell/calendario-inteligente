@@ -5,8 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Agenda Inteligente</title>
 
@@ -44,9 +43,7 @@ href="style.css">
 
 <div class="container">
 
-<!-- =========================================
-HEADER
-========================================= -->
+<!-- HEADER -->
 
 <div class="company-header">
 
@@ -66,36 +63,25 @@ Sua Empresa
 <div class="company-info">
 
 <p>
-
 <i class="fa-solid fa-location-dot"></i>
-
-Avenida Três, QD-M Parque Araçagy
-
+Seu Endereço
 </p>
 
 <p>
-
 <i class="fa-solid fa-phone"></i>
-
-(98) 999942905
-
+(99) 99999-9999
 </p>
 
 <p>
-
 <i class="fa-brands fa-instagram"></i>
-
-@leotecnologia25
-
+@instagram
 </p>
 
 </div>
 
 </div>
 
-<!-- =========================================
-CALENDÁRIO
-========================================= -->
+<!-- CALENDÁRIO -->
 
 <div class="calendar-box">
 
@@ -103,9 +89,7 @@ CALENDÁRIO
 
 </div>
 
-<!-- =========================================
-FORMULÁRIO
-========================================= -->
+<!-- FORMULÁRIO -->
 
 <div class="event-form">
 
@@ -139,64 +123,55 @@ FORMULÁRIO
 
 <h3>
 
-🕒 Horários Disponíveis e Ocupados
+🕒 Horários Disponíveis
 
 </h3>
 
 <div class="times-grid">
 
-<button class="time-slot available"
-data-time="08:00"
+<button class="time-slot"
 onclick="selectTime('08:00')">
-🟢 08:00
+08:00
 </button>
 
-<button class="time-slot available"
-data-time="09:00"
+<button class="time-slot"
 onclick="selectTime('09:00')">
-🟢 09:00
+09:00
 </button>
 
-<button class="time-slot available"
-data-time="10:00"
+<button class="time-slot"
 onclick="selectTime('10:00')">
-🟢 10:00
+10:00
 </button>
 
-<button class="time-slot available"
-data-time="11:00"
+<button class="time-slot"
 onclick="selectTime('11:00')">
-🟢 11:00
+11:00
 </button>
 
-<button class="time-slot available"
-data-time="13:00"
+<button class="time-slot"
 onclick="selectTime('13:00')">
-🟢 13:00
+13:00
 </button>
 
-<button class="time-slot available"
-data-time="14:00"
+<button class="time-slot"
 onclick="selectTime('14:00')">
-🟢 14:00
+14:00
 </button>
 
-<button class="time-slot available"
-data-time="15:00"
+<button class="time-slot"
 onclick="selectTime('15:00')">
-🟢 15:00
+15:00
 </button>
 
-<button class="time-slot available"
-data-time="16:00"
+<button class="time-slot"
 onclick="selectTime('16:00')">
-🟢 16:00
+16:00
 </button>
 
-<button class="time-slot available"
-data-time="17:00"
+<button class="time-slot"
 onclick="selectTime('17:00')">
-🟢 17:00
+17:00
 </button>
 
 </div>
@@ -219,8 +194,8 @@ onclick="selectTime('17:00')">
 🖥️ Instalação
 </option>
 
-<option value="Manicure">
-💅 Manicure
+<option value="Manutenção">
+🔧 Manutenção
 </option>
 
 <option value="Designer">
@@ -243,7 +218,7 @@ placeholder="📞 Telefone">
 
 <textarea
 id="description"
-placeholder="📝 Descrição"
+placeholder="📝 Descrição do Serviço"
 rows="3"></textarea>
 
 <input
@@ -262,9 +237,7 @@ Salvar Agendamento
 
 </div>
 
-<!-- =========================================
-MODAL
-========================================= -->
+<!-- MODAL -->
 
 <div id="eventModal"
 class="modal">
@@ -297,7 +270,7 @@ onclick="closeModal()">
 <button class="delete-btn"
 onclick="deleteSelectedEvent()">
 
-🗑️ Deletar
+🗑️ Deletar Agendamento
 
 </button>
 
@@ -305,9 +278,7 @@ onclick="deleteSelectedEvent()">
 
 </div>
 
-<!-- =========================================
-FULLCALENDAR
-========================================= -->
+<!-- FULLCALENDAR -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
@@ -352,7 +323,7 @@ slotMaxTime:"22:00:00",
 
 slotDuration:"01:00:00",
 
-height:300,
+height:320,
 
 headerToolbar:{
 
@@ -368,8 +339,6 @@ JSON.parse(
 localStorage.getItem("eventos")
 ) || [],
 
-/* SELECIONAR DATA */
-
 select:function(info){
 
 document
@@ -378,8 +347,6 @@ document
 formatDate(info.start);
 
 },
-
-/* ABRIR EVENTO */
 
 eventClick:function(info){
 
@@ -417,7 +384,7 @@ document
 
 calendar.render();
 
-updateOccupiedSlots();
+updateOccupiedTimes();
 
 });
 
@@ -461,38 +428,94 @@ String(
 currentDate.getDate()
 ).padStart(2,'0');
 
-const selectedDateTime =
+const selectedDate =
 `${year}-${month}-${day}T${time}`;
-
-/* VERIFICAR SE ESTÁ OCUPADO */
-
-const events =
-calendar.getEvents();
-
-const occupied =
-events.some(event => {
-
-const eventDate =
-formatDate(event.start);
-
-return eventDate === selectedDateTime;
-
-});
-
-if(occupied){
-
-alert(
-"❌ Este horário já está ocupado!"
-);
-
-return;
-
-}
 
 document
 .getElementById("start")
 .value =
-selectedDateTime;
+selectedDate;
+
+}
+
+/* =========================================
+VERIFICAR HORÁRIO OCUPADO
+========================================= */
+
+function isTimeOccupied(start){
+
+const events =
+calendar.getEvents();
+
+for(let event of events){
+
+const eventDate =
+new Date(event.start);
+
+const newDate =
+new Date(start);
+
+if(
+eventDate.getFullYear() === newDate.getFullYear()
+&&
+eventDate.getMonth() === newDate.getMonth()
+&&
+eventDate.getDate() === newDate.getDate()
+&&
+eventDate.getHours() === newDate.getHours()
+){
+
+return true;
+
+}
+
+}
+
+return false;
+
+}
+
+/* =========================================
+ATUALIZAR HORÁRIOS
+========================================= */
+
+function updateOccupiedTimes(){
+
+const buttons =
+document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn=>{
+
+btn.classList.remove("occupied");
+
+btn.innerHTML =
+btn.dataset.time || btn.innerHTML;
+
+});
+
+calendar.getEvents()
+.forEach(event=>{
+
+const hour =
+String(
+new Date(event.start)
+.getHours()
+).padStart(2,'0') + ":00";
+
+buttons.forEach(btn=>{
+
+if(btn.innerText === hour){
+
+btn.classList.add("occupied");
+
+btn.innerHTML =
+"🔴 Ocupado";
+
+}
+
+});
+
+});
 
 }
 
@@ -536,34 +559,22 @@ start === ""
 ){
 
 alert(
-"⚠️ Preencha todos os campos!"
+"Preencha todos os campos!"
 );
 
 return;
 }
 
-/* VERIFICAR DUPLICIDADE */
+/* VERIFICAR HORÁRIO */
 
-const events =
-calendar.getEvents();
-
-const alreadyExists =
-events.some(event => {
-
-const eventDate =
-formatDate(event.start);
-
-return eventDate === start;
-
-});
-
-if(alreadyExists){
+if(isTimeOccupied(start)){
 
 alert(
-"❌ Este horário já foi agendado!"
+"❌ Este horário já está ocupado e agendado!"
 );
 
 return;
+
 }
 
 /* ADICIONAR */
@@ -583,7 +594,7 @@ color:"#ff4d4d"
 
 saveEvents();
 
-updateOccupiedSlots();
+updateOccupiedTimes();
 
 /* WHATSAPP */
 
@@ -616,79 +627,6 @@ document
 document
 .getElementById("start")
 .value = "";
-
-document
-.getElementById("serviceType")
-.value = "";
-
-}
-
-/* =========================================
-ATUALIZAR HORÁRIOS
-========================================= */
-
-function updateOccupiedSlots(){
-
-const buttons =
-document.querySelectorAll(".time-slot");
-
-/* RESETAR */
-
-buttons.forEach(btn => {
-
-btn.classList.remove(
-"occupied"
-);
-
-btn.classList.add(
-"available"
-);
-
-const originalTime =
-btn.getAttribute("data-time");
-
-btn.innerHTML =
-`🟢 ${originalTime}`;
-
-});
-
-/* PEGAR EVENTOS */
-
-const events =
-calendar.getEvents();
-
-/* MARCAR OCUPADOS */
-
-events.forEach(event => {
-
-const hour =
-event.start
-.toTimeString()
-.slice(0,5);
-
-buttons.forEach(btn => {
-
-const btnTime =
-btn.getAttribute("data-time");
-
-if(btnTime === hour){
-
-btn.classList.remove(
-"available"
-);
-
-btn.classList.add(
-"occupied"
-);
-
-btn.innerHTML =
-`🔴 ${hour}`;
-
-}
-
-});
-
-});
 
 }
 
@@ -738,7 +676,7 @@ date
 ){
 
 const ownerPhone =
-"5598999942905";
+"5599999999999";
 
 const message =
 
@@ -754,17 +692,13 @@ const message =
 ${description}
 
 ⏰ Data:
-${date}
-
-✅ Confirmação automática enviada pelo sistema`;
+${date}`;
 
 const url =
 
 `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
-/* REDIRECIONAR */
-
-window.location.href = url;
+window.open(url,"_blank");
 
 }
 
@@ -792,7 +726,7 @@ selectedEvent.remove();
 
 saveEvents();
 
-updateOccupiedSlots();
+updateOccupiedTimes();
 
 closeModal();
 
@@ -805,7 +739,7 @@ alert(
 }
 
 /* =========================================
-FECHAR MODAL AO CLICAR FORA
+FECHAR MODAL FORA
 ========================================= */
 
 window.onclick = function(event){
