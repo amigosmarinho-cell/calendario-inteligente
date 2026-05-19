@@ -50,10 +50,10 @@ HEADER
 .company-header{
 
     background:
-    rgba(255,255,255,0.05);
+    rgba(255,255,255,0.08);
 
     backdrop-filter:
-    blur(20px);
+    blur(15px);
 
     border-radius:24px;
 
@@ -67,56 +67,8 @@ HEADER
     1px solid rgba(255,255,255,0.08);
 
     box-shadow:
-    0 15px 40px rgba(0,0,0,0.35);
+    0 10px 30px rgba(0,0,0,0.35);
 }
-
-/* =========================================
-LOGO
-========================================= */
-
-.logo-space{
-
-    width:85px;
-
-    height:85px;
-
-    margin:auto;
-
-    margin-bottom:12px;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    background:
-    linear-gradient(
-    135deg,
-    rgba(255,255,255,0.08),
-    rgba(255,255,255,0.03)
-    );
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-}
-
-.logo-space img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-}
-
-/* =========================================
-EMPRESA
-========================================= */
 
 .company-name{
 
@@ -124,13 +76,12 @@ EMPRESA
 
     font-weight:700;
 
-    margin-bottom:12px;
+    margin-bottom:14px;
 
     background:
     linear-gradient(
     90deg,
     #38bdf8,
-    #60a5fa,
     #2563eb
     );
 
@@ -151,7 +102,7 @@ EMPRESA
 .company-info p{
 
     background:
-    rgba(255,255,255,0.04);
+    rgba(255,255,255,0.05);
 
     padding:10px;
 
@@ -167,8 +118,7 @@ EMPRESA
 
     gap:8px;
 
-    border:
-    1px solid rgba(255,255,255,0.04);
+    color:#e5e7eb;
 }
 
 .company-info i{
@@ -182,19 +132,18 @@ CALENDÁRIO
 
 .calendar-box{
 
-    background:
-    rgba(255,255,255,0.97);
+    background:#ffffff;
 
     border-radius:22px;
 
-    padding:10px;
+    padding:8px;
 
     margin-bottom:12px;
 
     overflow:hidden;
 
     box-shadow:
-    0 15px 35px rgba(0,0,0,0.35);
+    0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* =========================================
@@ -203,32 +152,24 @@ FULLCALENDAR
 
 .fc{
 
-    font-size:11px !important;
+    font-size:10px !important;
 
-    color:#0f172a;
-
-    background:white;
-
-    border-radius:18px;
+    color:#111827;
 }
-
-/* TOOLBAR */
 
 .fc-toolbar{
 
-    margin-bottom:8px !important;
+    margin-bottom:5px !important;
 }
 
 .fc-toolbar-title{
 
-    font-size:14px !important;
+    font-size:13px !important;
 
-    font-weight:600;
+    font-weight:700;
 
-    color:#0f172a;
+    color:#111827;
 }
-
-/* BOTÕES */
 
 .fc-button{
 
@@ -236,91 +177,58 @@ FULLCALENDAR
     linear-gradient(
     135deg,
     #2563eb,
-    #38bdf8
+    #06b6d4
     ) !important;
 
     border:none !important;
 
-    border-radius:10px !important;
+    padding:5px 7px !important;
 
-    padding:6px 10px !important;
+    font-size:9px !important;
 
-    font-size:10px !important;
+    border-radius:8px !important;
 
     font-weight:600 !important;
-
-    text-transform:capitalize !important;
-
-    box-shadow:
-    0 4px 12px rgba(37,99,235,0.25);
 }
 
 .fc-button:hover{
 
-    transform:translateY(-1px);
+    transform:scale(1.03);
 }
-
-.fc-button-active{
-
-    background:
-    linear-gradient(
-    135deg,
-    #1d4ed8,
-    #0ea5e9
-    ) !important;
-}
-
-/* CÉLULAS */
 
 .fc td,
 .fc th{
 
-    border-color:
-    rgba(15,23,42,0.06) !important;
+    border-color:#e5e7eb !important;
 }
-
-/* CABEÇALHO DOS DIAS */
 
 .fc-col-header-cell{
 
-    background:
-    #f8fafc;
+    background:#f8fafc;
 }
 
 .fc-col-header-cell-cushion{
 
-    color:#334155 !important;
-
-    font-size:10px !important;
-
-    font-weight:600;
-}
-
-/* HORAS */
-
-.fc-timegrid-axis-cushion{
-
     font-size:9px !important;
 
-    color:#64748b;
-}
+    font-weight:600;
 
-/* LINHAS DE HORÁRIO */
+    color:#334155;
+}
 
 .fc-timegrid-slot{
 
-    height:26px !important;
-
-    border-color:
-    rgba(15,23,42,0.04) !important;
+    height:24px !important;
 }
 
-/* DIA ATUAL */
+.fc-timegrid-axis-cushion{
 
-.fc-day-today{
+    font-size:8px !important;
+}
 
-    background:
-    rgba(59,130,246,0.08) !important;
+.fc-timegrid-slot-label{
+
+    font-size:8px !important;
 }
 
 /* EVENTOS */
@@ -336,25 +244,22 @@ FULLCALENDAR
 
     border:none !important;
 
-    border-radius:10px !important;
-
-    padding:3px !important;
-
     font-size:9px !important;
 
-    font-weight:600;
+    padding:2px !important;
+
+    border-radius:7px !important;
 
     color:white !important;
 
-    box-shadow:
-    0 4px 10px rgba(239,68,68,0.25);
+    font-weight:600;
 }
 
-/* EVENTO HOVER */
+/* DIA ATUAL */
 
-.fc-event:hover{
+.fc-day-today{
 
-    transform:scale(1.02);
+    background:#eff6ff !important;
 }
 
 /* =========================================
@@ -364,31 +269,31 @@ FORMULÁRIO
 .event-form{
 
     background:
-    rgba(255,255,255,0.05);
+    rgba(255,255,255,0.08);
 
     backdrop-filter:
-    blur(20px);
+    blur(15px);
 
     border-radius:24px;
 
-    padding:18px;
+    padding:16px;
 
     border:
     1px solid rgba(255,255,255,0.08);
 
     box-shadow:
-    0 15px 35px rgba(0,0,0,0.35);
+    0 10px 30px rgba(0,0,0,0.35);
 }
 
 .event-form h2{
 
     text-align:center;
 
-    margin-bottom:16px;
+    margin-bottom:15px;
 
-    font-size:19px;
+    font-size:18px;
 
-    font-weight:600;
+    font-weight:700;
 }
 
 /* =========================================
@@ -401,7 +306,7 @@ STATUS
 
     gap:8px;
 
-    margin-bottom:16px;
+    margin-bottom:14px;
 }
 
 .status{
@@ -412,11 +317,13 @@ STATUS
 
     padding:10px;
 
-    border-radius:14px;
+    border-radius:12px;
 
     font-size:11px;
 
     font-weight:600;
+
+    color:white;
 }
 
 .available-status{
@@ -445,7 +352,7 @@ HORÁRIOS
 
 .available-times{
 
-    margin-bottom:16px;
+    margin-bottom:15px;
 }
 
 .available-times h3{
@@ -453,6 +360,8 @@ HORÁRIOS
     margin-bottom:10px;
 
     font-size:13px;
+
+    font-weight:600;
 }
 
 .times-grid{
@@ -478,7 +387,7 @@ HORÁRIOS
 
     border:none;
 
-    padding:10px;
+    padding:11px;
 
     border-radius:12px;
 
@@ -489,9 +398,6 @@ HORÁRIOS
     cursor:pointer;
 
     transition:.3s;
-
-    box-shadow:
-    0 4px 12px rgba(34,197,94,0.25);
 }
 
 .time-slot:hover{
@@ -507,9 +413,6 @@ HORÁRIOS
     #ef4444,
     #dc2626
     );
-
-    box-shadow:
-    0 4px 12px rgba(239,68,68,0.25);
 }
 
 /* =========================================
@@ -530,19 +433,25 @@ textarea{
 
     padding:13px;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 
     font-size:12px;
 
-    background:
-    rgba(255,255,255,0.95);
+    background:#ffffff;
 
-    color:#0f172a;
+    color:#111827;
 }
 
 textarea{
 
     resize:none;
+}
+
+/* PLACEHOLDER */
+
+::placeholder{
+
+    color:#6b7280;
 }
 
 /* =========================================
@@ -563,26 +472,25 @@ button{
     linear-gradient(
     135deg,
     #2563eb,
-    #38bdf8
+    #06b6d4
     );
 
     color:white;
 
     font-size:13px;
 
-    font-weight:600;
+    font-weight:700;
 
     cursor:pointer;
 
     transition:.3s;
-
-    box-shadow:
-    0 8px 20px rgba(37,99,235,0.25);
 }
 
 button:hover{
 
     transform:translateY(-2px);
+
+    opacity:.95;
 }
 
 /* =========================================
@@ -604,13 +512,13 @@ MODAL
     height:100%;
 
     background:
-    rgba(0,0,0,0.7);
+    rgba(0,0,0,0.75);
 
     justify-content:center;
 
     align-items:center;
 
-    padding:16px;
+    padding:14px;
 
     z-index:999;
 }
@@ -621,29 +529,25 @@ MODAL
 
     max-width:340px;
 
-    background:
-    #0f172a;
+    background:#111827;
 
-    border-radius:24px;
+    border-radius:22px;
 
-    padding:22px;
+    padding:20px;
 
     position:relative;
 
     border:
     1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 15px 40px rgba(0,0,0,0.45);
 }
 
 .close-modal{
 
     position:absolute;
 
-    top:12px;
+    top:10px;
 
-    right:18px;
+    right:15px;
 
     font-size:26px;
 
@@ -656,7 +560,7 @@ MODAL
 
     text-align:center;
 
-    margin-bottom:18px;
+    margin-bottom:16px;
 
     font-size:18px;
 }
@@ -675,7 +579,7 @@ MODAL
 .modal-info p{
 
     background:
-    rgba(255,255,255,0.05);
+    rgba(255,255,255,0.06);
 
     padding:12px;
 
@@ -685,11 +589,8 @@ MODAL
 
     font-size:12px;
 
-    border:
-    1px solid rgba(255,255,255,0.04);
+    color:#f3f4f6;
 }
-
-/* BOTÃO DELETAR */
 
 .delete-btn{
 
@@ -707,11 +608,21 @@ RESPONSIVO
 
 @media(max-width:480px){
 
+    body{
+
+        padding:6px;
+    }
+
+    .container{
+
+        max-width:100%;
+    }
+
     .fc-toolbar{
 
         display:flex !important;
 
-        flex-direction:row !important;
+        flex-direction:column !important;
 
         gap:4px;
     }
@@ -723,9 +634,15 @@ RESPONSIVO
 
     .fc-button{
 
-        font-size:9px !important;
+        font-size:8px !important;
 
         padding:4px 6px !important;
+    }
+
+    .times-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
     }
 
 }
