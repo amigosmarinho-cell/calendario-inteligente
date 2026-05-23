@@ -1,6 +1,3 @@
-# JavaScript Completo — Agenda Inteligente
-
-```javascript
 let calendar;
 let selectedEvent = null;
 
@@ -36,11 +33,14 @@ initialView:window.innerWidth < 768
 : 'timeGridWeek',
 
 locale:'pt-br',
+
 editable:true,
 selectable:true,
 allDaySlot:false,
+
 slotMinTime:"08:00:00",
 slotMaxTime:"22:00:00",
+
 height:320,
 
 headerToolbar:{
@@ -112,10 +112,28 @@ document.getElementById("start").value =
 
 function isTimeOccupied(start){
 
+const selectedDate = new Date(start);
+
+const selectedDay =
+selectedDate.toISOString().split("T")[0];
+
+const selectedHour =
+String(selectedDate.getHours()).padStart(2,'0');
+
 return calendar.getEvents().some(event=>{
 
-return new Date(event.start).getTime()
-=== new Date(start).getTime();
+const eventDate = new Date(event.start);
+
+const eventDay =
+eventDate.toISOString().split("T")[0];
+
+const eventHour =
+String(eventDate.getHours()).padStart(2,'0');
+
+return (
+selectedDay === eventDay &&
+selectedHour === eventHour
+);
 
 });
 
@@ -129,28 +147,31 @@ document.querySelectorAll(".time-slot");
 buttons.forEach(btn=>{
 
 btn.classList.remove("occupied");
+btn.disabled = false;
 btn.innerHTML = btn.dataset.time;
 
 });
 
+const today = new Date();
+
 calendar.getEvents().forEach(event=>{
 
 const eventDate = new Date(event.start);
-const today = new Date();
 
-if(
-eventDate.toDateString() === today.toDateString()
-){
+const sameDay =
+eventDate.toDateString() === today.toDateString();
+
+if(sameDay){
 
 const hour =
-String(eventDate.getHours()).padStart(2,'0')
-+ ":00";
+String(eventDate.getHours()).padStart(2,'0') + ":00";
 
 buttons.forEach(btn=>{
 
 if(btn.dataset.time === hour){
 
 btn.classList.add("occupied");
+btn.disabled = true;
 btn.innerHTML = "🔴 Ocupado";
 
 }
@@ -191,14 +212,14 @@ if(
 !start
 ){
 
-alert("Preencha todos os campos!");
+alert("⚠️ Preencha todos os campos!");
 return;
 
 }
 
 if(isTimeOccupied(start)){
 
-alert("❌ Horário ocupado!");
+alert("❌ Este horário já está ocupado!");
 return;
 
 }
@@ -206,16 +227,21 @@ return;
 calendar.addEvent({
 
 title:`${serviceType} - ${clientName}`,
+
 start:start,
+
 description:description,
+
 status:status,
+
 color:"#ef4444"
 
 });
 
+updateOccupiedTimes();
+
 saveEvents();
 
-updateOccupiedTimes();
 updateDashboard();
 
 playNotification();
@@ -233,7 +259,7 @@ status,
 servicePrice
 );
 
-alert("✅ Agendamento salvo!");
+alert("✅ Agendamento salvo com sucesso!");
 
 clearForm();
 
@@ -242,10 +268,16 @@ clearForm();
 function clearForm(){
 
 document.getElementById("clientName").value = "";
+
 document.getElementById("clientPhone").value = "";
+
 document.getElementById("serviceType").value = "";
-document.getElementById("statusService").value = "Agendado";
+
+document.getElementById("statusService").value =
+"Agendado";
+
 document.getElementById("description").value = "";
+
 document.getElementById("start").value = "";
 
 }
@@ -259,9 +291,13 @@ calendar.getEvents().forEach(event=>{
 events.push({
 
 title:event.title,
+
 start:event.start,
+
 description:event.extendedProps.description,
+
 status:event.extendedProps.status,
+
 color:"#ef4444"
 
 });
@@ -345,6 +381,7 @@ selectedEvent.remove();
 saveEvents();
 
 updateOccupiedTimes();
+
 updateDashboard();
 
 closeModal();
@@ -492,6 +529,7 @@ btn.dataset.time.split(":")[0]
 if(hour <= now.getHours()){
 
 btn.disabled = true;
+
 btn.style.opacity = "0.5";
 
 }
@@ -499,4 +537,16 @@ btn.style.opacity = "0.5";
 });
 
 }
-```
+
+window.onclick = function(event){
+
+const modal =
+document.getElementById("eventModal");
+
+if(event.target === modal){
+
+closeModal();
+
+}
+
+}
