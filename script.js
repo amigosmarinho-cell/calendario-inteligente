@@ -1,319 +1,502 @@
-# Backend Java Completo — Agenda Inteligente PRO
+# JavaScript Completo — Agenda Inteligente
 
-```java
-package com.agendainteligente;
+```javascript
+let calendar;
+let selectedEvent = null;
 
-import com.google.gson.Gson;
-import spark.Spark;
+const ownerPassword = "123456";
 
-import java.time.LocalDateTime;
-import java.util.*;
+const servicePrices = {
+"Suporte Técnico":80,
+"Instalação":120,
+"Manutenção":150,
+"Designer":200
+};
 
-public class AgendaInteligenteAPI {
+const totalSlots = [
+"08:00",
+"09:00",
+"10:00",
+"11:00",
+"13:00",
+"14:00",
+"15:00",
+"16:00",
+"17:00"
+];
 
-    static List<Evento> eventos = new ArrayList<>();
-    static Gson gson = new Gson();
+document.addEventListener('DOMContentLoaded',function(){
 
-    public static void main(String[] args) {
+const calendarEl = document.getElementById('calendar');
 
-        Spark.port(8080);
+calendar = new FullCalendar.Calendar(calendarEl,{
 
-        // LIBERAR CORS
-        Spark.options("/*", (request, response) -> {
+initialView:window.innerWidth < 768
+? 'timeGridDay'
+: 'timeGridWeek',
 
-            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+locale:'pt-br',
+editable:true,
+selectable:true,
+allDaySlot:false,
+slotMinTime:"08:00:00",
+slotMaxTime:"22:00:00",
+height:320,
 
-            if (accessControlRequestHeaders != null) {
-                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-            }
+headerToolbar:{
+left:'prev,next',
+center:'title',
+right:'today'
+},
 
-            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+events:JSON.parse(localStorage.getItem("eventos")) || [],
 
-            if (accessControlRequestMethod != null) {
-                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-            }
+select:function(info){
 
-            return "OK";
-        });
+document.getElementById("start").value =
+formatDate(info.start);
 
-        Spark.before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
-            response.type("application/json");
-        });
+},
 
-        // ROTA TESTE
-        Spark.get("/", (req, res) -> {
-            return gson.toJson(Map.of(
-                    "status", "online",
-                    "sistema", "Agenda Inteligente PRO"
-            ));
-        });
+eventClick:function(info){
 
-        // LISTAR EVENTOS
-        Spark.get("/eventos", (req, res) -> {
-            return gson.toJson(eventos);
-        });
+selectedEvent = info.event;
 
-        // CRIAR EVENTO
-        Spark.post("/eventos", (req, res) -> {
+document.getElementById("modalTitle").innerHTML =
+`<strong>Cliente:</strong><br>${info.event.title}`;
 
-            Evento evento = gson.fromJson(req.body(), Evento.class);
+document.getElementById("modalDescription").innerHTML =
+`<strong>Descrição:</strong><br>${info.event.extendedProps.description}`;
 
-            // VALIDAÇÃO
-            if (evento.nomeCliente == null || evento.nomeCliente.isEmpty()) {
-                res.status(400);
-                return gson.toJson(Map.of("erro", "Nome obrigatório"));
-            }
+document.getElementById("modalDate").innerHTML =
+`<strong>Data:</strong><br>${info.event.start.toLocaleString()}`;
 
-            // VERIFICAR HORÁRIO DUPLICADO
-            boolean ocupado = eventos.stream().anyMatch(e ->
-                    e.dataHora.equals(evento.dataHora)
-            );
+document.getElementById("eventModal").style.display = "flex";
 
-            if (ocupado) {
-                res.status(409);
-                return gson.toJson(Map.of("erro", "Horário ocupado"));
-            }
+}
 
-            evento.id = UUID.randomUUID().toString();
-            evento.status = "Agendado";
-            evento.criadoEm = LocalDateTime.now().toString();
+});
 
-            eventos.add(evento);
+calendar.render();
 
-            return gson.toJson(Map.of(
-                    "mensagem", "Agendamento criado",
-                    "evento", evento
-            ));
-        });
+updateOccupiedTimes();
+updateDashboard();
+blockPastTimes();
 
-        // BUSCAR EVENTO
-        Spark.get("/eventos/:id", (req, res) -> {
+});
 
-            String id = req.params(":id");
+function formatDate(date){
 
-            Optional<Evento> evento = eventos.stream()
-                    .filter(e -> e.id.equals(id))
-                    .findFirst();
+return date.toISOString().slice(0,16);
 
-            if (evento.isPresent()) {
-                return gson.toJson(evento.get());
-            }
+}
 
-            res.status(404);
-            return gson.toJson(Map.of("erro", "Evento não encontrado"));
-        });
+function selectTime(time){
 
-        // DELETAR EVENTO
-        Spark.delete("/eventos/:id", (req, res) -> {
+const currentDate = new Date();
 
-            String id = req.params(":id");
+const year = currentDate.getFullYear();
 
-            boolean removido = eventos.removeIf(e -> e.id.equals(id));
+const month = String(
+currentDate.getMonth()+1
+).padStart(2,'0');
 
-            if (removido) {
-                return gson.toJson(Map.of(
-                        "mensagem", "Evento deletado"
-                ));
-            }
+const day = String(
+currentDate.getDate()
+).padStart(2,'0');
 
-            res.status(404);
-            return gson.toJson(Map.of("erro", "Evento não encontrado"));
-        });
+document.getElementById("start").value =
+`${year}-${month}-${day}T${time}`;
 
-        // ATUALIZAR STATUS
-        Spark.put("/eventos/:id/status", (req, res) -> {
+}
 
-            String id = req.params(":id");
+function isTimeOccupied(start){
 
-            Map body = gson.fromJson(req.body(), Map.class);
+return calendar.getEvents().some(event=>{
 
-            String novoStatus = (String) body.get("status");
+return new Date(event.start).getTime()
+=== new Date(start).getTime();
 
-            for (Evento e : eventos) {
+});
 
-                if (e.id.equals(id)) {
-                    e.status = novoStatus;
+}
 
-                    return gson.toJson(Map.of(
-                            "mensagem", "Status atualizado",
-                            "evento", e
-                    ));
-                }
-            }
+function updateOccupiedTimes(){
 
-            res.status(404);
-            return gson.toJson(Map.of("erro", "Evento não encontrado"));
-        });
+const buttons =
+document.querySelectorAll(".time-slot");
 
-        // DASHBOARD
-        Spark.get("/dashboard", (req, res) -> {
+buttons.forEach(btn=>{
 
-            long total = eventos.size();
+btn.classList.remove("occupied");
+btn.innerHTML = btn.dataset.time;
 
-            long finalizados = eventos.stream()
-                    .filter(e -> "Finalizado".equals(e.status))
-                    .count();
+});
 
-            long cancelados = eventos.stream()
-                    .filter(e -> "Cancelado".equals(e.status))
-                    .count();
+calendar.getEvents().forEach(event=>{
 
-            return gson.toJson(Map.of(
-                    "totalAgendamentos", total,
-                    "finalizados", finalizados,
-                    "cancelados", cancelados
-            ));
-        });
+const eventDate = new Date(event.start);
+const today = new Date();
 
-        System.out.println("====================================");
-        System.out.println(" Agenda Inteligente PRO ONLINE ");
-        System.out.println(" http://localhost:8080 ");
-        System.out.println("====================================");
-    }
+if(
+eventDate.toDateString() === today.toDateString()
+){
 
-    // CLASSE EVENTO
-    static class Evento {
+const hour =
+String(eventDate.getHours()).padStart(2,'0')
++ ":00";
 
-        String id;
+buttons.forEach(btn=>{
 
-        String nomeCliente;
+if(btn.dataset.time === hour){
 
-        String telefone;
+btn.classList.add("occupied");
+btn.innerHTML = "🔴 Ocupado";
 
-        String servico;
+}
 
-        String descricao;
+});
 
-        String dataHora;
+}
 
-        String status;
+});
 
-        String criadoEm;
-    }
+}
+
+function addEvent(){
+
+const clientName =
+document.getElementById("clientName").value.trim();
+
+const clientPhone =
+document.getElementById("clientPhone").value.trim();
+
+const serviceType =
+document.getElementById("serviceType").value;
+
+const status =
+document.getElementById("statusService").value;
+
+const description =
+document.getElementById("description").value.trim();
+
+const start =
+document.getElementById("start").value;
+
+if(
+!clientName ||
+!clientPhone ||
+!serviceType ||
+!description ||
+!start
+){
+
+alert("Preencha todos os campos!");
+return;
+
+}
+
+if(isTimeOccupied(start)){
+
+alert("❌ Horário ocupado!");
+return;
+
+}
+
+calendar.addEvent({
+
+title:`${serviceType} - ${clientName}`,
+start:start,
+description:description,
+status:status,
+color:"#ef4444"
+
+});
+
+saveEvents();
+
+updateOccupiedTimes();
+updateDashboard();
+
+playNotification();
+
+const servicePrice =
+servicePrices[serviceType] || 0;
+
+sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+start,
+status,
+servicePrice
+);
+
+alert("✅ Agendamento salvo!");
+
+clearForm();
+
+}
+
+function clearForm(){
+
+document.getElementById("clientName").value = "";
+document.getElementById("clientPhone").value = "";
+document.getElementById("serviceType").value = "";
+document.getElementById("statusService").value = "Agendado";
+document.getElementById("description").value = "";
+document.getElementById("start").value = "";
+
+}
+
+function saveEvents(){
+
+const events = [];
+
+calendar.getEvents().forEach(event=>{
+
+events.push({
+
+title:event.title,
+start:event.start,
+description:event.extendedProps.description,
+status:event.extendedProps.status,
+color:"#ef4444"
+
+});
+
+});
+
+localStorage.setItem(
+"eventos",
+JSON.stringify(events)
+);
+
+}
+
+function sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+date,
+status,
+servicePrice
+){
+
+const ownerPhone = "5598999942905";
+
+const message = `
+📅 *NOVO AGENDAMENTO*
+
+👤 Cliente:
+${clientName}
+
+📞 Telefone:
+${clientPhone}
+
+🛠️ Serviço:
+${serviceType}
+
+💰 Valor:
+R$ ${servicePrice}
+
+📌 Status:
+${status}
+
+📝 Descrição:
+${description}
+
+⏰ Data:
+${new Date(date).toLocaleString()}
+`;
+
+const url =
+`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+
+window.open(url,"_blank");
+
+}
+
+function closeModal(){
+
+document.getElementById("eventModal").style.display =
+"none";
+
+}
+
+function deleteSelectedEvent(){
+
+if(selectedEvent){
+
+const password =
+prompt("🔒 Digite a senha:");
+
+if(password !== ownerPassword){
+
+alert("❌ Senha incorreta!");
+return;
+
+}
+
+selectedEvent.remove();
+
+saveEvents();
+
+updateOccupiedTimes();
+updateDashboard();
+
+closeModal();
+
+alert("🗑️ Agendamento deletado!");
+
+}
+
+}
+
+function updateDashboard(){
+
+const today = new Date();
+
+const todayEvents =
+calendar.getEvents().filter(event=>{
+
+const eventDate = new Date(event.start);
+
+return eventDate.toDateString()
+=== today.toDateString();
+
+});
+
+const totalToday = todayEvents.length;
+
+const occupiedSlots =
+todayEvents.map(event=>{
+
+return String(
+new Date(event.start).getHours()
+).padStart(2,'0') + ":00";
+
+});
+
+const freeTimes =
+totalSlots.filter(
+slot=>!occupiedSlots.includes(slot)
+).length;
+
+const uniqueClients = new Set(
+
+calendar.getEvents().map(event=>{
+
+const parts = event.title.split(" - ");
+
+return parts[1] || event.title;
+
+})
+
+);
+
+document.getElementById("todayCount").innerText =
+totalToday;
+
+document.getElementById("freeCount").innerText =
+freeTimes;
+
+document.getElementById("clientCount").innerText =
+uniqueClients.size;
+
+}
+
+function searchEvents(){
+
+const search =
+document.getElementById("searchClient")
+.value
+.toLowerCase();
+
+calendar.getEvents().forEach(event=>{
+
+const title =
+event.title.toLowerCase();
+
+if(title.includes(search)){
+
+event.setProp("display","auto");
+
+}else{
+
+event.setProp("display","none");
+
+}
+
+});
+
+}
+
+function toggleTheme(){
+
+document.body.classList.toggle("light-theme");
+
+}
+
+function exportBackup(){
+
+const data =
+localStorage.getItem("eventos");
+
+const blob = new Blob(
+[data],
+{type:"application/json"}
+);
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+"backup_agenda.json";
+
+a.click();
+
+}
+
+function playNotification(){
+
+const audio = new Audio(
+'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+);
+
+audio.play();
+
+}
+
+function blockPastTimes(){
+
+const now = new Date();
+
+const buttons =
+document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn=>{
+
+const hour =
+parseInt(
+btn.dataset.time.split(":")[0]
+);
+
+if(hour <= now.getHours()){
+
+btn.disabled = true;
+btn.style.opacity = "0.5";
+
+}
+
+});
+
 }
 ```
-
----
-
-# Dependências Maven (pom.xml)
-
-```xml
-<dependencies>
-
-    <dependency>
-        <groupId>com.sparkjava</groupId>
-        <artifactId>spark-core</artifactId>
-        <version>2.9.4</version>
-    </dependency>
-
-    <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.10.1</version>
-    </dependency>
-
-</dependencies>
-```
-
----
-
-# Estrutura do Projeto
-
-```bash
-agenda-inteligente-java/
-│
-├── src/
-│   └── main/
-│       └── java/
-│           └── com/
-│               └── agendainteligente/
-│                   └── AgendaInteligenteAPI.java
-│
-├── pom.xml
-```
-
----
-
-# Como Executar
-
-## Instalar:
-
-* Java JDK 17+
-* Maven
-
----
-
-# Executar
-
-```bash
-mvn clean install
-mvn exec:java
-```
-
-ou:
-
-```bash
-mvn spring-boot:run
-```
-
----
-
-# Testar API
-
-## Listar eventos
-
-```bash
-GET http://localhost:8080/eventos
-```
-
----
-
-## Criar evento
-
-```bash
-POST http://localhost:8080/eventos
-```
-
-JSON:
-
-```json
-{
-  "nomeCliente": "Leonardo",
-  "telefone": "98999999999",
-  "servico": "Suporte Técnico",
-  "descricao": "Formatação",
-  "dataHora": "2026-05-25T14:00"
-}
-```
-
----
-
-# Melhorias Futuras
-
-Você pode adicionar:
-
-* Firebase
-* Banco MySQL
-* Login JWT
-* WhatsApp API
-* Dashboard React
-* APK Android
-* Painel Admin
-* Multiempresa
-* PDF automático
-* Relatórios
-* Integração Moodle
-
----
-
-# Hospedagem Recomendada
-
-Você pode publicar em:
-
-* Render
-* Railway
-* VPS Linux
-* Docker
-* AWS
-* Oracle Cloud
