@@ -1,9 +1,17 @@
+/* =========================
+   RESET
+========================= */
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
+
+/* =========================
+   BODY
+========================= */
 
 body{
 background:linear-gradient(180deg,#020617,#0f172a,#111827);
@@ -14,7 +22,7 @@ transition:0.3s;
 overflow-x:hidden;
 }
 
-/* efeito scanlines */
+/* efeito scanline */
 
 body::before{
 content:"";
@@ -31,7 +39,9 @@ transparent 4px
 z-index:9999;
 }
 
-/* container */
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
 width:100%;
@@ -39,7 +49,9 @@ max-width:450px;
 margin:auto;
 }
 
-/* cards principais */
+/* =========================
+   CARDS
+========================= */
 
 .company-header,
 .event-form,
@@ -52,7 +64,9 @@ border:1px solid rgba(255,255,255,0.08);
 box-shadow:0 10px 30px rgba(0,0,0,0.35);
 }
 
-/* topo empresa */
+/* =========================
+   TOPO
+========================= */
 
 .company-header{
 margin-bottom:10px;
@@ -84,7 +98,9 @@ align-items:center;
 gap:8px;
 }
 
-/* dashboard */
+/* =========================
+   DASHBOARD
+========================= */
 
 .dashboard{
 display:grid;
@@ -114,7 +130,9 @@ font-size:11px;
 opacity:0.9;
 }
 
-/* calendário */
+/* =========================
+   CALENDÁRIO
+========================= */
 
 .calendar-box{
 background:white;
@@ -156,13 +174,19 @@ padding:2px;
 font-size:10px;
 }
 
-/* formulário */
+/* =========================
+   FORMULÁRIO
+========================= */
 
 .event-form h2{
 text-align:center;
 margin-bottom:14px;
 font-size:18px;
 }
+
+/* =========================
+   GRID HORÁRIOS
+========================= */
 
 .times-grid{
 display:grid;
@@ -171,7 +195,9 @@ gap:8px;
 margin-bottom:12px;
 }
 
-/* botões de horário */
+/* =========================
+   BOTÕES HORÁRIOS
+========================= */
 
 .time-slot{
 background:#00c853;
@@ -202,7 +228,9 @@ opacity:0.5;
 cursor:not-allowed;
 }
 
-/* campos */
+/* =========================
+   INPUTS
+========================= */
 
 input,
 select,
@@ -231,6 +259,8 @@ textarea::placeholder{
 color:rgba(255,255,255,0.6);
 }
 
+/* foco */
+
 input:focus,
 select:focus,
 textarea:focus{
@@ -238,14 +268,16 @@ border:1px solid #38bdf8;
 box-shadow:0 0 0 3px rgba(56,189,248,0.15);
 }
 
-/* opções select */
+/* select */
 
 select option{
 background:#111827;
 color:white;
 }
 
-/* botões gerais */
+/* =========================
+   BOTÕES
+========================= */
 
 button{
 background:linear-gradient(135deg,#2563eb,#06b6d4);
@@ -259,7 +291,9 @@ opacity:0.95;
 transform:translateY(-1px);
 }
 
-/* modal */
+/* =========================
+   MODAL
+========================= */
 
 .modal{
 display:none;
@@ -309,7 +343,9 @@ transform:scale(1.1);
 color:#ef4444;
 }
 
-/* tema claro */
+/* =========================
+   TEMA CLARO
+========================= */
 
 .light-theme{
 background:#f1f5f9;
@@ -321,6 +357,10 @@ color:#111827;
 .light-theme .card-dashboard{
 background:white;
 color:#111827;
+}
+
+.light-theme .company-info p{
+background:#f1f5f9;
 }
 
 .light-theme input,
@@ -346,11 +386,9 @@ background:white;
 color:#111827;
 }
 
-.light-theme .company-info p{
-background:#f1f5f9;
-}
-
-/* animações */
+/* =========================
+   ANIMAÇÃO
+========================= */
 
 @keyframes fadeIn{
 
@@ -366,7 +404,9 @@ transform:scale(1);
 
 }
 
-/* responsividade */
+/* =========================
+   RESPONSIVO
+========================= */
 
 @media(max-width:480px){
 
@@ -390,6 +430,11 @@ button,
 input,
 select,
 textarea{
+font-size:11px;
+}
+
+.time-slot{
+padding:8px;
 font-size:11px;
 }
 
