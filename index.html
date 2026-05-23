@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Agenda Inteligente</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
 
 <style>
@@ -154,10 +157,20 @@ border:none;
 padding:10px;
 border-radius:10px;
 cursor:pointer;
+font-weight:600;
+}
+
+.time-slot:hover{
+transform:scale(1.03);
 }
 
 .time-slot.occupied{
 background:#ef4444;
+}
+
+.time-slot:disabled{
+opacity:.5;
+cursor:not-allowed;
 }
 
 input,
@@ -180,11 +193,20 @@ background:rgba(255,255,255,0.08);
 color:white;
 }
 
+select option{
+background:#111827;
+color:white;
+}
+
 button{
 background:linear-gradient(135deg,#2563eb,#06b6d4);
 color:white;
 font-weight:600;
 cursor:pointer;
+}
+
+button:hover{
+opacity:.95;
 }
 
 .modal{
@@ -219,23 +241,48 @@ background:#f1f5f9;
 color:#111827;
 }
 
+.light-theme .company-header,
+.light-theme .event-form,
+.light-theme .card-dashboard{
+background:white;
+color:#111827;
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select{
+background:#e2e8f0;
+color:#111827;
+}
+
+.light-theme .modal-content{
+background:white;
+color:#111827;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
 <div class="company-header">
-<div class="company-name">LeoTecnologia</div>
+
+<div class="company-name">
+LeoTecnologia
+</div>
 
 <div class="company-info">
-<p><i class="fa-solid fa-location-dot"></i>Av. Três Nº733 São José de Ribamar- MA </p>
+<p><i class="fa-solid fa-location-dot"></i> Av. Três Nº733 São José de Ribamar - MA</p>
 <p><i class="fa-solid fa-phone"></i> (98) 99994-2905</p>
 <p><i class="fa-brands fa-instagram"></i> @leotecnologia25</p>
 </div>
+
 </div>
 
 <div class="dashboard">
+
 <div class="card-dashboard">
 <h3 id="todayCount">0</h3>
 <p>Hoje</p>
@@ -250,31 +297,48 @@ color:#111827;
 <h3 id="clientCount">0</h3>
 <p>Clientes</p>
 </div>
+
 </div>
 
 <button onclick="toggleTheme()">
 🌙 Alternar Tema
 </button>
 
-<input type="text" id="searchClient" placeholder="🔎 Buscar Cliente" onkeyup="searchEvents()">
+<input
+type="text"
+id="searchClient"
+placeholder="🔎 Buscar Cliente"
+onkeyup="searchEvents()"
+>
 
 <div class="calendar-box">
 <div id="calendar"></div>
 </div>
 
 <div class="event-form">
+
 <h2>📅 Novo Agendamento</h2>
 
 <div class="times-grid">
+
 <button class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
+
 <button class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
+
 <button class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
+
 <button class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
+
 <button class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
+
 <button class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
+
 <button class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
+
 <button class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
+
 <button class="time-slot" data-time="17:00" onclick="selectTime('17:00')">17:00</button>
+
 </div>
 
 <select id="serviceType">
@@ -293,26 +357,49 @@ color:#111827;
 </select>
 
 <input type="text" id="clientName" placeholder="👤 Nome do Cliente">
+
 <input type="tel" id="clientPhone" placeholder="📞 Telefone">
-<textarea id="description" rows="3" placeholder="📝 Descrição"></textarea>
+
+<textarea
+id="description"
+rows="3"
+placeholder="📝 Descrição"
+></textarea>
+
 <input type="datetime-local" id="start">
 
-<button onclick="addEvent()">Salvar Agendamento</button>
-<button onclick="exportBackup()">📦 Exportar Backup</button>
+<button onclick="addEvent()">
+Salvar Agendamento
+</button>
+
+<button onclick="exportBackup()">
+📦 Exportar Backup
+</button>
 
 </div>
 
 </div>
 
 <div id="eventModal" class="modal">
+
 <div class="modal-content">
-<span class="close-modal" onclick="closeModal()">&times;</span>
+
+<span class="close-modal" onclick="closeModal()">
+&times;
+</span>
+
 <h2>📅 Detalhes</h2>
+
 <p id="modalTitle"></p>
 <p id="modalDescription"></p>
 <p id="modalDate"></p>
-<button onclick="deleteSelectedEvent()">🗑️ Deletar</button>
+
+<button onclick="deleteSelectedEvent()">
+🗑️ Deletar
+</button>
+
 </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
@@ -321,6 +408,7 @@ color:#111827;
 
 let calendar;
 let selectedEvent = null;
+
 const ownerPassword = "123456";
 
 const servicePrices = {
@@ -330,19 +418,37 @@ const servicePrices = {
 "Designer":200
 };
 
+const totalSlots = [
+"08:00",
+"09:00",
+"10:00",
+"11:00",
+"13:00",
+"14:00",
+"15:00",
+"16:00",
+"17:00"
+];
+
 document.addEventListener('DOMContentLoaded',function(){
 
 const calendarEl = document.getElementById('calendar');
 
 calendar = new FullCalendar.Calendar(calendarEl,{
 
-initialView:window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
+initialView:window.innerWidth < 768
+? 'timeGridDay'
+: 'timeGridWeek',
+
 locale:'pt-br',
+
 editable:true,
 selectable:true,
 allDaySlot:false,
+
 slotMinTime:"08:00:00",
 slotMaxTime:"22:00:00",
+
 height:320,
 
 headerToolbar:{
@@ -354,18 +460,24 @@ right:'today'
 events:JSON.parse(localStorage.getItem("eventos")) || [],
 
 select:function(info){
-document.getElementById("start").value = formatDate(info.start);
+
+document.getElementById("start").value =
+formatDate(info.start);
+
 },
 
 eventClick:function(info){
 
 selectedEvent = info.event;
 
-document.getElementById("modalTitle").innerHTML = `<strong>Cliente:</strong><br>${info.event.title}`;
+document.getElementById("modalTitle").innerHTML =
+`<strong>Cliente:</strong><br>${info.event.title}`;
 
-document.getElementById("modalDescription").innerHTML = `<strong>Descrição:</strong><br>${info.event.extendedProps.description}`;
+document.getElementById("modalDescription").innerHTML =
+`<strong>Descrição:</strong><br>${info.event.extendedProps.description}`;
 
-document.getElementById("modalDate").innerHTML = `<strong>Data:</strong><br>${info.event.start.toLocaleString()}`;
+document.getElementById("modalDate").innerHTML =
+`<strong>Data:</strong><br>${info.event.start.toLocaleString()}`;
 
 document.getElementById("eventModal").style.display = "flex";
 
@@ -374,6 +486,7 @@ document.getElementById("eventModal").style.display = "flex";
 });
 
 calendar.render();
+
 updateOccupiedTimes();
 updateDashboard();
 blockPastTimes();
@@ -381,7 +494,9 @@ blockPastTimes();
 });
 
 function formatDate(date){
+
 return date.toISOString().slice(0,16);
+
 }
 
 function selectTime(time){
@@ -389,17 +504,26 @@ function selectTime(time){
 const currentDate = new Date();
 
 const year = currentDate.getFullYear();
-const month = String(currentDate.getMonth()+1).padStart(2,'0');
-const day = String(currentDate.getDate()).padStart(2,'0');
 
-document.getElementById("start").value = `${year}-${month}-${day}T${time}`;
+const month = String(
+currentDate.getMonth()+1
+).padStart(2,'0');
+
+const day = String(
+currentDate.getDate()
+).padStart(2,'0');
+
+document.getElementById("start").value =
+`${year}-${month}-${day}T${time}`;
 
 }
 
 function isTimeOccupied(start){
 
 return calendar.getEvents().some(event=>{
-return new Date(event.start).getTime() === new Date(start).getTime();
+
+return new Date(event.start).getTime()
+=== new Date(start).getTime();
 
 });
 
@@ -407,25 +531,41 @@ return new Date(event.start).getTime() === new Date(start).getTime();
 
 function updateOccupiedTimes(){
 
-const buttons = document.querySelectorAll(".time-slot");
+const buttons =
+document.querySelectorAll(".time-slot");
 
 buttons.forEach(btn=>{
+
 btn.classList.remove("occupied");
 btn.innerHTML = btn.dataset.time;
+
 });
 
 calendar.getEvents().forEach(event=>{
 
-const hour = String(new Date(event.start).getHours()).padStart(2,'0') + ":00";
+const eventDate = new Date(event.start);
+const today = new Date();
+
+if(
+eventDate.toDateString() === today.toDateString()
+){
+
+const hour =
+String(eventDate.getHours()).padStart(2,'0')
++ ":00";
 
 buttons.forEach(btn=>{
 
 if(btn.dataset.time === hour){
+
 btn.classList.add("occupied");
 btn.innerHTML = "🔴 Ocupado";
+
 }
 
 });
+
+}
 
 });
 
@@ -433,39 +573,67 @@ btn.innerHTML = "🔴 Ocupado";
 
 function addEvent(){
 
-const clientName = document.getElementById("clientName").value.trim();
-const clientPhone = document.getElementById("clientPhone").value.trim();
-const serviceType = document.getElementById("serviceType").value;
-const status = document.getElementById("statusService").value;
-const description = document.getElementById("description").value.trim();
-const start = document.getElementById("start").value;
+const clientName =
+document.getElementById("clientName").value.trim();
 
-if(!clientName || !clientPhone || !serviceType || !description || !start){
+const clientPhone =
+document.getElementById("clientPhone").value.trim();
+
+const serviceType =
+document.getElementById("serviceType").value;
+
+const status =
+document.getElementById("statusService").value;
+
+const description =
+document.getElementById("description").value.trim();
+
+const start =
+document.getElementById("start").value;
+
+if(
+!clientName ||
+!clientPhone ||
+!serviceType ||
+!description ||
+!start
+){
+
 alert("Preencha todos os campos!");
 return;
+
 }
 
 if(isTimeOccupied(start)){
+
 alert("❌ Horário ocupado!");
 return;
+
 }
 
 calendar.addEvent({
 
 title:`${serviceType} - ${clientName}`,
+
 start:start,
+
 description:description,
+
 status:status,
+
 color:"#ef4444"
 
 });
 
 saveEvents();
+
 updateOccupiedTimes();
 updateDashboard();
+
 playNotification();
 
-const servicePrice = servicePrices[serviceType] || 0;
+const servicePrice =
+servicePrices[serviceType] || 0;
 
 sendWhatsAppToOwner(
 clientName,
@@ -488,6 +656,7 @@ const events = [];
 calendar.getEvents().forEach(event=>{
 
 events.push({
+
 title:event.title,
 start:event.start,
 description:event.extendedProps.description,
@@ -498,11 +667,22 @@ color:"#ef4444"
 
 });
 
-localStorage.setItem("eventos",JSON.stringify(events));
+localStorage.setItem(
+"eventos",
+JSON.stringify(events)
+);
 
 }
 
-function sendWhatsAppToOwner(clientName,clientPhone,serviceType,description,date,status,servicePrice){
+function sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+date,
+status,
+servicePrice
+){
 
 const ownerPhone = "5598999942905";
 
@@ -531,31 +711,41 @@ ${description}
 ${new Date(date).toLocaleString()}
 `;
 
-const url = `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+const url =
+`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
 window.open(url,"_blank");
 
 }
 
 function closeModal(){
-document.getElementById("eventModal").style.display = "none";
+
+document.getElementById("eventModal").style.display =
+"none";
+
 }
 
 function deleteSelectedEvent(){
 
 if(selectedEvent){
 
-const password = prompt("🔒 Digite a senha:");
+const password =
+prompt("🔒 Digite a senha:");
 
 if(password !== ownerPassword){
+
 alert("❌ Senha incorreta!");
 return;
+
 }
 
 selectedEvent.remove();
+
 saveEvents();
+
 updateOccupiedTimes();
 updateDashboard();
+
 closeModal();
 
 alert("🗑️ Agendamento deletado!");
@@ -566,38 +756,77 @@ alert("🗑️ Agendamento deletado!");
 
 function updateDashboard(){
 
-const totalToday = calendar.getEvents().filter(event=>{
-
 const today = new Date();
+
+const todayEvents =
+calendar.getEvents().filter(event=>{
+
 const eventDate = new Date(event.start);
 
-return eventDate.toDateString() === today.toDateString();
+return eventDate.toDateString()
+=== today.toDateString();
 
-}).length;
+});
 
-const freeTimes = 9 - totalToday;
+const totalToday = todayEvents.length;
 
-const uniqueClients = new Set(calendar.getEvents().map(e=>e.title));
+const occupiedSlots =
+todayEvents.map(event=>{
 
+return String(
+new Date(event.start).getHours()
+).padStart(2,'0') + ":00";
 
-document.getElementById("todayCount").innerText = totalToday;
-document.getElementById("freeCount").innerText = freeTimes;
-document.getElementById("clientCount").innerText = uniqueClients.size;
+});
+
+const freeTimes =
+totalSlots.filter(
+slot=>!occupiedSlots.includes(slot)
+).length;
+
+const uniqueClients = new Set(
+
+calendar.getEvents().map(event=>{
+
+const parts = event.title.split(" - ");
+
+return parts[1] || event.title;
+
+})
+
+);
+
+document.getElementById("todayCount").innerText =
+totalToday;
+
+document.getElementById("freeCount").innerText =
+freeTimes;
+
+document.getElementById("clientCount").innerText =
+uniqueClients.size;
 
 }
 
 function searchEvents(){
 
-const search = document.getElementById("searchClient").value.toLowerCase();
+const search =
+document.getElementById("searchClient")
+.value
+.toLowerCase();
 
 calendar.getEvents().forEach(event=>{
 
-const title = event.title.toLowerCase();
+const title =
+event.title.toLowerCase();
 
 if(title.includes(search)){
+
 event.setProp("display","auto");
+
 }else{
+
 event.setProp("display","none");
+
 }
 
 });
@@ -605,27 +834,42 @@ event.setProp("display","none");
 }
 
 function toggleTheme(){
+
 document.body.classList.toggle("light-theme");
+
 }
 
 function exportBackup(){
 
-const data = localStorage.getItem("eventos");
+const data =
+localStorage.getItem("eventos");
 
-const blob = new Blob([data],{type:"application/json"});
+const blob = new Blob(
+[data],
+{type:"application/json"}
+);
 
-const url = URL.createObjectURL(blob);
+const url =
+URL.createObjectURL(blob);
 
-const a = document.createElement("a");
+const a =
+document.createElement("a");
+
 a.href = url;
-a.download = "backup_agenda.json";
+
+a.download =
+"backup_agenda.json";
+
 a.click();
 
 }
 
 function playNotification(){
 
-const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+const audio = new Audio(
+'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+);
+
 audio.play();
 
 }
@@ -634,15 +878,22 @@ function blockPastTimes(){
 
 const now = new Date();
 
-const buttons = document.querySelectorAll(".time-slot");
+const buttons =
+document.querySelectorAll(".time-slot");
 
 buttons.forEach(btn=>{
 
-const hour = parseInt(btn.dataset.time.split(":")[0]);
+const hour =
+parseInt(
+btn.dataset.time.split(":")[0]
+);
 
 if(hour <= now.getHours()){
+
 btn.disabled = true;
+
 btn.style.opacity = "0.5";
+
 }
 
 });
@@ -651,10 +902,13 @@ btn.style.opacity = "0.5";
 
 window.onclick = function(event){
 
-const modal = document.getElementById("eventModal");
+const modal =
+document.getElementById("eventModal");
 
 if(event.target === modal){
+
 closeModal();
+
 }
 
 }
@@ -663,4 +917,3 @@ closeModal();
 
 </body>
 </html>
-```
