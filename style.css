@@ -1,648 +1,830 @@
-/* =========================================
-RESET
-========================================= */
+/* =========================
+   RESET
+========================= */
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
-/* =========================================
-BODY
-========================================= */
+/* =========================
+   BODY
+========================= */
 
 body{
 
-    background:
-    linear-gradient(
-    180deg,
-    #020617,
-    #0f172a,
-    #111827
-    );
+background:
+linear-gradient(
+180deg,
+#020617,
+#0f172a,
+#111827
+);
 
-    min-height:100vh;
+min-height:100vh;
 
-    padding:10px;
+padding:10px;
 
-    color:white;
+color:white;
+
+overflow-x:hidden;
+
+transition:.4s;
+
+position:relative;
+
 }
 
-/* =========================================
-CONTAINER
-========================================= */
+/* EFEITO SHADER / CRT */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.03) 1px,
+transparent 2px,
+transparent 4px
+);
+
+pointer-events:none;
+
+z-index:9999;
+
+mix-blend-mode:soft-light;
+
+opacity:.25;
+
+}
+
+/* GLOW FUNDO */
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:500px;
+height:500px;
+
+background:
+radial-gradient(
+circle,
+rgba(56,189,248,0.25),
+transparent 70%
+);
+
+top:-120px;
+right:-120px;
+
+filter:blur(80px);
+
+pointer-events:none;
+
+}
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
 
-    width:100%;
+width:100%;
 
-    max-width:430px;
+max-width:450px;
 
-    margin:auto;
+margin:auto;
+
+position:relative;
+
+z-index:2;
+
 }
 
-/* =========================================
-HEADER
-========================================= */
+/* =========================
+   GLASSMORPHISM
+========================= */
+
+.glass{
+
+background:
+rgba(255,255,255,0.08);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+border:
+1px solid rgba(255,255,255,0.1);
+
+box-shadow:
+0 8px 32px rgba(0,0,0,0.35);
+
+}
+
+/* =========================
+   HEADER
+========================= */
 
 .company-header{
 
-    background:
-    rgba(255,255,255,0.08);
+padding:18px;
 
-    backdrop-filter:
-    blur(15px);
+border-radius:24px;
 
-    border-radius:24px;
+margin-bottom:12px;
 
-    padding:18px;
+text-align:center;
 
-    margin-bottom:12px;
+position:relative;
 
-    text-align:center;
+overflow:hidden;
 
-    border:
-    1px solid rgba(255,255,255,0.08);
+}
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+.company-header::before{
+
+content:"";
+
+position:absolute;
+
+width:150px;
+height:150px;
+
+background:
+radial-gradient(
+circle,
+rgba(37,99,235,0.4),
+transparent
+);
+
+top:-60px;
+left:-60px;
+
+filter:blur(30px);
+
 }
 
 .company-name{
 
-    font-size:24px;
+font-size:26px;
 
-    font-weight:700;
+font-weight:700;
 
-    margin-bottom:14px;
+margin-bottom:12px;
 
-    background:
-    linear-gradient(
-    90deg,
-    #38bdf8,
-    #2563eb
-    );
+background:
+linear-gradient(
+90deg,
+#38bdf8,
+#2563eb
+);
 
-    -webkit-background-clip:text;
+-webkit-background-clip:text;
 
-    -webkit-text-fill-color:transparent;
+-webkit-text-fill-color:transparent;
+
+letter-spacing:1px;
+
 }
 
 .company-info{
 
-    display:flex;
+display:flex;
 
-    flex-direction:column;
+flex-direction:column;
 
-    gap:8px;
+gap:10px;
+
 }
 
 .company-info p{
 
-    background:
-    rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-    padding:10px;
+padding:12px;
 
-    border-radius:14px;
+border-radius:14px;
 
-    font-size:12px;
+font-size:12px;
 
-    display:flex;
+display:flex;
 
-    align-items:center;
+align-items:center;
 
-    justify-content:center;
+justify-content:center;
 
-    gap:8px;
+gap:8px;
 
-    color:#e5e7eb;
+transition:.3s;
+
 }
 
-.company-info i{
+.company-info p:hover{
 
-    color:#38bdf8;
+transform:translateY(-2px);
+
+background:
+rgba(255,255,255,0.1);
+
 }
 
-/* =========================================
-CALENDÁRIO
-========================================= */
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:10px;
+
+margin-bottom:12px;
+
+}
+
+.card-dashboard{
+
+padding:16px;
+
+border-radius:20px;
+
+text-align:center;
+
+position:relative;
+
+overflow:hidden;
+
+transition:.3s;
+
+}
+
+.card-dashboard:hover{
+
+transform:
+translateY(-4px);
+
+}
+
+.card-dashboard::before{
+
+content:"";
+
+position:absolute;
+
+width:120px;
+height:120px;
+
+background:
+radial-gradient(
+circle,
+rgba(255,255,255,0.15),
+transparent
+);
+
+top:-50px;
+right:-50px;
+
+}
+
+.card-dashboard h3{
+
+font-size:24px;
+
+margin-bottom:5px;
+
+color:#38bdf8;
+
+font-weight:700;
+
+}
+
+.card-dashboard p{
+
+font-size:11px;
+
+opacity:.8;
+
+}
+
+/* =========================
+   BOTÃO TEMA
+========================= */
+
+.theme-btn{
+
+margin-bottom:10px;
+
+}
+
+/* =========================
+   INPUT BUSCA
+========================= */
+
+#searchClient{
+
+margin-bottom:12px;
+
+}
+
+/* =========================
+   CALENDÁRIO
+========================= */
 
 .calendar-box{
 
-    background:#ffffff;
+background:white;
 
-    border-radius:22px;
+border-radius:22px;
 
-    padding:8px;
+padding:8px;
 
-    margin-bottom:12px;
+margin-bottom:12px;
 
-    overflow:hidden;
+overflow:hidden;
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+box-shadow:
+0 10px 25px rgba(0,0,0,0.35);
+
 }
-
-/* =========================================
-FULLCALENDAR
-========================================= */
 
 .fc{
 
-    font-size:10px !important;
+font-size:10px !important;
 
-    color:#111827;
-}
+color:#111827;
 
-.fc-toolbar{
-
-    margin-bottom:5px !important;
 }
 
 .fc-toolbar-title{
 
-    font-size:13px !important;
+font-size:14px !important;
 
-    font-weight:700;
+font-weight:600;
 
-    color:#111827;
 }
 
 .fc-button{
 
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    ) !important;
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#06b6d4
+) !important;
 
-    border:none !important;
+border:none !important;
 
-    padding:5px 7px !important;
+border-radius:10px !important;
 
-    font-size:9px !important;
+font-size:10px !important;
 
-    border-radius:8px !important;
+padding:5px 8px !important;
 
-    font-weight:600 !important;
 }
 
-.fc-button:hover{
+.fc-event{
 
-    transform:scale(1.03);
-}
+background:#ef4444 !important;
 
-.fc td,
-.fc th{
+border:none !important;
 
-    border-color:#e5e7eb !important;
-}
+padding:3px !important;
 
-.fc-col-header-cell{
+border-radius:8px !important;
 
-    background:#f8fafc;
-}
+font-size:9px !important;
 
-.fc-col-header-cell-cushion{
-
-    font-size:9px !important;
-
-    font-weight:600;
-
-    color:#334155;
 }
 
 .fc-timegrid-slot{
 
-    height:24px !important;
+height:28px !important;
+
 }
 
-.fc-timegrid-axis-cushion{
-
-    font-size:8px !important;
-}
-
-.fc-timegrid-slot-label{
-
-    font-size:8px !important;
-}
-
-/* EVENTOS */
-
-.fc-event{
-
-    background:
-    linear-gradient(
-    135deg,
-    #ef4444,
-    #dc2626
-    ) !important;
-
-    border:none !important;
-
-    font-size:9px !important;
-
-    padding:2px !important;
-
-    border-radius:7px !important;
-
-    color:white !important;
-
-    font-weight:600;
-}
-
-/* DIA ATUAL */
-
-.fc-day-today{
-
-    background:#eff6ff !important;
-}
-
-/* =========================================
-FORMULÁRIO
-========================================= */
+/* =========================
+   FORM
+========================= */
 
 .event-form{
 
-    background:
-    rgba(255,255,255,0.08);
+padding:18px;
 
-    backdrop-filter:
-    blur(15px);
+border-radius:24px;
 
-    border-radius:24px;
+position:relative;
 
-    padding:16px;
+overflow:hidden;
 
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
 }
 
 .event-form h2{
 
-    text-align:center;
+text-align:center;
 
-    margin-bottom:15px;
+margin-bottom:15px;
 
-    font-size:18px;
+font-size:20px;
 
-    font-weight:700;
 }
 
-/* =========================================
-STATUS
-========================================= */
-
-.status-box{
-
-    display:flex;
-
-    gap:8px;
-
-    margin-bottom:14px;
-}
-
-.status{
-
-    flex:1;
-
-    text-align:center;
-
-    padding:10px;
-
-    border-radius:12px;
-
-    font-size:11px;
-
-    font-weight:600;
-
-    color:white;
-}
-
-.available-status{
-
-    background:
-    linear-gradient(
-    135deg,
-    #22c55e,
-    #16a34a
-    );
-}
-
-.busy-status{
-
-    background:
-    linear-gradient(
-    135deg,
-    #ef4444,
-    #dc2626
-    );
-}
-
-/* =========================================
-HORÁRIOS
-========================================= */
-
-.available-times{
-
-    margin-bottom:15px;
-}
-
-.available-times h3{
-
-    margin-bottom:10px;
-
-    font-size:13px;
-
-    font-weight:600;
-}
+/* =========================
+   HORÁRIOS
+========================= */
 
 .times-grid{
 
-    display:grid;
+display:grid;
 
-    grid-template-columns:
-    repeat(3,1fr);
+grid-template-columns:
+repeat(3,1fr);
 
-    gap:8px;
+gap:8px;
+
+margin-bottom:14px;
+
 }
 
 .time-slot{
 
-    background:
-    linear-gradient(
-    135deg,
-    #22c55e,
-    #16a34a
-    );
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
 
-    color:white;
+color:white;
 
-    border:none;
+border:none;
 
-    padding:11px;
+padding:10px;
 
-    border-radius:12px;
+border-radius:12px;
 
-    font-size:11px;
+font-size:11px;
 
-    font-weight:600;
+font-weight:600;
 
-    cursor:pointer;
+cursor:pointer;
 
-    transition:.3s;
+transition:.3s;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,0.2);
+
 }
 
 .time-slot:hover{
 
-    transform:translateY(-2px);
+transform:scale(1.05);
+
 }
 
 .time-slot.occupied{
 
-    background:
-    linear-gradient(
-    135deg,
-    #ef4444,
-    #dc2626
-    );
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#dc2626
+);
+
 }
 
-/* =========================================
-INPUTS
-========================================= */
+/* =========================
+   INPUTS
+========================= */
 
 input,
 select,
 textarea{
 
-    width:100%;
+width:100%;
 
-    border:none;
+border:none;
 
-    outline:none;
+outline:none;
 
-    border-radius:14px;
+padding:13px;
 
-    padding:13px;
+margin-bottom:10px;
 
-    margin-bottom:10px;
+border-radius:14px;
 
-    font-size:12px;
+font-size:12px;
 
-    background:#ffffff;
+background:
+rgba(255,255,255,0.08);
 
-    color:#111827;
+color:white;
+
+backdrop-filter:
+blur(10px);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+transition:.3s;
+
 }
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border:
+1px solid #38bdf8;
+
+box-shadow:
+0 0 10px rgba(56,189,248,0.4);
+
+}
+
+/* =========================
+   TEXTAREA
+========================= */
 
 textarea{
 
-    resize:none;
+resize:none;
+
 }
 
-/* PLACEHOLDER */
-
-::placeholder{
-
-    color:#6b7280;
-}
-
-/* =========================================
-BOTÃO
-========================================= */
+/* =========================
+   BOTÕES
+========================= */
 
 button{
 
-    width:100%;
+width:100%;
 
-    border:none;
+border:none;
 
-    border-radius:14px;
+padding:13px;
 
-    padding:14px;
+border-radius:14px;
 
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    );
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#06b6d4
+);
 
-    color:white;
+color:white;
 
-    font-size:13px;
+font-size:13px;
 
-    font-weight:700;
+font-weight:600;
 
-    cursor:pointer;
+cursor:pointer;
 
-    transition:.3s;
+transition:.3s;
+
+box-shadow:
+0 6px 20px rgba(0,0,0,0.25);
+
 }
 
 button:hover{
 
-    transform:translateY(-2px);
+transform:
+translateY(-2px);
 
-    opacity:.95;
+opacity:.95;
+
 }
 
-/* =========================================
-MODAL
-========================================= */
+/* =========================
+   MODAL
+========================= */
 
 .modal{
 
-    display:none;
+display:none;
 
-    position:fixed;
+position:fixed;
 
-    left:0;
+inset:0;
 
-    top:0;
+background:
+rgba(0,0,0,0.8);
 
-    width:100%;
+justify-content:center;
 
-    height:100%;
+align-items:center;
 
-    background:
-    rgba(0,0,0,0.75);
+padding:14px;
 
-    justify-content:center;
+z-index:99999;
 
-    align-items:center;
+backdrop-filter:
+blur(8px);
 
-    padding:14px;
-
-    z-index:999;
 }
 
 .modal-content{
 
-    width:100%;
+width:100%;
 
-    max-width:340px;
+max-width:340px;
 
-    background:#111827;
+padding:22px;
 
-    border-radius:22px;
+border-radius:24px;
 
-    padding:20px;
+position:relative;
 
-    position:relative;
+background:
+rgba(17,24,39,0.9);
 
-    border:
-    1px solid rgba(255,255,255,0.08);
+backdrop-filter:
+blur(18px);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.45);
+
+animation:
+modalShow .3s ease;
+
+}
+
+@keyframes modalShow{
+
+from{
+
+transform:
+translateY(20px);
+
+opacity:0;
+
+}
+
+to{
+
+transform:
+translateY(0);
+
+opacity:1;
+
+}
+
 }
 
 .close-modal{
 
-    position:absolute;
+position:absolute;
 
-    top:10px;
+top:10px;
 
-    right:15px;
+right:15px;
 
-    font-size:26px;
+font-size:28px;
 
-    cursor:pointer;
+cursor:pointer;
 
-    color:white;
+transition:.3s;
+
 }
 
-.modal-content h2{
+.close-modal:hover{
 
-    text-align:center;
+transform:rotate(90deg);
 
-    margin-bottom:16px;
-
-    font-size:18px;
 }
 
 .modal-info{
 
-    display:flex;
+display:flex;
 
-    flex-direction:column;
+flex-direction:column;
 
-    gap:10px;
+gap:10px;
 
-    margin-bottom:16px;
+margin-top:15px;
+
+margin-bottom:15px;
+
 }
 
 .modal-info p{
 
-    background:
-    rgba(255,255,255,0.06);
+background:
+rgba(255,255,255,0.05);
 
-    padding:12px;
+padding:12px;
 
-    border-radius:14px;
+border-radius:12px;
 
-    line-height:1.5;
+font-size:12px;
 
-    font-size:12px;
+line-height:1.5;
 
-    color:#f3f4f6;
 }
+
+/* =========================
+   DELETE BUTTON
+========================= */
 
 .delete-btn{
 
-    background:
-    linear-gradient(
-    135deg,
-    #ef4444,
-    #dc2626
-    );
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#dc2626
+);
+
 }
 
-/* =========================================
-RESPONSIVO
-========================================= */
+/* =========================
+   LIGHT THEME
+========================= */
+
+.light-theme{
+
+background:
+linear-gradient(
+180deg,
+#e2e8f0,
+#f8fafc
+);
+
+color:#111827;
+
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select{
+
+background:white;
+
+color:#111827;
+
+}
+
+.light-theme .event-form,
+.light-theme .company-header,
+.light-theme .card-dashboard{
+
+background:
+rgba(255,255,255,0.8);
+
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
 
 @media(max-width:480px){
 
-    body{
+.company-name{
 
-        padding:6px;
-    }
+font-size:22px;
 
-    .container{
+}
 
-        max-width:100%;
-    }
+.dashboard{
 
-    .fc-toolbar{
+grid-template-columns:
+1fr;
 
-        display:flex !important;
+}
 
-        flex-direction:column !important;
+.fc{
 
-        gap:4px;
-    }
+font-size:9px !important;
 
-    .fc-toolbar-title{
+}
 
-        font-size:11px !important;
-    }
+.time-slot{
 
-    .fc-button{
+font-size:10px;
 
-        font-size:8px !important;
+padding:9px;
 
-        padding:4px 6px !important;
-    }
-
-    .times-grid{
-
-        grid-template-columns:
-        repeat(2,1fr);
-    }
+}
 
 }
