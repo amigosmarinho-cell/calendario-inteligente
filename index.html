@@ -1,961 +1,431 @@
+# Código HTML Completo — Agenda Inteligente PRO
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agenda Inteligente PRO</title>
 
-<!-- GOOGLE FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
-
-<!-- FONT AWESOME -->
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- FULLCALENDAR -->
-
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
 
 <style>
 
-/* RESET */
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
 body{
-
-    background:
-    linear-gradient(
-    180deg,
-    #020617,
-    #0f172a,
-    #111827
-    );
-
-    min-height:100vh;
-
-    padding:10px;
-
-    color:white;
+background:linear-gradient(180deg,#020617,#0f172a,#111827);
+min-height:100vh;
+padding:10px;
+color:white;
+transition:.3s;
 }
 
-/* EFEITO SHADERGLASS */
-
 body::before{
-
-    content:"";
-
-    position:fixed;
-
-    inset:0;
-
-    pointer-events:none;
-
-    background:
-    repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.03),
-    rgba(255,255,255,0.03) 1px,
-    transparent 2px,
-    transparent 4px
-    );
-
-    z-index:9999;
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.03) 1px,
+transparent 2px,
+transparent 4px
+);
+z-index:9999;
 }
 
 .container{
-
-    width:100%;
-
-    max-width:430px;
-
-    margin:auto;
+width:100%;
+max-width:450px;
+margin:auto;
 }
 
-/* HEADER */
+.company-header,
+.event-form,
+.card-dashboard{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-radius:22px;
+padding:18px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
 
 .company-header{
-
-    background:
-    rgba(255,255,255,0.08);
-
-    backdrop-filter:
-    blur(15px);
-
-    border-radius:22px;
-
-    padding:18px;
-
-    margin-bottom:10px;
-
-    text-align:center;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+margin-bottom:10px;
+text-align:center;
 }
 
 .company-name{
-
-    font-size:24px;
-
-    font-weight:700;
-
-    margin-bottom:12px;
-
-    background:
-    linear-gradient(
-    90deg,
-    #38bdf8,
-    #2563eb
-    );
-
-    -webkit-background-clip:text;
-
-    -webkit-text-fill-color:transparent;
+font-size:24px;
+font-weight:700;
+margin-bottom:12px;
+background:linear-gradient(90deg,#38bdf8,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .company-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:8px;
+display:flex;
+flex-direction:column;
+gap:8px;
 }
 
 .company-info p{
-
-    background:
-    rgba(255,255,255,0.05);
-
-    padding:10px;
-
-    border-radius:12px;
-
-    font-size:12px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:8px;
+background:rgba(255,255,255,0.05);
+padding:10px;
+border-radius:12px;
+font-size:12px;
 }
 
-/* CALENDÁRIO */
+.dashboard{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:10px;
+}
+
+.card-dashboard{
+padding:15px;
+text-align:center;
+}
+
+.card-dashboard h3{
+font-size:22px;
+color:#38bdf8;
+}
+
+.card-dashboard p{
+font-size:11px;
+}
 
 .calendar-box{
-
-    background:white;
-
-    border-radius:18px;
-
-    padding:6px;
-
-    margin-bottom:10px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 10px 25px rgba(0,0,0,0.35);
+background:white;
+border-radius:18px;
+padding:6px;
+margin-bottom:10px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
 .fc{
-
-    font-size:10px !important;
-
-    color:#111827;
-}
-
-.fc-toolbar-title{
-
-    font-size:13px !important;
-
-    font-weight:600;
+font-size:10px !important;
+color:#111827;
 }
 
 .fc-button{
-
-    padding:4px 6px !important;
-
-    font-size:9px !important;
-
-    border-radius:8px !important;
-
-    border:none !important;
-
-    background:#2563eb !important;
+background:#2563eb !important;
+border:none !important;
+border-radius:8px !important;
 }
 
 .fc-event{
-
-    background:#ef4444 !important;
-
-    border:none !important;
-
-    font-size:9px !important;
-
-    padding:2px !important;
-
-    border-radius:6px !important;
-}
-
-.fc-timegrid-slot{
-
-    height:24px !important;
-}
-
-/* FORM */
-
-.event-form{
-
-    background:
-    rgba(255,255,255,0.08);
-
-    backdrop-filter:
-    blur(15px);
-
-    border-radius:22px;
-
-    padding:15px;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+background:#ef4444 !important;
+border:none !important;
+border-radius:6px !important;
 }
 
 .event-form h2{
-
-    text-align:center;
-
-    margin-bottom:14px;
-
-    font-size:18px;
-}
-
-/* STATUS */
-
-.status-box{
-
-    display:flex;
-
-    gap:8px;
-
-    margin-bottom:14px;
-}
-
-.status{
-
-    flex:1;
-
-    text-align:center;
-
-    padding:9px;
-
-    border-radius:10px;
-
-    font-size:11px;
-
-    font-weight:600;
-}
-
-.available-status{
-
-    background:#00c853;
-}
-
-.busy-status{
-
-    background:#ef4444;
-}
-
-/* HORÁRIOS */
-
-.available-times{
-
-    margin-bottom:14px;
-}
-
-.available-times h3{
-
-    margin-bottom:10px;
-
-    font-size:13px;
+text-align:center;
+margin-bottom:14px;
 }
 
 .times-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(3,1fr);
-
-    gap:8px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:12px;
 }
 
 .time-slot{
-
-    background:#00c853;
-
-    color:white;
-
-    border:none;
-
-    padding:10px;
-
-    border-radius:10px;
-
-    font-size:11px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.time-slot:hover{
-
-    transform:scale(1.03);
+background:#00c853;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
 }
 
 .time-slot.occupied{
-
-    background:#ef4444;
+background:#ef4444;
 }
 
-/* INPUTS */
+input,
+select,
+textarea,
+button{
+width:100%;
+border:none;
+outline:none;
+border-radius:12px;
+padding:12px;
+margin-bottom:10px;
+font-size:12px;
+}
 
 input,
 select,
 textarea{
-
-    width:100%;
-
-    border:none;
-
-    outline:none;
-
-    border-radius:12px;
-
-    padding:12px;
-
-    margin-bottom:10px;
-
-    font-size:12px;
-
-    background:
-    rgba(255,255,255,0.08);
-
-    color:white;
+background:rgba(255,255,255,0.08);
+color:white;
 }
 
-input::placeholder,
-textarea::placeholder{
-
-    color:#d1d5db;
+button{
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+color:white;
+font-weight:600;
+cursor:pointer;
 }
-
-textarea{
-
-    resize:none;
-}
-
-/* BOTÃO */
-
-.main-button{
-
-    width:100%;
-
-    border:none;
-
-    border-radius:12px;
-
-    padding:13px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    );
-
-    color:white;
-
-    font-size:13px;
-
-    font-weight:600;
-
-    cursor:pointer;
-}
-
-/* MODAL */
 
 .modal{
-
-    display:none;
-
-    position:fixed;
-
-    left:0;
-
-    top:0;
-
-    width:100%;
-
-    height:100%;
-
-    background:
-    rgba(0,0,0,0.8);
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:14px;
-
-    z-index:999;
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
 }
 
 .modal-content{
-
-    width:100%;
-
-    max-width:340px;
-
-    background:#111827;
-
-    border-radius:20px;
-
-    padding:20px;
-
-    position:relative;
+background:#111827;
+padding:20px;
+border-radius:20px;
+width:90%;
+max-width:340px;
+position:relative;
 }
 
 .close-modal{
-
-    position:absolute;
-
-    top:10px;
-
-    right:15px;
-
-    font-size:26px;
-
-    cursor:pointer;
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
 }
 
-.modal-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-
-    margin-bottom:16px;
-}
-
-.modal-info p{
-
-    background:
-    rgba(255,255,255,0.06);
-
-    padding:12px;
-
-    border-radius:12px;
-
-    line-height:1.5;
-
-    font-size:12px;
-}
-
-.delete-btn{
-
-    background:
-    linear-gradient(
-    135deg,
-    #ef4444,
-    #dc2626
-    );
+.light-theme{
+background:#f1f5f9;
+color:#111827;
 }
 
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
 
-<!-- HEADER -->
-
 <div class="company-header">
-
-<div class="company-name">
-Agenda Inteligente
-</div>
+<div class="company-name">Agenda Inteligente PRO</div>
 
 <div class="company-info">
-
-<p>
-<i class="fa-solid fa-location-dot"></i>
-São Luís - MA
-</p>
-
-<p>
-<i class="fa-solid fa-phone"></i>
-(98) 99999-9999
-</p>
-
-<p>
-<i class="fa-brands fa-instagram"></i>
-@agendainteligente
-</p>
-
+<p><i class="fa-solid fa-location-dot"></i> São Luís - MA</p>
+<p><i class="fa-solid fa-phone"></i> (98) 99999-9999</p>
+<p><i class="fa-brands fa-instagram"></i> @agendainteligente</p>
+</div>
 </div>
 
+<div class="dashboard">
+<div class="card-dashboard">
+<h3 id="todayCount">0</h3>
+<p>Hoje</p>
 </div>
 
-<!-- CALENDÁRIO -->
+<div class="card-dashboard">
+<h3 id="freeCount">0</h3>
+<p>Livres</p>
+</div>
+
+<div class="card-dashboard">
+<h3 id="clientCount">0</h3>
+<p>Clientes</p>
+</div>
+</div>
+
+<button onclick="toggleTheme()">
+🌙 Alternar Tema
+</button>
+
+<input type="text" id="searchClient" placeholder="🔎 Buscar Cliente" onkeyup="searchEvents()">
 
 <div class="calendar-box">
-
 <div id="calendar"></div>
-
 </div>
-
-<!-- FORM -->
 
 <div class="event-form">
-
-<h2>
-📅 Novo Agendamento
-</h2>
-
-<div class="status-box">
-
-<div class="status available-status">
-🟢 Disponível
-</div>
-
-<div class="status busy-status">
-🔴 Ocupado
-</div>
-
-</div>
-
-<div class="available-times">
-
-<h3>
-🕒 Horários Disponíveis
-</h3>
+<h2>📅 Novo Agendamento</h2>
 
 <div class="times-grid">
-
-<button class="time-slot"
-data-time="08:00"
-onclick="selectTime('08:00')">
-08:00
-</button>
-
-<button class="time-slot"
-data-time="09:00"
-onclick="selectTime('09:00')">
-09:00
-</button>
-
-<button class="time-slot"
-data-time="10:00"
-onclick="selectTime('10:00')">
-10:00
-</button>
-
-<button class="time-slot"
-data-time="11:00"
-onclick="selectTime('11:00')">
-11:00
-</button>
-
-<button class="time-slot"
-data-time="13:00"
-onclick="selectTime('13:00')">
-13:00
-</button>
-
-<button class="time-slot"
-data-time="14:00"
-onclick="selectTime('14:00')">
-14:00
-</button>
-
-<button class="time-slot"
-data-time="15:00"
-onclick="selectTime('15:00')">
-15:00
-</button>
-
-<button class="time-slot"
-data-time="16:00"
-onclick="selectTime('16:00')">
-16:00
-</button>
-
-<button class="time-slot"
-data-time="17:00"
-onclick="selectTime('17:00')">
-17:00
-</button>
-
-</div>
-
+<button class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
+<button class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
+<button class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
+<button class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
+<button class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
+<button class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
+<button class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
+<button class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
+<button class="time-slot" data-time="17:00" onclick="selectTime('17:00')">17:00</button>
 </div>
 
 <select id="serviceType">
-
-<option value="">
-🛠️ Tipo de Serviço
-</option>
-
-<option value="Suporte Técnico">
-💻 Suporte Técnico
-</option>
-
-<option value="Instalação">
-🖥️ Instalação
-</option>
-
-<option value="Manutenção">
-🔧 Manutenção
-</option>
-
-<option value="Designer">
-🎨 Designer Gráfico
-</option>
-
+<option value="">🛠️ Tipo de Serviço</option>
+<option value="Suporte Técnico">💻 Suporte Técnico</option>
+<option value="Instalação">🖥️ Instalação</option>
+<option value="Manutenção">🔧 Manutenção</option>
+<option value="Designer">🎨 Designer</option>
 </select>
 
-<input
-type="text"
-id="clientName"
-placeholder="👤 Nome do Cliente">
+<select id="statusService">
+<option value="Agendado">🟡 Agendado</option>
+<option value="Em andamento">🔵 Em andamento</option>
+<option value="Finalizado">🟢 Finalizado</option>
+<option value="Cancelado">🔴 Cancelado</option>
+</select>
 
-<input
-type="tel"
-id="clientPhone"
-placeholder="📞 Telefone">
+<input type="text" id="clientName" placeholder="👤 Nome do Cliente">
+<input type="tel" id="clientPhone" placeholder="📞 Telefone">
+<textarea id="description" rows="3" placeholder="📝 Descrição"></textarea>
+<input type="datetime-local" id="start">
 
-<textarea
-id="description"
-placeholder="📝 Descrição do Serviço"
-rows="3"></textarea>
-
-<input
-type="datetime-local"
-id="start">
-
-<button class="main-button"
-onclick="addEvent()">
-
-Salvar Agendamento
-
-</button>
+<button onclick="addEvent()">Salvar Agendamento</button>
+<button onclick="exportBackup()">📦 Exportar Backup</button>
 
 </div>
 
 </div>
 
-<!-- MODAL -->
-
-<div id="eventModal"
-class="modal">
-
+<div id="eventModal" class="modal">
 <div class="modal-content">
-
-<span class="close-modal"
-onclick="closeModal()">
-
-&times;
-
-</span>
-
-<h2>
-📅 Detalhes do Agendamento
-</h2>
-
-<div class="modal-info">
-
+<span class="close-modal" onclick="closeModal()">&times;</span>
+<h2>📅 Detalhes</h2>
 <p id="modalTitle"></p>
-
 <p id="modalDescription"></p>
-
 <p id="modalDate"></p>
-
+<button onclick="deleteSelectedEvent()">🗑️ Deletar</button>
 </div>
-
-<button class="main-button delete-btn"
-onclick="deleteSelectedEvent()">
-
-🗑️ Deletar Agendamento
-
-</button>
-
 </div>
-
-</div>
-
-<!-- FULLCALENDAR -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
 <script>
 
 let calendar;
-
 let selectedEvent = null;
-
-/* SENHA PROPRIETÁRIO */
-
 const ownerPassword = "123456";
 
-/* INICIAR */
+const servicePrices = {
+"Suporte Técnico":80,
+"Instalação":120,
+"Manutenção":150,
+"Designer":200
+};
 
-document.addEventListener(
-'DOMContentLoaded',
-function(){
+document.addEventListener('DOMContentLoaded',function(){
 
-const calendarEl =
-document.getElementById('calendar');
+const calendarEl = document.getElementById('calendar');
 
-calendar =
-new FullCalendar.Calendar(
-calendarEl,
-{
+calendar = new FullCalendar.Calendar(calendarEl,{
 
-initialView:
-window.innerWidth < 768
-? 'timeGridDay'
-: 'timeGridWeek',
-
+initialView:window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
 locale:'pt-br',
-
 editable:true,
-
 selectable:true,
-
 allDaySlot:false,
-
 slotMinTime:"08:00:00",
-
 slotMaxTime:"22:00:00",
-
-slotDuration:"01:00:00",
-
 height:320,
 
 headerToolbar:{
-
 left:'prev,next',
-
 center:'title',
-
 right:'today'
 },
 
-events:
-JSON.parse(
-localStorage.getItem("eventos")
-) || [],
+events:JSON.parse(localStorage.getItem("eventos")) || [],
 
 select:function(info){
-
-document
-.getElementById("start")
-.value =
-formatDate(info.start);
-
+document.getElementById("start").value = formatDate(info.start);
 },
 
 eventClick:function(info){
 
-selectedEvent =
-info.event;
+selectedEvent = info.event;
 
-document
-.getElementById("modalTitle")
-.innerHTML = `
-<strong>Cliente:</strong><br>
-${info.event.title}
-`;
+document.getElementById("modalTitle").innerHTML = `<strong>Cliente:</strong><br>${info.event.title}`;
 
-document
-.getElementById("modalDescription")
-.innerHTML = `
-<strong>Descrição:</strong><br>
-${info.event.extendedProps.description || "Sem descrição"}
-`;
+document.getElementById("modalDescription").innerHTML = `<strong>Descrição:</strong><br>${info.event.extendedProps.description}`;
 
-document
-.getElementById("modalDate")
-.innerHTML = `
-<strong>Data:</strong><br>
-${info.event.start.toLocaleString()}
-`;
+document.getElementById("modalDate").innerHTML = `<strong>Data:</strong><br>${info.event.start.toLocaleString()}`;
 
-document
-.getElementById("eventModal")
-.style.display = "flex";
+document.getElementById("eventModal").style.display = "flex";
 
 }
 
 });
 
 calendar.render();
-
 updateOccupiedTimes();
+updateDashboard();
+blockPastTimes();
 
 });
 
-/* FORMATAR DATA */
-
 function formatDate(date){
-
-const pad =
-n => n.toString()
-.padStart(2,'0');
-
-return `${date.getFullYear()}-${
-pad(date.getMonth()+1)}-${
-pad(date.getDate())}T${
-pad(date.getHours())}:${
-pad(date.getMinutes())}`;
-
+return date.toISOString().slice(0,16);
 }
-
-/* SELECIONAR HORÁRIO */
 
 function selectTime(time){
 
-const currentDate =
-new Date();
+const currentDate = new Date();
 
-const year =
-currentDate.getFullYear();
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth()+1).padStart(2,'0');
+const day = String(currentDate.getDate()).padStart(2,'0');
 
-const month =
-String(
-currentDate.getMonth()+1
-).padStart(2,'0');
-
-const day =
-String(
-currentDate.getDate()
-).padStart(2,'0');
-
-document
-.getElementById("start")
-.value =
-
-`${year}-${month}-${day}T${time}`;
+document.getElementById("start").value = `${year}-${month}-${day}T${time}`;
 
 }
-
-/* HORÁRIO OCUPADO */
 
 function isTimeOccupied(start){
 
-const events =
-calendar.getEvents();
-
-for(let event of events){
-
-const eventDate =
-new Date(event.start);
-
-const newDate =
-new Date(start);
-
-if(
-eventDate.getFullYear() === newDate.getFullYear()
-&&
-eventDate.getMonth() === newDate.getMonth()
-&&
-eventDate.getDate() === newDate.getDate()
-&&
-eventDate.getHours() === newDate.getHours()
-){
-
-return true;
-
-}
-
-}
-
-return false;
-
-}
-
-/* ATUALIZAR HORÁRIOS */
-
-function updateOccupiedTimes(){
-
-const buttons =
-document.querySelectorAll(".time-slot");
-
-buttons.forEach(btn=>{
-
-btn.classList.remove("occupied");
-
-btn.innerHTML =
-btn.dataset.time;
+return calendar.getEvents().some(event=>{
+return new Date(event.start).getTime() === new Date(start).getTime();
 
 });
 
-calendar.getEvents()
-.forEach(event=>{
+}
 
-const hour =
-String(
-new Date(event.start)
-.getHours()
-).padStart(2,'0') + ":00";
+function updateOccupiedTimes(){
+
+const buttons = document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn=>{
+btn.classList.remove("occupied");
+btn.innerHTML = btn.dataset.time;
+});
+
+calendar.getEvents().forEach(event=>{
+
+const hour = String(new Date(event.start).getHours()).padStart(2,'0') + ":00";
 
 buttons.forEach(btn=>{
 
 if(btn.dataset.time === hour){
-
 btn.classList.add("occupied");
-
-btn.innerHTML =
-"🔴 Ocupado";
-
+btn.innerHTML = "🔴 Ocupado";
 }
 
 });
@@ -963,153 +433,81 @@ btn.innerHTML =
 });
 
 }
-
-/* ADICIONAR EVENTO */
 
 function addEvent(){
 
-const clientName =
-document
-.getElementById("clientName")
-.value.trim();
+const clientName = document.getElementById("clientName").value.trim();
+const clientPhone = document.getElementById("clientPhone").value.trim();
+const serviceType = document.getElementById("serviceType").value;
+const status = document.getElementById("statusService").value;
+const description = document.getElementById("description").value.trim();
+const start = document.getElementById("start").value;
 
-const clientPhone =
-document
-.getElementById("clientPhone")
-.value.trim();
-
-const serviceType =
-document
-.getElementById("serviceType")
-.value;
-
-const description =
-document
-.getElementById("description")
-.value.trim();
-
-const start =
-document
-.getElementById("start")
-.value;
-
-if(
-clientName === "" ||
-clientPhone === "" ||
-serviceType === "" ||
-description === "" ||
-start === ""
-){
-
-alert(
-"Preencha todos os campos!"
-);
-
+if(!clientName || !clientPhone || !serviceType || !description || !start){
+alert("Preencha todos os campos!");
 return;
 }
 
 if(isTimeOccupied(start)){
-
-alert(
-"❌ Este horário já está ocupado!"
-);
-
+alert("❌ Horário ocupado!");
 return;
-
 }
 
 calendar.addEvent({
 
-title:
-`${serviceType} - ${clientName}`,
-
+title:`${serviceType} - ${clientName}`,
 start:start,
-
 description:description,
-
+status:status,
 color:"#ef4444"
 
 });
 
 saveEvents();
-
 updateOccupiedTimes();
+updateDashboard();
+playNotification();
+
+const servicePrice = servicePrices[serviceType] || 0;
 
 sendWhatsAppToOwner(
 clientName,
 clientPhone,
 serviceType,
 description,
-start
+start,
+status,
+servicePrice
 );
 
-alert(
-"✅ Agendamento salvo!"
-);
-
-/* LIMPAR */
-
-document
-.getElementById("clientName")
-.value = "";
-
-document
-.getElementById("clientPhone")
-.value = "";
-
-document
-.getElementById("description")
-.value = "";
-
-document
-.getElementById("start")
-.value = "";
+alert("✅ Agendamento salvo!");
 
 }
-
-/* SALVAR */
 
 function saveEvents(){
 
 const events = [];
 
-calendar.getEvents()
-.forEach(event => {
+calendar.getEvents().forEach(event=>{
 
 events.push({
-
 title:event.title,
-
 start:event.start,
-
-description:
-event.extendedProps.description,
-
+description:event.extendedProps.description,
+status:event.extendedProps.status,
 color:"#ef4444"
 
 });
 
 });
 
-localStorage.setItem(
-"eventos",
-JSON.stringify(events)
-);
+localStorage.setItem("eventos",JSON.stringify(events));
 
 }
 
-/* WHATSAPP */
+function sendWhatsAppToOwner(clientName,clientPhone,serviceType,description,date,status,servicePrice){
 
-function sendWhatsAppToOwner(
-clientName,
-clientPhone,
-serviceType,
-description,
-date
-){
-
-const ownerPhone =
-"5598999942905";
+const ownerPhone = "5598999942905";
 
 const message = `
 📅 *NOVO AGENDAMENTO*
@@ -1123,6 +521,12 @@ ${clientPhone}
 🛠️ Serviço:
 ${serviceType}
 
+💰 Valor:
+R$ ${servicePrice}
+
+📌 Status:
+${status}
+
 📝 Descrição:
 ${description}
 
@@ -1130,70 +534,130 @@ ${description}
 ${new Date(date).toLocaleString()}
 `;
 
-const url =
-`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+const url = `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
 
 window.open(url,"_blank");
 
 }
 
-/* FECHAR MODAL */
-
 function closeModal(){
-
-document
-.getElementById("eventModal")
-.style.display = "none";
-
+document.getElementById("eventModal").style.display = "none";
 }
-
-/* DELETAR EVENTO */
 
 function deleteSelectedEvent(){
 
 if(selectedEvent){
 
-const password = prompt(
-"🔒 Digite a senha do proprietário:"
-);
+const password = prompt("🔒 Digite a senha:");
 
 if(password !== ownerPassword){
-
-alert(
-"❌ Senha incorreta!"
-);
-
+alert("❌ Senha incorreta!");
 return;
-
 }
 
 selectedEvent.remove();
-
 saveEvents();
-
 updateOccupiedTimes();
-
+updateDashboard();
 closeModal();
 
-alert(
-"🗑️ Agendamento deletado!"
-);
+alert("🗑️ Agendamento deletado!");
 
 }
 
 }
 
-/* FECHAR MODAL FORA */
+function updateDashboard(){
+
+const totalToday = calendar.getEvents().filter(event=>{
+
+const today = new Date();
+const eventDate = new Date(event.start);
+
+return eventDate.toDateString() === today.toDateString();
+
+}).length;
+
+const freeTimes = 9 - totalToday;
+
+const uniqueClients = new Set(calendar.getEvents().map(e=>e.title));
+
+
+document.getElementById("todayCount").innerText = totalToday;
+document.getElementById("freeCount").innerText = freeTimes;
+document.getElementById("clientCount").innerText = uniqueClients.size;
+
+}
+
+function searchEvents(){
+
+const search = document.getElementById("searchClient").value.toLowerCase();
+
+calendar.getEvents().forEach(event=>{
+
+const title = event.title.toLowerCase();
+
+if(title.includes(search)){
+event.setProp("display","auto");
+}else{
+event.setProp("display","none");
+}
+
+});
+
+}
+
+function toggleTheme(){
+document.body.classList.toggle("light-theme");
+}
+
+function exportBackup(){
+
+const data = localStorage.getItem("eventos");
+
+const blob = new Blob([data],{type:"application/json"});
+
+const url = URL.createObjectURL(blob);
+
+const a = document.createElement("a");
+a.href = url;
+a.download = "backup_agenda.json";
+a.click();
+
+}
+
+function playNotification(){
+
+const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+audio.play();
+
+}
+
+function blockPastTimes(){
+
+const now = new Date();
+
+const buttons = document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn=>{
+
+const hour = parseInt(btn.dataset.time.split(":")[0]);
+
+if(hour <= now.getHours()){
+btn.disabled = true;
+btn.style.opacity = "0.5";
+}
+
+});
+
+}
 
 window.onclick = function(event){
 
-const modal =
-document.getElementById("eventModal");
+const modal = document.getElementById("eventModal");
 
 if(event.target === modal){
-
 closeModal();
-
 }
 
 }
@@ -1202,3 +666,4 @@ closeModal();
 
 </body>
 </html>
+```
