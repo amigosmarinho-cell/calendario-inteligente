@@ -8,18 +8,21 @@ let canFinalize = false;
 
 const ADMIN_CODE = "1234";
 
-function saveEvents(){
+function saveEvents() {
   localStorage.setItem("leotecnologia_events", JSON.stringify(allEvents));
 }
 
-function toggleTheme(){
+function toggleTheme() {
   document.body.classList.toggle("light-theme");
 }
 
-function selectTime(time, button){
+function selectTime(time, button) {
   selectedTime = time;
 
-  if(selectedTimeButton) selectedTimeButton.classList.remove("selected");
+  if (selectedTimeButton) {
+    selectedTimeButton.classList.remove("selected");
+  }
+
   selectedTimeButton = button;
   selectedTimeButton.classList.add("selected");
 
@@ -31,16 +34,20 @@ function selectTime(time, button){
   document.getElementById("start").value = `${yyyy}-${mm}-${dd}T${time}`;
 }
 
-function getStatusColor(status){
-  switch(status){
-    case "Em andamento": return "#3b82f6";
-    case "Finalizado": return "#22c55e";
-    case "Cancelado": return "#ef4444";
-    default: return "#facc15";
+function getStatusColor(status) {
+  switch (status) {
+    case "Em andamento":
+      return "#3b82f6";
+    case "Finalizado":
+      return "#22c55e";
+    case "Cancelado":
+      return "#ef4444";
+    default:
+      return "#facc15";
   }
 }
 
-function addEvent(){
+function addEvent() {
   const serviceType = document.getElementById("serviceType").value;
   const statusService = document.getElementById("statusService").value;
   const clientName = document.getElementById("clientName").value.trim();
@@ -48,13 +55,13 @@ function addEvent(){
   const description = document.getElementById("description").value.trim();
   const start = document.getElementById("start").value;
 
-  if(!serviceType || !clientName || !start){
+  if (!serviceType || !clientName || !start) {
     alert("Preencha o tipo de serviço, nome do cliente e data/hora.");
     return;
   }
 
   const duplicate = allEvents.some(ev => ev.start === start);
-  if(duplicate){
+  if (duplicate) {
     alert("Já existe um agendamento nesse horário.");
     return;
   }
@@ -85,7 +92,7 @@ function addEvent(){
   alert("Agendamento salvo com sucesso!");
 }
 
-function clearForm(){
+function clearForm() {
   document.getElementById("serviceType").value = "";
   document.getElementById("statusService").value = "Agendado";
   document.getElementById("clientName").value = "";
@@ -93,7 +100,7 @@ function clearForm(){
   document.getElementById("description").value = "";
   document.getElementById("start").value = "";
 
-  if(selectedTimeButton){
+  if (selectedTimeButton) {
     selectedTimeButton.classList.remove("selected");
     selectedTimeButton = null;
   }
@@ -101,7 +108,7 @@ function clearForm(){
   selectedTime = "";
 }
 
-function applyFilters(){
+function applyFilters() {
   const query = document.getElementById("searchClient").value.toLowerCase().trim();
   const statusFilter = document.getElementById("filterStatus").value;
 
@@ -122,18 +129,19 @@ function applyFilters(){
   updateTimeSlots();
 }
 
-function clearFilters(){
+function clearFilters() {
   document.getElementById("searchClient").value = "";
   document.getElementById("filterStatus").value = "";
   applyFilters();
 }
 
-function renderCalendarEvents(){
+function renderCalendarEvents() {
+  if (!calendar) return;
   calendar.removeAllEvents();
   filteredEvents.forEach(ev => calendar.addEvent(ev));
 }
 
-function updateDashboard(){
+function updateDashboard() {
   const today = new Date();
   const todayStr = today.toISOString().split("T");
 
@@ -145,7 +153,7 @@ function updateDashboard(){
   document.getElementById("freeCount").innerText = Math.max(9 - todayEvents.length, 0);
 }
 
-function updateTimeSlots(){
+function updateTimeSlots() {
   const todayStr = new Date().toISOString().split("T");
 
   document.querySelectorAll(".time-slot").forEach(btn => {
@@ -156,9 +164,10 @@ function updateTimeSlots(){
   });
 }
 
-function openEventModal(event){
+function openEventModal(event) {
   selectedEvent = event;
   canFinalize = false;
+  document.getElementById("btnFinalize").style.display = "none";
 
   document.getElementById("modalTitle").innerText =
     `Serviço: ${event.extendedProps.serviceType} | Cliente: ${event.extendedProps.clientName}`;
@@ -172,21 +181,20 @@ function openEventModal(event){
   document.getElementById("modalStatus").innerText =
     `Status: ${event.extendedProps.statusService || "Agendado"}`;
 
-  document.getElementById("btnFinalize").style.display = "none";
   document.getElementById("eventModal").style.display = "flex";
 }
 
-function closeModal(){
+function closeModal() {
   document.getElementById("eventModal").style.display = "none";
   selectedEvent = null;
   canFinalize = false;
   document.getElementById("btnFinalize").style.display = "none";
 }
 
-function unlockFinalize(){
+function unlockFinalize() {
   const code = prompt("Digite o código de autorização para finalizar:");
 
-  if(code === ADMIN_CODE){
+  if (code === ADMIN_CODE) {
     canFinalize = true;
     document.getElementById("btnFinalize").style.display = "block";
     alert("Acesso liberado para finalizar serviços.");
@@ -195,20 +203,20 @@ function unlockFinalize(){
   }
 }
 
-function markAsFinalizado(){
-  if(!canFinalize){
+function markAsFinalizado() {
+  if (!canFinalize) {
     alert("Somente você pode finalizar este serviço.");
     return;
   }
 
-  if(!selectedEvent){
+  if (!selectedEvent) {
     alert("Nenhum serviço selecionado.");
     return;
   }
 
   const eventIndex = allEvents.findIndex(ev => ev.id === selectedEvent.id);
 
-  if(eventIndex === -1){
+  if (eventIndex === -1) {
     alert("Evento não encontrado.");
     return;
   }
@@ -223,13 +231,13 @@ function markAsFinalizado(){
   alert("Serviço marcado como finalizado com sucesso!");
 }
 
-function deleteSelectedEvent(){
-  if(!selectedEvent){
+function deleteSelectedEvent() {
+  if (!selectedEvent) {
     alert("Nenhum serviço selecionado.");
     return;
   }
 
-  if(!confirm("Deseja excluir este agendamento?")) return;
+  if (!confirm("Deseja excluir este agendamento?")) return;
 
   allEvents = allEvents.filter(ev => ev.id !== selectedEvent.id);
   saveEvents();
@@ -238,7 +246,7 @@ function deleteSelectedEvent(){
   alert("Agendamento excluído com sucesso!");
 }
 
-function buildWhatsAppMessage(event){
+function buildWhatsAppMessage(event) {
   const name = event.extendedProps.clientName || "";
   const phone = event.extendedProps.clientPhone || "";
   const service = event.extendedProps.serviceType || "";
@@ -249,7 +257,7 @@ function buildWhatsAppMessage(event){
 
   return `Olá, ${name}! 👋
 
-Seu agendamento na LeoTecnologia foi registrado com sucesso.
+Seu agendamento na Agenda Inteligente foi registrado com sucesso.
 
 🛠️ Serviço: ${service}
 📌 Status: ${status}
@@ -261,14 +269,14 @@ Seu agendamento na LeoTecnologia foi registrado com sucesso.
 Se precisar de mais informações, estamos à disposição.`;
 }
 
-function sendWhatsApp(){
-  if(!selectedEvent){
+function sendWhatsApp() {
+  if (!selectedEvent) {
     alert("Nenhum serviço selecionado.");
     return;
   }
 
   const phone = (selectedEvent.extendedProps.clientPhone || "").replace(/\D/g, "");
-  if(!phone){
+  if (!phone) {
     alert("Informe o telefone do cliente para enviar no WhatsApp.");
     return;
   }
@@ -278,8 +286,8 @@ function sendWhatsApp(){
   window.open(url, "_blank");
 }
 
-function showWarranty(){
-  if(!selectedEvent){
+function showWarranty() {
+  if (!selectedEvent) {
     alert("Nenhum serviço selecionado.");
     return;
   }
@@ -297,18 +305,18 @@ function showWarranty(){
   document.getElementById("warrantyModal").style.display = "flex";
 }
 
-function closeWarranty(){
+function closeWarranty() {
   document.getElementById("warrantyModal").style.display = "none";
 }
 
-function printWarranty(){
+function printWarranty() {
   const conteudo = document.getElementById("warrantyContent").innerHTML;
   const janela = window.open("", "", "width=900,height=700");
 
   janela.document.write(`
     <html>
     <head>
-      <title>Garantia LeoTecnologia</title>
+      <title>Garantia Agenda Inteligente</title>
       <style>
         body{
           font-family:Arial;
@@ -333,26 +341,26 @@ function printWarranty(){
   janela.print();
 }
 
-function exportBackup(){
+function exportBackup() {
   const data = JSON.stringify(allEvents, null, 2);
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "backup-agendamentos-leotecnologia.json";
+  a.download = "backup-agendamentos.json";
   a.click();
   URL.revokeObjectURL(url);
 }
 
-window.onclick = function(event){
+window.onclick = function(event) {
   const modal1 = document.getElementById("eventModal");
   const modal2 = document.getElementById("warrantyModal");
 
-  if(event.target === modal1) closeModal();
-  if(event.target === modal2) closeWarranty();
+  if (event.target === modal1) closeModal();
+  if (event.target === modal2) closeWarranty();
 };
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function() {
   const calendarEl = document.getElementById("calendar");
 
   calendar = new FullCalendar.Calendar(calendarEl, {
@@ -365,10 +373,10 @@ document.addEventListener("DOMContentLoaded", function(){
       right: ""
     },
     events: filteredEvents,
-    eventClick: function(info){
+    eventClick: function(info) {
       openEventModal(info.event);
     },
-    dateClick: function(info){
+    dateClick: function(info) {
       const time = selectedTime || "08:00";
       document.getElementById("start").value = `${info.dateStr}T${time}`;
     }
