@@ -17,12 +17,10 @@ body{
 background:linear-gradient(180deg,#020617,#0f172a,#111827);
 min-height:100vh;
 padding:10px;
-color:white;
-transition:0.3s;
+color:#fff;
 overflow-x:hidden;
+transition:.3s;
 }
-
-/* efeito scanline */
 
 body::before{
 content:"";
@@ -31,8 +29,8 @@ inset:0;
 pointer-events:none;
 background:repeating-linear-gradient(
 to bottom,
-rgba(255,255,255,0.03),
-rgba(255,255,255,0.03) 1px,
+rgba(255,255,255,.02),
+rgba(255,255,255,.02) 1px,
 transparent 2px,
 transparent 4px
 );
@@ -56,12 +54,13 @@ margin:auto;
 .company-header,
 .event-form,
 .card-dashboard{
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,.08);
 backdrop-filter:blur(15px);
 border-radius:22px;
 padding:18px;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 10px 30px rgba(0,0,0,0.35);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+margin-bottom:10px;
 }
 
 /* =========================
@@ -69,7 +68,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.35);
 ========================= */
 
 .company-header{
-margin-bottom:10px;
 text-align:center;
 }
 
@@ -89,7 +87,7 @@ gap:8px;
 }
 
 .company-info p{
-background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,.05);
 padding:10px;
 border-radius:12px;
 font-size:12px;
@@ -110,24 +108,17 @@ margin-bottom:10px;
 }
 
 .card-dashboard{
-padding:15px;
 text-align:center;
-transition:0.3s;
-}
-
-.card-dashboard:hover{
-transform:translateY(-3px);
 }
 
 .card-dashboard h3{
 font-size:24px;
 color:#38bdf8;
-margin-bottom:4px;
+margin-bottom:5px;
 }
 
 .card-dashboard p{
-font-size:11px;
-opacity:0.9;
+font-size:12px;
 }
 
 /* =========================
@@ -135,12 +126,12 @@ opacity:0.9;
 ========================= */
 
 .calendar-box{
-background:white;
+background:#fff;
 border-radius:18px;
-padding:6px;
+padding:8px;
 margin-bottom:10px;
 overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
+box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
 .fc{
@@ -148,30 +139,17 @@ font-size:10px !important;
 color:#111827;
 }
 
-.fc-toolbar-title{
-font-size:13px !important;
-font-weight:600;
-}
-
 .fc-button{
 background:#2563eb !important;
 border:none !important;
 border-radius:8px !important;
-padding:6px 10px !important;
-font-size:11px !important;
-transition:0.2s;
-}
-
-.fc-button:hover{
-opacity:0.9;
 }
 
 .fc-event{
-background:#ef4444 !important;
 border:none !important;
 border-radius:6px !important;
+font-size:10px !important;
 padding:2px;
-font-size:10px;
 }
 
 /* =========================
@@ -180,13 +158,8 @@ font-size:10px;
 
 .event-form h2{
 text-align:center;
-margin-bottom:14px;
-font-size:18px;
+margin-bottom:15px;
 }
-
-/* =========================
-   GRID HORÁRIOS
-========================= */
 
 .times-grid{
 display:grid;
@@ -195,36 +168,27 @@ gap:8px;
 margin-bottom:12px;
 }
 
-/* =========================
-   BOTÕES HORÁRIOS
-========================= */
-
 .time-slot{
 background:#00c853;
-color:white;
+color:#fff;
 border:none;
 padding:10px;
 border-radius:10px;
 cursor:pointer;
 font-weight:600;
-transition:0.2s;
+transition:.2s;
 }
 
 .time-slot:hover{
 transform:scale(1.03);
-background:#00b84a;
 }
 
 .time-slot.occupied{
 background:#ef4444;
 }
 
-.time-slot.occupied:hover{
-background:#dc2626;
-}
-
 .time-slot:disabled{
-opacity:0.5;
+opacity:.5;
 cursor:not-allowed;
 }
 
@@ -243,36 +207,31 @@ border-radius:12px;
 padding:12px;
 margin-bottom:10px;
 font-size:12px;
-transition:0.2s;
 }
 
 input,
 select,
 textarea{
-background:rgba(255,255,255,0.08);
-color:white;
-border:1px solid rgba(255,255,255,0.08);
+background:rgba(255,255,255,.08);
+color:#fff;
+border:1px solid rgba(255,255,255,.08);
 }
 
 input::placeholder,
 textarea::placeholder{
-color:rgba(255,255,255,0.6);
+color:rgba(255,255,255,.6);
 }
-
-/* foco */
 
 input:focus,
 select:focus,
 textarea:focus{
 border:1px solid #38bdf8;
-box-shadow:0 0 0 3px rgba(56,189,248,0.15);
+box-shadow:0 0 0 3px rgba(56,189,248,.15);
 }
-
-/* select */
 
 select option{
 background:#111827;
-color:white;
+color:#fff;
 }
 
 /* =========================
@@ -281,28 +240,29 @@ color:white;
 
 button{
 background:linear-gradient(135deg,#2563eb,#06b6d4);
-color:white;
+color:#fff;
 font-weight:600;
 cursor:pointer;
+transition:.2s;
 }
 
 button:hover{
-opacity:0.95;
+opacity:.95;
 transform:translateY(-1px);
 }
 
 /* =========================
-   MODAL
+   MODAIS
 ========================= */
 
 .modal{
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,.8);
 justify-content:center;
 align-items:center;
-z-index:999;
+z-index:9999;
 padding:15px;
 }
 
@@ -311,22 +271,21 @@ background:#111827;
 padding:20px;
 border-radius:20px;
 width:100%;
-max-width:340px;
+max-width:420px;
 position:relative;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 15px 40px rgba(0,0,0,0.5);
-animation:fadeIn 0.2s ease;
+max-height:90vh;
+overflow-y:auto;
 }
 
 .modal-content h2{
-margin-bottom:15px;
 text-align:center;
+margin-bottom:15px;
 }
 
 .modal-content p{
 margin-bottom:10px;
+line-height:1.6;
 font-size:13px;
-line-height:1.5;
 }
 
 .close-modal{
@@ -335,12 +294,53 @@ top:10px;
 right:15px;
 font-size:28px;
 cursor:pointer;
-transition:0.2s;
 }
 
-.close-modal:hover{
-transform:scale(1.1);
-color:#ef4444;
+/* =========================
+   TERMO GARANTIA
+========================= */
+
+#warrantyContent{
+font-size:13px;
+line-height:1.8;
+}
+
+#warrantyContent h3{
+text-align:center;
+margin-bottom:15px;
+}
+
+#warrantyContent ul{
+margin-left:20px;
+margin-bottom:15px;
+}
+
+#warrantyContent li{
+margin-bottom:6px;
+}
+
+#warrantyContent strong{
+color:#38bdf8;
+}
+
+/* =========================
+   STATUS VISUAIS
+========================= */
+
+.status-finalizado{
+background:#22c55e;
+}
+
+.status-andamento{
+background:#3b82f6;
+}
+
+.status-cancelado{
+background:#6b7280;
+}
+
+.status-agendado{
+background:#ef4444;
 }
 
 /* =========================
@@ -355,12 +355,8 @@ color:#111827;
 .light-theme .company-header,
 .light-theme .event-form,
 .light-theme .card-dashboard{
-background:white;
+background:#fff;
 color:#111827;
-}
-
-.light-theme .company-info p{
-background:#f1f5f9;
 }
 
 .light-theme input,
@@ -368,74 +364,54 @@ background:#f1f5f9;
 .light-theme select{
 background:#e2e8f0;
 color:#111827;
-border:1px solid #cbd5e1;
-}
-
-.light-theme input::placeholder,
-.light-theme textarea::placeholder{
-color:#475569;
-}
-
-.light-theme select option{
-background:white;
-color:#111827;
 }
 
 .light-theme .modal-content{
-background:white;
+background:#fff;
+color:#111827;
+}
+
+.light-theme select option{
+background:#fff;
 color:#111827;
 }
 
 /* =========================
-   ANIMAÇÃO
+   SCROLL
 ========================= */
 
-@keyframes fadeIn{
-
-from{
-opacity:0;
-transform:scale(0.95);
+::-webkit-scrollbar{
+width:8px;
 }
 
-to{
-opacity:1;
-transform:scale(1);
+::-webkit-scrollbar-track{
+background:transparent;
 }
 
+::-webkit-scrollbar-thumb{
+background:#2563eb;
+border-radius:10px;
 }
 
 /* =========================
-   RESPONSIVO
+   IMPRESSÃO GARANTIA
 ========================= */
 
-@media(max-width:480px){
+@media print{
 
-.company-name{
-font-size:20px;
-}
-
-.card-dashboard h3{
-font-size:20px;
-}
-
-.fc{
-font-size:9px !important;
-}
-
-.fc-toolbar-title{
-font-size:11px !important;
+body{
+background:#fff;
+color:#000;
 }
 
 button,
-input,
-select,
-textarea{
-font-size:11px;
+.close-modal{
+display:none !important;
 }
 
-.time-slot{
-padding:8px;
-font-size:11px;
+.modal-content{
+box-shadow:none;
+border:none;
 }
 
 }
