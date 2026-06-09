@@ -105,6 +105,12 @@ body.light-theme .modal-content{
   gap: 6px;
 }
 
+.top-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .dashboard{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -128,7 +134,8 @@ body.light-theme .modal-content{
 
 .card-dashboard button,
 .event-form button,
-.modal-content button{
+.modal-content button,
+.time-slot{
   appearance: none;
   border: none;
   border-radius: 12px;
@@ -145,14 +152,16 @@ body.light-theme .modal-content{
 
 .card-dashboard button:hover,
 .event-form button:hover,
-.modal-content button:hover{
+.modal-content button:hover,
+.time-slot:hover{
   transform: translateY(-1px);
   opacity: .95;
 }
 
 .card-dashboard button:active,
 .event-form button:active,
-.modal-content button:active{
+.modal-content button:active,
+.time-slot:active{
   transform: scale(0.98);
 }
 
@@ -292,6 +301,23 @@ body.light-theme .event-form textarea{
   margin-right: 0;
 }
 
+#warrantySection{
+  display: none;
+}
+
+.warranty-box{
+  padding: 18px;
+  border-radius: var(--radius);
+  background: rgba(17,24,39,0.88);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  line-height: 1.6;
+}
+
+body.light-theme .warranty-box{
+  background: rgba(255,255,255,0.95);
+}
+
 /* TELAS MÉDIAS */
 @media (max-width: 768px){
   body{
@@ -361,7 +387,8 @@ body.light-theme .event-form textarea{
   .card-dashboard,
   .event-form,
   .calendar-box,
-  .modal-content{
+  .modal-content,
+  .warranty-box{
     border-radius: 14px;
   }
 
