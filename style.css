@@ -18,10 +18,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body{
   min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body{
@@ -29,6 +32,8 @@ body{
   background: radial-gradient(circle at top, #1e293b 0%, #0f172a 55%, #020617 100%);
   color: var(--text);
   padding: 24px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body.light-theme{
@@ -82,6 +87,7 @@ body.light-theme .modal-content{
   font-size: 2rem;
   font-weight: 700;
   color: var(--primary);
+  line-height: 1.2;
 }
 
 .company-info{
@@ -90,6 +96,7 @@ body.light-theme .modal-content{
   gap: 14px;
   color: var(--muted);
   font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 .company-info p{
@@ -133,6 +140,7 @@ body.light-theme .modal-content{
   margin-right: 8px;
   background: linear-gradient(135deg, var(--primary), var(--primary-2));
   color: white;
+  min-height: 44px;
 }
 
 .card-dashboard button:hover,
@@ -140,6 +148,12 @@ body.light-theme .modal-content{
 .modal-content button:hover{
   transform: translateY(-1px);
   opacity: .95;
+}
+
+.card-dashboard button:active,
+.event-form button:active,
+.modal-content button:active{
+  transform: scale(0.98);
 }
 
 .small-btn{
@@ -168,6 +182,7 @@ body.light-theme .modal-content{
   padding: 12px 14px;
   font: inherit;
   outline: none;
+  min-height: 44px;
 }
 
 body.light-theme .event-form input,
@@ -189,6 +204,7 @@ body.light-theme .event-form textarea{
 .calendar-box{
   padding: 18px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #calendar{
@@ -205,6 +221,7 @@ body.light-theme .event-form textarea{
   background: var(--panel-2);
   color: var(--text);
   border: 1px solid var(--border);
+  min-height: 44px;
 }
 
 .time-slot.selected{
@@ -239,6 +256,7 @@ body.light-theme .event-form textarea{
 .modal-content h2{
   margin-bottom: 14px;
   color: var(--primary);
+  padding-right: 28px;
 }
 
 .modal-content p{
@@ -274,32 +292,85 @@ body.light-theme .event-form textarea{
   margin-right: 0;
 }
 
-#searchClient,
-#filterStatus{
-  margin-top: 0;
-}
-
-@media (max-width: 900px){
-  .dashboard{
-    grid-template-columns: 1fr;
-  }
-
-  .times-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px){
+/* TELAS MÉDIAS */
+@media (max-width: 768px){
   body{
-    padding: 14px;
+    padding: 12px;
+  }
+
+  .container{
+    gap: 14px;
+  }
+
+  .company-header{
+    padding: 18px;
   }
 
   .company-name{
     font-size: 1.5rem;
   }
 
-  .times-grid{
+  .company-info{
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.92rem;
+  }
+
+  .dashboard{
     grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .card-dashboard{
+    padding: 16px;
+  }
+
+  .card-dashboard h3{
+    font-size: 1.7rem;
+  }
+
+  .event-form{
+    padding: 18px;
+  }
+
+  .event-form h2{
+    font-size: 1.2rem;
+  }
+
+  .times-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modal-content{
+    width: 100%;
+    padding: 18px;
+  }
+
+  .modal-content h2{
+    font-size: 1.2rem;
+  }
+}
+
+/* CELULARES PEQUENOS / IPHONE */
+@media (max-width: 480px){
+  body{
+    padding: 10px;
+  }
+
+  .company-header,
+  .card-dashboard,
+  .event-form,
+  .calendar-box,
+  .modal-content{
+    border-radius: 14px;
+  }
+
+  .company-name{
+    font-size: 1.35rem;
+  }
+
+  .company-info{
+    font-size: 0.88rem;
   }
 
   .card-dashboard button,
@@ -307,5 +378,34 @@ body.light-theme .event-form textarea{
   .modal-content button{
     width: 100%;
     margin-right: 0;
+  }
+
+  .times-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .event-form input,
+  .event-form select,
+  .event-form textarea{
+    font-size: 16px;
+  }
+
+  #calendar{
+    min-width: 280px;
+  }
+}
+
+/* AJUSTES PARA SAFARI / IPHONE */
+@supports (-webkit-touch-callout: none){
+  body{
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .modal{
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .modal-content{
+    margin-bottom: env(safe-area-inset-bottom);
   }
 }
