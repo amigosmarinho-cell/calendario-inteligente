@@ -1,33 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Agenda Inteligente</title>
-
-<!-- FONTES -->
+<title>LeoTecnologia - Agenda Inteligente</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- ÍCONES -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- FULLCALENDAR -->
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
 
 <style>
-
-/* RESET */
 
 *{
 margin:0;
@@ -36,43 +25,19 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
-/* BODY */
-
 body{
 background:linear-gradient(180deg,#020617,#0f172a,#111827);
 min-height:100vh;
 padding:10px;
 color:white;
-transition:0.3s;
 overflow-x:hidden;
 }
-
-/* EFEITO VISUAL */
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,0.03),
-rgba(255,255,255,0.03) 1px,
-transparent 2px,
-transparent 4px
-);
-z-index:9999;
-}
-
-/* CONTAINER */
 
 .container{
 width:100%;
 max-width:450px;
 margin:auto;
 }
-
-/* CARDS */
 
 .company-header,
 .event-form,
@@ -82,20 +47,14 @@ backdrop-filter:blur(15px);
 border-radius:22px;
 padding:18px;
 border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 10px 30px rgba(0,0,0,0.35);
-}
-
-/* TOPO */
-
-.company-header{
 margin-bottom:10px;
-text-align:center;
 }
 
 .company-name{
 font-size:24px;
 font-weight:700;
-margin-bottom:12px;
+text-align:center;
+margin-bottom:10px;
 background:linear-gradient(90deg,#38bdf8,#2563eb);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
@@ -110,14 +69,9 @@ gap:8px;
 .company-info p{
 background:rgba(255,255,255,0.05);
 padding:10px;
-border-radius:12px;
+border-radius:10px;
 font-size:12px;
-display:flex;
-align-items:center;
-gap:8px;
 }
-
-/* DASHBOARD */
 
 .dashboard{
 display:grid;
@@ -127,29 +81,19 @@ margin-bottom:10px;
 }
 
 .card-dashboard{
-padding:15px;
 text-align:center;
 }
 
 .card-dashboard h3{
 font-size:24px;
 color:#38bdf8;
-margin-bottom:4px;
 }
-
-.card-dashboard p{
-font-size:11px;
-}
-
-/* CALENDÁRIO */
 
 .calendar-box{
 background:white;
+padding:8px;
 border-radius:18px;
-padding:6px;
 margin-bottom:10px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
 .fc{
@@ -160,32 +104,24 @@ color:#111827;
 .fc-button{
 background:#2563eb !important;
 border:none !important;
-border-radius:8px !important;
 }
 
 .fc-event{
-background:#ef4444 !important;
 border:none !important;
 border-radius:6px !important;
 }
 
-/* FORMULÁRIO */
-
 .event-form h2{
 text-align:center;
-margin-bottom:14px;
+margin-bottom:15px;
 }
-
-/* GRID HORÁRIOS */
 
 .times-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:8px;
-margin-bottom:12px;
+margin-bottom:10px;
 }
-
-/* HORÁRIOS */
 
 .time-slot{
 background:#00c853;
@@ -195,23 +131,11 @@ padding:10px;
 border-radius:10px;
 cursor:pointer;
 font-weight:600;
-transition:0.2s;
-}
-
-.time-slot:hover{
-transform:scale(1.03);
 }
 
 .time-slot.occupied{
 background:#ef4444;
 }
-
-.time-slot:disabled{
-opacity:0.5;
-cursor:not-allowed;
-}
-
-/* INPUTS */
 
 input,
 select,
@@ -224,7 +148,6 @@ border-radius:12px;
 padding:12px;
 margin-bottom:10px;
 font-size:12px;
-transition:0.2s;
 }
 
 input,
@@ -232,29 +155,8 @@ select,
 textarea{
 background:rgba(255,255,255,0.08);
 color:white;
-border:1px solid rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.1);
 }
-
-input::placeholder,
-textarea::placeholder{
-color:rgba(255,255,255,0.6);
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border:1px solid #38bdf8;
-box-shadow:0 0 0 3px rgba(56,189,248,0.15);
-}
-
-/* OPTIONS */
-
-select option{
-background:#111827;
-color:white;
-}
-
-/* BOTÕES */
 
 button{
 background:linear-gradient(135deg,#2563eb,#06b6d4);
@@ -263,20 +165,14 @@ font-weight:600;
 cursor:pointer;
 }
 
-button:hover{
-opacity:0.95;
-}
-
-/* MODAL */
-
 .modal{
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,.8);
 justify-content:center;
 align-items:center;
-z-index:999;
+z-index:9999;
 padding:15px;
 }
 
@@ -285,30 +181,26 @@ background:#111827;
 padding:20px;
 border-radius:20px;
 width:100%;
-max-width:340px;
+max-width:400px;
 position:relative;
-}
-
-.modal-content h2{
-margin-bottom:15px;
-text-align:center;
-}
-
-.modal-content p{
-margin-bottom:10px;
-font-size:13px;
-line-height:1.5;
 }
 
 .close-modal{
 position:absolute;
 top:10px;
 right:15px;
-font-size:28px;
+font-size:30px;
 cursor:pointer;
 }
 
-/* TEMA CLARO */
+#warrantyContent{
+font-size:13px;
+line-height:1.7;
+}
+
+#warrantyContent ul{
+margin-left:20px;
+}
 
 .light-theme{
 background:#f1f5f9;
@@ -322,36 +214,6 @@ background:white;
 color:#111827;
 }
 
-.light-theme input,
-.light-theme textarea,
-.light-theme select{
-background:#e2e8f0;
-color:#111827;
-}
-
-.light-theme .modal-content{
-background:white;
-color:#111827;
-}
-
-/* RESPONSIVO */
-
-@media(max-width:480px){
-
-.company-name{
-font-size:20px;
-}
-
-.card-dashboard h3{
-font-size:20px;
-}
-
-.fc{
-font-size:9px !important;
-}
-
-}
-
 </style>
 
 </head>
@@ -359,8 +221,6 @@ font-size:9px !important;
 <body>
 
 <div class="container">
-
-<!-- TOPO -->
 
 <div class="company-header">
 
@@ -389,8 +249,6 @@ Av. Três Nº733 São José de Ribamar - MA
 
 </div>
 
-<!-- DASHBOARD -->
-
 <div class="dashboard">
 
 <div class="card-dashboard">
@@ -410,13 +268,9 @@ Av. Três Nº733 São José de Ribamar - MA
 
 </div>
 
-<!-- BOTÃO -->
-
-<button type="button" onclick="toggleTheme()">
+<button onclick="toggleTheme()">
 🌙 Alternar Tema
 </button>
-
-<!-- BUSCA -->
 
 <input
 type="text"
@@ -425,15 +279,9 @@ placeholder="🔎 Buscar Cliente"
 onkeyup="searchEvents()"
 >
 
-<!-- CALENDÁRIO -->
-
 <div class="calendar-box">
-
 <div id="calendar"></div>
-
 </div>
-
-<!-- FORM -->
 
 <div class="event-form">
 
@@ -442,21 +290,13 @@ onkeyup="searchEvents()"
 <div class="times-grid">
 
 <button type="button" class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
-
 <button type="button" class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
-
 <button type="button" class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
-
 <button type="button" class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
-
 <button type="button" class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
-
 <button type="button" class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
-
 <button type="button" class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
-
 <button type="button" class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
-
 <button type="button" class="time-slot" data-time="17:00" onclick="selectTime('17:00')">17:00</button>
 
 </div>
@@ -464,13 +304,9 @@ onkeyup="searchEvents()"
 <select id="serviceType">
 
 <option value="">🛠️ Tipo de Serviço</option>
-
 <option value="Suporte Técnico">💻 Suporte Técnico</option>
-
 <option value="Instalação">🖥️ Instalação</option>
-
 <option value="Manutenção">🔧 Manutenção</option>
-
 <option value="Designer">🎨 Designer</option>
 
 </select>
@@ -478,70 +314,40 @@ onkeyup="searchEvents()"
 <select id="statusService">
 
 <option value="Agendado">🟡 Agendado</option>
-
 <option value="Em andamento">🔵 Em andamento</option>
-
 <option value="Finalizado">🟢 Finalizado</option>
-
 <option value="Cancelado">🔴 Cancelado</option>
 
 </select>
 
-<input
-type="text"
-id="clientName"
-placeholder="👤 Nome do Cliente"
->
+<input type="text" id="clientName" placeholder="👤 Nome do Cliente">
 
-<input
-type="tel"
-id="clientPhone"
-placeholder="📞 Telefone"
->
+<input type="tel" id="clientPhone" placeholder="📞 Telefone">
 
-<textarea
-id="description"
-rows="3"
-placeholder="📝 Descrição"
-></textarea>
+<textarea id="description" rows="3" placeholder="📝 Descrição"></textarea>
 
-<input
-type="datetime-local"
-id="start"
->
+<input type="datetime-local" id="start">
 
-<button
-type="button"
-onclick="addEvent()"
->
+<button onclick="addEvent()">
 Salvar Agendamento
 </button>
 
-<button
-type="button"
-onclick="exportBackup()"
->
+<button onclick="exportBackup()">
 📦 Exportar Backup
 </button>
 
 </div>
-
-</div>
-
-<!-- MODAL -->
+<!-- MODAL DETALHES -->
 
 <div id="eventModal" class="modal">
 
 <div class="modal-content">
 
-<span
-class="close-modal"
-onclick="closeModal()"
->
+<span class="close-modal" onclick="closeModal()">
 &times;
 </span>
 
-<h2>📅 Detalhes</h2>
+<h2>📅 Detalhes do Serviço</h2>
 
 <p id="modalTitle"></p>
 
@@ -549,11 +355,119 @@ onclick="closeModal()"
 
 <p id="modalDate"></p>
 
-<button
-type="button"
-onclick="deleteSelectedEvent()"
->
-🗑️ Deletar
+<button onclick="showWarranty()">
+📄 Termo de Garantia
+</button>
+
+<button onclick="deleteSelectedEvent()">
+🗑️ Excluir Agendamento
+</button>
+
+</div>
+
+</div>
+
+<!-- MODAL GARANTIA -->
+
+<div id="warrantyModal" class="modal">
+
+<div class="modal-content">
+
+<span class="close-modal" onclick="closeWarranty()">
+&times;
+</span>
+
+<h2>📄 Termo de Finalização e Garantia</h2>
+
+<div id="warrantyContent">
+
+<h3 style="text-align:center;margin-bottom:15px;">
+LeoTecnologia
+</h3>
+
+<p>
+Declaro que o serviço solicitado pelo cliente foi concluído e entregue em perfeito funcionamento.
+</p>
+
+<p>
+Este atendimento possui garantia de <strong>90 (noventa) dias</strong>, contados a partir da data de conclusão do serviço.
+</p>
+
+<p>
+Durante este período, eventuais problemas relacionados diretamente ao serviço executado serão corrigidos sem custos adicionais.
+</p>
+
+<p>
+A garantia cobre:
+</p>
+
+<ul>
+<li>Configurações realizadas pela assistência técnica;</li>
+<li>Instalações efetuadas pela empresa;</li>
+<li>Correções relacionadas ao serviço prestado;</li>
+<li>Falhas decorrentes do atendimento executado.</li>
+</ul>
+
+<p>
+A garantia não cobre:
+</p>
+
+<ul>
+<li>Danos físicos;</li>
+<li>Quebras acidentais;</li>
+<li>Contato com líquidos;</li>
+<li>Descargas elétricas;</li>
+<li>Vírus ou programas instalados após a entrega;</li>
+<li>Manutenção realizada por terceiros;</li>
+<li>Mau uso do equipamento.</li>
+</ul>
+
+<hr style="margin:15px 0;">
+
+<p>
+<strong>Cliente:</strong>
+<span id="garantiaCliente"></span>
+</p>
+
+<p>
+<strong>Serviço:</strong>
+<span id="garantiaServico"></span>
+</p>
+
+<p>
+<strong>Data da Finalização:</strong>
+<span id="garantiaData"></span>
+</p>
+
+<p>
+<strong>Garantia válida até:</strong>
+<span id="garantiaValidade"></span>
+</p>
+
+<br><br>
+
+<div style="margin-top:40px;">
+
+<p>
+__________________________________
+<br>
+Assinatura do Cliente
+</p>
+
+<br><br>
+
+<p>
+__________________________________
+<br>
+LeoTecnologia
+</p>
+
+</div>
+
+</div>
+
+<button onclick="printWarranty()">
+🖨️ Imprimir Termo
 </button>
 
 </div>
@@ -564,9 +478,129 @@ onclick="deleteSelectedEvent()"
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-<!-- SCRIPT -->
+<!-- JAVASCRIPT -->
 
-<script src="script.js"></script>
+<script>
+
+// GARANTIA
+
+function showWarranty(){
+
+if(!selectedEvent){
+alert("Nenhum serviço selecionado.");
+return;
+}
+
+const titulo = selectedEvent.title;
+
+const servico = titulo.split(" - ")[0];
+const cliente = titulo.split(" - ")[1] || titulo;
+
+const dataFinalizacao =
+new Date(selectedEvent.start);
+
+const validade =
+new Date(dataFinalizacao);
+
+validade.setDate(validade.getDate()+90);
+
+document.getElementById("garantiaCliente").innerText =
+cliente;
+
+document.getElementById("garantiaServico").innerText =
+servico;
+
+document.getElementById("garantiaData").innerText =
+dataFinalizacao.toLocaleDateString("pt-BR");
+
+document.getElementById("garantiaValidade").innerText =
+validade.toLocaleDateString("pt-BR");
+
+document.getElementById("warrantyModal").style.display =
+"flex";
+
+}
+
+function closeWarranty(){
+
+document.getElementById("warrantyModal").style.display =
+"none";
+
+}
+
+function printWarranty(){
+
+const conteudo =
+document.getElementById("warrantyContent").innerHTML;
+
+const janela =
+window.open("","","width=900,height=700");
+
+janela.document.write(`
+<html>
+<head>
+<title>Garantia LeoTecnologia</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px;
+line-height:1.8;
+}
+
+h3{
+text-align:center;
+}
+
+ul{
+margin-left:25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${conteudo}
+
+</body>
+
+</html>
+`);
+
+janela.document.close();
+
+janela.print();
+
+}
+
+// FECHAR MODAIS
+
+window.onclick = function(event){
+
+const modal1 =
+document.getElementById("eventModal");
+
+const modal2 =
+document.getElementById("warrantyModal");
+
+if(event.target === modal1){
+
+closeModal();
+
+}
+
+if(event.target === modal2){
+
+closeWarranty();
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
