@@ -1,606 +1,682 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>LeoTecnologia - Agenda Inteligente</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
-
 body{
-background:linear-gradient(180deg,#020617,#0f172a,#111827);
-min-height:100vh;
-padding:10px;
-color:white;
-overflow-x:hidden;
+  background:linear-gradient(180deg,#020617,#0f172a,#111827);
+  min-height:100vh;
+  padding:10px;
+  color:white;
+  overflow-x:hidden;
+  transition:0.3s;
 }
-
 .container{
-width:100%;
-max-width:450px;
-margin:auto;
+  width:100%;
+  max-width:450px;
+  margin:auto;
 }
-
 .company-header,
 .event-form,
 .card-dashboard{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(15px);
-border-radius:22px;
-padding:18px;
-border:1px solid rgba(255,255,255,0.08);
-margin-bottom:10px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(15px);
+  border-radius:22px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,0.08);
+  margin-bottom:10px;
 }
-
 .company-name{
-font-size:24px;
-font-weight:700;
-text-align:center;
-margin-bottom:10px;
-background:linear-gradient(90deg,#38bdf8,#2563eb);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+  font-size:24px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:10px;
+  background:linear-gradient(90deg,#38bdf8,#2563eb);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-
 .company-info{
-display:flex;
-flex-direction:column;
-gap:8px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
-
 .company-info p{
-background:rgba(255,255,255,0.05);
-padding:10px;
-border-radius:10px;
-font-size:12px;
+  background:rgba(255,255,255,0.05);
+  padding:10px;
+  border-radius:10px;
+  font-size:12px;
 }
-
 .dashboard{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:10px;
 }
-
 .card-dashboard{
-text-align:center;
+  text-align:center;
 }
-
 .card-dashboard h3{
-font-size:24px;
-color:#38bdf8;
+  font-size:24px;
+  color:#38bdf8;
 }
-
 .calendar-box{
-background:white;
-padding:8px;
-border-radius:18px;
-margin-bottom:10px;
+  background:white;
+  padding:8px;
+  border-radius:18px;
+  margin-bottom:10px;
 }
-
 .fc{
-font-size:10px !important;
-color:#111827;
+  font-size:10px !important;
+  color:#111827;
 }
-
 .fc-button{
-background:#2563eb !important;
-border:none !important;
+  background:#2563eb !important;
+  border:none !important;
 }
-
 .fc-event{
-border:none !important;
-border-radius:6px !important;
+  border:none !important;
+  border-radius:6px !important;
 }
-
 .event-form h2{
-text-align:center;
-margin-bottom:15px;
+  text-align:center;
+  margin-bottom:15px;
 }
-
 .times-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:10px;
 }
-
 .time-slot{
-background:#00c853;
-color:white;
-border:none;
-padding:10px;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
+  background:#00c853;
+  color:white;
+  border:none;
+  padding:10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
 }
-
 .time-slot.occupied{
-background:#ef4444;
+  background:#ef4444;
 }
-
+.time-slot.selected{
+  outline:3px solid #fff;
+  box-shadow:0 0 0 2px #2563eb;
+}
 input,
 select,
 textarea,
 button{
-width:100%;
-border:none;
-outline:none;
-border-radius:12px;
-padding:12px;
-margin-bottom:10px;
-font-size:12px;
+  width:100%;
+  border:none;
+  outline:none;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+  font-size:12px;
 }
-
 input,
 select,
 textarea{
-background:rgba(255,255,255,0.08);
-color:white;
-border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08);
+  color:white;
+  border:1px solid rgba(255,255,255,0.1);
 }
-
+input::placeholder,
+textarea::placeholder{
+  color:rgba(255,255,255,0.7);
+}
 button{
-background:linear-gradient(135deg,#2563eb,#06b6d4);
-color:white;
-font-weight:600;
-cursor:pointer;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
 }
-
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-justify-content:center;
-align-items:center;
-z-index:9999;
-padding:15px;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:15px;
 }
-
 .modal-content{
-background:#111827;
-padding:20px;
-border-radius:20px;
-width:100%;
-max-width:400px;
-position:relative;
+  background:#111827;
+  padding:20px;
+  border-radius:20px;
+  width:100%;
+  max-width:400px;
+  position:relative;
 }
-
 .close-modal{
-position:absolute;
-top:10px;
-right:15px;
-font-size:30px;
-cursor:pointer;
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:30px;
+  cursor:pointer;
 }
-
 #warrantyContent{
-font-size:13px;
-line-height:1.7;
+  font-size:13px;
+  line-height:1.7;
 }
-
 #warrantyContent ul{
-margin-left:20px;
+  margin-left:20px;
 }
-
 .light-theme{
-background:#f1f5f9;
-color:#111827;
+  background:#f1f5f9;
+  color:#111827;
 }
-
 .light-theme .company-header,
 .light-theme .event-form,
 .light-theme .card-dashboard{
-background:white;
-color:#111827;
+  background:white;
+  color:#111827;
 }
-
+.light-theme input,
+.light-theme select,
+.light-theme textarea{
+  background:#f8fafc;
+  color:#111827;
+  border:1px solid #cbd5e1;
+}
+.light-theme input::placeholder,
+.light-theme textarea::placeholder{
+  color:#64748b;
+}
+.light-theme .calendar-box{
+  background:white;
+}
+.light-theme .modal-content{
+  background:white;
+  color:#111827;
+}
+.filter-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:10px;
+}
+.small-btn{
+  margin-bottom:10px;
+}
 </style>
-
 </head>
 
 <body>
-
 <div class="container">
 
-<div class="company-header">
+  <div class="company-header">
+    <div class="company-name">LeoTecnologia</div>
+    <div class="company-info">
+      <p><i class="fa-solid fa-location-dot"></i> Av. Três Nº733 São José de Ribamar - MA</p>
+      <p><i class="fa-solid fa-phone"></i> (98) 99994-2905</p>
+      <p><i class="fa-brands fa-instagram"></i> @leotecnologia25</p>
+    </div>
+  </div>
 
-<div class="company-name">
-LeoTecnologia
-</div>
+  <div class="dashboard">
+    <div class="card-dashboard">
+      <h3 id="todayCount">0</h3>
+      <p>Hoje</p>
+    </div>
+    <div class="card-dashboard">
+      <h3 id="freeCount">0</h3>
+      <p>Livres</p>
+    </div>
+    <div class="card-dashboard">
+      <h3 id="clientCount">0</h3>
+      <p>Clientes</p>
+    </div>
+  </div>
 
-<div class="company-info">
+  <button type="button" onclick="toggleTheme()">🌙 Alternar Tema</button>
 
-<p>
-<i class="fa-solid fa-location-dot"></i>
-Av. Três Nº733 São José de Ribamar - MA
-</p>
+  <input type="text" id="searchClient" placeholder="🔎 Buscar Cliente" onkeyup="applyFilters()">
 
-<p>
-<i class="fa-solid fa-phone"></i>
-(98) 99994-2905
-</p>
+  <div class="filter-row">
+    <select id="filterStatus" onchange="applyFilters()">
+      <option value="">Filtrar por status</option>
+      <option value="Agendado">Agendado</option>
+      <option value="Em andamento">Em andamento</option>
+      <option value="Finalizado">Finalizado</option>
+      <option value="Cancelado">Cancelado</option>
+    </select>
 
-<p>
-<i class="fa-brands fa-instagram"></i>
-@leotecnologia25
-</p>
+    <button type="button" class="small-btn" onclick="clearFilters()">Limpar Filtros</button>
+  </div>
 
-</div>
+  <div class="calendar-box">
+    <div id="calendar"></div>
+  </div>
 
-</div>
+  <div class="event-form">
+    <h2>📅 Novo Agendamento</h2>
 
-<div class="dashboard">
+    <div class="times-grid" id="timesGrid">
+      <button type="button" class="time-slot" data-time="08:00" onclick="selectTime('08:00', this)">08:00</button>
+      <button type="button" class="time-slot" data-time="09:00" onclick="selectTime('09:00', this)">09:00</button>
+      <button type="button" class="time-slot" data-time="10:00" onclick="selectTime('10:00', this)">10:00</button>
+      <button type="button" class="time-slot" data-time="11:00" onclick="selectTime('11:00', this)">11:00</button>
+      <button type="button" class="time-slot" data-time="13:00" onclick="selectTime('13:00', this)">13:00</button>
+      <button type="button" class="time-slot" data-time="14:00" onclick="selectTime('14:00', this)">14:00</button>
+      <button type="button" class="time-slot" data-time="15:00" onclick="selectTime('15:00', this)">15:00</button>
+      <button type="button" class="time-slot" data-time="16:00" onclick="selectTime('16:00', this)">16:00</button>
+      <button type="button" class="time-slot" data-time="17:00" onclick="selectTime('17:00', this)">17:00</button>
+    </div>
 
-<div class="card-dashboard">
-<h3 id="todayCount">0</h3>
-<p>Hoje</p>
-</div>
+    <select id="serviceType">
+      <option value="">🛠️ Tipo de Serviço</option>
+      <option value="Suporte Técnico">💻 Suporte Técnico</option>
+      <option value="Instalação">🖥️ Instalação</option>
+      <option value="Manutenção">🔧 Manutenção</option>
+      <option value="Designer">🎨 Designer</option>
+    </select>
 
-<div class="card-dashboard">
-<h3 id="freeCount">0</h3>
-<p>Livres</p>
-</div>
+    <select id="statusService">
+      <option value="Agendado">🟡 Agendado</option>
+      <option value="Em andamento">🔵 Em andamento</option>
+      <option value="Finalizado">🟢 Finalizado</option>
+      <option value="Cancelado">🔴 Cancelado</option>
+    </select>
 
-<div class="card-dashboard">
-<h3 id="clientCount">0</h3>
-<p>Clientes</p>
-</div>
+    <input type="text" id="clientName" placeholder="👤 Nome do Cliente">
+    <input type="tel" id="clientPhone" placeholder="📞 Telefone com DDD">
+    <textarea id="description" rows="3" placeholder="📝 Descrição"></textarea>
+    <input type="datetime-local" id="start">
 
-</div>
+    <button type="button" onclick="addEvent()">Salvar Agendamento</button>
+    <button type="button" onclick="exportBackup()">📦 Exportar Backup</button>
+  </div>
 
-<button onclick="toggleTheme()">
-🌙 Alternar Tema
-</button>
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h2>📅 Detalhes do Serviço</h2>
+      <p id="modalTitle"></p>
+      <p id="modalDescription"></p>
+      <p id="modalDate"></p>
+      <button type="button" onclick="sendWhatsApp()">💬 Enviar no WhatsApp</button>
+      <button type="button" onclick="showWarranty()">📄 Termo de Garantia</button>
+      <button type="button" onclick="deleteSelectedEvent()">🗑️ Excluir Agendamento</button>
+    </div>
+  </div>
 
-<input
-type="text"
-id="searchClient"
-placeholder="🔎 Buscar Cliente"
-onkeyup="searchEvents()"
->
+  <div id="warrantyModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeWarranty()">&times;</span>
+      <h2>📄 Termo de Finalização e Garantia</h2>
 
-<div class="calendar-box">
-<div id="calendar"></div>
-</div>
+      <div id="warrantyContent">
+        <h3 style="text-align:center;margin-bottom:15px;">LeoTecnologia</h3>
+        <p>Declaro que o serviço solicitado pelo cliente foi concluído e entregue em perfeito funcionamento.</p>
+        <p>Este atendimento possui garantia de <strong>90 (noventa) dias</strong>, contados a partir da data de conclusão do serviço.</p>
+        <p>Durante este período, eventuais problemas relacionados diretamente ao serviço executado serão corrigidos sem custos adicionais.</p>
+        <p>A garantia cobre:</p>
+        <ul>
+          <li>Configurações realizadas pela assistência técnica;</li>
+          <li>Instalações efetuadas pela empresa;</li>
+          <li>Correções relacionadas ao serviço prestado;</li>
+          <li>Falhas decorrentes do atendimento executado.</li>
+        </ul>
+        <p>A garantia não cobre:</p>
+        <ul>
+          <li>Danos físicos;</li>
+          <li>Quebras acidentais;</li>
+          <li>Contato com líquidos;</li>
+          <li>Descargas elétricas;</li>
+          <li>Vírus ou programas instalados após a entrega;</li>
+          <li>Manutenção realizada por terceiros;</li>
+          <li>Mau uso do equipamento.</li>
+        </ul>
 
-<div class="event-form">
+        <hr style="margin:15px 0;">
 
-<h2>📅 Novo Agendamento</h2>
+        <p><strong>Cliente:</strong> <span id="garantiaCliente"></span></p>
+        <p><strong>Serviço:</strong> <span id="garantiaServico"></span></p>
+        <p><strong>Data da Finalização:</strong> <span id="garantiaData"></span></p>
+        <p><strong>Garantia válida até:</strong> <span id="garantiaValidade"></span></p>
+      </div>
 
-<div class="times-grid">
-
-<button type="button" class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
-<button type="button" class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
-<button type="button" class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
-<button type="button" class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
-<button type="button" class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
-<button type="button" class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
-<button type="button" class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
-<button type="button" class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
-<button type="button" class="time-slot" data-time="17:00" onclick="selectTime('17:00')">17:00</button>
-
-</div>
-
-<select id="serviceType">
-
-<option value="">🛠️ Tipo de Serviço</option>
-<option value="Suporte Técnico">💻 Suporte Técnico</option>
-<option value="Instalação">🖥️ Instalação</option>
-<option value="Manutenção">🔧 Manutenção</option>
-<option value="Designer">🎨 Designer</option>
-
-</select>
-
-<select id="statusService">
-
-<option value="Agendado">🟡 Agendado</option>
-<option value="Em andamento">🔵 Em andamento</option>
-<option value="Finalizado">🟢 Finalizado</option>
-<option value="Cancelado">🔴 Cancelado</option>
-
-</select>
-
-<input type="text" id="clientName" placeholder="👤 Nome do Cliente">
-
-<input type="tel" id="clientPhone" placeholder="📞 Telefone">
-
-<textarea id="description" rows="3" placeholder="📝 Descrição"></textarea>
-
-<input type="datetime-local" id="start">
-
-<button onclick="addEvent()">
-Salvar Agendamento
-</button>
-
-<button onclick="exportBackup()">
-📦 Exportar Backup
-</button>
-
-</div>
-<!-- MODAL DETALHES -->
-
-<div id="eventModal" class="modal">
-
-<div class="modal-content">
-
-<span class="close-modal" onclick="closeModal()">
-&times;
-</span>
-
-<h2>📅 Detalhes do Serviço</h2>
-
-<p id="modalTitle"></p>
-
-<p id="modalDescription"></p>
-
-<p id="modalDate"></p>
-
-<button onclick="showWarranty()">
-📄 Termo de Garantia
-</button>
-
-<button onclick="deleteSelectedEvent()">
-🗑️ Excluir Agendamento
-</button>
+      <button type="button" onclick="printWarranty()">🖨️ Imprimir Termo</button>
+    </div>
+  </div>
 
 </div>
-
-</div>
-
-<!-- MODAL GARANTIA -->
-
-<div id="warrantyModal" class="modal">
-
-<div class="modal-content">
-
-<span class="close-modal" onclick="closeWarranty()">
-&times;
-</span>
-
-<h2>📄 Termo de Finalização e Garantia</h2>
-
-<div id="warrantyContent">
-
-<h3 style="text-align:center;margin-bottom:15px;">
-LeoTecnologia
-</h3>
-
-<p>
-Declaro que o serviço solicitado pelo cliente foi concluído e entregue em perfeito funcionamento.
-</p>
-
-<p>
-Este atendimento possui garantia de <strong>90 (noventa) dias</strong>, contados a partir da data de conclusão do serviço.
-</p>
-
-<p>
-Durante este período, eventuais problemas relacionados diretamente ao serviço executado serão corrigidos sem custos adicionais.
-</p>
-
-<p>
-A garantia cobre:
-</p>
-
-<ul>
-<li>Configurações realizadas pela assistência técnica;</li>
-<li>Instalações efetuadas pela empresa;</li>
-<li>Correções relacionadas ao serviço prestado;</li>
-<li>Falhas decorrentes do atendimento executado.</li>
-</ul>
-
-<p>
-A garantia não cobre:
-</p>
-
-<ul>
-<li>Danos físicos;</li>
-<li>Quebras acidentais;</li>
-<li>Contato com líquidos;</li>
-<li>Descargas elétricas;</li>
-<li>Vírus ou programas instalados após a entrega;</li>
-<li>Manutenção realizada por terceiros;</li>
-<li>Mau uso do equipamento.</li>
-</ul>
-
-<hr style="margin:15px 0;">
-
-<p>
-<strong>Cliente:</strong>
-<span id="garantiaCliente"></span>
-</p>
-
-<p>
-<strong>Serviço:</strong>
-<span id="garantiaServico"></span>
-</p>
-
-<p>
-<strong>Data da Finalização:</strong>
-<span id="garantiaData"></span>
-</p>
-
-<p>
-<strong>Garantia válida até:</strong>
-<span id="garantiaValidade"></span>
-</p>
-
-<br><br>
-
-<div style="margin-top:40px;">
-
-<p>
-__________________________________
-<br>
-Assinatura do Cliente
-</p>
-
-<br><br>
-
-<p>
-__________________________________
-<br>
-LeoTecnologia
-</p>
-
-</div>
-
-</div>
-
-<button onclick="printWarranty()">
-🖨️ Imprimir Termo
-</button>
-
-</div>
-
-</div>
-
-<!-- FULLCALENDAR -->
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-<!-- JAVASCRIPT -->
-
 <script>
+let calendar;
+let allEvents = JSON.parse(localStorage.getItem("leotecnologia_events") || "[]");
+let filteredEvents = [...allEvents];
+let selectedEvent = null;
+let selectedTimeButton = null;
+let selectedTime = "";
 
-// GARANTIA
-
-function showWarranty(){
-
-if(!selectedEvent){
-alert("Nenhum serviço selecionado.");
-return;
+function saveEvents(){
+  localStorage.setItem("leotecnologia_events", JSON.stringify(allEvents));
 }
 
-const titulo = selectedEvent.title;
+function toggleTheme(){
+  document.body.classList.toggle("light-theme");
+}
 
-const servico = titulo.split(" - ")[0];
-const cliente = titulo.split(" - ")[1] || titulo;
+function selectTime(time, button){
+  selectedTime = time;
+  if(selectedTimeButton) selectedTimeButton.classList.remove("selected");
+  selectedTimeButton = button;
+  selectedTimeButton.classList.add("selected");
 
-const dataFinalizacao =
-new Date(selectedEvent.start);
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  document.getElementById("start").value = `${yyyy}-${mm}-${dd}T${time}`;
+}
 
-const validade =
-new Date(dataFinalizacao);
+function getStatusColor(status){
+  switch(status){
+    case "Em andamento": return "#3b82f6";
+    case "Finalizado": return "#22c55e";
+    case "Cancelado": return "#ef4444";
+    default: return "#facc15";
+  }
+}
 
-validade.setDate(validade.getDate()+90);
+function addEvent(){
+  const serviceType = document.getElementById("serviceType").value;
+  const statusService = document.getElementById("statusService").value;
+  const clientName = document.getElementById("clientName").value.trim();
+  const clientPhone = document.getElementById("clientPhone").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const start = document.getElementById("start").value;
 
-document.getElementById("garantiaCliente").innerText =
-cliente;
+  if(!serviceType || !clientName || !start){
+    alert("Preencha o tipo de serviço, nome do cliente e data/hora.");
+    return;
+  }
 
-document.getElementById("garantiaServico").innerText =
-servico;
+  const duplicate = allEvents.some(ev => ev.start === start);
+  if(duplicate){
+    alert("Já existe um agendamento nesse horário.");
+    return;
+  }
 
-document.getElementById("garantiaData").innerText =
-dataFinalizacao.toLocaleDateString("pt-BR");
+  const event = {
+    id: Date.now().toString(),
+    title: `${serviceType} - ${clientName}`,
+    start: start,
+    backgroundColor: getStatusColor(statusService),
+    borderColor: getStatusColor(statusService),
+    extendedProps: {
+      serviceType,
+      statusService,
+      clientName,
+      clientPhone,
+      description
+    }
+  };
 
-document.getElementById("garantiaValidade").innerText =
-validade.toLocaleDateString("pt-BR");
+  allEvents.push(event);
+  saveEvents();
+  applyFilters();
+  updateDashboard();
+  updateTimeSlots();
+  clearForm();
+  alert("Agendamento salvo com sucesso!");
+}
 
-document.getElementById("warrantyModal").style.display =
-"flex";
+function clearForm(){
+  document.getElementById("serviceType").value = "";
+  document.getElementById("statusService").value = "Agendado";
+  document.getElementById("clientName").value = "";
+  document.getElementById("clientPhone").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("start").value = "";
+  if(selectedTimeButton){
+    selectedTimeButton.classList.remove("selected");
+    selectedTimeButton = null;
+  }
+  selectedTime = "";
+}
 
+function applyFilters(){
+  const query = document.getElementById("searchClient").value.toLowerCase().trim();
+  const statusFilter = document.getElementById("filterStatus").value;
+
+  filteredEvents = allEvents.filter(ev => {
+    const name = (ev.extendedProps.clientName || "").toLowerCase();
+    const phone = (ev.extendedProps.clientPhone || "").toLowerCase();
+    const title = (ev.title || "").toLowerCase();
+    const status = ev.extendedProps.statusService || "";
+
+    const matchQuery = !query || name.includes(query) || phone.includes(query) || title.includes(query);
+    const matchStatus = !statusFilter || status === statusFilter;
+
+    return matchQuery && matchStatus;
+  });
+
+  renderCalendarEvents();
+  updateDashboard();
+  updateTimeSlots();
+}
+
+function clearFilters(){
+  document.getElementById("searchClient").value = "";
+  document.getElementById("filterStatus").value = "";
+  applyFilters();
+}
+
+function renderCalendarEvents(){
+  calendar.removeAllEvents();
+  filteredEvents.forEach(ev => calendar.addEvent(ev));
+}
+
+function updateDashboard(){
+  const todayStr = new Date().toISOString().split("T");
+  const todayEvents = allEvents.filter(ev => ev.start.split("T") === todayStr);
+  const clients = new Set(allEvents.map(ev => (ev.extendedProps.clientName || "").toLowerCase()));
+
+  document.getElementById("todayCount").innerText = todayEvents.length;
+  document.getElementById("clientCount").innerText = clients.size;
+  document.getElementById("freeCount").innerText = Math.max(9 - todayEvents.length, 0);
+}
+
+function updateTimeSlots(){
+  const todayStr = new Date().toISOString().split("T");
+
+  document.querySelectorAll(".time-slot").forEach(btn => {
+    const time = btn.dataset.time;
+    const occupied = allEvents.some(ev => ev.start.startsWith(todayStr) && ev.start.includes(time));
+    btn.classList.toggle("occupied", occupied);
+    btn.disabled = occupied;
+  });
+}
+
+function openEventModal(event){
+  selectedEvent = event;
+  document.getElementById("modalTitle").innerText = `Serviço: ${event.extendedProps.serviceType} | Cliente: ${event.extendedProps.clientName}`;
+  document.getElementById("modalDescription").innerText = `Descrição: ${event.extendedProps.description || "Sem descrição"}`;
+  document.getElementById("modalDate").innerText = `Data/Hora: ${new Date(event.start).toLocaleString("pt-BR")}`;
+  document.getElementById("eventModal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("eventModal").style.display = "none";
+  selectedEvent = null;
+}
+
+function deleteSelectedEvent(){
+  if(!selectedEvent){
+    alert("Nenhum serviço selecionado.");
+    return;
+  }
+
+  if(!confirm("Deseja excluir este agendamento?")) return;
+
+  allEvents = allEvents.filter(ev => ev.id !== selectedEvent.id);
+  saveEvents();
+  selectedEvent.remove();
+  closeModal();
+  applyFilters();
+}
+
+function buildWhatsAppMessage(event){
+  const name = event.extendedProps.clientName || "";
+  const phone = event.extendedProps.clientPhone || "";
+  const service = event.extendedProps.serviceType || "";
+  const status = event.extendedProps.statusService || "";
+  const date = new Date(event.start).toLocaleDateString("pt-BR");
+  const hour = new Date(event.start).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const desc = event.extendedProps.description || "Sem observações";
+
+  return `Olá, ${name}! 👋
+
+Seu agendamento na LeoTecnologia foi registrado com sucesso.
+
+🛠️ Serviço: ${service}
+📌 Status: ${status}
+📅 Data: ${date}
+⏰ Horário: ${hour}
+📞 Telefone: ${phone}
+📝 Observação: ${desc}
+
+Se precisar de mais informações, estamos à disposição.`;
+}
+
+function sendWhatsApp(){
+  if(!selectedEvent){
+    alert("Nenhum serviço selecionado.");
+    return;
+  }
+
+  const phone = (selectedEvent.extendedProps.clientPhone || "").replace(/\D/g, "");
+  if(!phone){
+    alert("Informe o telefone do cliente para enviar no WhatsApp.");
+    return;
+  }
+
+  const message = buildWhatsAppMessage(selectedEvent);
+  const url = `https://wa.me/55${phone}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+}
+
+function showWarranty(){
+  if(!selectedEvent){
+    alert("Nenhum serviço selecionado.");
+    return;
+  }
+
+  const cliente = selectedEvent.extendedProps.clientName;
+  const servico = selectedEvent.extendedProps.serviceType;
+  const dataFinalizacao = new Date(selectedEvent.start);
+  const validade = new Date(dataFinalizacao);
+  validade.setDate(validade.getDate() + 90);
+
+  document.getElementById("garantiaCliente").innerText = cliente;
+  document.getElementById("garantiaServico").innerText = servico;
+  document.getElementById("garantiaData").innerText = dataFinalizacao.toLocaleDateString("pt-BR");
+  document.getElementById("garantiaValidade").innerText = validade.toLocaleDateString("pt-BR");
+  document.getElementById("warrantyModal").style.display = "flex";
 }
 
 function closeWarranty(){
-
-document.getElementById("warrantyModal").style.display =
-"none";
-
+  document.getElementById("warrantyModal").style.display = "none";
 }
 
 function printWarranty(){
+  const conteudo = document.getElementById("warrantyContent").innerHTML;
+  const janela = window.open("", "", "width=900,height=700");
 
-const conteudo =
-document.getElementById("warrantyContent").innerHTML;
+  janela.document.write(`
+    <html>
+    <head>
+      <title>Garantia LeoTecnologia</title>
+      <style>
+        body{
+          font-family:Arial;
+          padding:30px;
+          line-height:1.8;
+        }
+        h3{
+          text-align:center;
+        }
+        ul{
+          margin-left:25px;
+        }
+      </style>
+    </head>
+    <body>
+      ${conteudo}
+    </body>
+    </html>
+  `);
 
-const janela =
-window.open("","","width=900,height=700");
-
-janela.document.write(`
-<html>
-<head>
-<title>Garantia LeoTecnologia</title>
-
-<style>
-
-body{
-font-family:Arial;
-padding:30px;
-line-height:1.8;
+  janela.document.close();
+  janela.print();
 }
 
-h3{
-text-align:center;
+function exportBackup(){
+  const data = JSON.stringify(allEvents, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "backup-agendamentos-leotecnologia.json";
+  a.click();
+  URL.revokeObjectURL(url);
 }
-
-ul{
-margin-left:25px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-${conteudo}
-
-</body>
-
-</html>
-`);
-
-janela.document.close();
-
-janela.print();
-
-}
-
-// FECHAR MODAIS
 
 window.onclick = function(event){
+  const modal1 = document.getElementById("eventModal");
+  const modal2 = document.getElementById("warrantyModal");
 
-const modal1 =
-document.getElementById("eventModal");
+  if(event.target === modal1) closeModal();
+  if(event.target === modal2) closeWarranty();
+};
 
-const modal2 =
-document.getElementById("warrantyModal");
+document.addEventListener("DOMContentLoaded", function(){
+  const calendarEl = document.getElementById("calendar");
 
-if(event.target === modal1){
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+    locale: "pt-br",
+    height: "auto",
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: ""
+    },
+    events: filteredEvents,
+    eventClick: function(info){
+      openEventModal(info.event);
+    },
+    dateClick: function(info){
+      const time = selectedTime || "08:00";
+      document.getElementById("start").value = `${info.dateStr}T${time}`;
+    }
+  });
 
-closeModal();
-
-}
-
-if(event.target === modal2){
-
-closeWarranty();
-
-}
-
-}
-
+  calendar.render();
+  applyFilters();
+});
 </script>
-
 </body>
 </html>
