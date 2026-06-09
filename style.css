@@ -1,417 +1,241 @@
-/* =========================
-   RESET
-========================= */
+:root{
+  --bg-1:#020617;
+  --bg-2:#0f172a;
+  --bg-3:#111827;
+  --card:rgba(255,255,255,0.08);
+  --card-border:rgba(255,255,255,0.10);
+  --text:#ffffff;
+  --text-soft:rgba(255,255,255,0.75);
+  --input-bg:rgba(255,255,255,0.08);
+  --input-border:rgba(255,255,255,0.12);
+  --primary:#2563eb;
+  --primary-2:#06b6d4;
+  --success:#22c55e;
+  --warning:#facc15;
+  --danger:#ef4444;
+  --info:#3b82f6;
+  --shadow:0 10px 30px rgba(0,0,0,0.25);
+  --radius:22px;
+}
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-/* =========================
-   BODY
-========================= */
+html{
+  scroll-behavior:smooth;
+}
 
 body{
-background:linear-gradient(180deg,#020617,#0f172a,#111827);
-min-height:100vh;
-padding:10px;
-color:#fff;
-overflow-x:hidden;
-transition:.3s;
+  background:linear-gradient(180deg,var(--bg-1),var(--bg-2),var(--bg-3));
+  min-height:100vh;
+  padding:10px;
+  color:var(--text);
+  overflow-x:hidden;
+  transition:background 0.3s ease,color 0.3s ease;
 }
 
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,.02),
-rgba(255,255,255,.02) 1px,
-transparent 2px,
-transparent 4px
-);
-z-index:9999;
+button,
+input,
+select,
+textarea{
+  font:inherit;
 }
-
-/* =========================
-   CONTAINER
-========================= */
 
 .container{
-width:100%;
-max-width:450px;
-margin:auto;
+  width:100%;
+  max-width:450px;
+  margin:auto;
 }
 
-/* =========================
-   CARDS
-========================= */
+.company-header,
+.event-form,
+.card-dashboard,
+.calendar-box,
+.modal-content{
+  box-shadow:var(--shadow);
+}
 
 .company-header,
 .event-form,
 .card-dashboard{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-border-radius:22px;
-padding:18px;
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 10px 30px rgba(0,0,0,.35);
-margin-bottom:10px;
-}
-
-/* =========================
-   TOPO
-========================= */
-
-.company-header{
-text-align:center;
+  background:var(--card);
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+  border-radius:var(--radius);
+  padding:18px;
+  border:1px solid var(--card-border);
+  margin-bottom:10px;
 }
 
 .company-name{
-font-size:24px;
-font-weight:700;
-margin-bottom:12px;
-background:linear-gradient(90deg,#38bdf8,#2563eb);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+  font-size:24px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#38bdf8,#2563eb);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  color:transparent;
 }
 
 .company-info{
-display:flex;
-flex-direction:column;
-gap:8px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
 .company-info p{
-background:rgba(255,255,255,.05);
-padding:10px;
-border-radius:12px;
-font-size:12px;
-display:flex;
-align-items:center;
-gap:8px;
+  background:rgba(255,255,255,0.05);
+  padding:10px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.5;
+  color:var(--text-soft);
 }
 
-/* =========================
-   DASHBOARD
-========================= */
+.company-info i{
+  margin-right:6px;
+  color:#38bdf8;
+}
 
 .dashboard{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:10px;
 }
 
 .card-dashboard{
-text-align:center;
+  text-align:center;
+  min-height:92px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
 
 .card-dashboard h3{
-font-size:24px;
-color:#38bdf8;
-margin-bottom:5px;
+  font-size:24px;
+  line-height:1;
+  color:#38bdf8;
+  margin-bottom:4px;
 }
 
 .card-dashboard p{
-font-size:12px;
+  font-size:12px;
+  color:var(--text-soft);
 }
 
-/* =========================
-   CALENDÁRIO
-========================= */
-
 .calendar-box{
-background:#fff;
-border-radius:18px;
-padding:8px;
-margin-bottom:10px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,.35);
+  background:#ffffff;
+  padding:8px;
+  border-radius:18px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+
+#calendar{
+  width:100%;
 }
 
 .fc{
-font-size:10px !important;
-color:#111827;
+  font-size:10px !important;
+  color:#111827;
 }
 
-.fc-button{
-background:#2563eb !important;
-border:none !important;
-border-radius:8px !important;
+.fc .fc-toolbar-title{
+  font-size:14px !important;
+  font-weight:700;
+}
+
+.fc .fc-button{
+  background:var(--primary) !important;
+  border:none !important;
+  box-shadow:none !important;
+  text-transform:capitalize !important;
+  font-size:11px !important;
+  padding:6px 10px !important;
+  border-radius:10px !important;
+}
+
+.fc .fc-button:hover{
+  background:#1d4ed8 !important;
+}
+
+.fc .fc-button:focus{
+  box-shadow:none !important;
+}
+
+.fc .fc-daygrid-day-number{
+  font-size:11px;
+  color:#111827;
+  text-decoration:none;
+}
+
+.fc .fc-col-header-cell-cushion{
+  font-size:11px;
+  font-weight:600;
+  color:#334155;
+  text-decoration:none;
 }
 
 .fc-event{
-border:none !important;
-border-radius:6px !important;
-font-size:10px !important;
-padding:2px;
+  border:none !important;
+  border-radius:6px !important;
+  padding:2px 4px !important;
+  font-size:10px !important;
+  cursor:pointer;
 }
 
-/* =========================
-   FORMULÁRIO
-========================= */
+.fc-daygrid-event{
+  white-space:normal !important;
+}
 
 .event-form h2{
-text-align:center;
-margin-bottom:15px;
+  text-align:center;
+  margin-bottom:15px;
+  font-size:18px;
 }
 
 .times-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:10px;
 }
 
 .time-slot{
-background:#00c853;
-color:#fff;
-border:none;
-padding:10px;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
-transition:.2s;
+  background:var(--success);
+  color:white;
+  border:none;
+  padding:10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  transition:transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .time-slot:hover{
-transform:scale(1.03);
-}
-
-.time-slot.occupied{
-background:#ef4444;
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px rgba(0,0,0,0.2);
 }
 
 .time-slot:disabled{
-opacity:.5;
-cursor:not-allowed;
+  opacity:0.55;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
 }
 
-/* =========================
-   INPUTS
-========================= */
-
-input,
-select,
-textarea,
-button{
-width:100%;
-border:none;
-outline:none;
-border-radius:12px;
-padding:12px;
-margin-bottom:10px;
-font-size:12px;
+.time-slot.occupied{
+  background:var(--danger);
 }
 
-input,
-select,
-textarea{
-background:rgba(255,255,255,.08);
-color:#fff;
-border:1px solid rgba(255,255,255,.08);
-}
-
-input::placeholder,
-textarea::placeholder{
-color:rgba(255,255,255,.6);
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border:1px solid #38bdf8;
-box-shadow:0 0 0 3px rgba(56,189,248,.15);
-}
-
-select option{
-background:#111827;
-color:#fff;
-}
-
-/* =========================
-   BOTÕES
-========================= */
-
-button{
-background:linear-gradient(135deg,#2563eb,#06b6d4);
-color:#fff;
-font-weight:600;
-cursor:pointer;
-transition:.2s;
-}
-
-button:hover{
-opacity:.95;
-transform:translateY(-1px);
-}
-
-/* =========================
-   MODAIS
-========================= */
-
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-justify-content:center;
-align-items:center;
-z-index:9999;
-padding:15px;
-}
-
-.modal-content{
-background:#111827;
-padding:20px;
-border-radius:20px;
-width:100%;
-max-width:420px;
-position:relative;
-max-height:90vh;
-overflow-y:auto;
-}
-
-.modal-content h2{
-text-align:center;
-margin-bottom:15px;
-}
-
-.modal-content p{
-margin-bottom:10px;
-line-height:1.6;
-font-size:13px;
-}
-
-.close-modal{
-position:absolute;
-top:10px;
-right:15px;
-font-size:28px;
-cursor:pointer;
-}
-
-/* =========================
-   TERMO GARANTIA
-========================= */
-
-#warrantyContent{
-font-size:13px;
-line-height:1.8;
-}
-
-#warrantyContent h3{
-text-align:center;
-margin-bottom:15px;
-}
-
-#warrantyContent ul{
-margin-left:20px;
-margin-bottom:15px;
-}
-
-#warrantyContent li{
-margin-bottom:6px;
-}
-
-#warrantyContent strong{
-color:#38bdf8;
-}
-
-/* =========================
-   STATUS VISUAIS
-========================= */
-
-.status-finalizado{
-background:#22c55e;
-}
-
-.status-andamento{
-background:#3b82f6;
-}
-
-.status-cancelado{
-background:#6b7280;
-}
-
-.status-agendado{
-background:#ef4444;
-}
-
-/* =========================
-   TEMA CLARO
-========================= */
-
-.light-theme{
-background:#f1f5f9;
-color:#111827;
-}
-
-.light-theme .company-header,
-.light-theme .event-form,
-.light-theme .card-dashboard{
-background:#fff;
-color:#111827;
-}
-
-.light-theme input,
-.light-theme textarea,
-.light-theme select{
-background:#e2e8f0;
-color:#111827;
-}
-
-.light-theme .modal-content{
-background:#fff;
-color:#111827;
-}
-
-.light-theme select option{
-background:#fff;
-color:#111827;
-}
-
-/* =========================
-   SCROLL
-========================= */
-
-::-webkit-scrollbar{
-width:8px;
-}
-
-::-webkit-scrollbar-track{
-background:transparent;
-}
-
-::-webkit-scrollbar-thumb{
-background:#2563eb;
-border-radius:10px;
-}
-
-/* =========================
-   IMPRESSÃO GARANTIA
-========================= */
-
-@media print{
-
-body{
-background:#fff;
-color:#000;
-}
-
-button,
-.close-modal{
-display:none !important;
-}
-
-.modal-content{
-box-shadow:none;
-border:none;
-}
-
-}
+.time-slot.selected{
+  outline:3px solid #ffffff;
+  box-shadow:0
