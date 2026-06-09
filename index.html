@@ -3,528 +3,732 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Agenda inteligente para marcação de serviços com calendário, cadastro de eventos, termo de garantia e resumo do serviço prestado." />
   <title>Agenda Inteligente</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FullCalendar -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root{
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1e293b;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: rgba(255,255,255,0.08);
+      --primary: #38bdf8;
+      --primary-2: #0ea5e9;
+      --success: #22c55e;
+      --warning: #facc15;
+      --danger: #ef4444;
+      --shadow: 0 12px 30px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body{
+      min-height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body{
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0%, #0f172a 55%, #020617 100%);
+      color: var(--text);
+      padding: 24px;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body.light-theme{
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-2: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: rgba(15,23,42,0.08);
+      --shadow: 0 12px 30px rgba(15,23,42,.12);
+      background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+    }
+
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+    }
+
+    .company-header,
+    .dashboard,
+    .card-dashboard,
+    .event-form,
+    .calendar-box,
+    .modal-content{
+      background: rgba(17,24,39,0.88);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+
+    body.light-theme .company-header,
+    body.light-theme .dashboard,
+    body.light-theme .card-dashboard,
+    body.light-theme .event-form,
+    body.light-theme .calendar-box,
+    body.light-theme .modal-content{
+      background: rgba(255,255,255,0.95);
+    }
+
+    .company-header{
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .company-name{
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .company-info{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .company-info p{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dashboard{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .card-dashboard{
+      padding: 18px;
+    }
+
+    .card-dashboard h3{
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .card-dashboard p{
+      color: var(--muted);
+    }
+
+    .card-dashboard button,
+    .event-form button,
+    .modal-content button,
+    .time-slot{
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease, background .15s ease;
+      margin-top: 8px;
+      margin-right: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      min-height: 44px;
+    }
+
+    .card-dashboard button:hover,
+    .event-form button:hover,
+    .modal-content button:hover,
+    .time-slot:hover{
+      transform: translateY(-1px);
+      opacity: .95;
+    }
+
+    .card-dashboard button:active,
+    .event-form button:active,
+    .modal-content button:active,
+    .time-slot:active{
+      transform: scale(0.98);
+    }
+
+    .small-btn{
+      background: linear-gradient(135deg, #64748b, #475569) !important;
+    }
+
+    .event-form{
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .event-form h2{
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .event-form input,
+    .event-form select,
+    .event-form textarea{
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      outline: none;
+      min-height: 44px;
+    }
+
+    body.light-theme .event-form input,
+    body.light-theme .event-form select,
+    body.light-theme .event-form textarea{
+      background: #f8fafc;
+    }
+
+    .event-form textarea{
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .event-form input::placeholder,
+    .event-form textarea::placeholder{
+      color: var(--muted);
+    }
+
+    .calendar-box{
+      padding: 18px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #calendar{
+      min-width: 320px;
+    }
+
+    .times-grid{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .time-slot{
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      min-height: 44px;
+    }
+
+    .time-slot.selected{
+      background: linear-gradient(135deg, var(--success), #16a34a);
+      color: #fff;
+    }
+
+    .time-slot.occupied{
+      background: linear-gradient(135deg, var(--danger), #b91c1c);
+      color: #fff;
+      opacity: .85;
+      cursor: not-allowed;
+    }
+
+    .modal{
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      justify-content: center;
+      align-items: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+
+    .modal-content{
+      width: min(560px, 100%);
+      padding: 22px;
+      position: relative;
+    }
+
+    .modal-content h2{
+      margin-bottom: 14px;
+      color: var(--primary);
+      padding-right: 28px;
+    }
+
+    .modal-content p{
+      margin-bottom: 10px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .close-modal{
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+    }
+
+    .close-modal:hover{
+      color: var(--danger);
+    }
+
+    #btnFinalize{
+      background: linear-gradient(135deg, var(--success), #16a34a);
+    }
+
+    #btnFinalize:hover{
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    #eventModal .modal-content button{
+      width: 100%;
+      margin-right: 0;
+    }
+
+    #warrantySection{
+      display: none;
+    }
+
+    .warranty-box{
+      padding: 18px;
+      border-radius: var(--radius);
+      background: rgba(17,24,39,0.88);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      line-height: 1.6;
+    }
+
+    body.light-theme .warranty-box{
+      background: rgba(255,255,255,0.95);
+    }
+
+    /* TELAS MÉDIAS */
+    @media (max-width: 768px){
+      body{
+        padding: 12px;
+      }
+
+      .container{
+        gap: 14px;
+      }
+
+      .company-header{
+        padding: 18px;
+      }
+
+      .company-name{
+        font-size: 1.5rem;
+      }
+
+      .company-info{
+        flex-direction: column;
+        gap: 8px;
+        font-size: 0.92rem;
+      }
+
+      .dashboard{
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+
+      .card-dashboard{
+        padding: 16px;
+      }
+
+      .card-dashboard h3{
+        font-size: 1.7rem;
+      }
+
+      .event-form{
+        padding: 18px;
+      }
+
+      .event-form h2{
+        font-size: 1.2rem;
+      }
+
+      .times-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .modal-content{
+        width: 100%;
+        padding: 18px;
+      }
+
+      .modal-content h2{
+        font-size: 1.2rem;
+      }
+    }
+
+    /* CELULARES PEQUENOS / IPHONE */
+    @media (max-width: 480px){
+      body{
+        padding: 10px;
+      }
+
+      .company-header,
+      .card-dashboard,
+      .event-form,
+      .calendar-box,
+      .modal-content,
+      .warranty-box{
+        border-radius: 14px;
+      }
+
+      .company-name{
+        font-size: 1.35rem;
+      }
+
+      .company-info{
+        font-size: 0.88rem;
+      }
+
+      .card-dashboard button,
+      .event-form button,
+      .modal-content button{
+        width: 100%;
+        margin-right: 0;
+      }
+
+      .times-grid{
+        grid-template-columns: 1fr;
+      }
+
+      .event-form input,
+      .event-form select,
+      .event-form textarea{
+        font-size: 16px;
+      }
+
+      #calendar{
+        min-width: 280px;
+      }
+    }
+
+    /* AJUSTES PARA SAFARI / IPHONE */
+    @supports (-webkit-touch-callout: none){
+      body{
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .modal{
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+
+      .modal-content{
+        margin-bottom: env(safe-area-inset-bottom);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <div class="company-header">
-      <div class="company-name">Agenda Inteligente</div>
-      <div class="company-info">
-        <p><i>📍</i>São Luís - MA</p>
-        <p><i>📞</i>(99) 99999-9999</p>
-        <p><i>🛠️</i>Prestação de serviços com organização e controle</p>
+    <header class="company-header">
+      <div>
+        <h1 class="company-name">Agenda Inteligente</h1>
+        <div class="company-info">
+          <p><strong>Empresa:</strong> <span id="companyName">Sua Empresa</span></p>
+          <p><strong>Telefone:</strong> <span id="companyPhone">(00) 00000-0000</span></p>
+          <p><strong>E-mail:</strong> <span id="companyEmail">contato@suaempresa.com</span></p>
+        </div>
       </div>
-    </div>
 
-    <div class="dashboard">
+      <div class="top-actions">
+        <button type="button" id="toggleThemeBtn" class="small-btn">Alternar tema</button>
+        <button type="button" id="showWarrantyBtn" class="small-btn">Ver termo de garantia</button>
+      </div>
+    </header>
+
+    <section class="dashboard">
       <div class="card-dashboard">
-        <h3 id="todayCount">0</h3>
-        <p>Agendados hoje</p>
+        <h3 id="totalAppointments">0</h3>
+        <p>Total de agendamentos</p>
       </div>
       <div class="card-dashboard">
-        <h3 id="clientCount">0</h3>
-        <p>Clientes</p>
+        <h3 id="todayAppointments">0</h3>
+        <p>Agendamentos de hoje</p>
       </div>
       <div class="card-dashboard">
-        <h3 id="freeCount">0</h3>
-        <p>Horários livres</p>
+        <h3 id="completedAppointments">0</h3>
+        <p>Serviços concluídos</p>
       </div>
-    </div>
+    </section>
 
-    <div class="card-dashboard">
-      <button type="button" onclick="toggleTheme()">🌓 Alternar tema</button>
-      <button type="button" onclick="exportBackup()">📦 Exportar backup</button>
-    </div>
+    <section class="event-form">
+      <h2>Novo agendamento</h2>
 
-    <div class="card-dashboard">
-      <input type="text" id="searchClient" placeholder="🔎 Buscar cliente" onkeyup="applyFilters()">
-      <select id="filterStatus" onchange="applyFilters()">
-        <option value="">Filtrar por status</option>
-        <option value="Agendado">Agendado</option>
-        <option value="Em andamento">Em andamento</option>
-        <option value="Finalizado">Finalizado</option>
-        <option value="Cancelado">Cancelado</option>
-      </select>
-      <button type="button" class="small-btn" onclick="clearFilters()">Limpar filtros</button>
-    </div>
-
-    <div class="calendar-box">
-      <div id="calendar"></div>
-    </div>
-
-    <div class="event-form">
-      <h2>📌 Novo Agendamento</h2>
-
-      <select id="serviceType">
-        <option value="">Selecione o tipo de serviço</option>
-        <option value="Manutenção de computador">Manutenção de computador</option>
-        <option value="Formatação">Formatação</option>
-        <option value="Instalação de sistema">Instalação de sistema</option>
-        <option value="Limpeza preventiva">Limpeza preventiva</option>
-        <option value="Outros">Outros</option>
-      </select>
-
+      <input type="text" id="clientName" placeholder="Nome do cliente" />
+      <input type="tel" id="clientPhone" placeholder="Telefone do cliente" />
+      <input type="text" id="serviceType" placeholder="Tipo do serviço" />
       <select id="statusService">
-        <option value="Agendado">🟡 Agendado</option>
-        <option value="Em andamento">🔵 Em andamento</option>
-        <option value="Finalizado">🟢 Finalizado</option>
-        <option value="Cancelado">🔴 Cancelado</option>
+        <option value="Pendente">Pendente</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Concluído">Concluído</option>
       </select>
+      <input type="date" id="eventDate" />
+      <input type="time" id="eventTime" />
+      <textarea id="description" placeholder="Descrição do agendamento"></textarea>
 
-      <input type="text" id="clientName" placeholder="Nome do cliente">
-      <input type="tel" id="clientPhone" placeholder="Telefone com DDD">
-      <textarea id="description" placeholder="Descrição do serviço"></textarea>
-      <input type="datetime-local" id="start">
+      <textarea id="serviceDone" placeholder="Descreva o que foi feito no serviço"></textarea>
 
-      <button type="button" onclick="addEvent()">➕ Salvar agendamento</button>
-    </div>
+      <input
+        type="number"
+        id="serviceTotal"
+        placeholder="Valor total do serviço"
+        step="0.01"
+        min="0"
+      />
 
-    <div class="event-form">
-      <h2>⏰ Horários rápidos</h2>
-      <div class="times-grid">
-        <button type="button" class="time-slot" data-time="08:00" onclick="selectTime('08:00', this)">08:00</button>
-        <button type="button" class="time-slot" data-time="09:00" onclick="selectTime('09:00', this)">09:00</button>
-        <button type="button" class="time-slot" data-time="10:00" onclick="selectTime('10:00', this)">10:00</button>
-        <button type="button" class="time-slot" data-time="11:00" onclick="selectTime('11:00', this)">11:00</button>
-        <button type="button" class="time-slot" data-time="14:00" onclick="selectTime('14:00', this)">14:00</button>
-        <button type="button" class="time-slot" data-time="15:00" onclick="selectTime('15:00', this)">15:00</button>
-        <button type="button" class="time-slot" data-time="16:00" onclick="selectTime('16:00', this)">16:00</button>
-        <button type="button" class="time-slot" data-time="17:00" onclick="selectTime('17:00', this)">17:00</button>
-        <button type="button" class="time-slot" data-time="18:00" onclick="selectTime('18:00', this)">18:00</button>
+      <div class="top-actions">
+        <button type="button" id="btnAddEvent">Adicionar agendamento</button>
+        <button type="button" id="btnClearForm" class="small-btn">Limpar campos</button>
       </div>
-    </div>
+    </section>
+
+    <section class="calendar-box">
+      <div id="calendar"></div>
+    </section>
+
+    <section id="warrantySection" class="warranty-box">
+      <h2>Termo de Garantia</h2>
+      <p><strong>Cliente:</strong> <span id="garantiaCliente"></span></p>
+      <p><strong>Serviço:</strong> <span id="garantiaServico"></span></p>
+      <p><strong>Serviço prestado:</strong> <span id="garantiaServicoFeito"></span></p>
+      <p><strong>Total do serviço:</strong> <span id="garantiaTotal"></span></p>
+      <p><strong>Data da execução:</strong> <span id="garantiaData"></span></p>
+      <p><strong>Validade da garantia:</strong> <span id="garantiaValidade"></span></p>
+    </section>
   </div>
 
-  <div id="eventModal" class="modal">
+  <div class="modal" id="eventModal">
     <div class="modal-content">
-      <span class="close-modal" onclick="closeModal()">&times;</span>
-      <h2>📅 Detalhes do Serviço</h2>
-
-      <p id="modalTitle"></p>
+      <span class="close-modal" id="closeModal">&times;</span>
+      <h2>Detalhes do agendamento</h2>
+      <p id="modalClientName"></p>
+      <p id="modalClientPhone"></p>
+      <p id="modalServiceType"></p>
+      <p id="modalStatusService"></p>
       <p id="modalDescription"></p>
+      <p id="modalServiceDone"></p>
+      <p id="modalServiceTotal"></p>
       <p id="modalDate"></p>
-      <p id="modalStatus"></p>
-
-      <button type="button" onclick="sendWhatsApp()">💬 Enviar no WhatsApp</button>
-      <button type="button" onclick="showWarranty()">📄 Termo de Garantia</button>
-      <button type="button" onclick="unlockFinalize()">🔐 Liberar Finalização</button>
-      <button type="button" id="btnFinalize" style="display:none;" onclick="markAsFinalizado()">✅ Marcar como Finalizado</button>
-      <button type="button" onclick="deleteSelectedEvent()">🗑️ Excluir Agendamento</button>
-    </div>
-  </div>
-
-  <div id="warrantyModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeWarranty()">&times;</span>
-      <h2>📄 Termo de Garantia</h2>
-
-      <div id="warrantyContent">
-        <p><strong>Cliente:</strong> <span id="garantiaCliente"></span></p>
-        <p><strong>Serviço:</strong> <span id="garantiaServico"></span></p>
-        <p><strong>Data do serviço:</strong> <span id="garantiaData"></span></p>
-        <p><strong>Validade da garantia:</strong> <span id="garantiaValidade"></span></p>
-
-        <ul>
-          <li>A garantia cobre apenas o serviço executado.</li>
-          <li>Não cobre danos por mau uso, quedas, líquidos ou alterações externas.</li>
-          <li>A validade é de 90 dias, salvo acordo diferente.</li>
-          <li>É necessário apresentar este termo para solicitar a garantia.</li>
-        </ul>
-      </div>
-
-      <button type="button" onclick="printWarranty()">🖨️ Imprimir termo</button>
-      <button type="button" onclick="closeWarranty()">Fechar</button>
+      <p id="modalTime"></p>
+      <button type="button" id="btnFinalize">Gerar termo de garantia</button>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales-all.global.min.js"></script>
   <script>
-    let calendar;
-    let allEvents = JSON.parse(localStorage.getItem("leotecnologia_events") || "[]");
-    let filteredEvents = [...allEvents];
-    let selectedEvent = null;
-    let selectedTimeButton = null;
-    let selectedTime = "";
-    let canFinalize = false;
-
-    const ADMIN_CODE = "1234";
-
-    function saveEvents(){
-      localStorage.setItem("leotecnologia_events", JSON.stringify(allEvents));
-    }
-
-    function toggleTheme(){
-      document.body.classList.toggle("light-theme");
-    }
-
-    function selectTime(time, button){
-      selectedTime = time;
-
-      if(selectedTimeButton) selectedTimeButton.classList.remove("selected");
-      selectedTimeButton = button;
-      selectedTimeButton.classList.add("selected");
-
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, "0");
-      const dd = String(today.getDate()).padStart(2, "0");
-
-      document.getElementById("start").value = `${yyyy}-${mm}-${dd}T${time}`;
-    }
-
-    function getStatusColor(status){
-      switch(status){
-        case "Em andamento": return "#3b82f6";
-        case "Finalizado": return "#22c55e";
-        case "Cancelado": return "#ef4444";
-        default: return "#facc15";
-      }
-    }
-
-    function addEvent(){
-      const serviceType = document.getElementById("serviceType").value;
-      const statusService = document.getElementById("statusService").value;
-      const clientName = document.getElementById("clientName").value.trim();
-      const clientPhone = document.getElementById("clientPhone").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const start = document.getElementById("start").value;
-
-      if(!serviceType || !clientName || !start){
-        alert("Preencha o tipo de serviço, nome do cliente e data/hora.");
-        return;
-      }
-
-      const duplicate = allEvents.some(ev => ev.start === start);
-      if(duplicate){
-        alert("Já existe um agendamento nesse horário.");
-        return;
-      }
-
-      const color = getStatusColor(statusService);
-
-      const event = {
-        id: Date.now().toString(),
-        title: `${serviceType} - ${clientName}`,
-        start: start,
-        backgroundColor: color,
-        borderColor: color,
-        extendedProps: {
-          serviceType,
-          statusService,
-          clientName,
-          clientPhone,
-          description
-        }
-      };
-
-      allEvents.push(event);
-      saveEvents();
-      applyFilters();
-      updateDashboard();
-      updateTimeSlots();
-      clearForm();
-      alert("Agendamento salvo com sucesso!");
-    }
-
-    function clearForm(){
-      document.getElementById("serviceType").value = "";
-      document.getElementById("statusService").value = "Agendado";
-      document.getElementById("clientName").value = "";
-      document.getElementById("clientPhone").value = "";
-      document.getElementById("description").value = "";
-      document.getElementById("start").value = "";
-
-      if(selectedTimeButton){
-        selectedTimeButton.classList.remove("selected");
-        selectedTimeButton = null;
-      }
-
-      selectedTime = "";
-    }
-
-    function applyFilters(){
-      const query = document.getElementById("searchClient").value.toLowerCase().trim();
-      const statusFilter = document.getElementById("filterStatus").value;
-
-      filteredEvents = allEvents.filter(ev => {
-        const name = (ev.extendedProps.clientName || "").toLowerCase();
-        const phone = (ev.extendedProps.clientPhone || "").toLowerCase();
-        const title = (ev.title || "").toLowerCase();
-        const status = ev.extendedProps.statusService || "";
-
-        const matchQuery = !query || name.includes(query) || phone.includes(query) || title.includes(query);
-        const matchStatus = !statusFilter || status === statusFilter;
-
-        return matchQuery && matchStatus;
-      });
-
-      renderCalendarEvents();
-      updateDashboard();
-      updateTimeSlots();
-    }
-
-    function clearFilters(){
-      document.getElementById("searchClient").value = "";
-      document.getElementById("filterStatus").value = "";
-      applyFilters();
-    }
-
-    function renderCalendarEvents(){
-      calendar.removeAllEvents();
-      filteredEvents.forEach(ev => calendar.addEvent(ev));
-    }
-
-    function updateDashboard(){
-      const today = new Date();
-      const todayStr = today.toISOString().split("T");
-
-      const todayEvents = allEvents.filter(ev => ev.start.split("T") === todayStr);
-      const clients = new Set(allEvents.map(ev => (ev.extendedProps.clientName || "").toLowerCase()));
-
-      document.getElementById("todayCount").innerText = todayEvents.length;
-      document.getElementById("clientCount").innerText = clients.size;
-      document.getElementById("freeCount").innerText = Math.max(9 - todayEvents.length, 0);
-    }
-
-    function updateTimeSlots(){
-      const todayStr = new Date().toISOString().split("T");
-
-      document.querySelectorAll(".time-slot").forEach(btn => {
-        const time = btn.dataset.time;
-        const occupied = allEvents.some(ev => ev.start.startsWith(todayStr) && ev.start.includes(time));
-        btn.classList.toggle("occupied", occupied);
-        btn.disabled = occupied;
-      });
-    }
-
-    function openEventModal(event){
-      selectedEvent = event;
-      canFinalize = false;
-      document.getElementById("btnFinalize").style.display = "none";
-
-      document.getElementById("modalTitle").innerText =
-        `Serviço: ${event.extendedProps.serviceType} | Cliente: ${event.extendedProps.clientName}`;
-
-      document.getElementById("modalDescription").innerText =
-        `Descrição: ${event.extendedProps.description || "Sem descrição"}`;
-
-      document.getElementById("modalDate").innerText =
-        `Data/Hora: ${new Date(event.start).toLocaleString("pt-BR")}`;
-
-      document.getElementById("modalStatus").innerText =
-        `Status: ${event.extendedProps.statusService || "Agendado"}`;
-
-      document.getElementById("eventModal").style.display = "flex";
-    }
-
-    function closeModal(){
-      document.getElementById("eventModal").style.display = "none";
-      selectedEvent = null;
-      canFinalize = false;
-      document.getElementById("btnFinalize").style.display = "none";
-    }
-
-    function unlockFinalize(){
-      const code = prompt("Digite o código de autorização para finalizar:");
-
-      if(code === ADMIN_CODE){
-        canFinalize = true;
-        document.getElementById("btnFinalize").style.display = "block";
-        alert("Acesso liberado para finalizar serviços.");
-      } else {
-        alert("Código incorreto.");
-      }
-    }
-
-    function markAsFinalizado(){
-      if(!canFinalize){
-        alert("Somente você pode finalizar este serviço.");
-        return;
-      }
-
-      if(!selectedEvent){
-        alert("Nenhum serviço selecionado.");
-        return;
-      }
-
-      const eventIndex = allEvents.findIndex(ev => ev.id === selectedEvent.id);
-
-      if(eventIndex === -1){
-        alert("Evento não encontrado.");
-        return;
-      }
-
-      allEvents[eventIndex].extendedProps.statusService = "Finalizado";
-      allEvents[eventIndex].backgroundColor = getStatusColor("Finalizado");
-      allEvents[eventIndex].borderColor = getStatusColor("Finalizado");
-
-      saveEvents();
-      applyFilters();
-      closeModal();
-      alert("Serviço marcado como finalizado com sucesso!");
-    }
-
-    function deleteSelectedEvent(){
-      if(!selectedEvent){
-        alert("Nenhum serviço selecionado.");
-        return;
-      }
-
-      if(!confirm("Deseja excluir este agendamento?")) return;
-
-      allEvents = allEvents.filter(ev => ev.id !== selectedEvent.id);
-      saveEvents();
-      closeModal();
-      applyFilters();
-      alert("Agendamento excluído com sucesso!");
-    }
-
-    function buildWhatsAppMessage(event){
-      const name = event.extendedProps.clientName || "";
-      const phone = event.extendedProps.clientPhone || "";
-      const service = event.extendedProps.serviceType || "";
-      const status = event.extendedProps.statusService || "";
-      const date = new Date(event.start).toLocaleDateString("pt-BR");
-      const hour = new Date(event.start).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-      const desc = event.extendedProps.description || "Sem observações";
-
-      return `Olá, ${name}! 👋
-
-Seu agendamento na Agenda Inteligente foi registrado com sucesso.
-
-🛠️ Serviço: ${service}
-📌 Status: ${status}
-📅 Data: ${date}
-⏰ Horário: ${hour}
-📞 Telefone: ${phone}
-📝 Observação: ${desc}
-
-Se precisar de mais informações, estamos à disposição.`;
-    }
-
-    function sendWhatsApp(){
-      if(!selectedEvent){
-        alert("Nenhum serviço selecionado.");
-        return;
-      }
-
-      const phone = (selectedEvent.extendedProps.clientPhone || "").replace(/\D/g, "");
-      if(!phone){
-        alert("Informe o telefone do cliente para enviar no WhatsApp.");
-        return;
-      }
-
-      const message = buildWhatsAppMessage(selectedEvent);
-      const url = `https://wa.me/55${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank");
-    }
-
-    function showWarranty(){
-      if(!selectedEvent){
-        alert("Nenhum serviço selecionado.");
-        return;
-      }
-
-      const cliente = selectedEvent.extendedProps.clientName;
-      const servico = selectedEvent.extendedProps.serviceType;
-      const dataFinalizacao = new Date(selectedEvent.start);
-      const validade = new Date(dataFinalizacao);
-      validade.setDate(validade.getDate() + 90);
-
-      document.getElementById("garantiaCliente").innerText = cliente;
-      document.getElementById("garantiaServico").innerText = servico;
-      document.getElementById("garantiaData").innerText = dataFinalizacao.toLocaleDateString("pt-BR");
-      document.getElementById("garantiaValidade").innerText = validade.toLocaleDateString("pt-BR");
-      document.getElementById("warrantyModal").style.display = "flex";
-    }
-
-    function closeWarranty(){
-      document.getElementById("warrantyModal").style.display = "none";
-    }
-
-    function printWarranty(){
-      const conteudo = document.getElementById("warrantyContent").innerHTML;
-      const janela = window.open("", "", "width=900,height=700");
-
-      janela.document.write(`
-        <html>
-        <head>
-          <title>Garantia Agenda Inteligente</title>
-          <style>
-            body{
-              font-family:Arial;
-              padding:30px;
-              line-height:1.8;
-            }
-            h3{
-              text-align:center;
-            }
-            ul{
-              margin-left:25px;
-            }
-          </style>
-        </head>
-        <body>
-          ${conteudo}
-        </body>
-        </html>
-      `);
-
-      janela.document.close();
-      janela.print();
-    }
-
-    function exportBackup(){
-      const data = JSON.stringify(allEvents, null, 2);
-      const blob = new Blob([data], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "backup-agendamentos.json";
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    window.onclick = function(event){
-      const modal1 = document.getElementById("eventModal");
-      const modal2 = document.getElementById("warrantyModal");
-
-      if(event.target === modal1) closeModal();
-      if(event.target === modal2) closeWarranty();
-    };
-
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", function () {
       const calendarEl = document.getElementById("calendar");
+      const eventModal = document.getElementById("eventModal");
+      const closeModal = document.getElementById("closeModal");
+      const btnAddEvent = document.getElementById("btnAddEvent");
+      const btnClearForm = document.getElementById("btnClearForm");
+      const btnFinalize = document.getElementById("btnFinalize");
+      const showWarrantyBtn = document.getElementById("showWarrantyBtn");
+      const toggleThemeBtn = document.getElementById("toggleThemeBtn");
+      const warrantySection = document.getElementById("warrantySection");
 
-      calendar = new FullCalendar.Calendar(calendarEl, {
+      let selectedEvent = null;
+      let eventsData = JSON.parse(localStorage.getItem("agendaInteligenteEvents") || "[]");
+
+      function saveEvents(){
+        localStorage.setItem("agendaInteligenteEvents", JSON.stringify(eventsData));
+      }
+
+      function updateCounters(){
+        const total = eventsData.length;
+        const today = new Date().toISOString().split("T");
+        const todayTotal = eventsData.filter(ev => ev.date === today).length;
+        const completed = eventsData.filter(ev => ev.extendedProps?.statusService === "Concluído").length;
+
+        document.getElementById("totalAppointments").textContent = total;
+        document.getElementById("todayAppointments").textContent = todayTotal;
+        document.getElementById("completedAppointments").textContent = completed;
+      }
+
+      function buildWhatsAppMessage(eventData){
+        return `Olá, ${eventData.extendedProps.clientName}!
+
+Seu agendamento foi registrado com sucesso.
+
+Serviço: ${eventData.extendedProps.serviceType}
+Status: ${eventData.extendedProps.statusService}
+Descrição: ${eventData.extendedProps.description || "Não informada"}
+Serviço realizado: ${eventData.extendedProps.serviceDone || "Não informado"}
+Valor total: R$ ${parseFloat(eventData.extendedProps.serviceTotal || 0).toFixed(2)}
+Data: ${eventData.startStr.split("T")}
+Hora: ${eventData.startStr.split("T")[1] || "Não informada"}
+
+Agenda Inteligente`;
+      }
+
+      function openEventModal(event){
+        selectedEvent = event;
+
+        document.getElementById("modalClientName").textContent = `Cliente: ${event.extendedProps.clientName || "Não informado"}`;
+        document.getElementById("modalClientPhone").textContent = `Telefone: ${event.extendedProps.clientPhone || "Não informado"}`;
+        document.getElementById("modalServiceType").textContent = `Serviço: ${event.extendedProps.serviceType || "Não informado"}`;
+        document.getElementById("modalStatusService").textContent = `Status: ${event.extendedProps.statusService || "Não informado"}`;
+        document.getElementById("modalDescription").textContent = `Descrição: ${event.extendedProps.description || "Não informada"}`;
+        document.getElementById("modalServiceDone").textContent = `Serviço realizado: ${event.extendedProps.serviceDone || "Não informado"}`;
+        document.getElementById("modalServiceTotal").textContent = `Valor total: R$ ${parseFloat(event.extendedProps.serviceTotal || 0).toFixed(2)}`;
+        document.getElementById("modalDate").textContent = `Data: ${event.startStr.split("T")}`;
+        document.getElementById("modalTime").textContent = `Hora: ${event.startStr.split("T")[1] || "Não informada"}`;
+
+        eventModal.style.display = "flex";
+      }
+
+      function showWarranty(event){
+        warrantySection.style.display = "block";
+        document.getElementById("garantiaCliente").textContent = event.extendedProps.clientName || "Não informado";
+        document.getElementById("garantiaServico").textContent = event.extendedProps.serviceType || "Não informado";
+        document.getElementById("garantiaServicoFeito").textContent = event.extendedProps.serviceDone || "Não informado";
+        document.getElementById("garantiaTotal").textContent = `R$ ${parseFloat(event.extendedProps.serviceTotal || 0).toFixed(2)}`;
+        document.getElementById("garantiaData").textContent = event.startStr.split("T");
+        document.getElementById("garantiaValidade").textContent = "90 dias após a execução";
+        warrantySection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function clearForm(){
+        document.getElementById("clientName").value = "";
+        document.getElementById("clientPhone").value = "";
+        document.getElementById("serviceType").value = "";
+        document.getElementById("statusService").value = "Pendente";
+        document.getElementById("eventDate").value = "";
+        document.getElementById("eventTime").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("serviceDone").value = "";
+        document.getElementById("serviceTotal").value = "";
+      }
+
+      btnAddEvent.addEventListener("click", function () {
+        const clientName = document.getElementById("clientName").value.trim();
+        const clientPhone = document.getElementById("clientPhone").value.trim();
+        const serviceType = document.getElementById("serviceType").value.trim();
+        const statusService = document.getElementById("statusService").value;
+        const eventDate = document.getElementById("eventDate").value;
+        const eventTime = document.getElementById("eventTime").value;
+        const description = document.getElementById("description").value.trim();
+        const serviceDone = document.getElementById("serviceDone").value.trim();
+        const serviceTotal = document.getElementById("serviceTotal").value.trim();
+
+        if (!clientName || !serviceType || !eventDate || !eventTime) {
+          alert("Preencha pelo menos nome, serviço, data e hora.");
+          return;
+        }
+
+        const newEvent = {
+          id: String(Date.now()),
+          title: `${clientName} - ${serviceType}`,
+          start: `${eventDate}T${eventTime}`,
+          startStr: `${eventDate}T${eventTime}`,
+          date: eventDate,
+          extendedProps: {
+            clientName,
+            clientPhone,
+            serviceType,
+            statusService,
+            description,
+            serviceDone,
+            serviceTotal
+          }
+        };
+
+        eventsData.push(newEvent);
+        saveEvents();
+        calendar.addEvent(newEvent);
+        updateCounters();
+        clearForm();
+        alert("Agendamento adicionado com sucesso.");
+      });
+
+      btnClearForm.addEventListener("click", clearForm);
+
+      closeModal.addEventListener("click", () => {
+        eventModal.style.display = "none";
+      });
+
+      eventModal.addEventListener("click", (e) => {
+        if (e.target === eventModal) eventModal.style.display = "none";
+      });
+
+      btnFinalize.addEventListener("click", function () {
+        if (!selectedEvent) return;
+        showWarranty(selectedEvent);
+        eventModal.style.display = "none";
+      });
+
+      showWarrantyBtn.addEventListener("click", function () {
+        if (selectedEvent) {
+          showWarranty(selectedEvent);
+        } else if (eventsData.length > 0) {
+          showWarranty(eventsData[eventsData.length - 1]);
+        } else {
+          alert("Nenhum agendamento disponível para gerar termo de garantia.");
+        }
+      });
+
+      toggleThemeBtn.addEventListener("click", function () {
+        document.body.classList.toggle("light-theme");
+      });
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         locale: "pt-br",
         height: "auto",
         headerToolbar: {
           left: "prev,next today",
           center: "title",
-          right: ""
+          right: "dayGridMonth,timeGridWeek,timeGridDay"
         },
-        events: filteredEvents,
+        events: eventsData.map(ev => ({
+          id: ev.id,
+          title: ev.title,
+          start: ev.start,
+          extendedProps: ev.extendedProps
+        })),
         eventClick: function(info){
           openEventModal(info.event);
-        },
-        dateClick: function(info){
-          const time = selectedTime || "08:00";
-          document.getElementById("start").value = `${info.dateStr}T${time}`;
         }
       });
 
       calendar.render();
-      applyFilters();
+      updateCounters();
     });
   </script>
 </body>
