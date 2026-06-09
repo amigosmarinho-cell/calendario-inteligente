@@ -54,6 +54,8 @@ function addEvent() {
   const clientPhone = document.getElementById("clientPhone").value.trim();
   const description = document.getElementById("description").value.trim();
   const start = document.getElementById("start").value;
+  const serviceDone = document.getElementById("serviceDone").value.trim();
+  const serviceTotal = document.getElementById("serviceTotal").value.trim();
 
   if (!serviceType || !clientName || !start) {
     alert("Preencha o tipo de serviço, nome do cliente e data/hora.");
