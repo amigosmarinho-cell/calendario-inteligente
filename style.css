@@ -1,442 +1,510 @@
-/* =========================
+/* =========================================
    RESET
-========================= */
+========================================= */
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
-/* =========================
+/* =========================================
    BODY
-========================= */
+========================================= */
 
 body{
-background:linear-gradient(180deg,#020617,#0f172a,#111827);
-min-height:100vh;
-padding:10px;
-color:white;
-transition:0.3s;
-overflow-x:hidden;
+
+    background:
+    linear-gradient(
+    180deg,
+    #020617,
+    #0f172a,
+    #111827
+    );
+
+    min-height:100vh;
+
+    color:white;
+
+    overflow-x:hidden;
+
+    padding:8px;
 }
 
-/* efeito scanline */
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,0.03),
-rgba(255,255,255,0.03) 1px,
-transparent 2px,
-transparent 4px
-);
-z-index:9999;
-}
-
-/* =========================
+/* =========================================
    CONTAINER
-========================= */
+========================================= */
 
 .container{
-width:100%;
-max-width:450px;
-margin:auto;
+
+    width:100%;
+
+    max-width:430px;
+
+    margin:auto;
 }
 
-/* =========================
-   CARDS
-========================= */
-
-.company-header,
-.event-form,
-.card-dashboard{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(15px);
-border-radius:22px;
-padding:18px;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 10px 30px rgba(0,0,0,0.35);
-}
-
-/* =========================
-   TOPO
-========================= */
+/* =========================================
+   HEADER
+========================================= */
 
 .company-header{
-margin-bottom:10px;
-text-align:center;
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:14px;
+
+    margin-bottom:10px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    animation:fadeUp .5s ease;
 }
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo-space{
+
+    width:75px;
+
+    height:75px;
+
+    margin:auto;
+
+    margin-bottom:10px;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,0.08);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.logo-space img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+/* =========================================
+   TITLE
+========================================= */
 
 .company-name{
-font-size:24px;
-font-weight:700;
-margin-bottom:12px;
-background:linear-gradient(90deg,#38bdf8,#2563eb);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #00c6ff,
+    #0072ff
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
 }
+
+/* =========================================
+   INFO
+========================================= */
 
 .company-info{
-display:flex;
-flex-direction:column;
-gap:8px;
+
+    font-size:12px;
+
+    opacity:0.9;
 }
 
-.company-info p{
-background:rgba(255,255,255,0.05);
-padding:10px;
-border-radius:12px;
-font-size:12px;
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.dashboard{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:10px;
-}
-
-.card-dashboard{
-padding:15px;
-text-align:center;
-transition:0.3s;
-}
-
-.card-dashboard:hover{
-transform:translateY(-3px);
-}
-
-.card-dashboard h3{
-font-size:24px;
-color:#38bdf8;
-margin-bottom:4px;
-}
-
-.card-dashboard p{
-font-size:11px;
-opacity:0.9;
-}
-
-/* =========================
-   CALENDÁRIO
-========================= */
+/* =========================================
+   CALENDAR
+========================================= */
 
 .calendar-box{
-background:white;
-border-radius:18px;
-padding:6px;
-margin-bottom:10px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:5px;
+
+    overflow:hidden;
+
+    margin-bottom:10px;
+
+    animation:fadeUp .6s ease;
 }
 
+/* =========================================
+   FULLCALENDAR
+========================================= */
+
 .fc{
-font-size:10px !important;
-color:#111827;
+
+    color:black;
+
+    font-size:12px;
+}
+
+.fc-toolbar{
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    gap:6px;
 }
 
 .fc-toolbar-title{
-font-size:13px !important;
-font-weight:600;
+
+    font-size:15px !important;
+
+    text-align:center;
 }
 
 .fc-button{
-background:#2563eb !important;
-border:none !important;
-border-radius:8px !important;
-padding:6px 10px !important;
-font-size:11px !important;
-transition:0.2s;
+
+    border:none !important;
+
+    background:#2563eb !important;
+
+    border-radius:10px !important;
+
+    padding:6px 10px !important;
+
+    font-size:11px !important;
+
+    transition:.3s !important;
 }
 
 .fc-button:hover{
-opacity:0.9;
+
+    transform:scale(1.03);
 }
+
+/* =========================================
+   EVENTS
+========================================= */
 
 .fc-event{
-background:#ef4444 !important;
-border:none !important;
-border-radius:6px !important;
-padding:2px;
-font-size:10px;
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    font-size:10px !important;
+
+    border-radius:8px !important;
+
+    padding:2px !important;
 }
 
-/* =========================
-   FORMULÁRIO
-========================= */
+/* =========================================
+   TODAY
+========================================= */
+
+.fc-day-today{
+
+    background:#2563eb20 !important;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.event-form{
+
+    background:rgba(255,255,255,0.08);
+
+    padding:14px;
+
+    border-radius:20px;
+
+    backdrop-filter:blur(15px);
+
+    animation:fadeUp .7s ease;
+}
+
+/* =========================================
+   TITLE FORM
+========================================= */
 
 .event-form h2{
-text-align:center;
-margin-bottom:14px;
-font-size:18px;
+
+    font-size:18px;
+
+    margin-bottom:12px;
+
+    text-align:center;
 }
 
-/* =========================
-   GRID HORÁRIOS
-========================= */
+/* =========================================
+   STATUS
+========================================= */
 
-.times-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:12px;
+.status-box{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:12px;
 }
 
-/* =========================
-   BOTÕES HORÁRIOS
-========================= */
+.status{
 
-.time-slot{
-background:#00c853;
-color:white;
-border:none;
-padding:10px;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
-transition:0.2s;
+    flex:1;
+
+    text-align:center;
+
+    padding:8px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:600;
 }
 
-.time-slot:hover{
-transform:scale(1.03);
-background:#00b84a;
+.available-status{
+
+    background:#00c853;
 }
 
-.time-slot.occupied{
-background:#ef4444;
+.busy-status{
+
+    background:#ff4d4d;
 }
 
-.time-slot.occupied:hover{
-background:#dc2626;
-}
-
-.time-slot:disabled{
-opacity:0.5;
-cursor:not-allowed;
-}
-
-/* =========================
+/* =========================================
    INPUTS
-========================= */
+========================================= */
 
 input,
-select,
-textarea,
-button{
-width:100%;
-border:none;
-outline:none;
-border-radius:12px;
-padding:12px;
-margin-bottom:10px;
-font-size:12px;
-transition:0.2s;
-}
+select{
 
-input,
-select,
-textarea{
-background:rgba(255,255,255,0.08);
-color:white;
-border:1px solid rgba(255,255,255,0.08);
-}
+    width:100%;
 
-input::placeholder,
-textarea::placeholder{
-color:rgba(255,255,255,0.6);
-}
+    padding:12px;
 
-/* foco */
+    border:none;
+
+    border-radius:14px;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+
+    outline:none;
+
+    transition:.3s;
+
+    background:white;
+}
 
 input:focus,
-select:focus,
-textarea:focus{
-border:1px solid #38bdf8;
-box-shadow:0 0 0 3px rgba(56,189,248,0.15);
+select:focus{
+
+    transform:scale(1.01);
+
+    box-shadow:
+    0 0 0 3px rgba(37,99,235,0.25);
 }
 
-/* select */
-
-select option{
-background:#111827;
-color:white;
-}
-
-/* =========================
-   BOTÕES
-========================= */
+/* =========================================
+   BUTTON
+========================================= */
 
 button{
-background:linear-gradient(135deg,#2563eb,#06b6d4);
-color:white;
-font-weight:600;
-cursor:pointer;
+
+    width:100%;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+    );
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,0.35);
 }
 
 button:hover{
-opacity:0.95;
-transform:translateY(-1px);
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 15px 35px rgba(37,99,235,0.45);
 }
 
-/* =========================
-   MODAL
-========================= */
+/* =========================================
+   HORÁRIOS
+========================================= */
 
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.8);
-justify-content:center;
-align-items:center;
-z-index:999;
-padding:15px;
+.available-times{
+
+    margin-bottom:15px;
 }
 
-.modal-content{
-background:#111827;
-padding:20px;
-border-radius:20px;
-width:100%;
-max-width:340px;
-position:relative;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 15px 40px rgba(0,0,0,0.5);
-animation:fadeIn 0.2s ease;
+.available-times h3{
+
+    margin-bottom:10px;
+
+    font-size:15px;
 }
 
-.modal-content h2{
-margin-bottom:15px;
-text-align:center;
+/* =========================================
+   GRID
+========================================= */
+
+.times-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:8px;
 }
 
-.modal-content p{
-margin-bottom:10px;
-font-size:13px;
-line-height:1.5;
+/* =========================================
+   TIME SLOT
+========================================= */
+
+.time-slot{
+
+    padding:10px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#00c853;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
 }
 
-.close-modal{
-position:absolute;
-top:10px;
-right:15px;
-font-size:28px;
-cursor:pointer;
-transition:0.2s;
+.time-slot:hover{
+
+    transform:scale(1.04);
+
+    background:#2563eb;
 }
 
-.close-modal:hover{
-transform:scale(1.1);
-color:#ef4444;
+/* =========================================
+   OCCUPIED
+========================================= */
+
+.time-slot.occupied{
+
+    background:#ff4d4d;
+
+    pointer-events:none;
+
+    opacity:.85;
 }
 
-/* =========================
-   TEMA CLARO
-========================= */
+/* =========================================
+   ANIMATION
+========================================= */
 
-.light-theme{
-background:#f1f5f9;
-color:#111827;
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
 }
 
-.light-theme .company-header,
-.light-theme .event-form,
-.light-theme .card-dashboard{
-background:white;
-color:#111827;
-}
-
-.light-theme .company-info p{
-background:#f1f5f9;
-}
-
-.light-theme input,
-.light-theme textarea,
-.light-theme select{
-background:#e2e8f0;
-color:#111827;
-border:1px solid #cbd5e1;
-}
-
-.light-theme input::placeholder,
-.light-theme textarea::placeholder{
-color:#475569;
-}
-
-.light-theme select option{
-background:white;
-color:#111827;
-}
-
-.light-theme .modal-content{
-background:white;
-color:#111827;
-}
-
-/* =========================
-   ANIMAÇÃO
-========================= */
-
-@keyframes fadeIn{
-
-from{
-opacity:0;
-transform:scale(0.95);
-}
-
-to{
-opacity:1;
-transform:scale(1);
-}
-
-}
-
-/* =========================
-   RESPONSIVO
-========================= */
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media(max-width:480px){
 
-.company-name{
-font-size:20px;
-}
+    .company-name{
 
-.card-dashboard h3{
-font-size:20px;
-}
+        font-size:20px;
+    }
 
-.fc{
-font-size:9px !important;
-}
+    .fc-toolbar-title{
 
-.fc-toolbar-title{
-font-size:11px !important;
-}
+        font-size:13px !important;
+    }
 
-button,
-input,
-select,
-textarea{
-font-size:11px;
-}
+    .fc-button{
 
-.time-slot{
-padding:8px;
-font-size:11px;
-}
+        font-size:10px !important;
+    }
+
+    .times-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+    button{
+
+        font-size:13px;
+    }
 
 }
-
