@@ -1,301 +1,1098 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const calendarEl = document.getElementById("calendar");
-  const eventModal = document.getElementById("eventModal");
-  const closeModal = document.getElementById("closeModal");
-  const btnAddEvent = document.getElementById("btnAddEvent");
-  const btnClearForm = document.getElementById("btnClearForm");
-  const btnFinalize = document.getElementById("btnFinalize");
-  const showWarrantyBtn = document.getElementById("showWarrantyBtn");
-  const toggleThemeBtn = document.getElementById("toggleThemeBtn");
-  const warrantySection = document.getElementById("warrantySection");
-
-  let selectedEvent = null;
-  let eventsData = [];
-
-  try {
-    eventsData = JSON.parse(localStorage.getItem("agendaInteligenteEvents") || "[]");
-  } catch (error) {
-    eventsData = [];
-  }
-
-  function saveEvents() {
-    localStorage.setItem("agendaInteligenteEvents", JSON.stringify(eventsData));
-  }
-
-  function updateCounters() {
-    const total = eventsData.length;
-
-    const today = new Date().toISOString().split("T")[0];
+/* =====================================
+   LEOTECNOLOGIA
+   SISTEMA DE ASSISTÊNCIA TÉCNICA
+===================================== */
 
-    const todayTotal = eventsData.filter(function (ev) {
-      return ev.date === today;
-    }).length;
+let calendar;
+let selectedEvent = null;
 
-    const completed = eventsData.filter(function (ev) {
-      return ev.extendedProps && ev.extendedProps.statusService === "Concluído";
-    }).length;
+/* =====================================
+   BANCO LOCAL
+===================================== */
 
-    document.getElementById("totalAppointments").textContent = total;
-    document.getElementById("todayAppointments").textContent = todayTotal;
-    document.getElementById("completedAppointments").textContent = completed;
-  }
+let clients =
+JSON.parse(localStorage.getItem("clients")) || [];
 
-  function formatCurrency(value) {
-    const number = parseFloat(value || 0);
+let services =
+JSON.parse(localStorage.getItem("services")) || [];
 
-    return number.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
-    });
-  }
+let appointments =
+JSON.parse(localStorage.getItem("appointments")) || [];
 
-  function formatDateBR(dateStr) {
-    if (!dateStr) return "Não informada";
+/* =====================================
+   SENHA ADMIN
+===================================== */
 
-    const [y, m, d] = dateStr.split("-");
+function showAdminLogin(){
 
-    if (!y || !m || !d) return "Não informada";
+document.getElementById("adminModal").style.display="flex";
 
-    return `${d}/${m}/${y}`;
-  }
+}
 
-  function formatDateTimeParts(startStr) {
-    if (!startStr) {
-      return {
-        date: "Não informada",
-        time: "Não informada"
-      };
-    }
+function closeAdminModal(){
 
-    if (startStr instanceof Date) {
-      const date = startStr.toISOString().split("T")[0];
-      const time = startStr.toTimeString().slice(0, 5);
+document.getElementById("adminModal").style.display="none";
 
-      return {
-        date: formatDateBR(date),
-        time: time || "Não informada"
-      };
-    }
+}
 
-    const parts = String(startStr).split("T");
+function adminLogin(){
 
-    return {
-      date: formatDateBR(parts[0]),
-      time: parts[1] ? parts[1].slice(0, 5) : "Não informada"
-    };
-  }
+const password =
+document.getElementById("adminPassword").value;
 
-  function buildWhatsAppMessage(eventData) {
-    const dt = formatDateTimeParts(eventData.startStr || eventData.start);
-    const props = eventData.extendedProps || {};
+if(password === OWNER_PASSWORD){
 
-    return `Olá, ${props.clientName || "cliente"}!
+document.getElementById("adminPanel")
+.classList.remove("hidden");
 
-Seu agendamento foi registrado com sucesso.
-
-Serviço: ${props.serviceType || "Não informado"}
-Status: ${props.statusService || "Não informado"}
-Descrição: ${props.description || "Não informada"}
-Serviço realizado: ${props.serviceDone || "Não informado"}
-Valor total: ${formatCurrency(props.serviceTotal || 0)}
-Data: ${dt.date}
-Hora: ${dt.time}
+alert("Acesso liberado!");
 
-Agenda Inteligente`;
-  }
+closeAdminModal();
 
-  function openEventModal(event) {
-    selectedEvent = event;
+}else{
 
-    const props = event.extendedProps || {};
-    const dt = formatDateTimeParts(event.startStr || event.start);
+alert("Senha incorreta!");
 
-    document.getElementById("modalClientName").textContent =
-      `Cliente: ${props.clientName || "Não informado"}`;
-
-    document.getElementById("modalClientPhone").textContent =
-      `Telefone: ${props.clientPhone || "Não informado"}`;
-
-    document.getElementById("modalServiceType").textContent =
-      `Serviço: ${props.serviceType || "Não informado"}`;
-
-    document.getElementById("modalStatusService").textContent =
-      `Status: ${props.statusService || "Não informado"}`;
-
-    document.getElementById("modalDescription").textContent =
-      `Descrição: ${props.description || "Não informada"}`;
-
-    document.getElementById("modalServiceDone").textContent =
-      `Serviço realizado: ${props.serviceDone || "Não informado"}`;
-
-    document.getElementById("modalServiceTotal").textContent =
-      `Valor total: ${formatCurrency(props.serviceTotal || 0)}`;
-
-    document.getElementById("modalDate").textContent =
-      `Data: ${dt.date}`;
-
-    document.getElementById("modalTime").textContent =
-      `Hora: ${dt.time}`;
-
-    eventModal.style.display = "flex";
-  }
-
-  function showWarranty(event) {
-    warrantySection.style.display = "block";
-
-    const props = event.extendedProps || {};
-    const dt = formatDateTimeParts(event.startStr || event.start);
-
-    document.getElementById("garantiaCliente").textContent =
-      props.clientName || "Não informado";
-
-    document.getElementById("garantiaServico").textContent =
-      props.serviceType || "Não informado";
-
-    document.getElementById("garantiaServicoFeito").textContent =
-      props.serviceDone || "Não informado";
-
-    document.getElementById("garantiaTotal").textContent =
-      formatCurrency(props.serviceTotal || 0);
-
-    document.getElementById("garantiaData").textContent =
-      dt.date;
-
-    document.getElementById("garantiaValidade").textContent =
-      "90 dias após a execução";
-
-    warrantySection.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-
-  function clearForm() {
-    document.getElementById("clientName").value = "";
-    document.getElementById("clientPhone").value = "";
-    document.getElementById("serviceType").value = "";
-    document.getElementById("statusService").value = "Pendente";
-    document.getElementById("eventDate").value = "";
-    document.getElementById("eventTime").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("serviceDone").value = "";
-    document.getElementById("serviceTotal").value = "";
-  }
-
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    locale: "pt-br",
-    height: "auto",
-
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay"
-    },
-
-    buttonText: {
-      today: "Hoje",
-      month: "Mês",
-      week: "Semana",
-      day: "Dia"
-    },
-
-    events: eventsData.map(function (ev) {
-      return {
-        id: ev.id,
-        title: ev.title,
-        start: ev.start,
-        extendedProps: ev.extendedProps
-      };
-    }),
-
-    eventClick: function (info) {
-      openEventModal(info.event);
-    }
-  });
-
-  btnAddEvent.addEventListener("click", function () {
-    const clientName = document.getElementById("clientName").value.trim();
-    const clientPhone = document.getElementById("clientPhone").value.trim();
-    const serviceType = document.getElementById("serviceType").value.trim();
-    const statusService = document.getElementById("statusService").value;
-    const eventDate = document.getElementById("eventDate").value;
-    const eventTime = document.getElementById("eventTime").value;
-    const description = document.getElementById("description").value.trim();
-    const serviceDone = document.getElementById("serviceDone").value.trim();
-    const serviceTotal = document.getElementById("serviceTotal").value.trim();
-
-    if (!clientName || !serviceType || !eventDate || !eventTime) {
-      alert("Preencha pelo menos nome, serviço, data e hora.");
-      return;
-    }
-
-    const newEvent = {
-      id: String(Date.now()),
-      title: `${clientName} - ${serviceType}`,
-      start: `${eventDate}T${eventTime}`,
-      startStr: `${eventDate}T${eventTime}`,
-      date: eventDate,
-      extendedProps: {
-        clientName,
-        clientPhone,
-        serviceType,
-        statusService,
-        description,
-        serviceDone,
-        serviceTotal
-      }
-    };
-
-    eventsData.push(newEvent);
-    saveEvents();
-
-    calendar.addEvent({
-      id: newEvent.id,
-      title: newEvent.title,
-      start: newEvent.start,
-      extendedProps: newEvent.extendedProps
-    });
-
-    updateCounters();
-    clearForm();
-
-    alert("Agendamento adicionado com sucesso.");
-  });
-
-  btnClearForm.addEventListener("click", clearForm);
-
-  closeModal.addEventListener("click", function () {
-    eventModal.style.display = "none";
-  });
-
-  eventModal.addEventListener("click", function (e) {
-    if (e.target === eventModal) {
-      eventModal.style.display = "none";
-    }
-  });
-
-  btnFinalize.addEventListener("click", function () {
-    if (!selectedEvent) return;
-
-    showWarranty(selectedEvent);
-    eventModal.style.display = "none";
-  });
-
-  showWarrantyBtn.addEventListener("click", function () {
-    if (selectedEvent) {
-      showWarranty(selectedEvent);
-    } else if (eventsData.length > 0) {
-      showWarranty(eventsData[eventsData.length - 1]);
-    } else {
-      alert("Nenhum agendamento disponível para gerar termo de garantia.");
-    }
-  });
-
-  toggleThemeBtn.addEventListener("click", function () {
-    document.body.classList.toggle("light-theme");
-  });
-
-  calendar.render();
-  updateCounters();
+}
+
+}
+
+/* =====================================
+   TEMA
+===================================== */
+
+function toggleTheme(){
+
+document.body.classList.toggle("light-theme");
+
+localStorage.setItem(
+"theme",
+document.body.classList.contains("light-theme")
+);
+
+}
+
+function loadTheme(){
+
+const theme =
+localStorage.getItem("theme");
+
+if(theme === "true"){
+
+document.body.classList.add("light-theme");
+
+}
+
+}
+
+/* =====================================
+   GERAR OS
+===================================== */
+
+function generateOSNumber(){
+
+const number =
+Date.now().toString().slice(-6);
+
+document.getElementById("osNumber").value =
+`OS-${number}`;
+
+}
+
+/* =====================================
+   CALENDÁRIO
+===================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+loadTheme();
+
+generateOSNumber();
+
+initializeCalendar();
+
+loadAppointments();
+
+updateDashboard();
+
+}
+);
+
+function initializeCalendar(){
+
+const calendarEl =
+document.getElementById("calendar");
+
+calendar =
+new FullCalendar.Calendar(
+calendarEl,
+{
+
+locale:"pt-br",
+
+initialView:"dayGridMonth",
+
+height:"auto",
+
+headerToolbar:{
+left:"prev,next today",
+center:"title",
+right:"dayGridMonth,timeGridWeek"
+},
+
+eventClick:function(info){
+
+selectedEvent = info.event;
+
+showEventModal(info.event);
+
+}
+
+}
+);
+
+calendar.render();
+
+}
+
+/* =====================================
+   CARREGAR EVENTOS
+===================================== */
+
+function loadAppointments(){
+
+appointments.forEach(event=>{
+
+calendar.addEvent({
+
+title:event.client,
+
+start:event.date,
+
+extendedProps:event
+
 });
+
+});
+
+}
+
+/* =====================================
+   HORÁRIOS
+===================================== */
+
+function selectTime(time){
+
+const input =
+document.getElementById("serviceDate");
+
+if(!input.value){
+
+const today =
+new Date();
+
+const year =
+today.getFullYear();
+
+const month =
+String(today.getMonth()+1)
+.padStart(2,"0");
+
+const day =
+String(today.getDate())
+.padStart(2,"0");
+
+input.value =
+`${year}-${month}-${day}T${time}`;
+
+}else{
+
+const datePart =
+input.value.split("T")[0];
+
+input.value =
+`${datePart}T${time}`;
+
+}
+
+}
+
+/* =====================================
+   SALVAR AGENDAMENTO
+===================================== */
+
+function saveAppointment(){
+
+const serviceDate =
+document.getElementById("serviceDate").value;
+
+const serviceType =
+document.getElementById("serviceType").value;
+
+const clientName =
+document.getElementById("clientName").value;
+
+const clientPhone =
+document.getElementById("clientPhone").value;
+
+if(
+!serviceDate ||
+!serviceType ||
+!clientName
+){
+
+alert("Preencha os campos obrigatórios.");
+
+return;
+
+}
+
+const appointment = {
+
+id:Date.now(),
+
+client:clientName,
+
+phone:clientPhone,
+
+service:serviceType,
+
+date:serviceDate
+
+};
+
+appointments.push(appointment);
+
+localStorage.setItem(
+"appointments",
+JSON.stringify(appointments)
+);
+
+calendar.addEvent({
+
+title:clientName,
+
+start:serviceDate,
+
+extendedProps:appointment
+
+});
+
+saveClient();
+
+updateDashboard();
+
+alert("Agendamento realizado!");
+
+}
+
+/* =====================================
+   SALVAR CLIENTE
+===================================== */
+
+function saveClient(){
+
+const client = {
+
+name:
+document.getElementById("clientName").value,
+
+phone:
+document.getElementById("clientPhone").value,
+
+address:
+document.getElementById("clientAddress").value,
+
+email:
+document.getElementById("clientEmail").value
+
+};
+
+const exists =
+clients.find(
+c=>c.phone===client.phone
+);
+
+if(!exists){
+
+clients.push(client);
+
+localStorage.setItem(
+"clients",
+JSON.stringify(clients)
+);
+
+}
+
+}
+
+/* =====================================
+   SALVAR ORDEM SERVIÇO
+===================================== */
+
+function saveOS(){
+
+const os = {
+
+id:Date.now(),
+
+osNumber:
+document.getElementById("osNumber").value,
+
+client:
+document.getElementById("clientName").value,
+
+phone:
+document.getElementById("clientPhone").value,
+
+equipment:
+document.getElementById("equipmentType").value,
+
+brand:
+document.getElementById("equipmentBrand").value,
+
+model:
+document.getElementById("equipmentModel").value,
+
+status:
+document.getElementById("serviceStatus").value,
+
+problem:
+document.getElementById("reportedProblem").value,
+
+service:
+document.getElementById("servicePerformed").value,
+
+value:
+document.getElementById("serviceValue").value,
+
+obs:
+document.getElementById("observations").value,
+
+createdAt:
+new Date().toLocaleDateString()
+
+};
+
+services.push(os);
+
+localStorage.setItem(
+"services",
+JSON.stringify(services)
+);
+
+updateDashboard();
+
+generateOSNumber();
+
+alert("Ordem de serviço salva!");
+
+}
+
+/* =====================================
+   DASHBOARD
+===================================== */
+
+function updateDashboard(){
+
+document.getElementById("clientCount")
+.innerText =
+clients.length;
+
+document.getElementById("serviceCount")
+.innerText =
+services.length;
+
+const today =
+new Date().toISOString().split("T")[0];
+
+const todayAppointments =
+appointments.filter(a=>
+a.date.startsWith(today)
+);
+
+document.getElementById("todayCount")
+.innerText =
+todayAppointments.length;
+
+let total = 0;
+
+services.forEach(service=>{
+
+total +=
+parseFloat(service.value || 0);
+
+});
+
+document.getElementById("revenueMonth")
+.innerText =
+`R$ ${total.toFixed(2)}`;
+
+}
+
+/* =====================================
+   MODAL
+===================================== */
+
+function showEventModal(event){
+
+document.getElementById("eventModal")
+.style.display="flex";
+
+document.getElementById("modalBody")
+.innerHTML = `
+
+<p><strong>Cliente:</strong>
+${event.title}</p>
+
+<p><strong>Data:</strong>
+${new Date(event.start)
+.toLocaleString()}</p>
+
+`;
+
+}
+
+function closeModal(){
+
+document.getElementById("eventModal")
+.style.display="none";
+
+}
+
+/* =====================================
+   FECHAR MODAL AO CLICAR FORA
+===================================== */
+
+window.onclick = function(event){
+
+const modal =
+document.getElementById("eventModal");
+
+const adminModal =
+document.getElementById("adminModal");
+
+if(event.target === modal){
+
+closeModal();
+
+}
+
+if(event.target === adminModal){
+
+closeAdminModal();
+
+}
+
+};
+/* =====================================
+   CONSULTA DE OS
+===================================== */
+
+function consultarOS(){
+
+const telefone =
+document.getElementById("consultaTelefone")
+.value.trim();
+
+const resultado =
+document.getElementById("resultadoConsulta");
+
+if(!telefone){
+
+alert("Informe um telefone.");
+
+return;
+
+}
+
+const registros =
+services.filter(service =>
+service.phone.includes(telefone)
+);
+
+if(registros.length === 0){
+
+resultado.innerHTML = `
+<div class="history-item">
+Nenhum serviço encontrado.
+</div>
+`;
+
+return;
+
+}
+
+resultado.innerHTML = "";
+
+registros.forEach(item => {
+
+resultado.innerHTML += `
+
+<div class="history-item">
+
+<h4>${item.osNumber}</h4>
+
+<p>
+<strong>Cliente:</strong>
+${item.client}
+</p>
+
+<p>
+<strong>Status:</strong>
+${item.status}
+</p>
+
+<p>
+<strong>Equipamento:</strong>
+${item.equipment}
+</p>
+
+<p>
+<strong>Valor:</strong>
+R$ ${item.value}
+</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* =====================================
+   BUSCA CLIENTES
+===================================== */
+
+function searchClient(){
+
+const search =
+document.getElementById("searchClient")
+.value.toLowerCase();
+
+const history =
+document.getElementById("serviceHistory");
+
+if(!history) return;
+
+history.innerHTML = "";
+
+const filtered =
+services.filter(service =>
+
+(service.client || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(service.phone || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(service.osNumber || "")
+.toLowerCase()
+.includes(search)
+
+);
+
+filtered.forEach(renderHistoryItem);
+
+}
+
+/* =====================================
+   HISTÓRICO
+===================================== */
+
+function loadHistory(){
+
+const history =
+document.getElementById("serviceHistory");
+
+if(!history) return;
+
+history.innerHTML = "";
+
+if(services.length === 0){
+
+history.innerHTML = `
+<p class="empty-history">
+Nenhum serviço registrado.
+</p>
+`;
+
+return;
+
+}
+
+services.forEach(renderHistoryItem);
+
+}
+
+function renderHistoryItem(item){
+
+const history =
+document.getElementById("serviceHistory");
+
+history.innerHTML += `
+
+<div class="history-item">
+
+<h4>${item.osNumber}</h4>
+
+<p>
+<strong>Cliente:</strong>
+${item.client}
+</p>
+
+<p>
+<strong>Status:</strong>
+${item.status}
+</p>
+
+<p>
+<strong>Valor:</strong>
+R$ ${item.value}
+</p>
+
+</div>
+
+`;
+
+}
+
+/* =====================================
+   GARANTIA 90 DIAS
+===================================== */
+
+function generateWarranty(){
+
+const cliente =
+document.getElementById("clientName").value;
+
+const servico =
+document.getElementById("servicePerformed").value;
+
+const valor =
+document.getElementById("serviceValue").value;
+
+const data =
+new Date().toLocaleDateString();
+
+const texto = `
+
+GARANTIA DE 90 DIAS
+
+Cliente: ${cliente}
+
+Data: ${data}
+
+Serviço Executado:
+
+${servico}
+
+Valor Cobrado:
+
+R$ ${valor}
+
+A LeoTecnologia oferece garantia de 90 dias
+sobre o serviço executado.
+
+A garantia não cobre:
+
+- Mau uso
+- Quedas
+- Líquidos
+- Oxidação
+- Intervenção de terceiros
+- Danos elétricos
+
+`;
+
+document.getElementById("warrantyText")
+.value = texto;
+
+alert("Garantia gerada!");
+
+}
+
+/* =====================================
+   IMPRESSÃO
+===================================== */
+
+function printWarranty(){
+
+const content =
+document.getElementById("warrantyText")
+.value;
+
+const win =
+window.open("", "_blank");
+
+win.document.write(`
+<html>
+<head>
+<title>Garantia</title>
+<style>
+body{
+font-family:Arial;
+padding:30px;
+line-height:1.8;
+}
+</style>
+</head>
+<body>
+<pre>${content}</pre>
+</body>
+</html>
+`);
+
+win.document.close();
+
+win.print();
+
+}
+
+/* =====================================
+   FINANCEIRO
+===================================== */
+
+function updateFinancial(){
+
+let recebido = 0;
+
+services.forEach(service => {
+
+recebido +=
+parseFloat(service.value || 0);
+
+});
+
+const pendente =
+services.filter(
+s =>
+s.status !== "Entregue"
+)
+.reduce((acc,s)=>
+acc + parseFloat(s.value || 0),
+0);
+
+document.getElementById("totalRecebido")
+.innerText =
+`R$ ${recebido.toFixed(2)}`;
+
+document.getElementById("totalPendente")
+.innerText =
+`R$ ${pendente.toFixed(2)}`;
+
+document.getElementById("totalMes")
+.innerText =
+`R$ ${recebido.toFixed(2)}`;
+
+}
+
+/* =====================================
+   WHATSAPP
+===================================== */
+
+function sendWhatsAppUpdate(){
+
+if(!selectedEvent){
+
+alert("Selecione um evento.");
+
+return;
+
+}
+
+const phone =
+selectedEvent.extendedProps.phone || "";
+
+const text = encodeURIComponent(
+
+`Olá!
+
+Seu atendimento foi atualizado.
+
+Cliente: ${selectedEvent.title}
+
+LeoTecnologia`
+
+);
+
+window.open(
+`https://wa.me/55${phone}?text=${text}`,
+"_blank"
+);
+
+}
+
+/* =====================================
+   BACKUP JSON
+===================================== */
+
+function exportBackup(){
+
+const backup = {
+
+clients,
+services,
+appointments
+
+};
+
+const data =
+JSON.stringify(
+backup,
+null,
+2
+);
+
+const blob =
+new Blob(
+[data],
+{
+type:"application/json"
+}
+);
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+`backup-leotecnologia-${Date.now()}.json`;
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+/* =====================================
+   IMPORTAÇÃO
+===================================== */
+
+function importBackup(){
+
+document
+.getElementById("importFile")
+.click();
+
+}
+
+document
+.getElementById("importFile")
+.addEventListener(
+"change",
+function(event){
+
+const file =
+event.target.files[0];
+
+if(!file) return;
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e){
+
+try{
+
+const data =
+JSON.parse(e.target.result);
+
+clients =
+data.clients || [];
+
+services =
+data.services || [];
+
+appointments =
+data.appointments || [];
+
+localStorage.setItem(
+"clients",
+JSON.stringify(clients)
+);
+
+localStorage.setItem(
+"services",
+JSON.stringify(services)
+);
+
+localStorage.setItem(
+"appointments",
+JSON.stringify(appointments)
+);
+
+location.reload();
+
+}catch(error){
+
+alert("Arquivo inválido.");
+
+}
+
+};
+
+reader.readAsText(file);
+
+}
+);
+
+/* =====================================
+   RELATÓRIO
+===================================== */
+
+function generateReport(){
+
+const totalClientes =
+clients.length;
+
+const totalOS =
+services.length;
+
+let faturamento = 0;
+
+services.forEach(service=>{
+
+faturamento +=
+parseFloat(service.value || 0);
+
+});
+
+alert(
+
+`RELATÓRIO
+
+Clientes:
+${totalClientes}
+
+Ordens:
+${totalOS}
+
+Faturamento:
+R$ ${faturamento.toFixed(2)}`
+
+);
+
+}
+
+/* =====================================
+   EXCLUIR OS
+===================================== */
+
+function deleteSelectedOS(){
+
+if(!selectedEvent){
+
+alert("Nenhum registro selecionado.");
+
+return;
+
+}
+
+const senha =
+prompt(
+"Digite a senha do administrador:"
+);
+
+if(senha !== OWNER_PASSWORD){
+
+alert("Senha incorreta.");
+
+return;
+
+}
+
+if(!confirm(
+"Deseja realmente excluir?"
+)){
+
+return;
+
+}
+
+const eventId =
+selectedEvent.extendedProps.id;
+
+appointments =
+appointments.filter(
+a => a.id !== eventId
+);
+
+localStorage.setItem(
+"appointments",
+JSON.stringify(appointments)
+);
+
+selectedEvent.remove();
+
+closeModal();
+
+alert("Registro excluído.");
+
+}
+
+/* =====================================
+   LIMPAR BANCO
+===================================== */
+
+function clearDatabase(){
+
+const senha =
+prompt(
+"Digite a senha:"
+);
+
+if(senha !== OWNER_PASSWORD){
+
+alert("Senha incorreta.");
+
+return;
+
+}
+
+if(
+!confirm(
+"Apagar todos os dados?"
+)
+){
+
+return;
+
+}
+
+localStorage.removeItem("clients");
+localStorage.removeItem("services");
+localStorage.removeItem("appointments");
+
+location.reload();
+
+}
+
+/* =====================================
+   INICIALIZAÇÃO FINAL
+===================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+loadHistory();
+
+updateFinancial();
+
+}
+);
