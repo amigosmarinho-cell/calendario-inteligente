@@ -1,1 +1,442 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+background:linear-gradient(180deg,#020617,#0f172a,#111827);
+min-height:100vh;
+padding:10px;
+color:white;
+transition:0.3s;
+overflow-x:hidden;
+}
+
+/* efeito scanline */
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.03) 1px,
+transparent 2px,
+transparent 4px
+);
+z-index:9999;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+width:100%;
+max-width:450px;
+margin:auto;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.company-header,
+.event-form,
+.card-dashboard{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-radius:22px;
+padding:18px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* =========================
+   TOPO
+========================= */
+
+.company-header{
+margin-bottom:10px;
+text-align:center;
+}
+
+.company-name{
+font-size:24px;
+font-weight:700;
+margin-bottom:12px;
+background:linear-gradient(90deg,#38bdf8,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.company-info{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.company-info p{
+background:rgba(255,255,255,0.05);
+padding:10px;
+border-radius:12px;
+font-size:12px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:10px;
+}
+
+.card-dashboard{
+padding:15px;
+text-align:center;
+transition:0.3s;
+}
+
+.card-dashboard:hover{
+transform:translateY(-3px);
+}
+
+.card-dashboard h3{
+font-size:24px;
+color:#38bdf8;
+margin-bottom:4px;
+}
+
+.card-dashboard p{
+font-size:11px;
+opacity:0.9;
+}
+
+/* =========================
+   CALENDÁRIO
+========================= */
+
+.calendar-box{
+background:white;
+border-radius:18px;
+padding:6px;
+margin-bottom:10px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+
+.fc{
+font-size:10px !important;
+color:#111827;
+}
+
+.fc-toolbar-title{
+font-size:13px !important;
+font-weight:600;
+}
+
+.fc-button{
+background:#2563eb !important;
+border:none !important;
+border-radius:8px !important;
+padding:6px 10px !important;
+font-size:11px !important;
+transition:0.2s;
+}
+
+.fc-button:hover{
+opacity:0.9;
+}
+
+.fc-event{
+background:#ef4444 !important;
+border:none !important;
+border-radius:6px !important;
+padding:2px;
+font-size:10px;
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
+
+.event-form h2{
+text-align:center;
+margin-bottom:14px;
+font-size:18px;
+}
+
+/* =========================
+   GRID HORÁRIOS
+========================= */
+
+.times-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:12px;
+}
+
+/* =========================
+   BOTÕES HORÁRIOS
+========================= */
+
+.time-slot{
+background:#00c853;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+transition:0.2s;
+}
+
+.time-slot:hover{
+transform:scale(1.03);
+background:#00b84a;
+}
+
+.time-slot.occupied{
+background:#ef4444;
+}
+
+.time-slot.occupied:hover{
+background:#dc2626;
+}
+
+.time-slot:disabled{
+opacity:0.5;
+cursor:not-allowed;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select,
+textarea,
+button{
+width:100%;
+border:none;
+outline:none;
+border-radius:12px;
+padding:12px;
+margin-bottom:10px;
+font-size:12px;
+transition:0.2s;
+}
+
+input,
+select,
+textarea{
+background:rgba(255,255,255,0.08);
+color:white;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+input::placeholder,
+textarea::placeholder{
+color:rgba(255,255,255,0.6);
+}
+
+/* foco */
+
+input:focus,
+select:focus,
+textarea:focus{
+border:1px solid #38bdf8;
+box-shadow:0 0 0 3px rgba(56,189,248,0.15);
+}
+
+/* select */
+
+select option{
+background:#111827;
+color:white;
+}
+
+/* =========================
+   BOTÕES
+========================= */
+
+button{
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.95;
+transform:translateY(-1px);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+padding:15px;
+}
+
+.modal-content{
+background:#111827;
+padding:20px;
+border-radius:20px;
+width:100%;
+max-width:340px;
+position:relative;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+animation:fadeIn 0.2s ease;
+}
+
+.modal-content h2{
+margin-bottom:15px;
+text-align:center;
+}
+
+.modal-content p{
+margin-bottom:10px;
+font-size:13px;
+line-height:1.5;
+}
+
+.close-modal{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.close-modal:hover{
+transform:scale(1.1);
+color:#ef4444;
+}
+
+/* =========================
+   TEMA CLARO
+========================= */
+
+.light-theme{
+background:#f1f5f9;
+color:#111827;
+}
+
+.light-theme .company-header,
+.light-theme .event-form,
+.light-theme .card-dashboard{
+background:white;
+color:#111827;
+}
+
+.light-theme .company-info p{
+background:#f1f5f9;
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select{
+background:#e2e8f0;
+color:#111827;
+border:1px solid #cbd5e1;
+}
+
+.light-theme input::placeholder,
+.light-theme textarea::placeholder{
+color:#475569;
+}
+
+.light-theme select option{
+background:white;
+color:#111827;
+}
+
+.light-theme .modal-content{
+background:white;
+color:#111827;
+}
+
+/* =========================
+   ANIMAÇÃO
+========================= */
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:scale(0.95);
+}
+
+to{
+opacity:1;
+transform:scale(1);
+}
+
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:480px){
+
+.company-name{
+font-size:20px;
+}
+
+.card-dashboard h3{
+font-size:20px;
+}
+
+.fc{
+font-size:9px !important;
+}
+
+.fc-toolbar-title{
+font-size:11px !important;
+}
+
+button,
+input,
+select,
+textarea{
+font-size:11px;
+}
+
+.time-slot{
+padding:8px;
+font-size:11px;
+}
+
+}
 
