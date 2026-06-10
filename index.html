@@ -5,351 +5,458 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Agenda Inteligente</title>
 
-<!-- FONTES -->
+<!-- FONT AWESOME -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- ÍCONES -->
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <!-- FULLCALENDAR -->
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
+<link
+href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
+rel="stylesheet">
 
 <style>
 
 /* RESET */
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
 /* BODY */
 
 body{
-background:linear-gradient(180deg,#020617,#0f172a,#111827);
-min-height:100vh;
-padding:10px;
-color:white;
-transition:0.3s;
-overflow-x:hidden;
-}
 
-/* EFEITO VISUAL */
+    background:
+    linear-gradient(
+    180deg,
+    #020617,
+    #0f172a,
+    #111827
+    );
 
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,0.03),
-rgba(255,255,255,0.03) 1px,
-transparent 2px,
-transparent 4px
-);
-z-index:9999;
+    min-height:100vh;
+
+    color:white;
+
+    overflow-x:hidden;
+
+    padding:8px;
 }
 
 /* CONTAINER */
 
 .container{
-width:100%;
-max-width:450px;
-margin:auto;
+
+    width:100%;
+
+    max-width:430px;
+
+    margin:auto;
 }
 
-/* CARDS */
-
-.company-header,
-.event-form,
-.card-dashboard{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(15px);
-border-radius:22px;
-padding:18px;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 10px 30px rgba(0,0,0,0.35);
-}
-
-/* TOPO */
+/* HEADER */
 
 .company-header{
-margin-bottom:10px;
-text-align:center;
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:14px;
+
+    margin-bottom:10px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    animation:fadeUp .5s ease;
 }
+
+/* LOGO */
+
+.logo-space{
+
+    width:75px;
+
+    height:75px;
+
+    margin:auto;
+
+    margin-bottom:10px;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,0.08);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.logo-space img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+/* TITLE */
 
 .company-name{
-font-size:24px;
-font-weight:700;
-margin-bottom:12px;
-background:linear-gradient(90deg,#38bdf8,#2563eb);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #00c6ff,
+    #0072ff
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
 }
+
+/* INFO */
 
 .company-info{
-display:flex;
-flex-direction:column;
-gap:8px;
+
+    font-size:12px;
+
+    opacity:0.9;
 }
 
-.company-info p{
-background:rgba(255,255,255,0.05);
-padding:10px;
-border-radius:12px;
-font-size:12px;
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-/* DASHBOARD */
-
-.dashboard{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:10px;
-}
-
-.card-dashboard{
-padding:15px;
-text-align:center;
-}
-
-.card-dashboard h3{
-font-size:24px;
-color:#38bdf8;
-margin-bottom:4px;
-}
-
-.card-dashboard p{
-font-size:11px;
-}
-
-/* CALENDÁRIO */
+/* CALENDAR */
 
 .calendar-box{
-background:white;
-border-radius:18px;
-padding:6px;
-margin-bottom:10px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:5px;
+
+    overflow:hidden;
+
+    margin-bottom:10px;
+
+    animation:fadeUp .6s ease;
 }
 
+/* FULLCALENDAR */
+
 .fc{
-font-size:10px !important;
-color:#111827;
+
+    color:black;
+
+    font-size:12px;
+}
+
+.fc-toolbar{
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    gap:6px;
+}
+
+.fc-toolbar-title{
+
+    font-size:15px !important;
+
+    text-align:center;
 }
 
 .fc-button{
-background:#2563eb !important;
-border:none !important;
-border-radius:8px !important;
+
+    border:none !important;
+
+    background:#2563eb !important;
+
+    border-radius:10px !important;
+
+    padding:6px 10px !important;
+
+    font-size:11px !important;
 }
+
+/* EVENT */
 
 .fc-event{
-background:#ef4444 !important;
-border:none !important;
-border-radius:6px !important;
+
+    background:#ff4d4d !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    font-size:10px !important;
+
+    border-radius:8px !important;
+
+    padding:2px !important;
 }
 
-/* FORMULÁRIO */
+/* FORM */
+
+.event-form{
+
+    background:rgba(255,255,255,0.08);
+
+    padding:14px;
+
+    border-radius:20px;
+
+    backdrop-filter:blur(15px);
+
+    animation:fadeUp .7s ease;
+}
+
+/* TITLE FORM */
 
 .event-form h2{
-text-align:center;
-margin-bottom:14px;
+
+    font-size:18px;
+
+    margin-bottom:12px;
+
+    text-align:center;
 }
 
-/* GRID HORÁRIOS */
+/* STATUS */
 
-.times-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:12px;
+.status-box{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:12px;
 }
 
-/* HORÁRIOS */
+.status{
 
-.time-slot{
-background:#00c853;
-color:white;
-border:none;
-padding:10px;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
-transition:0.2s;
+    flex:1;
+
+    text-align:center;
+
+    padding:8px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:600;
 }
 
-.time-slot:hover{
-transform:scale(1.03);
+.available-status{
+
+    background:#00c853;
 }
 
-.time-slot.occupied{
-background:#ef4444;
-}
+.busy-status{
 
-.time-slot:disabled{
-opacity:0.5;
-cursor:not-allowed;
+    background:#ff4d4d;
 }
 
 /* INPUTS */
 
 input,
-select,
-textarea,
-button{
-width:100%;
-border:none;
-outline:none;
-border-radius:12px;
-padding:12px;
-margin-bottom:10px;
-font-size:12px;
-transition:0.2s;
-}
+select{
 
-input,
-select,
-textarea{
-background:rgba(255,255,255,0.08);
-color:white;
-border:1px solid rgba(255,255,255,0.08);
-}
+    width:100%;
 
-input::placeholder,
-textarea::placeholder{
-color:rgba(255,255,255,0.6);
+    padding:12px;
+
+    border:none;
+
+    border-radius:14px;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+
+    outline:none;
+
+    transition:.3s;
 }
 
 input:focus,
-select:focus,
-textarea:focus{
-border:1px solid #38bdf8;
-box-shadow:0 0 0 3px rgba(56,189,248,0.15);
+select:focus{
+
+    transform:scale(1.01);
+
+    box-shadow:
+    0 0 0 3px rgba(37,99,235,0.25);
 }
 
-/* OPTIONS */
-
-select option{
-background:#111827;
-color:white;
-}
-
-/* BOTÕES */
+/* BUTTON */
 
 button{
-background:linear-gradient(135deg,#2563eb,#06b6d4);
-color:white;
-font-weight:600;
-cursor:pointer;
+
+    width:100%;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+    );
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,0.35);
 }
 
 button:hover{
-opacity:0.95;
+
+    transform:translateY(-2px);
 }
 
-/* MODAL */
+/* HORÁRIOS */
 
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.8);
-justify-content:center;
-align-items:center;
-z-index:999;
-padding:15px;
+.available-times{
+
+    margin-bottom:15px;
 }
 
-.modal-content{
-background:#111827;
-padding:20px;
-border-radius:20px;
-width:100%;
-max-width:340px;
-position:relative;
+.available-times h3{
+
+    margin-bottom:10px;
+
+    font-size:15px;
 }
 
-.modal-content h2{
-margin-bottom:15px;
-text-align:center;
+/* GRID */
+
+.times-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:8px;
 }
 
-.modal-content p{
-margin-bottom:10px;
-font-size:13px;
-line-height:1.5;
+/* TIME BUTTON */
+
+.time-slot{
+
+    padding:10px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#00c853;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
 }
 
-.close-modal{
-position:absolute;
-top:10px;
-right:15px;
-font-size:28px;
-cursor:pointer;
+.time-slot:hover{
+
+    transform:scale(1.04);
+
+    background:#2563eb;
 }
 
-/* TEMA CLARO */
+/* OCCUPIED */
 
-.light-theme{
-background:#f1f5f9;
-color:#111827;
+.time-slot.occupied{
+
+    background:#ff4d4d;
+
+    pointer-events:none;
+
+    opacity:.85;
 }
 
-.light-theme .company-header,
-.light-theme .event-form,
-.light-theme .card-dashboard{
-background:white;
-color:#111827;
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
 }
 
-.light-theme input,
-.light-theme textarea,
-.light-theme select{
-background:#e2e8f0;
-color:#111827;
-}
-
-.light-theme .modal-content{
-background:white;
-color:#111827;
-}
-
-/* RESPONSIVO */
+/* RESPONSIVE */
 
 @media(max-width:480px){
 
-.company-name{
-font-size:20px;
-}
+    .company-name{
 
-.card-dashboard h3{
-font-size:20px;
-}
+        font-size:20px;
+    }
 
-.fc{
-font-size:9px !important;
-}
+    .fc-toolbar-title{
 
+        font-size:13px !important;
+    }
+
+    .fc-button{
+
+        font-size:10px !important;
+    }
 }
 
 </style>
@@ -360,72 +467,31 @@ font-size:9px !important;
 
 <div class="container">
 
-<!-- TOPO -->
+<!-- HEADER -->
 
 <div class="company-header">
 
+<div class="logo-space">
+
+<img src="logo.png" alt="Logo">
+
+</div>
+
 <div class="company-name">
-LeoTecnologia
+
+Agenda Inteligente
+
 </div>
 
 <div class="company-info">
 
-<p>
-<i class="fa-solid fa-location-dot"></i>
-Av. Três Nº733 São José de Ribamar - MA
-</p>
-
-<p>
-<i class="fa-solid fa-phone"></i>
-(98) 99994-2905
-</p>
-
-<p>
-<i class="fa-brands fa-instagram"></i>
-@leotecnologia25
-</p>
+Sistema Premium de Agendamentos
 
 </div>
 
 </div>
 
-<!-- DASHBOARD -->
-
-<div class="dashboard">
-
-<div class="card-dashboard">
-<h3 id="todayCount">0</h3>
-<p>Hoje</p>
-</div>
-
-<div class="card-dashboard">
-<h3 id="freeCount">0</h3>
-<p>Livres</p>
-</div>
-
-<div class="card-dashboard">
-<h3 id="clientCount">0</h3>
-<p>Clientes</p>
-</div>
-
-</div>
-
-<!-- BOTÃO -->
-
-<button type="button" onclick="toggleTheme()">
-🌙 Alternar Tema
-</button>
-
-<!-- BUSCA -->
-
-<input
-type="text"
-id="searchClient"
-placeholder="🔎 Buscar Cliente"
-onkeyup="searchEvents()"
->
-
-<!-- CALENDÁRIO -->
+<!-- CALENDAR -->
 
 <div class="calendar-box">
 
@@ -437,123 +503,143 @@ onkeyup="searchEvents()"
 
 <div class="event-form">
 
-<h2>📅 Novo Agendamento</h2>
+<h2>
+<i class="fa-solid fa-calendar-check"></i>
+ Novo Agendamento
+</h2>
 
-<div class="times-grid">
+<!-- STATUS -->
 
-<button type="button" class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
+<div class="status-box">
 
-<button type="button" class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
+<div class="status available-status">
 
-<button type="button" class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
-
-<button type="button" class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
-
-<button type="button" class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
-
-<button type="button" class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
-
-<button type="button" class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
-
-<button type="button" class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
-
-<button type="button" class="time-slot" data-time="17:00" onclick="selectTime('17:00')">17:00</button>
+🟢 Disponível
 
 </div>
 
+<div class="status busy-status">
+
+🔴 Ocupado
+
+</div>
+
+</div>
+
+<!-- HORÁRIOS -->
+
+<div class="available-times">
+
+<h3>
+
+🕒 Horários Disponíveis
+
+</h3>
+
+<div class="times-grid">
+
+<button class="time-slot"
+onclick="selectTime('08:00')">
+08:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('09:00')">
+09:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('10:00')">
+10:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('11:00')">
+11:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('13:00')">
+13:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('14:00')">
+14:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('15:00')">
+15:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('16:00')">
+16:00
+</button>
+
+<button class="time-slot"
+onclick="selectTime('17:00')">
+17:00
+</button>
+
+</div>
+
+</div>
+
+<!-- SERVIÇOS -->
+
 <select id="serviceType">
 
-<option value="">🛠️ Tipo de Serviço</option>
+<option value="">
+🛠️ Tipo de Serviço
+</option>
 
-<option value="Suporte Técnico">💻 Suporte Técnico</option>
+<option value="Suporte Técnico">
+💻 Suporte Técnico
+</option>
 
-<option value="Instalação">🖥️ Instalação</option>
+<option value="Instalação">
+🖥️ Instalação
+</option>
 
-<option value="Manutenção">🔧 Manutenção</option>
+<option value="Manutenção">
+🔧 Manutenção
+</option>
 
-<option value="Designer">🎨 Designer</option>
-
-</select>
-
-<select id="statusService">
-
-<option value="Agendado">🟡 Agendado</option>
-
-<option value="Em andamento">🔵 Em andamento</option>
-
-<option value="Finalizado">🟢 Finalizado</option>
-
-<option value="Cancelado">🔴 Cancelado</option>
+<option value="Consultoria">
+📊 Consultoria
+</option>
 
 </select>
+
+<!-- INPUTS -->
 
 <input
 type="text"
 id="clientName"
-placeholder="👤 Nome do Cliente"
->
+placeholder="👤 Nome do Cliente">
 
 <input
 type="tel"
 id="clientPhone"
-placeholder="📞 Telefone"
->
+placeholder="📞 Telefone">
 
-<textarea
-id="description"
-rows="3"
-placeholder="📝 Descrição"
-></textarea>
+<input
+type="text"
+id="title"
+placeholder="📌 Descrição do Evento">
 
 <input
 type="datetime-local"
-id="start"
->
+id="start">
 
-<button
-type="button"
-onclick="addEvent()"
->
+<!-- BUTTON -->
+
+<button onclick="addEvent()">
+
 Salvar Agendamento
-</button>
 
-<button
-type="button"
-onclick="exportBackup()"
->
-📦 Exportar Backup
-</button>
-
-</div>
-
-</div>
-
-<!-- MODAL -->
-
-<div id="eventModal" class="modal">
-
-<div class="modal-content">
-
-<span
-class="close-modal"
-onclick="closeModal()"
->
-&times;
-</span>
-
-<h2>📅 Detalhes</h2>
-
-<p id="modalTitle"></p>
-
-<p id="modalDescription"></p>
-
-<p id="modalDate"></p>
-
-<button
-type="button"
-onclick="deleteSelectedEvent()"
->
-🗑️ Deletar
 </button>
 
 </div>
@@ -564,9 +650,315 @@ onclick="deleteSelectedEvent()"
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-<!-- SCRIPT -->
+<script>
 
-<script src="script.js"></script>
+let calendar;
+
+/* CALENDÁRIO */
+
+document.addEventListener(
+'DOMContentLoaded',
+function(){
+
+const calendarEl =
+document.getElementById('calendar');
+
+calendar =
+new FullCalendar.Calendar(
+calendarEl,
+{
+
+initialView:
+window.innerWidth < 768
+? 'timeGridDay'
+: 'timeGridWeek',
+
+locale:'pt-br',
+
+editable:true,
+
+selectable:true,
+
+allDaySlot:false,
+
+slotMinTime:"08:00:00",
+
+slotMaxTime:"22:00:00",
+
+slotDuration:"00:30:00",
+
+height:"auto",
+
+headerToolbar:{
+
+left:'prev,next',
+
+center:'title',
+
+right:'today'
+},
+
+events:
+JSON.parse(
+localStorage.getItem("eventos")
+) || [],
+
+select:function(info){
+
+document
+.getElementById("start")
+.value =
+formatDate(info.start);
+
+},
+
+eventClick:function(info){
+
+if(confirm(
+"Deseja excluir este evento?"
+)){
+
+info.event.remove();
+
+saveEvents();
+
+}
+
+}
+
+});
+
+calendar.render();
+
+});
+
+/* FORMAT DATE */
+
+function formatDate(date){
+
+const pad =
+n => n.toString()
+.padStart(2,'0');
+
+return `${date.getFullYear()}-${
+pad(date.getMonth()+1)}-${
+pad(date.getDate())}T${
+pad(date.getHours())}:${
+pad(date.getMinutes())}`;
+
+}
+
+/* SELECT TIME */
+
+function selectTime(time){
+
+const currentDate =
+new Date();
+
+const year =
+currentDate.getFullYear();
+
+const month =
+String(
+currentDate.getMonth()+1
+).padStart(2,'0');
+
+const day =
+String(
+currentDate.getDate()
+).padStart(2,'0');
+
+document.getElementById("start")
+.value =
+`${year}-${month}-${day}T${time}`;
+
+}
+
+/* ADD EVENT */
+
+function addEvent(){
+
+const clientName =
+document
+.getElementById("clientName")
+.value;
+
+const clientPhone =
+document
+.getElementById("clientPhone")
+.value;
+
+const serviceType =
+document
+.getElementById("serviceType")
+.value;
+
+const title =
+document
+.getElementById("title")
+.value;
+
+const start =
+document
+.getElementById("start")
+.value;
+
+if(
+clientName === "" ||
+clientPhone === "" ||
+serviceType === "" ||
+title === "" ||
+start === ""
+){
+
+alert(
+"Preencha todos os campos!"
+);
+
+return;
+}
+
+const fullTitle =
+
+`${serviceType}
+👤 ${clientName}`;
+
+calendar.addEvent({
+
+title:fullTitle,
+
+start:start,
+
+color:"#ff4d4d"
+
+});
+
+saveEvents();
+
+blockTime(start);
+
+sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+start
+);
+
+alert(
+"Agendamento salvo!"
+);
+
+/* LIMPAR */
+
+document
+.getElementById("clientName")
+.value = "";
+
+document
+.getElementById("clientPhone")
+.value = "";
+
+document
+.getElementById("title")
+.value = "";
+
+document
+.getElementById("start")
+.value = "";
+
+}
+
+/* SAVE */
+
+function saveEvents(){
+
+const events = [];
+
+calendar.getEvents()
+.forEach(event => {
+
+events.push({
+
+title:event.title,
+
+start:event.start,
+
+color:"#ff4d4d"
+
+});
+
+});
+
+localStorage.setItem(
+"eventos",
+JSON.stringify(events)
+);
+
+}
+
+/* BLOCK TIME */
+
+function blockTime(start){
+
+const time =
+start.split("T")[1];
+
+document
+.querySelectorAll(".time-slot")
+.forEach(btn => {
+
+if(btn.innerText === time){
+
+btn.classList.add(
+"occupied"
+);
+
+btn.innerText =
+"Ocupado";
+
+}
+
+});
+
+}
+
+/* WHATSAPP */
+
+function sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+date
+){
+
+const ownerPhone =
+"5598999942905";
+
+const message =
+
+`📅 NOVO AGENDAMENTO
+
+👤 Cliente: ${clientName}
+
+📞 Telefone: ${clientPhone}
+
+🛠️ Serviço: ${serviceType}
+
+⏰ Data: ${date}`;
+
+const url =
+
+`https://wa.me/${
+ownerPhone
+}?text=${
+encodeURIComponent(message)
+}`;
+
+window.open(url,"_blank");
+
+}
+
+</script>
 
 </body>
 </html>
