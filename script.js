@@ -10,7 +10,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const warrantySection = document.getElementById("warrantySection");
 
   let selectedEvent = null;
-  let eventsData = JSON.parse(localStorage.getItem("agendaInteligenteEvents") || "[]");
+  let eventsData = [];
+
+  try {
+    eventsData = JSON.parse(localStorage.getItem("agendaInteligenteEvents") || "[]");
+  } catch (error) {
+    eventsData = [];
+  }
 
   function saveEvents() {
     localStorage.setItem("agendaInteligenteEvents", JSON.stringify(eventsData));
@@ -19,9 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateCounters() {
     const total = eventsData.length;
 
-    const today = new Date().toISOString().split("T");
-    const todayTotal = eventsData.filter(ev => ev.date === today).length;
-    const completed = eventsData.filter(ev => ev.extendedProps?.statusService === "Concluído").length;
+    const today = new Date().toISOString().split("T")[0];
+
+    const todayTotal = eventsData.filter(function (ev) {
+      return ev.date === today;
+    }).length;
+
+    const completed = eventsData.filter(function (ev) {
+      return ev.extendedProps && ev.extendedProps.statusService === "Concluído";
+    }).length;
 
     document.getElementById("totalAppointments").textContent = total;
     document.getElementById("todayAppointments").textContent = todayTotal;
@@ -30,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function formatCurrency(value) {
     const number = parseFloat(value || 0);
+
     return number.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL"
@@ -38,7 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function formatDateBR(dateStr) {
     if (!dateStr) return "Não informada";
+
     const [y, m, d] = dateStr.split("-");
+
+    if (!y || !m || !d) return "Não informada";
+
     return `${d}/${m}/${y}`;
   }
 
@@ -50,25 +67,37 @@ document.addEventListener("DOMContentLoaded", function () {
       };
     }
 
-    const parts = startStr.split("T");
+    if (startStr instanceof Date) {
+      const date = startStr.toISOString().split("T")[0];
+      const time = startStr.toTimeString().slice(0, 5);
+
+      return {
+        date: formatDateBR(date),
+        time: time || "Não informada"
+      };
+    }
+
+    const parts = String(startStr).split("T");
+
     return {
-      date: formatDateBR(parts),
+      date: formatDateBR(parts[0]),
       time: parts[1] ? parts[1].slice(0, 5) : "Não informada"
     };
   }
 
   function buildWhatsAppMessage(eventData) {
     const dt = formatDateTimeParts(eventData.startStr || eventData.start);
+    const props = eventData.extendedProps || {};
 
-    return `Olá, ${eventData.extendedProps.clientName}!
+    return `Olá, ${props.clientName || "cliente"}!
 
 Seu agendamento foi registrado com sucesso.
 
-Serviço: ${eventData.extendedProps.serviceType || "Não informado"}
-Status: ${eventData.extendedProps.statusService || "Não informado"}
-Descrição: ${eventData.extendedProps.description || "Não informada"}
-Serviço realizado: ${eventData.extendedProps.serviceDone || "Não informado"}
-Valor total: ${formatCurrency(eventData.extendedProps.serviceTotal || 0)}
+Serviço: ${props.serviceType || "Não informado"}
+Status: ${props.statusService || "Não informado"}
+Descrição: ${props.description || "Não informada"}
+Serviço realizado: ${props.serviceDone || "Não informado"}
+Valor total: ${formatCurrency(props.serviceTotal || 0)}
 Data: ${dt.date}
 Hora: ${dt.time}
 
@@ -78,24 +107,33 @@ Agenda Inteligente`;
   function openEventModal(event) {
     selectedEvent = event;
 
+    const props = event.extendedProps || {};
     const dt = formatDateTimeParts(event.startStr || event.start);
 
     document.getElementById("modalClientName").textContent =
-      `Cliente: ${event.extendedProps.clientName || "Não informado"}`;
+      `Cliente: ${props.clientName || "Não informado"}`;
+
     document.getElementById("modalClientPhone").textContent =
-      `Telefone: ${event.extendedProps.clientPhone || "Não informado"}`;
+      `Telefone: ${props.clientPhone || "Não informado"}`;
+
     document.getElementById("modalServiceType").textContent =
-      `Serviço: ${event.extendedProps.serviceType || "Não informado"}`;
+      `Serviço: ${props.serviceType || "Não informado"}`;
+
     document.getElementById("modalStatusService").textContent =
-      `Status: ${event.extendedProps.statusService || "Não informado"}`;
+      `Status: ${props.statusService || "Não informado"}`;
+
     document.getElementById("modalDescription").textContent =
-      `Descrição: ${event.extendedProps.description || "Não informada"}`;
+      `Descrição: ${props.description || "Não informada"}`;
+
     document.getElementById("modalServiceDone").textContent =
-      `Serviço realizado: ${event.extendedProps.serviceDone || "Não informado"}`;
+      `Serviço realizado: ${props.serviceDone || "Não informado"}`;
+
     document.getElementById("modalServiceTotal").textContent =
-      `Valor total: ${formatCurrency(event.extendedProps.serviceTotal || 0)}`;
+      `Valor total: ${formatCurrency(props.serviceTotal || 0)}`;
+
     document.getElementById("modalDate").textContent =
       `Data: ${dt.date}`;
+
     document.getElementById("modalTime").textContent =
       `Hora: ${dt.time}`;
 
@@ -105,16 +143,31 @@ Agenda Inteligente`;
   function showWarranty(event) {
     warrantySection.style.display = "block";
 
+    const props = event.extendedProps || {};
     const dt = formatDateTimeParts(event.startStr || event.start);
 
-    document.getElementById("garantiaCliente").textContent = event.extendedProps.clientName || "Não informado";
-    document.getElementById("garantiaServico").textContent = event.extendedProps.serviceType || "Não informado";
-    document.getElementById("garantiaServicoFeito").textContent = event.extendedProps.serviceDone || "Não informado";
-    document.getElementById("garantiaTotal").textContent = formatCurrency(event.extendedProps.serviceTotal || 0);
-    document.getElementById("garantiaData").textContent = dt.date;
-    document.getElementById("garantiaValidade").textContent = "90 dias após a execução";
+    document.getElementById("garantiaCliente").textContent =
+      props.clientName || "Não informado";
 
-    warrantySection.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("garantiaServico").textContent =
+      props.serviceType || "Não informado";
+
+    document.getElementById("garantiaServicoFeito").textContent =
+      props.serviceDone || "Não informado";
+
+    document.getElementById("garantiaTotal").textContent =
+      formatCurrency(props.serviceTotal || 0);
+
+    document.getElementById("garantiaData").textContent =
+      dt.date;
+
+    document.getElementById("garantiaValidade").textContent =
+      "90 dias após a execução";
+
+    warrantySection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   }
 
   function clearForm() {
@@ -128,6 +181,38 @@ Agenda Inteligente`;
     document.getElementById("serviceDone").value = "";
     document.getElementById("serviceTotal").value = "";
   }
+
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+    locale: "pt-br",
+    height: "auto",
+
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,timeGridDay"
+    },
+
+    buttonText: {
+      today: "Hoje",
+      month: "Mês",
+      week: "Semana",
+      day: "Dia"
+    },
+
+    events: eventsData.map(function (ev) {
+      return {
+        id: ev.id,
+        title: ev.title,
+        start: ev.start,
+        extendedProps: ev.extendedProps
+      };
+    }),
+
+    eventClick: function (info) {
+      openEventModal(info.event);
+    }
+  });
 
   btnAddEvent.addEventListener("click", function () {
     const clientName = document.getElementById("clientName").value.trim();
@@ -164,24 +249,35 @@ Agenda Inteligente`;
 
     eventsData.push(newEvent);
     saveEvents();
-    calendar.addEvent(newEvent);
+
+    calendar.addEvent({
+      id: newEvent.id,
+      title: newEvent.title,
+      start: newEvent.start,
+      extendedProps: newEvent.extendedProps
+    });
+
     updateCounters();
     clearForm();
+
     alert("Agendamento adicionado com sucesso.");
   });
 
   btnClearForm.addEventListener("click", clearForm);
 
-  closeModal.addEventListener("click", () => {
+  closeModal.addEventListener("click", function () {
     eventModal.style.display = "none";
   });
 
-  eventModal.addEventListener("click", (e) => {
-    if (e.target === eventModal) eventModal.style.display = "none";
+  eventModal.addEventListener("click", function (e) {
+    if (e.target === eventModal) {
+      eventModal.style.display = "none";
+    }
   });
 
   btnFinalize.addEventListener("click", function () {
     if (!selectedEvent) return;
+
     showWarranty(selectedEvent);
     eventModal.style.display = "none";
   });
@@ -198,26 +294,6 @@ Agenda Inteligente`;
 
   toggleThemeBtn.addEventListener("click", function () {
     document.body.classList.toggle("light-theme");
-  });
-
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    locale: "pt-br",
-    height: "auto",
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay"
-    },
-    events: eventsData.map(ev => ({
-      id: ev.id,
-      title: ev.title,
-      start: ev.start,
-      extendedProps: ev.extendedProps
-    })),
-    eventClick: function (info) {
-      openEventModal(info.event);
-    }
   });
 
   calendar.render();
