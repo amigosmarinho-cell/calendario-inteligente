@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- FullCalendar -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
 
   <style>
@@ -236,31 +235,6 @@
       min-width: 320px;
     }
 
-    .times-grid{
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .time-slot{
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      min-height: 44px;
-    }
-
-    .time-slot.selected{
-      background: linear-gradient(135deg, var(--success), #16a34a);
-      color: #fff;
-    }
-
-    .time-slot.occupied{
-      background: linear-gradient(135deg, var(--danger), #b91c1c);
-      color: #fff;
-      opacity: .85;
-      cursor: not-allowed;
-    }
-
     .modal{
       display: none;
       position: fixed;
@@ -308,10 +282,6 @@
       background: linear-gradient(135deg, var(--success), #16a34a);
     }
 
-    #btnFinalize:hover{
-      background: linear-gradient(135deg, #16a34a, #15803d);
-    }
-
     #eventModal .modal-content button{
       width: 100%;
       margin-right: 0;
@@ -334,7 +304,6 @@
       background: rgba(255,255,255,0.95);
     }
 
-    /* TELAS MÉDIAS */
     @media (max-width: 768px){
       body{
         padding: 12px;
@@ -379,10 +348,6 @@
         font-size: 1.2rem;
       }
 
-      .times-grid{
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
       .modal-content{
         width: 100%;
         padding: 18px;
@@ -393,7 +358,6 @@
       }
     }
 
-    /* CELULARES PEQUENOS / IPHONE */
     @media (max-width: 480px){
       body{
         padding: 10px;
@@ -423,10 +387,6 @@
         margin-right: 0;
       }
 
-      .times-grid{
-        grid-template-columns: 1fr;
-      }
-
       .event-form input,
       .event-form select,
       .event-form textarea{
@@ -438,7 +398,6 @@
       }
     }
 
-    /* AJUSTES PARA SAFARI / IPHONE */
     @supports (-webkit-touch-callout: none){
       body{
         -webkit-font-smoothing: antialiased;
@@ -454,11 +413,13 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header class="company-header">
       <div>
         <h1 class="company-name">Agenda Inteligente</h1>
+
         <div class="company-info">
           <p><strong>Empresa:</strong> <span id="companyName">Sua Empresa</span></p>
           <p><strong>Telefone:</strong> <span id="companyPhone">(00) 00000-0000</span></p>
@@ -477,10 +438,12 @@
         <h3 id="totalAppointments">0</h3>
         <p>Total de agendamentos</p>
       </div>
+
       <div class="card-dashboard">
         <h3 id="todayAppointments">0</h3>
         <p>Agendamentos de hoje</p>
       </div>
+
       <div class="card-dashboard">
         <h3 id="completedAppointments">0</h3>
         <p>Serviços concluídos</p>
@@ -493,15 +456,17 @@
       <input type="text" id="clientName" placeholder="Nome do cliente" />
       <input type="tel" id="clientPhone" placeholder="Telefone do cliente" />
       <input type="text" id="serviceType" placeholder="Tipo do serviço" />
+
       <select id="statusService">
         <option value="Pendente">Pendente</option>
         <option value="Em andamento">Em andamento</option>
         <option value="Concluído">Concluído</option>
       </select>
+
       <input type="date" id="eventDate" />
       <input type="time" id="eventTime" />
-      <textarea id="description" placeholder="Descrição do agendamento"></textarea>
 
+      <textarea id="description" placeholder="Descrição do agendamento"></textarea>
       <textarea id="serviceDone" placeholder="Descreva o que foi feito no serviço"></textarea>
 
       <input
@@ -529,6 +494,7 @@
       <p><strong>Serviço prestado:</strong> <span id="garantiaServicoFeito"></span></p>
       <p><strong>Total do serviço:</strong> <span id="garantiaTotal"></span></p>
       <p><strong>Data da execução:</strong> <span id="garantiaData"></span></p>
+      <p><strong>Horário:</strong> <span id="garantiaHora"></span></p>
       <p><strong>Validade da garantia:</strong> <span id="garantiaValidade"></span></p>
     </section>
   </div>
@@ -536,7 +502,9 @@
   <div class="modal" id="eventModal">
     <div class="modal-content">
       <span class="close-modal" id="closeModal">&times;</span>
+
       <h2>Detalhes do agendamento</h2>
+
       <p id="modalClientName"></p>
       <p id="modalClientPhone"></p>
       <p id="modalServiceType"></p>
@@ -546,11 +514,13 @@
       <p id="modalServiceTotal"></p>
       <p id="modalDate"></p>
       <p id="modalTime"></p>
+
       <button type="button" id="btnFinalize">Gerar termo de garantia</button>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const calendarEl = document.getElementById("calendar");
@@ -564,64 +534,122 @@
       const warrantySection = document.getElementById("warrantySection");
 
       let selectedEvent = null;
-      let eventsData = JSON.parse(localStorage.getItem("agendaInteligenteEvents") || "[]");
+      let eventsData = [];
+
+      try {
+        eventsData = JSON.parse(localStorage.getItem("agendaInteligenteEvents")) || [];
+      } catch (error) {
+        eventsData = [];
+      }
 
       function saveEvents(){
         localStorage.setItem("agendaInteligenteEvents", JSON.stringify(eventsData));
       }
 
+      function formatDate(dateString){
+        if (!dateString) return "Não informada";
+
+        const dateOnly = dateString.split("T")[0];
+        const parts = dateOnly.split("-");
+
+        if (parts.length !== 3) return dateString;
+
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+
+      function getEventDate(event){
+        if (event.startStr) {
+          return event.startStr.split("T")[0];
+        }
+
+        if (event.start) {
+          return event.start.split("T")[0];
+        }
+
+        if (event.date) {
+          return event.date;
+        }
+
+        return "";
+      }
+
+      function getEventTime(event){
+        if (event.startStr && event.startStr.includes("T")) {
+          return event.startStr.split("T")[1].substring(0, 5);
+        }
+
+        if (event.start && event.start.includes("T")) {
+          return event.start.split("T")[1].substring(0, 5);
+        }
+
+        return "Não informado";
+      }
+
+      function formatMoney(value){
+        const number = Number(value || 0);
+
+        return number.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL"
+        });
+      }
+
       function updateCounters(){
         const total = eventsData.length;
-        const today = new Date().toISOString().split("T");
-        const todayTotal = eventsData.filter(ev => ev.date === today).length;
-        const completed = eventsData.filter(ev => ev.extendedProps?.statusService === "Concluído").length;
+        const today = new Date().toISOString().split("T")[0];
+
+        const todayTotal = eventsData.filter(function(ev){
+          return ev.date === today;
+        }).length;
+
+        const completed = eventsData.filter(function(ev){
+          return ev.extendedProps && ev.extendedProps.statusService === "Concluído";
+        }).length;
 
         document.getElementById("totalAppointments").textContent = total;
         document.getElementById("todayAppointments").textContent = todayTotal;
         document.getElementById("completedAppointments").textContent = completed;
       }
 
-      function buildWhatsAppMessage(eventData){
-        return `Olá, ${eventData.extendedProps.clientName}!
-
-Seu agendamento foi registrado com sucesso.
-
-Serviço: ${eventData.extendedProps.serviceType}
-Status: ${eventData.extendedProps.statusService}
-Descrição: ${eventData.extendedProps.description || "Não informada"}
-Serviço realizado: ${eventData.extendedProps.serviceDone || "Não informado"}
-Valor total: R$ ${parseFloat(eventData.extendedProps.serviceTotal || 0).toFixed(2)}
-Data: ${eventData.startStr.split("T")}
-Hora: ${eventData.startStr.split("T")[1] || "Não informada"}
-
-Agenda Inteligente`;
-      }
-
       function openEventModal(event){
         selectedEvent = event;
 
-        document.getElementById("modalClientName").textContent = `Cliente: ${event.extendedProps.clientName || "Não informado"}`;
-        document.getElementById("modalClientPhone").textContent = `Telefone: ${event.extendedProps.clientPhone || "Não informado"}`;
-        document.getElementById("modalServiceType").textContent = `Serviço: ${event.extendedProps.serviceType || "Não informado"}`;
-        document.getElementById("modalStatusService").textContent = `Status: ${event.extendedProps.statusService || "Não informado"}`;
-        document.getElementById("modalDescription").textContent = `Descrição: ${event.extendedProps.description || "Não informada"}`;
-        document.getElementById("modalServiceDone").textContent = `Serviço realizado: ${event.extendedProps.serviceDone || "Não informado"}`;
-        document.getElementById("modalServiceTotal").textContent = `Valor total: R$ ${parseFloat(event.extendedProps.serviceTotal || 0).toFixed(2)}`;
-        document.getElementById("modalDate").textContent = `Data: ${event.startStr.split("T")}`;
-        document.getElementById("modalTime").textContent = `Hora: ${event.startStr.split("T")[1] || "Não informada"}`;
+        const props = event.extendedProps || {};
+        const eventDate = getEventDate(event);
+        const eventTime = getEventTime(event);
+
+        document.getElementById("modalClientName").textContent = `Cliente: ${props.clientName || "Não informado"}`;
+        document.getElementById("modalClientPhone").textContent = `Telefone: ${props.clientPhone || "Não informado"}`;
+        document.getElementById("modalServiceType").textContent = `Serviço: ${props.serviceType || "Não informado"}`;
+        document.getElementById("modalStatusService").textContent = `Status: ${props.statusService || "Não informado"}`;
+        document.getElementById("modalDescription").textContent = `Descrição: ${props.description || "Não informada"}`;
+        document.getElementById("modalServiceDone").textContent = `Serviço realizado: ${props.serviceDone || "Não informado"}`;
+        document.getElementById("modalServiceTotal").textContent = `Valor total: ${formatMoney(props.serviceTotal)}`;
+        document.getElementById("modalDate").textContent = `Data: ${formatDate(eventDate)}`;
+        document.getElementById("modalTime").textContent = `Hora: ${eventTime}`;
 
         eventModal.style.display = "flex";
       }
 
       function showWarranty(event){
+        const props = event.extendedProps || {};
+        const eventDate = getEventDate(event);
+        const eventTime = getEventTime(event);
+
         warrantySection.style.display = "block";
-        document.getElementById("garantiaCliente").textContent = event.extendedProps.clientName || "Não informado";
-        document.getElementById("garantiaServico").textContent = event.extendedProps.serviceType || "Não informado";
-        document.getElementById("garantiaServicoFeito").textContent = event.extendedProps.serviceDone || "Não informado";
-        document.getElementById("garantiaTotal").textContent = `R$ ${parseFloat(event.extendedProps.serviceTotal || 0).toFixed(2)}`;
-        document.getElementById("garantiaData").textContent = event.startStr.split("T");
+
+        document.getElementById("garantiaCliente").textContent = props.clientName || "Não informado";
+        document.getElementById("garantiaServico").textContent = props.serviceType || "Não informado";
+        document.getElementById("garantiaServicoFeito").textContent = props.serviceDone || "Não informado";
+        document.getElementById("garantiaTotal").textContent = formatMoney(props.serviceTotal);
+        document.getElementById("garantiaData").textContent = formatDate(eventDate);
+        document.getElementById("garantiaHora").textContent = eventTime;
         document.getElementById("garantiaValidade").textContent = "90 dias após a execução";
-        warrantySection.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        warrantySection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
       }
 
       function clearForm(){
@@ -635,6 +663,38 @@ Agenda Inteligente`;
         document.getElementById("serviceDone").value = "";
         document.getElementById("serviceTotal").value = "";
       }
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        locale: "pt-br",
+        height: "auto",
+
+        headerToolbar: {
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay"
+        },
+
+        buttonText: {
+          today: "Hoje",
+          month: "Mês",
+          week: "Semana",
+          day: "Dia"
+        },
+
+        events: eventsData.map(function(ev){
+          return {
+            id: ev.id,
+            title: ev.title,
+            start: ev.start,
+            extendedProps: ev.extendedProps
+          };
+        }),
+
+        eventClick: function(info){
+          openEventModal(info.event);
+        }
+      });
 
       btnAddEvent.addEventListener("click", function () {
         const clientName = document.getElementById("clientName").value.trim();
@@ -656,39 +716,49 @@ Agenda Inteligente`;
           id: String(Date.now()),
           title: `${clientName} - ${serviceType}`,
           start: `${eventDate}T${eventTime}`,
-          startStr: `${eventDate}T${eventTime}`,
           date: eventDate,
           extendedProps: {
-            clientName,
-            clientPhone,
-            serviceType,
-            statusService,
-            description,
-            serviceDone,
-            serviceTotal
+            clientName: clientName,
+            clientPhone: clientPhone,
+            serviceType: serviceType,
+            statusService: statusService,
+            description: description,
+            serviceDone: serviceDone,
+            serviceTotal: serviceTotal
           }
         };
 
         eventsData.push(newEvent);
         saveEvents();
-        calendar.addEvent(newEvent);
+
+        calendar.addEvent({
+          id: newEvent.id,
+          title: newEvent.title,
+          start: newEvent.start,
+          extendedProps: newEvent.extendedProps
+        });
+
         updateCounters();
         clearForm();
+
         alert("Agendamento adicionado com sucesso.");
       });
 
       btnClearForm.addEventListener("click", clearForm);
 
-      closeModal.addEventListener("click", () => {
+      closeModal.addEventListener("click", function(){
         eventModal.style.display = "none";
       });
 
-      eventModal.addEventListener("click", (e) => {
-        if (e.target === eventModal) eventModal.style.display = "none";
+      eventModal.addEventListener("click", function(e){
+        if (e.target === eventModal) {
+          eventModal.style.display = "none";
+        }
       });
 
       btnFinalize.addEventListener("click", function () {
         if (!selectedEvent) return;
+
         showWarranty(selectedEvent);
         eventModal.style.display = "none";
       });
@@ -705,26 +775,6 @@ Agenda Inteligente`;
 
       toggleThemeBtn.addEventListener("click", function () {
         document.body.classList.toggle("light-theme");
-      });
-
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        locale: "pt-br",
-        height: "auto",
-        headerToolbar: {
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay"
-        },
-        events: eventsData.map(ev => ({
-          id: ev.id,
-          title: ev.title,
-          start: ev.start,
-          extendedProps: ev.extendedProps
-        })),
-        eventClick: function(info){
-          openEventModal(info.event);
-        }
       });
 
       calendar.render();
