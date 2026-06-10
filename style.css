@@ -1,5 +1,5 @@
 /* =========================================
-   RESET
+RESET
 ========================================= */
 
 *{
@@ -10,7 +10,7 @@
 }
 
 /* =========================================
-   BODY
+BODY
 ========================================= */
 
 body{
@@ -29,11 +29,11 @@ body{
 
     overflow-x:hidden;
 
-    padding:8px;
+    padding:10px;
 }
 
 /* =========================================
-   CONTAINER
+CONTAINER
 ========================================= */
 
 .container{
@@ -46,47 +46,55 @@ body{
 }
 
 /* =========================================
-   HEADER
+HEADER
 ========================================= */
 
 .company-header{
 
-    background:rgba(255,255,255,0.08);
+    background:
+    rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:
+    blur(15px);
 
-    border-radius:20px;
+    border-radius:24px;
 
-    padding:14px;
+    padding:18px;
 
-    margin-bottom:10px;
+    margin-bottom:14px;
 
     text-align:center;
 
-    border:1px solid rgba(255,255,255,0.08);
+    border:
+    1px solid rgba(255,255,255,0.08);
 
-    animation:fadeUp .5s ease;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+    animation:
+    fadeUp .5s ease;
 }
 
 /* =========================================
-   LOGO
+LOGO
 ========================================= */
 
 .logo-space{
 
-    width:75px;
+    width:90px;
 
-    height:75px;
+    height:90px;
 
     margin:auto;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
-    border-radius:18px;
+    border-radius:22px;
 
     overflow:hidden;
 
-    background:rgba(255,255,255,0.08);
+    background:
+    rgba(255,255,255,0.08);
 
     display:flex;
 
@@ -105,22 +113,22 @@ body{
 }
 
 /* =========================================
-   TITLE
+COMPANY NAME
 ========================================= */
 
 .company-name{
 
-    font-size:22px;
+    font-size:24px;
 
     font-weight:700;
 
-    margin-bottom:5px;
+    margin-bottom:12px;
 
     background:
     linear-gradient(
     90deg,
-    #00c6ff,
-    #0072ff
+    #38bdf8,
+    #2563eb
     );
 
     -webkit-background-clip:text;
@@ -129,37 +137,71 @@ body{
 }
 
 /* =========================================
-   INFO
+COMPANY INFO
 ========================================= */
 
 .company-info{
 
-    font-size:12px;
+    display:flex;
 
-    opacity:0.9;
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.company-info p{
+
+    background:
+    rgba(255,255,255,0.05);
+
+    padding:12px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    font-size:13px;
+
+    border:
+    1px solid rgba(255,255,255,0.04);
+}
+
+.company-info i{
+
+    color:#38bdf8;
 }
 
 /* =========================================
-   CALENDAR
+CALENDAR
 ========================================= */
 
 .calendar-box{
 
     background:white;
 
-    border-radius:20px;
+    border-radius:24px;
 
-    padding:5px;
+    padding:10px;
 
     overflow:hidden;
 
-    margin-bottom:10px;
+    margin-bottom:14px;
 
-    animation:fadeUp .6s ease;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+    animation:
+    fadeUp .6s ease;
 }
 
 /* =========================================
-   FULLCALENDAR
+FULLCALENDAR
 ========================================= */
 
 .fc{
@@ -175,7 +217,7 @@ body{
 
     flex-direction:column !important;
 
-    gap:6px;
+    gap:8px;
 }
 
 .fc-toolbar-title{
@@ -183,6 +225,8 @@ body{
     font-size:15px !important;
 
     text-align:center;
+
+    font-weight:600;
 }
 
 .fc-button{
@@ -193,7 +237,7 @@ body{
 
     border-radius:10px !important;
 
-    padding:6px 10px !important;
+    padding:7px 10px !important;
 
     font-size:11px !important;
 
@@ -205,8 +249,14 @@ body{
     transform:scale(1.03);
 }
 
+.fc-day-today{
+
+    background:
+    #2563eb20 !important;
+}
+
 /* =========================================
-   EVENTS
+EVENTS
 ========================================= */
 
 .fc-event{
@@ -217,54 +267,58 @@ body{
 
     color:white !important;
 
+    border-radius:10px !important;
+
+    padding:3px !important;
+
     font-size:10px !important;
 
-    border-radius:8px !important;
-
-    padding:2px !important;
+    font-weight:600;
 }
 
 /* =========================================
-   TODAY
-========================================= */
-
-.fc-day-today{
-
-    background:#2563eb20 !important;
-}
-
-/* =========================================
-   FORM
+FORM
 ========================================= */
 
 .event-form{
 
-    background:rgba(255,255,255,0.08);
+    background:
+    rgba(255,255,255,0.08);
 
-    padding:14px;
+    backdrop-filter:
+    blur(15px);
 
-    border-radius:20px;
+    border-radius:24px;
 
-    backdrop-filter:blur(15px);
+    padding:18px;
 
-    animation:fadeUp .7s ease;
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+    animation:
+    fadeUp .7s ease;
 }
 
 /* =========================================
-   TITLE FORM
+TITLE
 ========================================= */
 
 .event-form h2{
 
-    font-size:18px;
-
-    margin-bottom:12px;
-
     text-align:center;
+
+    margin-bottom:16px;
+
+    font-size:19px;
+
+    font-weight:600;
 }
 
 /* =========================================
-   STATUS
+STATUS
 ========================================= */
 
 .status-box{
@@ -273,18 +327,18 @@ body{
 
     gap:8px;
 
-    margin-bottom:12px;
+    margin-bottom:16px;
 }
 
 .status{
 
     flex:1;
 
-    text-align:center;
-
-    padding:8px;
+    padding:10px;
 
     border-radius:12px;
+
+    text-align:center;
 
     font-size:11px;
 
@@ -302,33 +356,106 @@ body{
 }
 
 /* =========================================
-   INPUTS
+HORÁRIOS
 ========================================= */
 
-input,
-select{
+.available-times{
 
-    width:100%;
+    margin-bottom:16px;
+}
 
-    padding:12px;
+.available-times h3{
+
+    margin-bottom:12px;
+
+    font-size:14px;
+}
+
+/* =========================================
+GRID
+========================================= */
+
+.times-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:8px;
+}
+
+/* =========================================
+TIME SLOT
+========================================= */
+
+.time-slot{
+
+    background:#00c853;
+
+    color:white;
 
     border:none;
 
-    border-radius:14px;
+    padding:11px;
 
-    margin-bottom:10px;
+    border-radius:12px;
 
-    font-size:13px;
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.time-slot:hover{
+
+    transform:scale(1.04);
+
+    background:#2563eb;
+}
+
+.time-slot.occupied{
+
+    background:#ff4d4d;
+
+    pointer-events:none;
+
+    opacity:.85;
+}
+
+/* =========================================
+INPUTS
+========================================= */
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    border:none;
 
     outline:none;
 
-    transition:.3s;
+    border-radius:14px;
+
+    padding:13px;
+
+    margin-bottom:12px;
+
+    font-size:13px;
 
     background:white;
+
+    transition:.3s;
 }
 
 input:focus,
-select:focus{
+select:focus,
+textarea:focus{
 
     transform:scale(1.01);
 
@@ -336,17 +463,22 @@ select:focus{
     0 0 0 3px rgba(37,99,235,0.25);
 }
 
+textarea{
+
+    resize:none;
+}
+
 /* =========================================
-   BUTTON
+BUTTON
 ========================================= */
 
 button{
 
     width:100%;
 
-    padding:13px;
-
     border:none;
+
+    padding:14px;
 
     border-radius:14px;
 
@@ -373,89 +505,156 @@ button{
 
 button:hover{
 
-    transform:translateY(-2px);
+    transform:
+    translateY(-2px);
 
     box-shadow:
     0 15px 35px rgba(37,99,235,0.45);
 }
 
 /* =========================================
-   HORÁRIOS
+MODAL
 ========================================= */
 
-.available-times{
+.modal{
 
-    margin-bottom:15px;
-}
+    display:none;
 
-.available-times h3{
+    position:fixed;
 
-    margin-bottom:10px;
+    z-index:9999;
 
-    font-size:15px;
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:
+    rgba(0,0,0,0.75);
+
+    backdrop-filter:
+    blur(6px);
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:15px;
 }
 
 /* =========================================
-   GRID
+MODAL CONTENT
 ========================================= */
 
-.times-grid{
+.modal-content{
 
-    display:grid;
+    width:100%;
 
-    grid-template-columns:
-    repeat(3,1fr);
+    max-width:380px;
 
-    gap:8px;
-}
+    background:
+    linear-gradient(
+    180deg,
+    #0f172a,
+    #111827
+    );
 
-/* =========================================
-   TIME SLOT
-========================================= */
+    border-radius:24px;
 
-.time-slot{
+    padding:24px;
 
-    padding:10px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#00c853;
+    position:relative;
 
     color:white;
 
-    font-size:12px;
+    border:
+    1px solid rgba(255,255,255,0.08);
 
-    font-weight:600;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.45);
 
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.time-slot:hover{
-
-    transform:scale(1.04);
-
-    background:#2563eb;
+    animation:
+    fadeUp .3s ease;
 }
 
 /* =========================================
-   OCCUPIED
+CLOSE MODAL
 ========================================= */
 
-.time-slot.occupied{
+.close-modal{
 
-    background:#ff4d4d;
+    position:absolute;
 
-    pointer-events:none;
+    top:12px;
 
-    opacity:.85;
+    right:15px;
+
+    font-size:28px;
+
+    cursor:pointer;
 }
 
 /* =========================================
-   ANIMATION
+MODAL TITLE
+========================================= */
+
+.modal-content h2{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    font-size:22px;
+}
+
+/* =========================================
+MODAL INFO
+========================================= */
+
+.modal-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    margin-bottom:20px;
+}
+
+.modal-info p{
+
+    background:
+    rgba(255,255,255,0.06);
+
+    padding:14px;
+
+    border-radius:14px;
+
+    line-height:1.6;
+
+    font-size:14px;
+}
+
+/* =========================================
+DELETE BUTTON
+========================================= */
+
+.delete-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #ff4d4d,
+    #dc2626
+    );
+}
+
+/* =========================================
+ANIMATION
 ========================================= */
 
 @keyframes fadeUp{
@@ -464,22 +663,29 @@ button:hover{
 
         opacity:0;
 
-        transform:translateY(20px);
+        transform:
+        translateY(20px);
     }
 
     to{
 
         opacity:1;
 
-        transform:translateY(0);
+        transform:
+        translateY(0);
     }
 }
 
 /* =========================================
-   RESPONSIVE
+RESPONSIVO
 ========================================= */
 
 @media(max-width:480px){
+
+    body{
+
+        padding:6px;
+    }
 
     .company-name{
 
@@ -494,6 +700,8 @@ button:hover{
     .fc-button{
 
         font-size:10px !important;
+
+        padding:6px 8px !important;
     }
 
     .times-grid{
