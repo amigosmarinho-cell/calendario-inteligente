@@ -1,3 +1,11 @@
+# JavaScript Corrigido — Agenda Inteligente
+
+```javascript
+/* =========================================
+AGENDA INTELIGENTE - LEOTECNOLOGIA
+SCRIPT COMPLETO CORRIGIDO
+========================================= */
+
 let calendar;
 let selectedEvent = null;
 
@@ -22,41 +30,68 @@ const totalSlots = [
 "17:00"
 ];
 
-document.addEventListener('DOMContentLoaded',function(){
+/* =========================================
+INICIALIZAÇÃO
+========================================= */
 
-const calendarEl = document.getElementById('calendar');
+document.addEventListener("DOMContentLoaded",()=>{
+
+const calendarEl = document.getElementById("calendar");
 
 calendar = new FullCalendar.Calendar(calendarEl,{
 
-initialView:window.innerWidth < 768
-? 'timeGridDay'
-: 'timeGridWeek',
+initialView:
+window.innerWidth < 768
+? "timeGridDay"
+: "timeGridWeek",
 
-locale:'pt-br',
-
+locale:"pt-br",
 editable:true,
 selectable:true,
 allDaySlot:false,
-
 slotMinTime:"08:00:00",
 slotMaxTime:"22:00:00",
-
-height:320,
+height:350,
 
 headerToolbar:{
-left:'prev,next',
-center:'title',
-right:'today'
+left:"prev,next",
+center:"title",
+right:"today"
 },
 
-events:JSON.parse(localStorage.getItem("eventos")) || [],
+/* =========================================
+CARREGAR EVENTOS
+========================================= */
+
+events:(JSON.parse(localStorage.getItem("eventos")) || []).map(event=>(
+{
+...event,
+start:new Date(event.start)
+})),
+
+/* =========================================
+SELEÇÃO
+========================================= */
 
 select:function(info){
 
-document.getElementById("start").value =
-formatDate(info.start);
+const selectedDate = new Date(info.start);
+
+const year = selectedDate.getFullYear();
+const month = String(selectedDate.getMonth()+1).padStart(2,"0");
+const day = String(selectedDate.getDate()).padStart(2,"0");
+const hour = String(selectedDate.getHours()).padStart(2,"0");
+const minute = String(selectedDate.getMinutes()).padStart(2,"0");
+
+const formatted = `${year}-${month}-${day}T${hour}:${minute}`;
+
+document.getElementById("start").value = formatted;
 
 },
+
+/* =========================================
+CLIQUE EVENTO
+========================================= */
 
 eventClick:function(info){
 
@@ -66,12 +101,37 @@ document.getElementById("modalTitle").innerHTML =
 `<strong>Cliente:</strong><br>${info.event.title}`;
 
 document.getElementById("modalDescription").innerHTML =
-`<strong>Descrição:</strong><br>${info.event.extendedProps.description}`;
+`<strong>Descrição:</strong><br>${info.event.extendedProps.description || "Sem descrição"}`;
 
 document.getElementById("modalDate").innerHTML =
-`<strong>Data:</strong><br>${info.event.start.toLocaleString()}`;
+`<strong>Data:</strong><br>${new Date(info.event.start).toLocaleString("pt-BR")}`;
 
 document.getElementById("eventModal").style.display = "flex";
+
+},
+
+/* =========================================
+MOVER EVENTO
+========================================= */
+
+eventDrop:function(info){
+
+const newStart = info.event.start;
+
+if(isTimeOccupiedMove(newStart, info.event.id)){
+
+alert("❌ Horário já ocupado!");
+
+info.revert();
+
+return;
+
+}
+
+saveEvents();
+updateDashboard();
+updateOccupiedTimes();
+updateGarantias();
 
 }
 
@@ -79,56 +139,52 @@ document.getElementById("eventModal").style.display = "flex";
 
 calendar.render();
 
-updateOccupiedTimes();
 updateDashboard();
+updateOccupiedTimes();
+updateGarantias();
 blockPastTimes();
 
 });
 
-function formatDate(date){
-
-return date.toISOString().slice(0,16);
-
-}
+/* =========================================
+SELECIONAR HORÁRIO
+========================================= */
 
 function selectTime(time){
 
 const currentDate = new Date();
 
 const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth()+1).padStart(2,"0");
+const day = String(currentDate.getDate()).padStart(2,"0");
 
-const month = String(
-currentDate.getMonth()+1
-).padStart(2,'0');
+const finalDate = `${year}-${month}-${day}T${time}`;
 
-const day = String(
-currentDate.getDate()
-).padStart(2,'0');
-
-document.getElementById("start").value =
-`${year}-${month}-${day}T${time}`;
+document.getElementById("start").value = finalDate;
 
 }
+
+/* =========================================
+VERIFICAR HORÁRIO OCUPADO
+========================================= */
 
 function isTimeOccupied(start){
 
 const selectedDate = new Date(start);
 
-const selectedDay =
-selectedDate.toISOString().split("T")[0];
+const selectedDay = selectedDate.toISOString().split("T")[0];
 
 const selectedHour =
-String(selectedDate.getHours()).padStart(2,'0');
+String(selectedDate.getHours()).padStart(2,"0") + ":00";
 
 return calendar.getEvents().some(event=>{
 
 const eventDate = new Date(event.start);
 
-const eventDay =
-eventDate.toISOString().split("T")[0];
+const eventDay = eventDate.toISOString().split("T")[0];
 
 const eventHour =
-String(eventDate.getHours()).padStart(2,'0');
+String(eventDate.getHours()).padStart(2,"0") + ":00";
 
 return (
 selectedDay === eventDay &&
@@ -138,6 +194,45 @@ selectedHour === eventHour
 });
 
 }
+
+/* =========================================
+VERIFICAR MOVIMENTO
+========================================= */
+
+function isTimeOccupiedMove(start,currentId){
+
+const selectedDate = new Date(start);
+
+const selectedDay = selectedDate.toISOString().split("T")[0];
+
+const selectedHour =
+String(selectedDate.getHours()).padStart(2,"0") + ":00";
+
+return calendar.getEvents().some(event=>{
+
+if(event.id === currentId){
+return false;
+}
+
+const eventDate = new Date(event.start);
+
+const eventDay = eventDate.toISOString().split("T")[0];
+
+const eventHour =
+String(eventDate.getHours()).padStart(2,"0") + ":00";
+
+return (
+selectedDay === eventDay &&
+selectedHour === eventHour
+);
+
+});
+
+}
+
+/* =========================================
+HORÁRIOS OCUPADOS
+========================================= */
 
 function updateOccupiedTimes(){
 
@@ -152,19 +247,23 @@ btn.innerHTML = btn.dataset.time;
 
 });
 
-const today = new Date();
+const selectedInput =
+document.getElementById("start").value;
+
+let selectedDay = new Date().toDateString();
+
+if(selectedInput){
+selectedDay = new Date(selectedInput).toDateString();
+}
 
 calendar.getEvents().forEach(event=>{
 
 const eventDate = new Date(event.start);
 
-const sameDay =
-eventDate.toDateString() === today.toDateString();
-
-if(sameDay){
+if(eventDate.toDateString() === selectedDay){
 
 const hour =
-String(eventDate.getHours()).padStart(2,'0') + ":00";
+String(eventDate.getHours()).padStart(2,"0") + ":00";
 
 buttons.forEach(btn=>{
 
@@ -184,7 +283,16 @@ btn.innerHTML = "🔴 Ocupado";
 
 }
 
+/* =========================================
+ADICIONAR EVENTO
+========================================= */
+
 function addEvent(){
+
+const saveBtn = document.getElementById("saveBtn");
+
+saveBtn.disabled = true;
+saveBtn.innerText = "Salvando...";
 
 const clientName =
 document.getElementById("clientName").value.trim();
@@ -213,6 +321,7 @@ if(
 ){
 
 alert("⚠️ Preencha todos os campos!");
+resetSaveButton();
 return;
 
 }
@@ -220,11 +329,14 @@ return;
 if(isTimeOccupied(start)){
 
 alert("❌ Este horário já está ocupado!");
+resetSaveButton();
 return;
 
 }
 
 calendar.addEvent({
+
+id:Date.now().toString(),
 
 title:`${serviceType} - ${clientName}`,
 
@@ -234,16 +346,16 @@ description:description,
 
 status:status,
 
+phone:clientPhone,
+
 color:"#ef4444"
 
 });
 
-updateOccupiedTimes();
-
 saveEvents();
-
 updateDashboard();
-
+updateOccupiedTimes();
+updateGarantias();
 playNotification();
 
 const servicePrice =
@@ -262,25 +374,45 @@ servicePrice
 alert("✅ Agendamento salvo com sucesso!");
 
 clearForm();
+resetSaveButton();
 
 }
+
+/* =========================================
+RESET BOTÃO
+========================================= */
+
+function resetSaveButton(){
+
+const saveBtn = document.getElementById("saveBtn");
+
+if(saveBtn){
+
+saveBtn.disabled = false;
+saveBtn.innerText = "💾 Salvar Agendamento";
+
+}
+
+}
+
+/* =========================================
+LIMPAR FORMULÁRIO
+========================================= */
 
 function clearForm(){
 
 document.getElementById("clientName").value = "";
-
 document.getElementById("clientPhone").value = "";
-
 document.getElementById("serviceType").value = "";
-
-document.getElementById("statusService").value =
-"Agendado";
-
+document.getElementById("statusService").value = "Agendado";
 document.getElementById("description").value = "";
-
 document.getElementById("start").value = "";
 
 }
+
+/* =========================================
+SALVAR LOCALSTORAGE
+========================================= */
 
 function saveEvents(){
 
@@ -290,6 +422,8 @@ calendar.getEvents().forEach(event=>{
 
 events.push({
 
+id:event.id,
+
 title:event.title,
 
 start:event.start,
@@ -298,7 +432,9 @@ description:event.extendedProps.description,
 
 status:event.extendedProps.status,
 
-color:"#ef4444"
+phone:event.extendedProps.phone,
+
+color:event.backgroundColor || "#ef4444"
 
 });
 
@@ -310,6 +446,10 @@ JSON.stringify(events)
 );
 
 }
+
+/* =========================================
+WHATSAPP
+========================================= */
 
 function sendWhatsAppToOwner(
 clientName,
@@ -345,7 +485,7 @@ ${status}
 ${description}
 
 ⏰ Data:
-${new Date(date).toLocaleString()}
+${new Date(date).toLocaleString("pt-BR")}
 `;
 
 const url =
@@ -355,6 +495,10 @@ window.open(url,"_blank");
 
 }
 
+/* =========================================
+MODAL
+========================================= */
+
 function closeModal(){
 
 document.getElementById("eventModal").style.display =
@@ -362,12 +506,15 @@ document.getElementById("eventModal").style.display =
 
 }
 
+/* =========================================
+DELETAR EVENTO
+========================================= */
+
 function deleteSelectedEvent(){
 
 if(selectedEvent){
 
-const password =
-prompt("🔒 Digite a senha:");
+const password = prompt("🔒 Digite a senha:");
 
 if(password !== ownerPassword){
 
@@ -379,11 +526,9 @@ return;
 selectedEvent.remove();
 
 saveEvents();
-
-updateOccupiedTimes();
-
 updateDashboard();
-
+updateOccupiedTimes();
+updateGarantias();
 closeModal();
 
 alert("🗑️ Agendamento deletado!");
@@ -391,6 +536,10 @@ alert("🗑️ Agendamento deletado!");
 }
 
 }
+
+/* =========================================
+DASHBOARD
+========================================= */
 
 function updateDashboard(){
 
@@ -401,19 +550,19 @@ calendar.getEvents().filter(event=>{
 
 const eventDate = new Date(event.start);
 
-return eventDate.toDateString()
-=== today.toDateString();
+return (
+eventDate.toDateString() === today.toDateString()
+);
 
 });
 
 const totalToday = todayEvents.length;
 
-const occupiedSlots =
-todayEvents.map(event=>{
+const occupiedSlots = todayEvents.map(event=>{
 
 return String(
 new Date(event.start).getHours()
-).padStart(2,'0') + ":00";
+).padStart(2,"0") + ":00";
 
 });
 
@@ -423,15 +572,12 @@ slot=>!occupiedSlots.includes(slot)
 ).length;
 
 const uniqueClients = new Set(
-
 calendar.getEvents().map(event=>{
 
 const parts = event.title.split(" - ");
-
 return parts[1] || event.title;
 
 })
-
 );
 
 document.getElementById("todayCount").innerText =
@@ -445,6 +591,103 @@ uniqueClients.size;
 
 }
 
+/* =========================================
+GARANTIAS
+========================================= */
+
+function updateGarantias(){
+
+const garantiaList =
+document.getElementById("garantiaList");
+
+const events = calendar.getEvents();
+
+if(events.length === 0){
+
+garantiaList.innerHTML = `
+<div class="garantia-item">
+<div>
+<strong>Nenhuma garantia próxima</strong>
+<br>
+Os serviços aparecerão aqui.
+</div>
+<div class="garantia-badge green">OK</div>
+</div>
+`;
+
+return;
+
+}
+
+const today = new Date();
+const futureEvents = [];
+
+events.forEach(event=>{
+
+const serviceDate = new Date(event.start);
+const garantiaDate = new Date(serviceDate);
+
+garantiaDate.setDate(
+garantiaDate.getDate() + 90
+);
+
+const diffDays = Math.ceil(
+(garantiaDate - today)
+/
+(1000 * 60 * 60 * 24)
+);
+
+futureEvents.push({
+
+title:event.title,
+days:diffDays,
+date:garantiaDate
+
+});
+
+});
+
+futureEvents.sort((a,b)=>a.days - b.days);
+
+garantiaList.innerHTML = "";
+
+futureEvents.slice(0,5).forEach(item=>{
+
+let badgeClass = "green";
+let badgeText = "OK";
+
+if(item.days <= 30){
+badgeClass = "yellow";
+badgeText = "Próxima";
+}
+
+if(item.days <= 7){
+badgeClass = "red";
+badgeText = "Urgente";
+}
+
+garantiaList.innerHTML += `
+<div class="garantia-item">
+<div>
+<strong>${item.title}</strong>
+<br>
+Garantia até:
+${item.date.toLocaleDateString("pt-BR")}
+</div>
+<div class="garantia-badge ${badgeClass}">
+${badgeText}
+</div>
+</div>
+`;
+
+});
+
+}
+
+/* =========================================
+BUSCA
+========================================= */
+
 function searchEvents(){
 
 const search =
@@ -454,8 +697,7 @@ document.getElementById("searchClient")
 
 calendar.getEvents().forEach(event=>{
 
-const title =
-event.title.toLowerCase();
+const title = event.title.toLowerCase();
 
 if(title.includes(search)){
 
@@ -471,46 +713,56 @@ event.setProp("display","none");
 
 }
 
+/* =========================================
+TEMA
+========================================= */
+
 function toggleTheme(){
 
 document.body.classList.toggle("light-theme");
 
 }
 
+/* =========================================
+EXPORTAR BACKUP
+========================================= */
+
 function exportBackup(){
 
-const data =
-localStorage.getItem("eventos");
+const data = localStorage.getItem("eventos");
 
 const blob = new Blob(
 [data],
 {type:"application/json"}
 );
 
-const url =
-URL.createObjectURL(blob);
+const url = URL.createObjectURL(blob);
 
-const a =
-document.createElement("a");
+const a = document.createElement("a");
 
 a.href = url;
-
-a.download =
-"backup_agenda.json";
-
+a.download = "backup_agenda.json";
 a.click();
 
 }
 
+/* =========================================
+NOTIFICAÇÃO
+========================================= */
+
 function playNotification(){
 
 const audio = new Audio(
-'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+"https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
 );
 
 audio.play();
 
 }
+
+/* =========================================
+BLOQUEAR HORÁRIOS PASSADOS
+========================================= */
 
 function blockPastTimes(){
 
@@ -521,15 +773,13 @@ document.querySelectorAll(".time-slot");
 
 buttons.forEach(btn=>{
 
-const hour =
-parseInt(
+const hour = parseInt(
 btn.dataset.time.split(":")[0]
 );
 
 if(hour <= now.getHours()){
 
 btn.disabled = true;
-
 btn.style.opacity = "0.5";
 
 }
@@ -538,15 +788,31 @@ btn.style.opacity = "0.5";
 
 }
 
+/* =========================================
+ATUALIZAR HORÁRIOS AO ALTERAR DATA
+========================================= */
+
+document.addEventListener("change",function(e){
+
+if(e.target.id === "start"){
+updateOccupiedTimes();
+}
+
+});
+
+/* =========================================
+FECHAR MODAL
+========================================= */
+
 window.onclick = function(event){
 
 const modal =
 document.getElementById("eventModal");
 
 if(event.target === modal){
-
 closeModal();
-
 }
 
-}
+};
+
+```
