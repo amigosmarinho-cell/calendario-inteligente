@@ -3,10 +3,10 @@ RESET
 ========================================= */
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
 /* =========================================
@@ -14,22 +14,29 @@ BODY
 ========================================= */
 
 body{
+background:linear-gradient(180deg,#020617,#0f172a,#111827);
+min-height:100vh;
+padding:10px;
+color:white;
+transition:0.3s;
+overflow-x:hidden;
+}
 
-    background:
-    linear-gradient(
-    180deg,
-    #020617,
-    #0f172a,
-    #111827
-    );
+/* EFEITO VISUAL */
 
-    min-height:100vh;
-
-    color:white;
-
-    overflow-x:hidden;
-
-    padding:10px;
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.03) 1px,
+transparent 2px,
+transparent 4px
+);
+z-index:9999;
 }
 
 /* =========================================
@@ -37,12 +44,25 @@ CONTAINER
 ========================================= */
 
 .container{
+width:100%;
+max-width:480px;
+margin:auto;
+}
 
-    width:100%;
+/* =========================================
+CARDS
+========================================= */
 
-    max-width:430px;
-
-    margin:auto;
+.company-header,
+.event-form,
+.card-dashboard,
+.garantia-box{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-radius:22px;
+padding:18px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* =========================================
@@ -50,380 +70,246 @@ HEADER
 ========================================= */
 
 .company-header{
-
-    background:
-    rgba(255,255,255,0.08);
-
-    backdrop-filter:
-    blur(15px);
-
-    border-radius:24px;
-
-    padding:18px;
-
-    margin-bottom:14px;
-
-    text-align:center;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
-
-    animation:
-    fadeUp .5s ease;
+margin-bottom:12px;
+text-align:center;
 }
-
-/* =========================================
-LOGO
-========================================= */
-
-.logo-space{
-
-    width:90px;
-
-    height:90px;
-
-    margin:auto;
-
-    margin-bottom:12px;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    background:
-    rgba(255,255,255,0.08);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-}
-
-.logo-space img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-}
-
-/* =========================================
-COMPANY NAME
-========================================= */
 
 .company-name{
-
-    font-size:24px;
-
-    font-weight:700;
-
-    margin-bottom:12px;
-
-    background:
-    linear-gradient(
-    90deg,
-    #38bdf8,
-    #2563eb
-    );
-
-    -webkit-background-clip:text;
-
-    -webkit-text-fill-color:transparent;
+font-size:26px;
+font-weight:700;
+margin-bottom:14px;
+background:linear-gradient(90deg,#38bdf8,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-/* =========================================
-COMPANY INFO
-========================================= */
-
 .company-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
+display:flex;
+flex-direction:column;
+gap:8px;
 }
 
 .company-info p{
-
-    background:
-    rgba(255,255,255,0.05);
-
-    padding:12px;
-
-    border-radius:14px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:8px;
-
-    font-size:13px;
-
-    border:
-    1px solid rgba(255,255,255,0.04);
-}
-
-.company-info i{
-
-    color:#38bdf8;
+background:rgba(255,255,255,0.05);
+padding:12px;
+border-radius:12px;
+font-size:12px;
+display:flex;
+align-items:center;
+gap:8px;
 }
 
 /* =========================================
-CALENDAR
+DASHBOARD
+========================================= */
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:12px;
+}
+
+.card-dashboard{
+padding:16px;
+text-align:center;
+transition:0.3s;
+}
+
+.card-dashboard:hover{
+transform:translateY(-3px);
+}
+
+.card-dashboard h3{
+font-size:24px;
+margin-bottom:4px;
+color:#38bdf8;
+}
+
+.card-dashboard p{
+font-size:11px;
+opacity:0.9;
+}
+
+/* =========================================
+GARANTIAS
+========================================= */
+
+.garantia-box{
+margin-bottom:12px;
+}
+
+.garantia-box h2{
+font-size:18px;
+margin-bottom:14px;
+text-align:center;
+}
+
+#garantiaList{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.garantia-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(255,255,255,0.05);
+padding:12px;
+border-radius:14px;
+font-size:12px;
+gap:10px;
+}
+
+.garantia-badge{
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:600;
+white-space:nowrap;
+}
+
+.garantia-badge.green{
+background:#16a34a;
+color:white;
+}
+
+.garantia-badge.yellow{
+background:#facc15;
+color:#111827;
+}
+
+.garantia-badge.red{
+background:#ef4444;
+color:white;
+}
+
+/* =========================================
+AÇÕES
+========================================= */
+
+.top-actions{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-bottom:12px;
+}
+
+/* =========================================
+CALENDÁRIO
 ========================================= */
 
 .calendar-box{
-
-    background:white;
-
-    border-radius:24px;
-
-    padding:10px;
-
-    overflow:hidden;
-
-    margin-bottom:14px;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
-
-    animation:
-    fadeUp .6s ease;
+background:white;
+border-radius:18px;
+padding:8px;
+margin-bottom:12px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
-
-/* =========================================
-FULLCALENDAR
-========================================= */
 
 .fc{
-
-    color:black;
-
-    font-size:12px;
-}
-
-.fc-toolbar{
-
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    gap:8px;
+font-size:10px !important;
+color:#111827;
 }
 
 .fc-toolbar-title{
-
-    font-size:15px !important;
-
-    text-align:center;
-
-    font-weight:600;
+font-size:13px !important;
+font-weight:600;
 }
 
 .fc-button{
-
-    border:none !important;
-
-    background:#2563eb !important;
-
-    border-radius:10px !important;
-
-    padding:7px 10px !important;
-
-    font-size:11px !important;
-
-    transition:.3s !important;
+background:#2563eb !important;
+border:none !important;
+border-radius:8px !important;
+padding:6px 10px !important;
+font-size:11px !important;
+transition:0.2s;
 }
 
 .fc-button:hover{
-
-    transform:scale(1.03);
+opacity:0.9;
 }
-
-.fc-day-today{
-
-    background:
-    #2563eb20 !important;
-}
-
-/* =========================================
-EVENTS
-========================================= */
 
 .fc-event{
-
-    background:#ff4d4d !important;
-
-    border:none !important;
-
-    color:white !important;
-
-    border-radius:10px !important;
-
-    padding:3px !important;
-
-    font-size:10px !important;
-
-    font-weight:600;
+background:#ef4444 !important;
+border:none !important;
+border-radius:6px !important;
+padding:2px;
+font-size:10px;
 }
 
 /* =========================================
-FORM
-========================================= */
-
-.event-form{
-
-    background:
-    rgba(255,255,255,0.08);
-
-    backdrop-filter:
-    blur(15px);
-
-    border-radius:24px;
-
-    padding:18px;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
-
-    animation:
-    fadeUp .7s ease;
-}
-
-/* =========================================
-TITLE
+FORMULÁRIO
 ========================================= */
 
 .event-form h2{
-
-    text-align:center;
-
-    margin-bottom:16px;
-
-    font-size:19px;
-
-    font-weight:600;
+text-align:center;
+margin-bottom:14px;
+font-size:18px;
 }
 
 /* =========================================
-STATUS
-========================================= */
-
-.status-box{
-
-    display:flex;
-
-    gap:8px;
-
-    margin-bottom:16px;
-}
-
-.status{
-
-    flex:1;
-
-    padding:10px;
-
-    border-radius:12px;
-
-    text-align:center;
-
-    font-size:11px;
-
-    font-weight:600;
-}
-
-.available-status{
-
-    background:#00c853;
-}
-
-.busy-status{
-
-    background:#ff4d4d;
-}
-
-/* =========================================
-HORÁRIOS
-========================================= */
-
-.available-times{
-
-    margin-bottom:16px;
-}
-
-.available-times h3{
-
-    margin-bottom:12px;
-
-    font-size:14px;
-}
-
-/* =========================================
-GRID
+GRID HORÁRIOS
 ========================================= */
 
 .times-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(3,1fr);
-
-    gap:8px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:14px;
 }
 
 /* =========================================
-TIME SLOT
+BOTÕES HORÁRIOS
 ========================================= */
 
 .time-slot{
-
-    background:#00c853;
-
-    color:white;
-
-    border:none;
-
-    padding:11px;
-
-    border-radius:12px;
-
-    font-size:12px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
+background:#00c853;
+color:white;
+border:none;
+padding:10px;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+transition:0.2s;
+font-size:12px;
 }
 
 .time-slot:hover{
-
-    transform:scale(1.04);
-
-    background:#2563eb;
+transform:scale(1.03);
+background:#00b84a;
 }
 
 .time-slot.occupied{
+background:#ef4444;
+}
 
-    background:#ff4d4d;
+.time-slot.occupied:hover{
+background:#dc2626;
+}
 
-    pointer-events:none;
+.time-slot:disabled{
+opacity:0.5;
+cursor:not-allowed;
+}
 
-    opacity:.85;
+/* =========================================
+GRID FORMULÁRIO
+========================================= */
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:12px;
+}
+
+/* CAMPOS OCUPANDO LINHA TODA */
+
+.full-width{
+grid-column:1 / -1;
 }
 
 /* =========================================
@@ -432,84 +318,69 @@ INPUTS
 
 input,
 select,
-textarea{
-
-    width:100%;
-
-    border:none;
-
-    outline:none;
-
-    border-radius:14px;
-
-    padding:13px;
-
-    margin-bottom:12px;
-
-    font-size:13px;
-
-    background:white;
-
-    transition:.3s;
+textarea,
+button{
+width:100%;
+border:none;
+outline:none;
+border-radius:14px;
+padding:12px;
+font-size:12px;
+transition:0.2s;
 }
+
+input,
+select,
+textarea{
+background:rgba(255,255,255,0.08);
+color:white;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+input::placeholder,
+textarea::placeholder{
+color:rgba(255,255,255,0.6);
+}
+
+/* FOCO */
 
 input:focus,
 select:focus,
 textarea:focus{
-
-    transform:scale(1.01);
-
-    box-shadow:
-    0 0 0 3px rgba(37,99,235,0.25);
+border:1px solid #38bdf8;
+box-shadow:0 0 0 3px rgba(56,189,248,0.15);
 }
 
-textarea{
+/* SELECT */
 
-    resize:none;
+select option{
+background:#111827;
+color:white;
 }
 
 /* =========================================
-BUTTON
+BOTÕES
 ========================================= */
 
 button{
-
-    width:100%;
-
-    border:none;
-
-    padding:14px;
-
-    border-radius:14px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #06b6d4
-    );
-
-    color:white;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    box-shadow:
-    0 10px 25px rgba(37,99,235,0.35);
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+color:white;
+font-weight:600;
+cursor:pointer;
+margin-bottom:10px;
 }
 
 button:hover{
+opacity:0.95;
+transform:translateY(-1px);
+}
 
-    transform:
-    translateY(-2px);
+/* GRID BOTÕES */
 
-    box-shadow:
-    0 15px 35px rgba(37,99,235,0.45);
+.button-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
 /* =========================================
@@ -517,163 +388,126 @@ MODAL
 ========================================= */
 
 .modal{
-
-    display:none;
-
-    position:fixed;
-
-    z-index:9999;
-
-    left:0;
-
-    top:0;
-
-    width:100%;
-
-    height:100%;
-
-    background:
-    rgba(0,0,0,0.75);
-
-    backdrop-filter:
-    blur(6px);
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:15px;
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+padding:15px;
 }
-
-/* =========================================
-MODAL CONTENT
-========================================= */
 
 .modal-content{
-
-    width:100%;
-
-    max-width:380px;
-
-    background:
-    linear-gradient(
-    180deg,
-    #0f172a,
-    #111827
-    );
-
-    border-radius:24px;
-
-    padding:24px;
-
-    position:relative;
-
-    color:white;
-
-    border:
-    1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.45);
-
-    animation:
-    fadeUp .3s ease;
+background:#111827;
+padding:20px;
+border-radius:22px;
+width:100%;
+max-width:360px;
+position:relative;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+animation:fadeIn 0.2s ease;
 }
-
-/* =========================================
-CLOSE MODAL
-========================================= */
-
-.close-modal{
-
-    position:absolute;
-
-    top:12px;
-
-    right:15px;
-
-    font-size:28px;
-
-    cursor:pointer;
-}
-
-/* =========================================
-MODAL TITLE
-========================================= */
 
 .modal-content h2{
+margin-bottom:15px;
+text-align:center;
+}
 
-    text-align:center;
+.modal-content p{
+margin-bottom:12px;
+font-size:13px;
+line-height:1.5;
+}
 
-    margin-bottom:20px;
+.close-modal{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+transition:0.2s;
+}
 
-    font-size:22px;
+.close-modal:hover{
+transform:scale(1.1);
+color:#ef4444;
 }
 
 /* =========================================
-MODAL INFO
+RODAPÉ
 ========================================= */
 
-.modal-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:12px;
-
-    margin-bottom:20px;
-}
-
-.modal-info p{
-
-    background:
-    rgba(255,255,255,0.06);
-
-    padding:14px;
-
-    border-radius:14px;
-
-    line-height:1.6;
-
-    font-size:14px;
+.footer{
+margin-top:18px;
+text-align:center;
+font-size:11px;
+opacity:0.7;
+padding-bottom:10px;
 }
 
 /* =========================================
-DELETE BUTTON
+TEMA CLARO
 ========================================= */
 
-.delete-btn{
+.light-theme{
+background:#f1f5f9;
+color:#111827;
+}
 
-    background:
-    linear-gradient(
-    135deg,
-    #ff4d4d,
-    #dc2626
-    );
+.light-theme .company-header,
+.light-theme .event-form,
+.light-theme .card-dashboard,
+.light-theme .garantia-box{
+background:white;
+color:#111827;
+}
+
+.light-theme .company-info p,
+.light-theme .garantia-item{
+background:#f1f5f9;
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select{
+background:#e2e8f0;
+color:#111827;
+border:1px solid #cbd5e1;
+}
+
+.light-theme input::placeholder,
+.light-theme textarea::placeholder{
+color:#475569;
+}
+
+.light-theme select option{
+background:white;
+color:#111827;
+}
+
+.light-theme .modal-content{
+background:white;
+color:#111827;
 }
 
 /* =========================================
-ANIMATION
+ANIMAÇÃO
 ========================================= */
 
-@keyframes fadeUp{
+@keyframes fadeIn{
 
-    from{
+from{
+opacity:0;
+transform:scale(0.95);
+}
 
-        opacity:0;
+to{
+opacity:1;
+transform:scale(1);
+}
 
-        transform:
-        translateY(20px);
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:
-        translateY(0);
-    }
 }
 
 /* =========================================
@@ -682,37 +516,44 @@ RESPONSIVO
 
 @media(max-width:480px){
 
-    body{
+.container{
+max-width:100%;
+}
 
-        padding:6px;
-    }
+.company-name{
+font-size:22px;
+}
 
-    .company-name{
+.card-dashboard h3{
+font-size:20px;
+}
 
-        font-size:20px;
-    }
+.fc{
+font-size:9px !important;
+}
 
-    .fc-toolbar-title{
+.fc-toolbar-title{
+font-size:11px !important;
+}
 
-        font-size:13px !important;
-    }
+button,
+input,
+select,
+textarea{
+font-size:11px;
+}
 
-    .fc-button{
+.time-slot{
+padding:8px;
+font-size:11px;
+}
 
-        font-size:10px !important;
+.form-grid{
+grid-template-columns:1fr;
+}
 
-        padding:6px 8px !important;
-    }
-
-    .times-grid{
-
-        grid-template-columns:
-        repeat(2,1fr);
-    }
-
-    button{
-
-        font-size:13px;
-    }
+.button-grid{
+grid-template-columns:1fr;
+}
 
 }
