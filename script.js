@@ -1,205 +1,185 @@
 // =========================================
-// CONFIGURAÇÃO DE CORES MODERNAS
-// =========================================
-const MODERN_COLORS = {
-    primary: '#6366f1',        // Índigo vibrante
-    primaryDark: '#4f46e5',
-    secondary: '#8b5cf6',      // Roxo moderno
-    success: '#10b981',        // Verde menta
-    warning: '#f59e0b',        // Laranja quente
-    error: '#ef4444',          // Vermelho vivo
-    info: '#06b6d4',           // Ciano brilhante
-    
-    // Gradientes modernos
-    gradient: {
-        primary: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-        success: 'linear-gradient(135deg, #10b981, #34d399)',
-        warning: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
-        error: 'linear-gradient(135deg, #ef4444, #f87171)'
-    }
-};
-
-// =========================================
 // VARIÁVEIS GLOBAIS
 // =========================================
 let calendar;
-let selectedEvent = null;
-let events = JSON.parse(localStorage.getItem('events')) || [];
-let touchStartX = 0;
-let touchStartY = 0;
+let events = [];
+let selectedDate = null;
 
 // =========================================
-// INICIALIZAÇÃO MOBILE
+// INICIALIZAÇÃO AO CARREGAR PÁGINA
 // =========================================
 document.addEventListener('DOMContentLoaded', function() {
     initializeCalendar();
+    loadEvents();
+    initializeForm();
     updateDashboard();
-    updateBookedTimes();
-    setupMobileGestures();
-    setupTouchEvents();
-    setupMobileOptimizations();
-    checkAndUpdateGarantias();
-    
-    // Atualizações automáticas
-    setInterval(updateDashboard, 60000);
-    setInterval(checkAndUpdateGarantias, 24 * 60 * 60 * 1000);
-    
-    // Configurar notificações mobile
-    setupPushNotifications();
 });
 
 // =========================================
-// CALENDÁRIO MOBILE COM CORES VIBRANTES
+// CALENDÁRIO - FULLCALENDAR
 // =========================================
 function initializeCalendar() {
     const calendarEl = document.getElementById('calendar');
     
-    const calendarConfig = {
+    if (!calendarEl) {
+        console.error('❌ Elemento #calendar não encontrado');
+        return;
+    }
+    
+    calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: window.innerWidth <= 768 ? 'dayGridWeek' : 'dayGridMonth',
         locale: 'pt-br',
-        headerToolbar: window.innerWidth <= 768 ? 
-            { left: 'prev,next', center: 'title', right: 'today' } :
-            { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+        headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'today'
+        },
         buttonText: {
-            today: 'Hoje',
-            month: 'Mês',
-            week: 'Semana',
-            day: 'Dia'
+            today: 'Hoje'
         },
-        events: events.map(event => ({
-            ...event,
-            backgroundColor: getEventColor(event.status),
-            borderColor: getEventColor(event.status),
-            textColor: '#ffffff',
-            className: 'modern-event'
-        })),
-        eventClick: function(info) {
-            showMobileEventModal(info.event);
-        },
+        height: 'auto',
+        events: events,
         dateClick: function(info) {
-            selectDate(info.date);
-            if (window.innerWidth <= 768) {
-                scrollToForm();
-            }
+            selectedDate = info.date;
+            openBookingModal(info.date);
         },
-        dayMaxEvents: window.innerWidth <= 768 ? 2 : true,
-        height: window.innerWidth <= 768 ? 'auto' : 500,
-        contentHeight: window.innerWidth <= 768 ? 350 : 500,
-        handleWindowResize: true,
-        windowResizeDelay: 100,
-        eventDisplay: 'block',
-        eventTimeFormat: {
-            hour: '2-digit',
-            minute: '2-digit',
-            meridiem: false
+        eventClick: function(info) {
+            showEventDetails(info.event);
         },
-        dayHeaderFormat: window.innerWidth <= 768 ? 
-            { weekday: 'short', day: 'numeric' } : 
-            { weekday: 'long', day: 'numeric' }
-    };
+        eventDidMount: function(info) {
+            // Estilizar eventos
+            info.el.style.borderRadius = '8px';
+            info.el.style.padding = '2px 4px';
+            info.el.style.fontSize = '0.75rem';
+            info.el.style.margin = '1px 0';
+        }
+    });
     
-    calendar = new FullCalendar.Calendar(calendarEl, calendarConfig);
     calendar.render();
+    console.log('✅ Calendário inicializado');
 }
 
 // =========================================
-// CORES MODERNAS POR STATUS
+// CARREGAR E SALVAR EVENTOS
 // =========================================
-function getEventColor(status) {
-    const colors = {
-        'Agendado': MODERN_COLORS.primary,
-        'Em andamento': MODERN_COLORS.warning,
-        'Finalizado': MODERN_COLORS.success,
-        'Cancelado': MODERN_COLORS.error
+function loadEvents() {
+    events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+    
+    // Converter strings de data para objetos Date
+    events = events.map(event => ({
+        ...event,
+        start: new Date(event.start),
+        end: event.end ? new Date(event.end) : null
+    }));
+    
+    if (calendar) {
+        calendar.removeAllEvents();
+        calendar.addEventSource(events);
+    }
+    
+    updateDashboard();
+}
+
+function saveEvents() {
+    localStorage.setItem('calendarEvents', JSON.stringify(events));
+}
+
+// =========================================
+// ADICIONAR EVENTO (FUNÇÃO QUE FALTAVA!)
+// =========================================
+function addEvent(eventData) {
+    if (!eventData.title || !eventData.start) {
+        showNotification('Preencha todos os campos obrigatórios', 'error');
+        return false;
+    }
+    
+    const newEvent = {
+        id: Date.now().toString(),
+        title: eventData.title,
+        start: new Date(eventData.start),
+        end: eventData.end ? new Date(eventData.end) : null,
+        clientName: eventData.clientName || '',
+        phone: eventData.phone || '',
+        service: eventData.service || '',
+        notes: eventData.notes || '',
+        status: eventData.status || 'Agendado',
+        color: eventData.color || '#6366f1'
     };
-    return colors[status] || MODERN_COLORS.primary;
+    
+    events.push(newEvent);
+    saveEvents();
+    
+    if (calendar) {
+        calendar.addEvent(newEvent);
+    }
+    
+    updateDashboard();
+    showNotification('Evento agendado com sucesso!', 'success');
+    return true;
 }
 
 // =========================================
-// GESTOS TOUCH MOBILE
+// EDITAR EVENTO
 // =========================================
-function setupMobileGestures() {
-    const calendarEl = document.getElementById('calendar');
+function editEvent(eventId, updatedData) {
+    const eventIndex = events.findIndex(e => e.id === eventId);
     
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    calendarEl.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-    
-    calendarEl.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
+    if (eventIndex !== -1) {
+        events[eventIndex] = { ...events[eventIndex], ...updatedData };
+        saveEvents();
         
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                calendar.next();
-            } else {
-                calendar.prev();
+        if (calendar) {
+            const event = calendar.getEventById(eventId);
+            if (event) {
+                event.remove();
+                calendar.addEvent(events[eventIndex]);
             }
         }
+        
+        updateDashboard();
+        showNotification('Evento atualizado!', 'success');
     }
 }
 
 // =========================================
-// OTIMIZAÇÕES TOUCH
+// EXCLUIR EVENTO
 // =========================================
-function setupTouchEvents() {
-    // Prevenir zoom em inputs
-    const inputs = document.querySelectorAll('input, select, textarea');
-    inputs.forEach(input => {
-        input.addEventListener('touchstart', e => {
-            e.stopPropagation();
-        });
-        
-        // Focus suave
-        input.addEventListener('focus', () => {
-            if (window.innerWidth <= 768) {
-                setTimeout(() => {
-                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            }
-        });
-    });
+function deleteEvent(eventId) {
+    events = events.filter(e => e.id !== eventId);
+    saveEvents();
     
-    // Touch feedback vibrante
-    const buttons = document.querySelectorAll('button, .time-slot');
-    buttons.forEach(button => {
-        button.addEventListener('touchstart', function() {
-            this.style.transform = 'scale(0.95)';
-            this.style.transition = 'transform 0.1s ease';
-        });
-        
-        button.addEventListener('touchend', function() {
-            this.style.transform = '';
-            setTimeout(() => {
-                this.style.transition = '';
-            }, 100);
-        });
-    });
-}
-
-// =========================================
-// OTIMIZAÇÕES MOBILE
-// =========================================
-function setupMobileOptimizations() {
-    // Ajustar grid de horários
-    if (window.innerWidth <= 768) {
-        const timesGrid = document.querySelector('.times-grid');
-        if (timesGrid) {
-            timesGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    if (calendar) {
+        const event = calendar.getEventById(eventId);
+        if (event) {
+            event.remove();
         }
     }
     
-    // Configurar viewport
-    const viewport = document.querySelector('meta[name="viewport"]');
-    if (!viewport) {
-        const meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta
+    updateDashboard();
+    showNotification('Evento excluído', 'warning');
+}
+
+// =========================================
+// MODAL DE AGENDAMENTO
+// =========================================
+function openBookingModal(date) {
+    const modal = document.getElementById('bookingModal');
+    if (!modal) return;
+    
+    document.getElementById('selectedDate').value = formatDateForInput(date);
+    document.getElementById('modalTitle').textContent = `Agendar para ${formatDate(date)}`;
+    
+    // Limpar formulário
+    document.getElementById('bookingForm').reset();
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+}
+
+function closeBookingModal() {
+    const modal = document.getElementById('bookingModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
