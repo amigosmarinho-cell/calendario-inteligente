@@ -1,564 +1,242 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeoTecnologia - Assistência Técnica</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>LeoTecnologia - Assistência Técnica</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
-
-<link rel="stylesheet" href="css/style.css">
-
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<div class="container">
-
-<!-- HEADER -->
-
-<header class="company-header">
-
-<div class="logo-area">
-
-<img src="img/logo.png" alt="LeoTecnologia" class="logo">
-
-<h1>LeoTecnologia</h1>
-
-<p>Assistência Técnica Especializada</p>
-
-</div>
-
-<div class="company-contact">
-
-<div>
-<i class="fa-solid fa-phone"></i>
-(98) 99994-2905
-</div>
-
-<div>
-<i class="fa-brands fa-whatsapp"></i>
-WhatsApp
-</div>
-
-<div>
-<i class="fa-brands fa-instagram"></i>
-@leotecnologia25
-</div>
-
-</div>
-
-</header>
-
-<!-- DASHBOARD -->
-
-<section class="dashboard">
-
-<div class="card-dashboard">
-
-<i class="fa-solid fa-calendar-days"></i>
-
-<h2 id="todayCount">0</h2>
-
-<p>Agendamentos Hoje</p>
-
-</div>
-
-<div class="card-dashboard">
-
-<i class="fa-solid fa-users"></i>
-
-<h2 id="clientCount">0</h2>
-
-<p>Clientes</p>
-
-</div>
-
-<div class="card-dashboard">
-
-<i class="fa-solid fa-screwdriver-wrench"></i>
-
-<h2 id="serviceCount">0</h2>
-
-<p>Serviços</p>
-
-</div>
-
-<div class="card-dashboard">
-
-<i class="fa-solid fa-money-bill-wave"></i>
-
-<h2 id="revenueMonth">R$ 0,00</h2>
-
-<p>Faturamento</p>
-
-</div>
-
-</section>
-
-<!-- BOTÕES SUPERIORES -->
-
-<section class="top-actions">
-
-<button onclick="toggleTheme()">
-<i class="fa-solid fa-moon"></i>
-Tema
-</button>
-
-<button onclick="exportBackup()">
-<i class="fa-solid fa-download"></i>
-Backup
-</button>
-
-<button onclick="showAdminLogin()">
-<i class="fa-solid fa-lock"></i>
-Admin
-</button>
-
-</section>
-
-<!-- BUSCA -->
-
-<section class="search-box">
-
-<input
-type="text"
-id="searchClient"
-placeholder="Buscar cliente, telefone ou OS..."
-onkeyup="searchClient()"
->
-
-</section>
-
-<!-- CALENDÁRIO -->
-
-<section class="calendar-section">
-
-<div class="section-title">
-
-<i class="fa-solid fa-calendar"></i>
-
-<h2>Agenda</h2>
-
-</div>
-
-<div class="calendar-box">
-
-<div id="calendar"></div>
-
-</div>
-
-</section>
-
-<!-- NOVO AGENDAMENTO -->
-
-<section class="service-form">
-
-<div class="section-title">
-
-<i class="fa-solid fa-calendar-plus"></i>
-
-<h2>Novo Agendamento</h2>
-
-</div>
-
-<div class="times-grid">
-
-<button type="button" class="time-slot" onclick="selectTime('08:00')">08:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('09:00')">09:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('10:00')">10:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('11:00')">11:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('13:00')">13:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('14:00')">14:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('15:00')">15:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('16:00')">16:00</button>
-
-<button type="button" class="time-slot" onclick="selectTime('17:00')">17:00</button>
-
-</div>
-
-<input
-type="datetime-local"
-id="serviceDate"
->
-
-<select id="serviceType">
-
-<option value="">
-Selecione o Serviço
-</option>
-
-<option>
-Formatação
-</option>
-
-<option>
-Instalação Windows
-</option>
-
-<option>
-Troca de SSD
-</option>
-
-<option>
-Upgrade
-</option>
-
-<option>
-Limpeza Preventiva
-</option>
-
-<option>
-Suporte Remoto
-</option>
-
-<option>
-Outros
-</option>
-
-</select>
-
-<button onclick="saveAppointment()">
-
-<i class="fa-solid fa-floppy-disk"></i>
-
-Salvar Agendamento
-
-</button>
-
-</section>
-
-<!-- CADASTRO CLIENTE -->
-
-<section class="client-form">
-
-<div class="section-title">
-
-<i class="fa-solid fa-user-plus"></i>
-
-<h2>Cadastro Cliente</h2>
-
-</div>
-
-<input
-type="text"
-id="clientName"
-placeholder="Nome Completo"
->
-
-<input
-type="tel"
-id="clientPhone"
-placeholder="Telefone / WhatsApp"
->
-
-<input
-type="text"
-id="clientAddress"
-placeholder="Endereço"
->
-
-<input
-type="email"
-id="clientEmail"
-placeholder="E-mail (opcional)"
->
-
-</section>
-
-<!-- EQUIPAMENTO -->
-
-<section class="equipment-form">
-
-<div class="section-title">
-
-<i class="fa-solid fa-laptop"></i>
-
-<h2>Equipamento</h2>
-
-</div>
-
-<select id="equipmentType">
-
-<option value="">
-Tipo de Equipamento
-</option>
-
-<option>
-Notebook
-</option>
-
-<option>
-Computador
-</option>
-
-<option>
-Impressora
-</option>
-
-<option>
-Monitor
-</option>
-
-<option>
-Servidor
-</option>
-
-<option>
-Outro
-</option>
-
-</select>
-
-<input
-type="text"
-id="equipmentBrand"
-placeholder="Marca"
->
-
-<input
-type="text"
-id="equipmentModel"
-placeholder="Modelo"
->
-
-<input
-type="text"
-id="equipmentSerial"
-placeholder="Número de Série"
->
-
-</section>
-
-<!-- ORDEM DE SERVIÇO -->
-
-<section class="os-form">
-
-<div class="section-title">
-
-<i class="fa-solid fa-file-circle-check"></i>
-
-<h2>Ordem de Serviço</h2>
-
-</div>
-
-<input
-type="text"
-id="osNumber"
-readonly
-placeholder="Número da OS"
->
-
-<select id="serviceStatus">
-
-<option value="Recebido">
-🟡 Recebido
-</option>
-
-<option value="Em Análise">
-🔵 Em Análise
-</option>
-
-<option value="Aguardando Peça">
-🟠 Aguardando Peça
-</option>
-
-<option value="Finalizado">
-🟢 Finalizado
-</option>
-
-<option value="Entregue">
-🔴 Entregue
-</option>
-
-</select>
-
-<textarea
-id="reportedProblem"
-rows="4"
-placeholder="Defeito informado pelo cliente"
-></textarea>
-
-<textarea
-id="servicePerformed"
-rows="5"
-placeholder="Serviço realizado"
-></textarea>
-
-<input
-type="number"
-id="serviceValue"
-placeholder="Valor do Serviço"
->
-
-<textarea
-id="observations"
-rows="3"
-placeholder="Observações"
-></textarea>
-
-<button onclick="generateWarranty()">
-
-<i class="fa-solid fa-shield-halved"></i>
-
-Gerar Garantia 90 Dias
-
-</button>
-
-<button onclick="saveOS()">
-
-<i class="fa-solid fa-floppy-disk"></i>
-
-Salvar Ordem de Serviço
-
-</button>
-
-</section>
-<!-- CONSULTA DE SERVIÇO -->
-
-<section class="consulta-os">
-
-<div class="section-title">
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
-<h2>Consultar Serviço</h2>
-
-</div>
-
-<input
-type="text"
-id="consultaTelefone"
-placeholder="Digite o telefone do cliente"
->
-
-<button onclick="consultarOS()">
-
-<i class="fa-solid fa-search"></i>
-
-Consultar
-
-</button>
-
-<div id="resultadoConsulta"></div>
-
-</section>
-
-<!-- FINANCEIRO -->
-
-<section class="finance-section">
-
-<div class="section-title">
-
-<i class="fa-solid fa-money-bill-trend-up"></i>
-
-<h2>Financeiro</h2>
-
-</div>
-
-<div class="finance-cards">
-
-<div class="finance-card">
-
-<h3 id="totalRecebido">
-R$ 0,00
-</h3>
-
-<p>Total Recebido</p>
-
-</div>
-
-<div class="finance-card">
-
-<h3 id="totalPendente">
-R$ 0,00
-</h3>
-
-<p>Pendente</p>
-
-</div>
-
-<div class="finance-card">
-
-<h3 id="totalMes">
-R$ 0,00
-</h3>
-
-<p>Mês Atual</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- HISTÓRICO -->
-
-<section class="history-section">
-
-<div class="section-title">
-
-<i class="fa-solid fa-clock-rotate-left"></i>
-
-<h2>Histórico de Serviços</h2>
-
-</div>
-
-<div id="serviceHistory">
-
-<p class="empty-history">
-
-Nenhum serviço registrado.
-
-</p>
-
-</div>
-
-</section>
-
-<!-- GARANTIA -->
-
-<section class="warranty-section">
-
-<div class="section-title">
-
-<i class="fa-solid fa-shield-halved"></i>
-
-<h2>Termo de Garantia</h2>
-
-</div>
-
-<textarea
-id="warrantyText"
-rows="12"
-readonly
->
-
-GARANTIA DE 90 DIAS
+    <div class="container">
+
+        <!-- HEADER -->
+        <header class="company-header">
+            <div class="logo-area">
+                <img src="img/logo.png" alt="LeoTecnologia" class="logo">
+                <h1>LeoTecnologia</h1>
+                <p>Assistência Técnica Especializada</p>
+            </div>
+            <div class="company-contact">
+                <div><i class="fa-solid fa-phone"></i> (98) 99994-2905</div>
+                <div><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+                <div><i class="fa-brands fa-instagram"></i> @leotecnologia25</div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section class="dashboard">
+            <div class="card-dashboard">
+                <i class="fa-solid fa-calendar-days"></i>
+                <h2 id="todayCount">0</h2>
+                <p>Agendamentos Hoje</p>
+            </div>
+            <div class="card-dashboard">
+                <i class="fa-solid fa-users"></i>
+                <h2 id="clientCount">0</h2>
+                <p>Clientes</p>
+            </div>
+            <div class="card-dashboard">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <h2 id="serviceCount">0</h2>
+                <p>Serviços</p>
+            </div>
+            <div class="card-dashboard">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <h2 id="revenueMonth">R$ 0,00</h2>
+                <p>Faturamento</p>
+            </div>
+        </section>
+
+        <!-- BOTÕES SUPERIORES -->
+        <section class="top-actions">
+            <button onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Tema</button>
+            <button onclick="exportBackup()"><i class="fa-solid fa-download"></i> Backup</button>
+            <button onclick="showAdminLogin()"><i class="fa-solid fa-lock"></i> Admin</button>
+        </section>
+
+        <!-- BUSCA -->
+        <section class="search-box">
+            <input type="text" id="searchClient" placeholder="Buscar cliente, telefone ou OS..." onkeyup="searchClient()">
+        </section>
+
+        <!-- CALENDÁRIO -->
+        <section class="calendar-section">
+            <div class="section-title">
+                <i class="fa-solid fa-calendar"></i>
+                <h2>Agenda</h2>
+            </div>
+            <div class="calendar-box">
+                <div id="calendar"></div>
+            </div>
+        </section>
+
+        <!-- NOVO AGENDAMENTO -->
+        <section class="service-form">
+            <div class="section-title">
+                <i class="fa-solid fa-calendar-plus"></i>
+                <h2>Novo Agendamento</h2>
+            </div>
+            
+            <div class="times-grid">
+                <button type="button" class="time-slot" onclick="selectTime('08:00')">08:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('09:00')">09:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('10:00')">10:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('11:00')">11:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('13:00')">13:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('14:00')">14:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('15:00')">15:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('16:00')">16:00</button>
+                <button type="button" class="time-slot" onclick="selectTime('17:00')">17:00</button>
+            </div>
+
+            <input type="datetime-local" id="serviceDate" required>
+            
+            <select id="serviceType" required>
+                <option value="">Selecione o Serviço</option>
+                <option value="Formatação">Formatação</option>
+                <option value="Instalação Windows">Instalação Windows</option>
+                <option value="Troca de SSD">Troca de SSD</option>
+                <option value="Upgrade">Upgrade</option>
+                <option value="Limpeza Preventiva">Limpeza Preventiva</option>
+                <option value="Suporte Remoto">Suporte Remoto</option>
+                <option value="Outros">Outros</option>
+            </select>
+            
+            <button onclick="saveAppointment()">
+                <i class="fa-solid fa-floppy-disk"></i> Salvar Agendamento
+            </button>
+        </section>
+
+        <!-- CADASTRO CLIENTE -->
+        <section class="client-form">
+            <div class="section-title">
+                <i class="fa-solid fa-user-plus"></i>
+                <h2>Cadastro Cliente</h2>
+            </div>
+            <input type="text" id="clientName" placeholder="Nome Completo" required>
+            <input type="tel" id="clientPhone" placeholder="Telefone / WhatsApp" required>
+            <input type="text" id="clientAddress" placeholder="Endereço">
+            <input type="email" id="clientEmail" placeholder="E-mail (opcional)">
+        </section>
+
+        <!-- EQUIPAMENTO -->
+        <section class="equipment-form">
+            <div class="section-title">
+                <i class="fa-solid fa-laptop"></i>
+                <h2>Equipamento</h2>
+            </div>
+            <select id="equipmentType" required>
+                <option value="">Tipo de Equipamento</option>
+                <option value="Notebook">Notebook</option>
+                <option value="Computador">Computador</option>
+                <option value="Impressora">Impressora</option>
+                <option value="Monitor">Monitor</option>
+                <option value="Servidor">Servidor</option>
+                <option value="Outro">Outro</option>
+            </select>
+            <input type="text" id="equipmentBrand" placeholder="Marca" required>
+            <input type="text" id="equipmentModel" placeholder="Modelo">
+            <input type="text" id="equipmentSerial" placeholder="Número de Série">
+        </section>
+
+        <!-- ORDEM DE SERVIÇO -->
+        <section class="os-form">
+            <div class="section-title">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <h2>Ordem de Serviço</h2>
+            </div>
+            <input type="text" id="osNumber" readonly placeholder="Número da OS">
+            
+            <select id="serviceStatus">
+                <option value="Recebido">🟡 Recebido</option>
+                <option value="Em Análise">🔵 Em Análise</option>
+                <option value="Aguardando Peça">🟠 Aguardando Peça</option>
+                <option value="Finalizado">🟢 Finalizado</option>
+                <option value="Entregue">🔴 Entregue</option>
+            </select>
+            
+            <textarea id="reportedProblem" rows="4" placeholder="Defeito informado pelo cliente" required></textarea>
+            <textarea id="servicePerformed" rows="5" placeholder="Serviço realizado"></textarea>
+            <input type="number" id="serviceValue" placeholder="Valor do Serviço" min="0" step="0.01">
+            <textarea id="observations" rows="3" placeholder="Observações"></textarea>
+            
+            <button onclick="generateWarranty()">
+                <i class="fa-solid fa-shield-halved"></i> Gerar Garantia 90 Dias
+            </button>
+            <button onclick="saveOS()">
+                <i class="fa-solid fa-floppy-disk"></i> Salvar Ordem de Serviço
+            </button>
+        </section>
+
+        <!-- CONSULTA DE SERVIÇO -->
+        <section class="consulta-os">
+            <div class="section-title">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <h2>Consultar Serviço</h2>
+            </div>
+            <input type="text" id="consultaTelefone" placeholder="Digite o telefone do cliente">
+            <button onclick="consultarOS()">
+                <i class="fa-solid fa-search"></i> Consultar
+            </button>
+            <div id="resultadoConsulta"></div>
+        </section>
+
+        <!-- FINANCEIRO -->
+        <section class="finance-section">
+            <div class="section-title">
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+                <h2>Financeiro</h2>
+            </div>
+            <div class="finance-cards">
+                <div class="finance-card">
+                    <h3 id="totalRecebido">R$ 0,00</h3>
+                    <p>Total Recebido</p>
+                </div>
+                <div class="finance-card">
+                    <h3 id="totalPendente">R$ 0,00</h3>
+                    <p>Pendente</p>
+                </div>
+                <div class="finance-card">
+                    <h3 id="totalMes">R$ 0,00</h3>
+                    <p>Mês Atual</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTÓRICO -->
+        <section class="history-section">
+            <div class="section-title">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <h2>Histórico de Serviços</h2>
+            </div>
+            <div id="serviceHistory">
+                <p class="empty-history">Nenhum serviço registrado.</p>
+            </div>
+        </section>
+
+        <!-- GARANTIA -->
+        <section class="warranty-section">
+            <div class="section-title">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h2>Termo de Garantia</h2>
+            </div>
+            <textarea id="warrantyText" rows="12" readonly>GARANTIA DE 90 DIAS
 
 A LeoTecnologia oferece garantia de 90 dias para os serviços executados.
-
 A garantia cobre exclusivamente defeitos relacionados ao serviço realizado.
 
 Não cobre:
-
 - Mau uso;
 - Quedas;
 - Danos causados por líquidos;
@@ -567,245 +245,80 @@ Não cobre:
 - Instalações realizadas por terceiros;
 - Danos elétricos.
 
-Após a conclusão do serviço, o cliente declara ter recebido o equipamento em perfeito funcionamento.
-
-</textarea>
-
-<button onclick="printWarranty()">
-
-<i class="fa-solid fa-print"></i>
-
-Imprimir Garantia
-
-</button>
-
-</section>
-
-<!-- PAINEL ADMINISTRATIVO -->
-
-<section
-id="adminPanel"
-class="admin-panel hidden"
->
-
-<div class="section-title">
-
-<i class="fa-solid fa-user-shield"></i>
-
-<h2>Painel Administrativo</h2>
-
-</div>
-
-<div class="admin-actions">
-
-<button onclick="exportBackup()">
-
-<i class="fa-solid fa-download"></i>
-
-Exportar Backup
-
-</button>
-
-<button onclick="importBackup()">
-
-<i class="fa-solid fa-upload"></i>
-
-Importar Backup
-
-</button>
-
-<button onclick="generateReport()">
-
-<i class="fa-solid fa-chart-column"></i>
-
-Relatórios
-
-</button>
-
-<button onclick="clearDatabase()">
-
-<i class="fa-solid fa-trash"></i>
-
-Limpar Dados
-
-</button>
-
-</div>
-
-</section>
-
-</div>
-
-<!-- MODAL DE DETALHES -->
-
-<div
-id="eventModal"
-class="modal"
->
-
-<div class="modal-content">
-
-<span
-class="close-modal"
-onclick="closeModal()"
->
-&times;
-</span>
-
-<h2>
-
-<i class="fa-solid fa-calendar-check"></i>
-
-Detalhes da Ordem
-
-</h2>
-
-<div id="modalBody">
-
-<p>Informações do serviço.</p>
-
-</div>
-
-<div class="modal-buttons">
-
-<button
-class="btn-delete"
-onclick="deleteSelectedOS()"
->
-
-<i class="fa-solid fa-trash"></i>
-
-Excluir
-
-</button>
-
-<button
-class="btn-whatsapp"
-onclick="sendWhatsAppUpdate()"
->
-
-<i class="fa-brands fa-whatsapp"></i>
-
-WhatsApp
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- LOGIN ADMIN -->
-
-<div
-id="adminModal"
-class="modal"
->
-
-<div class="modal-content">
-
-<span
-class="close-modal"
-onclick="closeAdminModal()"
->
-&times;
-</span>
-
-<h2>
-
-<i class="fa-solid fa-lock"></i>
-
-Acesso Administrativo
-
-</h2>
-
-<input
-type="password"
-id="adminPassword"
-placeholder="Digite a senha"
->
-
-<button onclick="adminLogin()">
-
-Entrar
-
-</button>
-
-</div>
-
-</div>
-
-<!-- MENU MOBILE -->
-
-<nav class="bottom-menu">
-
-<button>
-
-<i class="fa-solid fa-house"></i>
-
-<span>Início</span>
-
-</button>
-
-<button>
-
-<i class="fa-solid fa-calendar-days"></i>
-
-<span>Agenda</span>
-
-</button>
-
-<button>
-
-<i class="fa-solid fa-users"></i>
-
-<span>Clientes</span>
-
-</button>
-
-<button>
-
-<i class="fa-solid fa-money-bill-wave"></i>
-
-<span>Financeiro</span>
-
-</button>
-
-<button onclick="showAdminLogin()">
-
-<i class="fa-solid fa-gear"></i>
-
-<span>Admin</span>
-
-</button>
-
-</nav>
-
-<!-- INPUT IMPORTAÇÃO -->
-
-<input
-type="file"
-id="importFile"
-accept=".json"
-style="display:none"
->
-
-<!-- FULLCALENDAR -->
-
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-
-<!-- CONFIGURAÇÕES -->
-
-<script>
-
-const OWNER_PASSWORD = "123456";
-
-</script>
-
-<!-- JAVASCRIPT PRINCIPAL -->
-
-<script src="js/script.js"></script>
+Após a conclusão do serviço, o cliente declara ter recebido o equipamento em perfeito funcionamento.</textarea>
+            <button onclick="printWarranty()">
+                <i class="fa-solid fa-print"></i> Imprimir Garantia
+            </button>
+        </section>
+
+        <!-- PAINEL ADMINISTRATIVO -->
+        <section id="adminPanel" class="admin-panel hidden">
+            <div class="section-title">
+                <i class="fa-solid fa-user-shield"></i>
+                <h2>Painel Administrativo</h2>
+            </div>
+            <div class="admin-actions">
+                <button onclick="exportBackup()"><i class="fa-solid fa-download"></i> Exportar Backup</button>
+                <button onclick="importBackup()"><i class="fa-solid fa-upload"></i> Importar Backup</button>
+                <button onclick="generateReport()"><i class="fa-solid fa-chart-column"></i> Relatórios</button>
+                <button onclick="clearDatabase()"><i class="fa-solid fa-trash"></i> Limpar Dados</button>
+            </div>
+        </section>
+
+    </div> <!-- Fim Container -->
+
+    <!-- MODAL DE DETALHES -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2><i class="fa-solid fa-calendar-check"></i> Detalhes da Ordem</h2>
+            <div id="modalBody">
+                <p>Informações do serviço.</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-delete" onclick="deleteSelectedOS()"><i class="fa-solid fa-trash"></i> Excluir</button>
+                <button class="btn-whatsapp" onclick="sendWhatsAppUpdate()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN ADMIN -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+            <h2><i class="fa-solid fa-lock"></i> Acesso Administrativo</h2>
+            <input type="password" id="adminPassword" placeholder="Digite a senha">
+            <button onclick="adminLogin()">Entrar</button>
+        </div>
+    </div>
+
+    <!-- MENU MOBILE -->
+    <nav class="bottom-menu">
+        <button><i class="fa-solid fa-house"></i><span>Início</span></button>
+        <button><i class="fa-solid fa-calendar-days"></i><span>Agenda</span></button>
+        <button><i class="fa-solid fa-users"></i><span>Clientes</span></button>
+        <button><i class="fa-solid fa-money-bill-wave"></i><span>Financeiro</span></button>
+        <button onclick="showAdminLogin()"><i class="fa-solid fa-gear"></i><span>Admin</span></button>
+    </nav>
+
+    <!-- INPUT IMPORTAÇÃO -->
+    <input type="file" id="importFile" accept=".json" style="display:none">
+
+    <!-- SCRIPTS -->
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+    <!-- CONFIGURAÇÕES -->
+    <script>
+        // AVISO DE SEGURANÇA: 
+        // Não é recomendado deixar senhas no HTML em sistemas que vão para a web. 
+        // Qualquer pessoa pode apertar F12 e ver essa senha.
+        // Se este sistema for apenas para uso local (no seu computador), não tem problema.
+        const OWNER_PASSWORD = "123456"; 
+    </script>
+
+    <!-- JAVASCRIPT PRINCIPAL -->
+    <script src="js/script.js"></script>
 
 </body>
 </html>
