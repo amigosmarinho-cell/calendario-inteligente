@@ -5,14 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeoTecnologia - Sistema de Assistência Técnica</title>
 
-    <!-- Fonte Poppins do Google -->
+    <!-- Fontes e Ícones -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Ícones do FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Link para o seu arquivo CSS (Este faz a mágica das cores acontecer) -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- CSS EMBUTIDO DIRETO NO HTML (Evita erro de pasta não encontrada) -->
+    <style>
+        /* ==========================
+           RESET E CONFIGURAÇÕES GERAIS
+        ========================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background: #0f172a; color: #ffffff; min-height: 100vh; overflow-x: hidden; }
+
+        /* ==========================
+           VARIÁVEIS GERAIS
+        ========================== */
+        :root {
+            --primary: #2563eb;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ==========================
+           ESTRUTURA PRINCIPAL
+        ========================== */
+        .container { width: 100%; max-width: 1400px; margin: auto; padding: 15px; padding-bottom: 90px; }
+
+        .company-header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: var(--shadow);
+        }
+        .logo-area { text-align: center; }
+        .logo { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; margin-bottom: 10px; border: 3px solid var(--secondary); }
+        .logo-area h1 { font-size: 32px; font-weight: 700; background: linear-gradient(90deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-area p { font-size: 14px; opacity: .8; margin-top: 5px; }
+        .company-contact { margin-top: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .company-contact div { background: rgba(255, 255, 255, .05); padding: 10px 15px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+
+        /* ==========================
+           DASHBOARD
+        ========================== */
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .card-dashboard { background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); border-radius: 20px; padding: 20px; text-align: center; transition: .3s; box-shadow: var(--shadow); animation: fadeUp .4s ease; }
+        .card-dashboard:hover { transform: translateY(-5px); }
+        .card-dashboard i { font-size: 35px; color: var(--secondary); margin-bottom: 10px; }
+        .card-dashboard h2 { font-size: 30px; font-weight: 700; margin-bottom: 5px; }
+        .card-dashboard p { font-size: 14px; opacity: .8; }
+
+        /* ==========================
+           SEÇÕES E TÍTULOS
+        ========================== */
+        .section-title { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .section-title i { font-size: 22px; color: var(--secondary); }
+        .section-title h2 { font-size: 22px; font-weight: 600; }
+        
+        .calendar-section, .service-form, .client-form, .equipment-form, .os-form, .consulta-os, .finance-section, .history-section, .warranty-section {
+            background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow);
+        }
+
+        /* ==========================
+           BOTÕES E INPUTS
+        ========================== */
+        .top-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .top-actions button { flex: 1; min-width: 140px; }
+        
+        button { border: none; outline: none; cursor: pointer; padding: 12px 18px; border-radius: 14px; font-weight: 600; font-size: 14px; transition: .3s; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        button:hover { transform: translateY(-2px); opacity: .95; }
+        button i { margin-right: 6px; }
+
+        input, textarea, select { width: 100%; padding: 14px; margin-bottom: 12px; border: none; outline: none; border-radius: 14px; background: rgba(255, 255, 255, .05); color: white; border: 1px solid rgba(255, 255, 255, .08); font-size: 14px; transition: .3s; }
+        input:focus, textarea:focus, select:focus { border: 1px solid var(--secondary); box-shadow: 0 0 0 4px rgba(6, 182, 212, .15); }
+        input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, .5); }
+        textarea { resize: none; }
+        select option { background: #1e293b; color: white; }
+
+        .search-box { margin-bottom: 20px; }
+
+        /* ==========================
+           CALENDÁRIO E HORÁRIOS
+        ========================== */
+        .calendar-box { background: white; border-radius: 20px; padding: 10px; overflow: hidden; }
+        .fc { font-size: 13px !important; color: #111827; }
+        .fc-toolbar-title { font-size: 18px !important; font-weight: 600 !important; }
+        .fc-button { background: var(--primary) !important; border: none !important; border-radius: 10px !important; padding: 8px 12px !important; }
+        .fc-event { border: none !important; background: var(--danger) !important; border-radius: 8px !important; padding: 2px !important; cursor: pointer; }
+
+        .times-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 10px; margin-bottom: 15px; }
+        .time-slot { background: var(--success); font-size: 14px; }
+        .time-slot:hover { transform: scale(1.03); }
+        .time-slot.occupied { background: var(--danger); }
+
+        /* ==========================
+           FINANCEIRO E OS
+        ========================== */
+        #osNumber { font-weight: 700; color: #38bdf8; text-align: center; font-size: 18px; }
+        .finance-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+        .finance-card { background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); padding: 20px; border-radius: 20px; text-align: center; transition: .3s; animation: fadeUp .4s ease; }
+        .finance-card:hover { transform: translateY(-4px); }
+        .finance-card h3 { font-size: 28px; font-weight: 700; color: var(--success); margin-bottom: 8px; }
+        .finance-card p { font-size: 14px; opacity: .8; }
+
+        /* ==========================
+           HISTÓRICO E GARANTIA
+        ========================== */
+        #serviceHistory { display: flex; flex-direction: column; gap: 12px; }
+        .history-item { background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .08); padding: 15px; border-radius: 16px; transition: .3s; animation: fadeUp .4s ease; }
+        .history-item:hover { border-color: var(--secondary); }
+        .history-item h4 { margin-bottom: 8px; font-size: 16px; color: #38bdf8; }
+        .history-item p { font-size: 13px; line-height: 1.6; opacity: .9; }
+        .empty-history { text-align: center; padding: 30px; opacity: .6; }
+        #warrantyText { background: #111827; font-size: 13px; line-height: 1.8; color: white; }
+
+        /* ==========================
+           PAINEL ADMIN E MODAL
+        ========================== */
+        .admin-panel { background: rgba(239, 68, 68, .08); border: 1px solid rgba(239, 68, 68, .2); }
+        .admin-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+        .admin-actions button { background: linear-gradient(135deg, #dc2626, #ef4444); }
+        .hidden { display: none !important; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, .75); justify-content: center; align-items: center; padding: 15px; z-index: 9999; backdrop-filter: blur(4px); }
+        .modal-content { background: #1e293b; width: 100%; max-width: 550px; padding: 25px; border-radius: 24px; position: relative; box-shadow: 0 20px 40px rgba(0, 0, 0, .35); animation: modalOpen .25s ease; }
+        @keyframes modalOpen { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .close-modal { position: absolute; right: 18px; top: 12px; font-size: 30px; cursor: pointer; color: white; transition: .3s; }
+        .close-modal:hover { color: var(--danger); }
+        #modalBody { margin-top: 15px; line-height: 1.8; font-size: 14px; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-buttons button { flex: 1; }
+        .btn-delete { background: linear-gradient(135deg, #dc2626, #ef4444) !important; }
+        .btn-whatsapp { background: linear-gradient(135deg, #16a34a, #22c55e) !important; }
+        #adminModal input { margin-top: 15px; }
+        #adminModal button { margin-top: 10px; width: 100%; }
+
+        /* ==========================
+           MENU INFERIOR (Mobile)
+        ========================== */
+        .bottom-menu { position: fixed; bottom: 0; left: 0; width: 100%; height: 72px; background: #111827; border-top: 1px solid rgba(255, 255, 255, .08); display: flex; justify-content: space-around; align-items: center; z-index: 999; }
+        .bottom-menu button { background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: white; font-size: 11px; padding: 5px; }
+        .bottom-menu button i { font-size: 20px; margin: 0; }
+        .bottom-menu button:hover { transform: none; opacity: 1; color: #38bdf8; }
+
+        /* ==========================
+           STATUS E TEMAS
+        ========================== */
+        .status-recebido { background: #f59e0b; }
+        .status-analise { background: #2563eb; }
+        .status-peca { background: #ea580c; }
+        .status-finalizado { background: #16a34a; }
+        .status-entregue { background: #dc2626; }
+
+        .light-theme { background: #f1f5f9; color: #111827; }
+        .light-theme .company-header, .light-theme .calendar-section, .light-theme .service-form, .light-theme .client-form, .light-theme .equipment-form, .light-theme .os-form, .light-theme .consulta-os, .light-theme .finance-section, .light-theme .history-section, .light-theme .warranty-section, .light-theme .card-dashboard, .light-theme .modal-content, .light-theme .bottom-menu { background: white; color: #111827; }
+        .light-theme input, .light-theme textarea, .light-theme select { background: #f8fafc; color: #111827; border: 1px solid #cbd5e1; }
+        .light-theme input::placeholder, .light-theme textarea::placeholder { color: #64748b; }
+        .light-theme .company-contact div { background: #f1f5f9; color: #111827; }
+        .light-theme .bottom-menu button { color: #111827; }
+        .light-theme #warrantyText { background: #f8fafc; color: #111827; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+
+        /* ==========================
+           RESPONSIVIDADE
+        ========================== */
+        @media (max-width: 992px) { .dashboard, .finance-cards { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .container { padding: 10px; padding-bottom: 90px; } .logo { width: 70px; height: 70px; } .logo-area h1 { font-size: 26px; } .company-contact { flex-direction: column; } .dashboard, .finance-cards { grid-template-columns: 1fr; } .top-actions, .modal-buttons { flex-direction: column; } .modal-content { padding: 20px; } .section-title h2 { font-size: 18px; } .fc { font-size: 11px !important; } }
+        @media (max-width: 480px) { .logo-area h1 { font-size: 22px; } .card-dashboard h2 { font-size: 24px; } .finance-card h3 { font-size: 22px; } input, textarea, select, button { font-size: 13px; } .bottom-menu { height: 65px; } .bottom-menu button i { font-size: 18px; } .bottom-menu button span { font-size: 10px; } }
+    </style>
 </head>
 <body>
 
@@ -21,7 +189,6 @@
         <!-- CABEÇALHO -->
         <header class="company-header" id="topo">
             <div class="logo-area">
-                <!-- Se sua imagem tiver outro nome ou formato, mude o src="logo.png" -->
                 <img src="logo.png" alt="Logo LeoTecnologia" class="logo" onerror="this.src='https://via.placeholder.com/90/2563eb/ffffff?text=Logo'">
                 <h1>LeoTecnologia</h1>
                 <p>Assistência Técnica Especializada</p>
@@ -33,7 +200,7 @@
             </div>
         </header>
 
-        <!-- DASHBOARD (Resumo financeiro e de clientes) -->
+        <!-- DASHBOARD -->
         <div class="dashboard">
             <div class="card-dashboard">
                 <i class="fa-solid fa-calendar-day"></i>
@@ -64,11 +231,9 @@
             <button onclick="importBackup()"><i class="fa-solid fa-upload"></i> Importar Backup</button>
             <button onclick="showAdminLogin()"><i class="fa-solid fa-lock"></i> Painel Admin</button>
         </div>
-        
-        <!-- Input invisível para a função de importar backup -->
         <input type="file" id="importFile" class="hidden" accept=".json">
 
-        <!-- CALENDÁRIO DE AGENDAMENTOS -->
+        <!-- CALENDÁRIO -->
         <section class="calendar-section" id="agenda">
             <div class="section-title">
                 <i class="fa-regular fa-calendar-alt"></i>
@@ -113,7 +278,7 @@
             <button onclick="saveAppointment()" style="width: 100%;"><i class="fa-solid fa-save"></i> Salvar Agendamento</button>
         </section>
 
-        <!-- NOVA ORDEM DE SERVIÇO (OS) -->
+        <!-- NOVA OS -->
         <section class="os-form" id="nova-os">
             <div class="section-title">
                 <i class="fa-solid fa-file-invoice"></i>
@@ -121,20 +286,16 @@
             </div>
             
             <input type="text" id="osNumber" readonly title="Número da OS">
-            
-            <!-- Dados do Cliente -->
             <input type="text" id="clientName" placeholder="Nome do Cliente">
             <input type="tel" id="clientPhone" placeholder="Telefone / WhatsApp">
             <input type="text" id="clientAddress" placeholder="Endereço (Opcional)">
             <input type="email" id="clientEmail" placeholder="E-mail (Opcional)">
 
-            <!-- Dados do Equipamento -->
             <input type="text" id="equipmentType" placeholder="Tipo de Equipamento (Ex: Notebook, PC)">
             <input type="text" id="equipmentBrand" placeholder="Marca (Ex: Dell, HP, Samsung)">
             <input type="text" id="equipmentModel" placeholder="Modelo">
             <textarea id="reportedProblem" placeholder="Problema Relatado pelo Cliente" rows="3"></textarea>
 
-            <!-- Status e Execução -->
             <select id="serviceStatus">
                 <option value="Recebido" class="status-recebido">Recebido na Loja</option>
                 <option value="Em Análise" class="status-analise">Em Análise / Orçamento</option>
@@ -150,7 +311,7 @@
             <button onclick="saveOS()" style="width: 100%;"><i class="fa-solid fa-check"></i> Gerar e Salvar OS</button>
         </section>
 
-        <!-- CONSULTA RÁPIDA DE OS -->
+        <!-- CONSULTA RÁPIDA -->
         <section class="consulta-os" id="consultar-os">
             <div class="section-title">
                 <i class="fa-solid fa-search"></i>
@@ -163,7 +324,7 @@
             <div id="resultadoConsulta" style="margin-top: 15px;"></div>
         </section>
 
-        <!-- HISTÓRICO GERAL DE SERVIÇOS -->
+        <!-- HISTÓRICO -->
         <section class="history-section" id="historico">
             <div class="section-title">
                 <i class="fa-solid fa-list-ul"></i>
@@ -172,9 +333,7 @@
             <div class="search-box">
                 <input type="text" id="searchClient" placeholder="Buscar por Nome, Telefone ou Número da OS" onkeyup="searchClient()">
             </div>
-            <div id="serviceHistory">
-                <!-- Itens carregados via JS -->
-            </div>
+            <div id="serviceHistory"></div>
         </section>
 
         <!-- FINANCEIRO -->
@@ -199,7 +358,7 @@
             </div>
         </section>
 
-        <!-- GERADOR DE GARANTIA -->
+        <!-- GARANTIA -->
         <section class="warranty-section" id="garantia">
             <div class="section-title">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -223,10 +382,9 @@
                 <button onclick="clearDatabase()"><i class="fa-solid fa-trash-can"></i> Apagar Todos os Dados</button>
             </div>
         </section>
-
     </div>
 
-    <!-- MODAL DE EVENTO DO CALENDÁRIO -->
+    <!-- MODAIS -->
     <div id="eventModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -242,7 +400,6 @@
         </div>
     </div>
 
-    <!-- MODAL ADMIN -->
     <div id="adminModal" class="modal">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
             <span class="close-modal" onclick="closeAdminModal()">&times;</span>
@@ -254,7 +411,7 @@
         </div>
     </div>
 
-    <!-- MENU INFERIOR MOBILE (Atalhos rápidos) -->
+    <!-- MENU INFERIOR MOBILE -->
     <div class="bottom-menu">
         <button onclick="window.location.href='#topo'"><i class="fa-solid fa-home"></i><span>Início</span></button>
         <button onclick="window.location.href='#agenda'"><i class="fa-regular fa-calendar-alt"></i><span>Agenda</span></button>
@@ -263,15 +420,12 @@
         <button onclick="window.location.href='#financeiro'"><i class="fa-solid fa-dollar-sign"></i><span>Finanças</span></button>
     </div>
 
-    <!-- SCRIPT DO CALENDÁRIO (OBRIGATÓRIO PARA O CALENDÁRIO APARECER) -->
+    <!-- SCRIPTS OBRIGATÓRIOS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    <script>const OWNER_PASSWORD = "123";</script>
     
-    <!-- CONFIGURAÇÃO DA SENHA DO ADMIN (Pode alterar '123456' para a sua senha) -->
-    <script>
-        const OWNER_PASSWORD = "123"; 
-    </script>
-
-    <!-- LINK PARA O SEU ARQUIVO JAVASCRIPT CORRIGIDO -->
+    <!-- LIGAÇÃO COM O SEU JAVASCRIPT -->
+    <!-- IMPORTANTE: O seu arquivo script.js precisa estar em uma pasta chamada 'js' -->
     <script src="js/script.js"></script>
 
 </body>
