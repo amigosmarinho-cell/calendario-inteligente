@@ -1,591 +1,552 @@
-/* =====================================
-   LEOTECNOLOGIA
-   SISTEMA DE ASSISTÊNCIA TÉCNICA
-===================================== */
-
 let calendar;
 let selectedEvent = null;
 
-/* =====================================
-   BANCO LOCAL (LocalStorage)
-===================================== */
-let clients = JSON.parse(localStorage.getItem("clients")) || [];
-let services = JSON.parse(localStorage.getItem("services")) || [];
-let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+const ownerPassword = "123456";
 
-/* =====================================
-   INICIALIZAÇÃO DA PÁGINA
-===================================== */
-document.addEventListener("DOMContentLoaded", function() {
-    loadTheme();
-    generateOSNumber();
-    initializeCalendar();
-    loadAppointments();
-    updateDashboard();
-    loadHistory();
-    updateFinancial();
-});
-
-/* =====================================
-   SENHA ADMIN
-===================================== */
-function showAdminLogin() {
-    document.getElementById("adminModal").style.display = "flex";
-}
-
-function closeAdminModal() {
-    document.getElementById("adminModal").style.display = "none";
-}
-
-function adminLogin() {
-    const password = document.getElementById("adminPassword").value;
-
-    if (password === OWNER_PASSWORD) {
-        document.getElementById("adminPanel").classList.remove("hidden");
-        alert("Acesso liberado!");
-        closeAdminModal();
-        document.getElementById("adminPassword").value = ""; // Limpa a senha após entrar
-    } else {
-        alert("Senha incorreta!");
-    }
-}
-
-/* =====================================
-   TEMA
-===================================== */
-function toggleTheme() {
-    document.body.classList.toggle("light-theme");
-    localStorage.setItem("theme", document.body.classList.contains("light-theme"));
-}
-
-function loadTheme() {
-    const theme = localStorage.getItem("theme");
-    if (theme === "true") {
-        document.body.classList.add("light-theme");
-    }
-}
-
-/* =====================================
-   GERAR OS
-===================================== */
-function generateOSNumber() {
-    const number = Date.now().toString().slice(-6);
-    document.getElementById("osNumber").value = `OS-${number}`;
-}
-
-/* =====================================
-   CALENDÁRIO
-===================================== */
-function initializeCalendar() {
-    const calendarEl = document.getElementById("calendar");
-    
-    if (!calendarEl) return; // Proteção caso o elemento não exista
-
-    calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: "pt-br",
-        initialView: "dayGridMonth",
-        height: "auto",
-        headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek"
-        },
-        eventClick: function(info) {
-            selectedEvent = info.event;
-            showEventModal(info.event);
-        }
-    });
-
-    calendar.render();
-}
-
-function loadAppointments() {
-    if (!calendar) return;
-    
-    appointments.forEach(event => {
-        calendar.addEvent({
-            title: event.client,
-            start: event.date,
-            extendedProps: event
-        });
-    });
-}
-
-function selectTime(time) {
-    const input = document.getElementById("serviceDate");
-
-    if (!input.value) {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        
-        input.value = `${year}-${month}-${day}T${time}`;
-    } else {
-        const datePart = input.value.split("T")[0];
-        input.value = `${datePart}T${time}`;
-    }
-}
-
-/* =====================================
-   SALVAR AGENDAMENTO
-===================================== */
-function saveAppointment() {
-    const serviceDate = document.getElementById("serviceDate").value;
-    const serviceType = document.getElementById("serviceType").value;
-    const clientName = document.getElementById("clientName").value;
-    const clientPhone = document.getElementById("clientPhone").value;
-
-    if (!serviceDate || !serviceType || !clientName) {
-        alert("Preencha os campos obrigatórios (Data, Serviço e Nome).");
-        return;
-    }
-
-    const appointment = {
-        id: Date.now(),
-        client: clientName,
-        phone: clientPhone,
-        service: serviceType,
-        date: serviceDate
-    };
-
-    appointments.push(appointment);
-    localStorage.setItem("appointments", JSON.stringify(appointments));
-
-    if (calendar) {
-        calendar.addEvent({
-            title: clientName,
-            start: serviceDate,
-            extendedProps: appointment
-        });
-    }
-
-    saveClient();
-    updateDashboard();
-    alert("Agendamento realizado!");
-}
-
-/* =====================================
-   SALVAR CLIENTE
-===================================== */
-function saveClient() {
-    const client = {
-        name: document.getElementById("clientName").value,
-        phone: document.getElementById("clientPhone").value,
-        address: document.getElementById("clientAddress").value,
-        email: document.getElementById("clientEmail").value
-    };
-
-    // Só salva se tiver nome ou telefone
-    if (!client.name && !client.phone) return;
-
-    const exists = clients.find(c => c.phone === client.phone);
-
-    if (!exists) {
-        clients.push(client);
-        localStorage.setItem("clients", JSON.stringify(clients));
-    }
-}
-
-/* =====================================
-   SALVAR ORDEM SERVIÇO
-===================================== */
-function saveOS() {
-    const os = {
-        id: Date.now(),
-        osNumber: document.getElementById("osNumber").value,
-        client: document.getElementById("clientName").value,
-        phone: document.getElementById("clientPhone").value,
-        equipment: document.getElementById("equipmentType").value,
-        brand: document.getElementById("equipmentBrand").value,
-        model: document.getElementById("equipmentModel").value,
-        status: document.getElementById("serviceStatus").value,
-        problem: document.getElementById("reportedProblem").value,
-        service: document.getElementById("servicePerformed").value,
-        value: document.getElementById("serviceValue").value,
-        obs: document.getElementById("observations").value,
-        createdAt: new Date().toLocaleDateString()
-    };
-
-    services.push(os);
-    localStorage.setItem("services", JSON.stringify(services));
-
-    updateDashboard();
-    updateFinancial();
-    loadHistory();
-    generateOSNumber();
-
-    alert("Ordem de serviço salva!");
-}
-
-/* =====================================
-   DASHBOARD
-===================================== */
-function updateDashboard() {
-    document.getElementById("clientCount").innerText = clients.length;
-    document.getElementById("serviceCount").innerText = services.length;
-
-    const today = new Date().toISOString().split("T")[0];
-    const todayAppointments = appointments.filter(a => a.date.startsWith(today));
-
-    document.getElementById("todayCount").innerText = todayAppointments.length;
-
-    let total = 0;
-    services.forEach(service => {
-        total += parseFloat(service.value) || 0;
-    });
-
-    document.getElementById("revenueMonth").innerText = `R$ ${total.toFixed(2)}`;
-}
-
-/* =====================================
-   MODAL
-===================================== */
-function showEventModal(event) {
-    document.getElementById("eventModal").style.display = "flex";
-    document.getElementById("modalBody").innerHTML = `
-        <p><strong>Cliente:</strong> ${event.title}</p>
-        <p><strong>Data:</strong> ${new Date(event.start).toLocaleString()}</p>
-        <p><strong>Serviço:</strong> ${event.extendedProps.service || 'N/A'}</p>
-        <p><strong>Telefone:</strong> ${event.extendedProps.phone || 'N/A'}</p>
-    `;
-}
-
-function closeModal() {
-    document.getElementById("eventModal").style.display = "none";
-}
-
-// Fechar modal ao clicar fora
-window.onclick = function(event) {
-    const modal = document.getElementById("eventModal");
-    const adminModal = document.getElementById("adminModal");
-
-    if (event.target === modal) {
-        closeModal();
-    }
-    if (event.target === adminModal) {
-        closeAdminModal();
-    }
+const servicePrices = {
+"Suporte Técnico":80,
+"Instalação":120,
+"Manutenção":150,
+"Designer":200
 };
 
-/* =====================================
-   CONSULTA DE OS
-===================================== */
-function consultarOS() {
-    const telefone = document.getElementById("consultaTelefone").value.trim();
-    const resultado = document.getElementById("resultadoConsulta");
+const totalSlots = [
+"08:00",
+"09:00",
+"10:00",
+"11:00",
+"13:00",
+"14:00",
+"15:00",
+"16:00",
+"17:00"
+];
 
-    if (!telefone) {
-        alert("Informe um telefone.");
-        return;
-    }
+document.addEventListener('DOMContentLoaded',function(){
 
-    const registros = services.filter(service => service.phone && service.phone.includes(telefone));
+const calendarEl = document.getElementById('calendar');
 
-    if (registros.length === 0) {
-        resultado.innerHTML = `<div class="history-item">Nenhum serviço encontrado.</div>`;
-        return;
-    }
+calendar = new FullCalendar.Calendar(calendarEl,{
 
-    let html = "";
-    registros.forEach(item => {
-        html += `
-        <div class="history-item">
-            <h4>${item.osNumber}</h4>
-            <p><strong>Cliente:</strong> ${item.client}</p>
-            <p><strong>Status:</strong> ${item.status}</p>
-            <p><strong>Equipamento:</strong> ${item.equipment}</p>
-            <p><strong>Valor:</strong> R$ ${parseFloat(item.value || 0).toFixed(2)}</p>
-        </div>`;
-    });
-    
-    resultado.innerHTML = html;
+initialView:window.innerWidth < 768
+? 'timeGridDay'
+: 'timeGridWeek',
+
+locale:'pt-br',
+
+editable:true,
+selectable:true,
+allDaySlot:false,
+
+slotMinTime:"08:00:00",
+slotMaxTime:"22:00:00",
+
+height:320,
+
+headerToolbar:{
+left:'prev,next',
+center:'title',
+right:'today'
+},
+
+events:JSON.parse(localStorage.getItem("eventos")) || [],
+
+select:function(info){
+
+document.getElementById("start").value =
+formatDate(info.start);
+
+},
+
+eventClick:function(info){
+
+selectedEvent = info.event;
+
+document.getElementById("modalTitle").innerHTML =
+`<strong>Cliente:</strong><br>${info.event.title}`;
+
+document.getElementById("modalDescription").innerHTML =
+`<strong>Descrição:</strong><br>${info.event.extendedProps.description}`;
+
+document.getElementById("modalDate").innerHTML =
+`<strong>Data:</strong><br>${info.event.start.toLocaleString()}`;
+
+document.getElementById("eventModal").style.display = "flex";
+
 }
 
-/* =====================================
-   BUSCA CLIENTES E HISTÓRICO
-===================================== */
-function searchClient() {
-    const search = document.getElementById("searchClient").value.toLowerCase();
-    const history = document.getElementById("serviceHistory");
-
-    if (!history) return;
-
-    const filtered = services.filter(service =>
-        (service.client || "").toLowerCase().includes(search) ||
-        (service.phone || "").toLowerCase().includes(search) ||
-        (service.osNumber || "").toLowerCase().includes(search)
-    );
-
-    renderHistoryList(filtered, history);
-}
-
-function loadHistory() {
-    const history = document.getElementById("serviceHistory");
-    if (!history) return;
-
-    if (services.length === 0) {
-        history.innerHTML = `<p class="empty-history">Nenhum serviço registrado.</p>`;
-        return;
-    }
-
-    renderHistoryList(services, history);
-}
-
-// Função auxiliar para otimizar a renderização do histórico
-function renderHistoryList(itemsArray, containerDiv) {
-    let html = "";
-    itemsArray.forEach(item => {
-        html += `
-        <div class="history-item">
-            <h4>${item.osNumber}</h4>
-            <p><strong>Cliente:</strong> ${item.client}</p>
-            <p><strong>Status:</strong> ${item.status}</p>
-            <p><strong>Valor:</strong> R$ ${parseFloat(item.value || 0).toFixed(2)}</p>
-        </div>`;
-    });
-    containerDiv.innerHTML = html;
-}
-
-/* =====================================
-   GARANTIA 90 DIAS
-===================================== */
-function generateWarranty() {
-    const cliente = document.getElementById("clientName").value;
-    const servico = document.getElementById("servicePerformed").value;
-    const valor = parseFloat(document.getElementById("serviceValue").value) || 0;
-    const data = new Date().toLocaleDateString();
-
-    const texto = `GARANTIA DE 90 DIAS
-
-Cliente: ${cliente}
-Data: ${data}
-
-Serviço Executado:
-${servico}
-
-Valor Cobrado:
-R$ ${valor.toFixed(2)}
-
-A LeoTecnologia oferece garantia de 90 dias sobre o serviço executado.
-
-A garantia não cobre:
-- Mau uso
-- Quedas
-- Líquidos
-- Oxidação
-- Intervenção de terceiros
-- Danos elétricos
-`;
-
-    document.getElementById("warrantyText").value = texto;
-    alert("Garantia gerada com sucesso!");
-}
-
-/* =====================================
-   IMPRESSÃO
-===================================== */
-function printWarranty() {
-    const content = document.getElementById("warrantyText").value;
-    const win = window.open("", "_blank");
-
-    win.document.write(`
-        <html>
-        <head>
-            <title>Garantia - LeoTecnologia</title>
-            <style>
-                body { font-family: Arial, sans-serif; padding: 30px; line-height: 1.8; }
-                pre { font-family: Arial, sans-serif; white-space: pre-wrap; }
-            </style>
-        </head>
-        <body>
-            <pre>${content}</pre>
-        </body>
-        </html>
-    `);
-
-    win.document.close();
-    
-    // Pequeno delay para garantir que a janela renderizou antes de imprimir
-    setTimeout(() => {
-        win.print();
-    }, 250);
-}
-
-/* =====================================
-   FINANCEIRO
-===================================== */
-function updateFinancial() {
-    let recebido = 0;
-    let pendente = 0;
-
-    services.forEach(service => {
-        const valor = parseFloat(service.value) || 0;
-        
-        // Se a regra é "Tudo que não está Entregue é pendente"
-        if (service.status !== "Entregue") {
-            pendente += valor;
-        } else {
-            recebido += valor;
-        }
-    });
-
-    // Ajustado a lógica do que estava no seu código original
-    document.getElementById("totalRecebido").innerText = `R$ ${recebido.toFixed(2)}`;
-    document.getElementById("totalPendente").innerText = `R$ ${pendente.toFixed(2)}`;
-    document.getElementById("totalMes").innerText = `R$ ${(recebido + pendente).toFixed(2)}`;
-}
-
-/* =====================================
-   WHATSAPP
-===================================== */
-function sendWhatsAppUpdate() {
-    if (!selectedEvent) {
-        alert("Selecione um evento.");
-        return;
-    }
-
-    const phone = selectedEvent.extendedProps.phone || "";
-    
-    if(!phone) {
-        alert("Nenhum telefone registrado neste agendamento.");
-        return;
-    }
-
-    const text = encodeURIComponent(
-        `Olá! Seu atendimento foi atualizado.\n\nCliente: ${selectedEvent.title}\n\nLeoTecnologia`
-    );
-
-    window.open(`https://wa.me/55${phone.replace(/\D/g, '')}?text=${text}`, "_blank");
-}
-
-/* =====================================
-   BACKUP JSON
-===================================== */
-function exportBackup() {
-    const backup = { clients, services, appointments };
-    const data = JSON.stringify(backup, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `backup-leotecnologia-${Date.now()}.json`;
-    a.click();
-    
-    URL.revokeObjectURL(url);
-}
-
-/* =====================================
-   IMPORTAÇÃO
-===================================== */
-function importBackup() {
-    document.getElementById("importFile").click();
-}
-
-document.getElementById("importFile").addEventListener("change", function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
-
-            clients = data.clients || [];
-            services = data.services || [];
-            appointments = data.appointments || [];
-
-            localStorage.setItem("clients", JSON.stringify(clients));
-            localStorage.setItem("services", JSON.stringify(services));
-            localStorage.setItem("appointments", JSON.stringify(appointments));
-
-            alert("Backup importado com sucesso! A página será recarregada.");
-            location.reload();
-        } catch (error) {
-            alert("Arquivo inválido ou corrompido.");
-        }
-    };
-
-    reader.readAsText(file);
 });
 
-/* =====================================
-   RELATÓRIO
-===================================== */
-function generateReport() {
-    const totalClientes = clients.length;
-    const totalOS = services.length;
-    let faturamento = 0;
+calendar.render();
 
-    services.forEach(service => {
-        faturamento += parseFloat(service.value) || 0;
-    });
+updateOccupiedTimes();
+updateDashboard();
+blockPastTimes();
 
-    alert(
-        `RELATÓRIO GERAL\n\n` +
-        `Total de Clientes: ${totalClientes}\n` +
-        `Total de Ordens (OS): ${totalOS}\n` +
-        `Faturamento Total Registrado: R$ ${faturamento.toFixed(2)}`
-    );
+});
+
+function formatDate(date){
+
+return date.toISOString().slice(0,16);
+
 }
 
-/* =====================================
-   EXCLUIR OS / AGENDAMENTO
-===================================== */
-function deleteSelectedOS() {
-    if (!selectedEvent) {
-        alert("Nenhum registro selecionado.");
-        return;
-    }
+function selectTime(time){
 
-    const senha = prompt("Digite a senha do administrador para excluir:");
+const currentDate = new Date();
 
-    if (senha !== OWNER_PASSWORD) {
-        alert("Senha incorreta. Operação cancelada.");
-        return;
-    }
+const year = currentDate.getFullYear();
 
-    if (!confirm("Deseja realmente excluir este agendamento do calendário?")) {
-        return;
-    }
+const month = String(
+currentDate.getMonth()+1
+).padStart(2,'0');
 
-    const eventId = selectedEvent.extendedProps.id;
-    
-    // Remove do Array
-    appointments = appointments.filter(a => a.id !== eventId);
-    
-    // Salva no LocalStorage
-    localStorage.setItem("appointments", JSON.stringify(appointments));
+const day = String(
+currentDate.getDate()
+).padStart(2,'0');
 
-    // Remove da tela
-    selectedEvent.remove();
-    closeModal();
-    updateDashboard();
+document.getElementById("start").value =
+`${year}-${month}-${day}T${time}`;
 
-    alert("Agendamento excluído com sucesso.");
 }
 
-/* =====================================
-   LIMPAR BANCO
-===================================== */
-function clearDatabase() {
-    const senha = prompt("CUIDADO: Digite a senha para APAGAR TUDO:");
+function isTimeOccupied(start){
 
-    if (senha !== OWNER_PASSWORD) {
-        alert("Senha incorreta.");
-        return;
-    }
+const selectedDate = new Date(start);
 
-    if (!confirm("TEM CERTEZA? Esta ação vai apagar clientes, agenda e ordens de serviço. Isso não pode ser desfeito!")) {
-        return;
-    }
+const selectedDay =
+selectedDate.toISOString().split("T")[0];
 
-    localStorage.removeItem("clients");
-    localStorage.removeItem("services");
-    localStorage.removeItem("appointments");
+const selectedHour =
+String(selectedDate.getHours()).padStart(2,'0');
 
-    alert("Todos os dados foram apagados.");
-    location.reload();
+return calendar.getEvents().some(event=>{
+
+const eventDate = new Date(event.start);
+
+const eventDay =
+eventDate.toISOString().split("T")[0];
+
+const eventHour =
+String(eventDate.getHours()).padStart(2,'0');
+
+return (
+selectedDay === eventDay &&
+selectedHour === eventHour
+);
+
+});
+
+}
+
+function updateOccupiedTimes(){
+
+const buttons =
+document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn=>{
+
+btn.classList.remove("occupied");
+btn.disabled = false;
+btn.innerHTML = btn.dataset.time;
+
+});
+
+const today = new Date();
+
+calendar.getEvents().forEach(event=>{
+
+const eventDate = new Date(event.start);
+
+const sameDay =
+eventDate.toDateString() === today.toDateString();
+
+if(sameDay){
+
+const hour =
+String(eventDate.getHours()).padStart(2,'0') + ":00";
+
+buttons.forEach(btn=>{
+
+if(btn.dataset.time === hour){
+
+btn.classList.add("occupied");
+btn.disabled = true;
+btn.innerHTML = "🔴 Ocupado";
+
+}
+
+});
+
+}
+
+});
+
+}
+
+function addEvent(){
+
+const clientName =
+document.getElementById("clientName").value.trim();
+
+const clientPhone =
+document.getElementById("clientPhone").value.trim();
+
+const serviceType =
+document.getElementById("serviceType").value;
+
+const status =
+document.getElementById("statusService").value;
+
+const description =
+document.getElementById("description").value.trim();
+
+const start =
+document.getElementById("start").value;
+
+if(
+!clientName ||
+!clientPhone ||
+!serviceType ||
+!description ||
+!start
+){
+
+alert("⚠️ Preencha todos os campos!");
+return;
+
+}
+
+if(isTimeOccupied(start)){
+
+alert("❌ Este horário já está ocupado!");
+return;
+
+}
+
+calendar.addEvent({
+
+title:`${serviceType} - ${clientName}`,
+
+start:start,
+
+description:description,
+
+status:status,
+
+color:"#ef4444"
+
+});
+
+updateOccupiedTimes();
+
+saveEvents();
+
+updateDashboard();
+
+playNotification();
+
+const servicePrice =
+servicePrices[serviceType] || 0;
+
+sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+start,
+status,
+servicePrice
+);
+
+alert("✅ Agendamento salvo com sucesso!");
+
+clearForm();
+
+}
+
+function clearForm(){
+
+document.getElementById("clientName").value = "";
+
+document.getElementById("clientPhone").value = "";
+
+document.getElementById("serviceType").value = "";
+
+document.getElementById("statusService").value =
+"Agendado";
+
+document.getElementById("description").value = "";
+
+document.getElementById("start").value = "";
+
+}
+
+function saveEvents(){
+
+const events = [];
+
+calendar.getEvents().forEach(event=>{
+
+events.push({
+
+title:event.title,
+
+start:event.start,
+
+description:event.extendedProps.description,
+
+status:event.extendedProps.status,
+
+color:"#ef4444"
+
+});
+
+});
+
+localStorage.setItem(
+"eventos",
+JSON.stringify(events)
+);
+
+}
+
+function sendWhatsAppToOwner(
+clientName,
+clientPhone,
+serviceType,
+description,
+date,
+status,
+servicePrice
+){
+
+const ownerPhone = "5598999942905";
+
+const message = `
+📅 *NOVO AGENDAMENTO*
+
+👤 Cliente:
+${clientName}
+
+📞 Telefone:
+${clientPhone}
+
+🛠️ Serviço:
+${serviceType}
+
+💰 Valor:
+R$ ${servicePrice}
+
+📌 Status:
+${status}
+
+📝 Descrição:
+${description}
+
+⏰ Data:
+${new Date(date).toLocaleString()}
+`;
+
+const url =
+`https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+
+window.open(url,"_blank");
+
+}
+
+function closeModal(){
+
+document.getElementById("eventModal").style.display =
+"none";
+
+}
+
+function deleteSelectedEvent(){
+
+if(selectedEvent){
+
+const password =
+prompt("🔒 Digite a senha:");
+
+if(password !== ownerPassword){
+
+alert("❌ Senha incorreta!");
+return;
+
+}
+
+selectedEvent.remove();
+
+saveEvents();
+
+updateOccupiedTimes();
+
+updateDashboard();
+
+closeModal();
+
+alert("🗑️ Agendamento deletado!");
+
+}
+
+}
+
+function updateDashboard(){
+
+const today = new Date();
+
+const todayEvents =
+calendar.getEvents().filter(event=>{
+
+const eventDate = new Date(event.start);
+
+return eventDate.toDateString()
+=== today.toDateString();
+
+});
+
+const totalToday = todayEvents.length;
+
+const occupiedSlots =
+todayEvents.map(event=>{
+
+return String(
+new Date(event.start).getHours()
+).padStart(2,'0') + ":00";
+
+});
+
+const freeTimes =
+totalSlots.filter(
+slot=>!occupiedSlots.includes(slot)
+).length;
+
+const uniqueClients = new Set(
+
+calendar.getEvents().map(event=>{
+
+const parts = event.title.split(" - ");
+
+return parts[1] || event.title;
+
+})
+
+);
+
+document.getElementById("todayCount").innerText =
+totalToday;
+
+document.getElementById("freeCount").innerText =
+freeTimes;
+
+document.getElementById("clientCount").innerText =
+uniqueClients.size;
+
+}
+
+function searchEvents(){
+
+const search =
+document.getElementById("searchClient")
+.value
+.toLowerCase();
+
+calendar.getEvents().forEach(event=>{
+
+const title =
+event.title.toLowerCase();
+
+if(title.includes(search)){
+
+event.setProp("display","auto");
+
+}else{
+
+event.setProp("display","none");
+
+}
+
+});
+
+}
+
+function toggleTheme(){
+
+document.body.classList.toggle("light-theme");
+
+}
+
+function exportBackup(){
+
+const data =
+localStorage.getItem("eventos");
+
+const blob = new Blob(
+[data],
+{type:"application/json"}
+);
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+"backup_agenda.json";
+
+a.click();
+
+}
+
+function playNotification(){
+
+const audio = new Audio(
+'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+);
+
+audio.play();
+
+}
+
+function blockPastTimes(){
+
+const now = new Date();
+
+const buttons =
+document.querySelectorAll(".time-slot");
+
+buttons.forEach(btn=>{
+
+const hour =
+parseInt(
+btn.dataset.time.split(":")[0]
+);
+
+if(hour <= now.getHours()){
+
+btn.disabled = true;
+
+btn.style.opacity = "0.5";
+
+}
+
+});
+
+}
+
+window.onclick = function(event){
+
+const modal =
+document.getElementById("eventModal");
+
+if(event.target === modal){
+
+closeModal();
+
+}
+
 }
