@@ -1,432 +1,572 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeoTecnologia - Sistema de Assistência Técnica</title>
 
-    <!-- Fontes e Ícones -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CSS EMBUTIDO DIRETO NO HTML (Evita erro de pasta não encontrada) -->
-    <style>
-        /* ==========================
-           RESET E CONFIGURAÇÕES GERAIS
-        ========================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        html { scroll-behavior: smooth; }
-        body { background: #0f172a; color: #ffffff; min-height: 100vh; overflow-x: hidden; }
+<meta charset="UTF-8">
 
-        /* ==========================
-           VARIÁVEIS GERAIS
-        ========================== */
-        :root {
-            --primary: #2563eb;
-            --secondary: #06b6d4;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* ==========================
-           ESTRUTURA PRINCIPAL
-        ========================== */
-        .container { width: 100%; max-width: 1400px; margin: auto; padding: 15px; padding-bottom: 90px; }
+<title>Agenda Inteligente</title>
 
-        .company-header {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: var(--shadow);
-        }
-        .logo-area { text-align: center; }
-        .logo { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; margin-bottom: 10px; border: 3px solid var(--secondary); }
-        .logo-area h1 { font-size: 32px; font-weight: 700; background: linear-gradient(90deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .logo-area p { font-size: 14px; opacity: .8; margin-top: 5px; }
-        .company-contact { margin-top: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-        .company-contact div { background: rgba(255, 255, 255, .05); padding: 10px 15px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+<!-- FONTES -->
 
-        /* ==========================
-           DASHBOARD
-        ========================== */
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .card-dashboard { background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); border-radius: 20px; padding: 20px; text-align: center; transition: .3s; box-shadow: var(--shadow); animation: fadeUp .4s ease; }
-        .card-dashboard:hover { transform: translateY(-5px); }
-        .card-dashboard i { font-size: 35px; color: var(--secondary); margin-bottom: 10px; }
-        .card-dashboard h2 { font-size: 30px; font-weight: 700; margin-bottom: 5px; }
-        .card-dashboard p { font-size: 14px; opacity: .8; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-        /* ==========================
-           SEÇÕES E TÍTULOS
-        ========================== */
-        .section-title { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .section-title i { font-size: 22px; color: var(--secondary); }
-        .section-title h2 { font-size: 22px; font-weight: 600; }
-        
-        .calendar-section, .service-form, .client-form, .equipment-form, .os-form, .consulta-os, .finance-section, .history-section, .warranty-section {
-            background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow);
-        }
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        /* ==========================
-           BOTÕES E INPUTS
-        ========================== */
-        .top-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .top-actions button { flex: 1; min-width: 140px; }
-        
-        button { border: none; outline: none; cursor: pointer; padding: 12px 18px; border-radius: 14px; font-weight: 600; font-size: 14px; transition: .3s; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
-        button:hover { transform: translateY(-2px); opacity: .95; }
-        button i { margin-right: 6px; }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        input, textarea, select { width: 100%; padding: 14px; margin-bottom: 12px; border: none; outline: none; border-radius: 14px; background: rgba(255, 255, 255, .05); color: white; border: 1px solid rgba(255, 255, 255, .08); font-size: 14px; transition: .3s; }
-        input:focus, textarea:focus, select:focus { border: 1px solid var(--secondary); box-shadow: 0 0 0 4px rgba(6, 182, 212, .15); }
-        input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, .5); }
-        textarea { resize: none; }
-        select option { background: #1e293b; color: white; }
+<!-- ÍCONES -->
 
-        .search-box { margin-bottom: 20px; }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-        /* ==========================
-           CALENDÁRIO E HORÁRIOS
-        ========================== */
-        .calendar-box { background: white; border-radius: 20px; padding: 10px; overflow: hidden; }
-        .fc { font-size: 13px !important; color: #111827; }
-        .fc-toolbar-title { font-size: 18px !important; font-weight: 600 !important; }
-        .fc-button { background: var(--primary) !important; border: none !important; border-radius: 10px !important; padding: 8px 12px !important; }
-        .fc-event { border: none !important; background: var(--danger) !important; border-radius: 8px !important; padding: 2px !important; cursor: pointer; }
+<!-- FULLCALENDAR -->
 
-        .times-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .time-slot { background: var(--success); font-size: 14px; }
-        .time-slot:hover { transform: scale(1.03); }
-        .time-slot.occupied { background: var(--danger); }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
 
-        /* ==========================
-           FINANCEIRO E OS
-        ========================== */
-        #osNumber { font-weight: 700; color: #38bdf8; text-align: center; font-size: 18px; }
-        .finance-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
-        .finance-card { background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); padding: 20px; border-radius: 20px; text-align: center; transition: .3s; animation: fadeUp .4s ease; }
-        .finance-card:hover { transform: translateY(-4px); }
-        .finance-card h3 { font-size: 28px; font-weight: 700; color: var(--success); margin-bottom: 8px; }
-        .finance-card p { font-size: 14px; opacity: .8; }
+<style>
 
-        /* ==========================
-           HISTÓRICO E GARANTIA
-        ========================== */
-        #serviceHistory { display: flex; flex-direction: column; gap: 12px; }
-        .history-item { background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .08); padding: 15px; border-radius: 16px; transition: .3s; animation: fadeUp .4s ease; }
-        .history-item:hover { border-color: var(--secondary); }
-        .history-item h4 { margin-bottom: 8px; font-size: 16px; color: #38bdf8; }
-        .history-item p { font-size: 13px; line-height: 1.6; opacity: .9; }
-        .empty-history { text-align: center; padding: 30px; opacity: .6; }
-        #warrantyText { background: #111827; font-size: 13px; line-height: 1.8; color: white; }
+/* RESET */
 
-        /* ==========================
-           PAINEL ADMIN E MODAL
-        ========================== */
-        .admin-panel { background: rgba(239, 68, 68, .08); border: 1px solid rgba(239, 68, 68, .2); }
-        .admin-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-        .admin-actions button { background: linear-gradient(135deg, #dc2626, #ef4444); }
-        .hidden { display: none !important; }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, .75); justify-content: center; align-items: center; padding: 15px; z-index: 9999; backdrop-filter: blur(4px); }
-        .modal-content { background: #1e293b; width: 100%; max-width: 550px; padding: 25px; border-radius: 24px; position: relative; box-shadow: 0 20px 40px rgba(0, 0, 0, .35); animation: modalOpen .25s ease; }
-        @keyframes modalOpen { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .close-modal { position: absolute; right: 18px; top: 12px; font-size: 30px; cursor: pointer; color: white; transition: .3s; }
-        .close-modal:hover { color: var(--danger); }
-        #modalBody { margin-top: 15px; line-height: 1.8; font-size: 14px; }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-buttons button { flex: 1; }
-        .btn-delete { background: linear-gradient(135deg, #dc2626, #ef4444) !important; }
-        .btn-whatsapp { background: linear-gradient(135deg, #16a34a, #22c55e) !important; }
-        #adminModal input { margin-top: 15px; }
-        #adminModal button { margin-top: 10px; width: 100%; }
+/* BODY */
 
-        /* ==========================
-           MENU INFERIOR (Mobile)
-        ========================== */
-        .bottom-menu { position: fixed; bottom: 0; left: 0; width: 100%; height: 72px; background: #111827; border-top: 1px solid rgba(255, 255, 255, .08); display: flex; justify-content: space-around; align-items: center; z-index: 999; }
-        .bottom-menu button { background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: white; font-size: 11px; padding: 5px; }
-        .bottom-menu button i { font-size: 20px; margin: 0; }
-        .bottom-menu button:hover { transform: none; opacity: 1; color: #38bdf8; }
+body{
+background:linear-gradient(180deg,#020617,#0f172a,#111827);
+min-height:100vh;
+padding:10px;
+color:white;
+transition:0.3s;
+overflow-x:hidden;
+}
 
-        /* ==========================
-           STATUS E TEMAS
-        ========================== */
-        .status-recebido { background: #f59e0b; }
-        .status-analise { background: #2563eb; }
-        .status-peca { background: #ea580c; }
-        .status-finalizado { background: #16a34a; }
-        .status-entregue { background: #dc2626; }
+/* EFEITO VISUAL */
 
-        .light-theme { background: #f1f5f9; color: #111827; }
-        .light-theme .company-header, .light-theme .calendar-section, .light-theme .service-form, .light-theme .client-form, .light-theme .equipment-form, .light-theme .os-form, .light-theme .consulta-os, .light-theme .finance-section, .light-theme .history-section, .light-theme .warranty-section, .light-theme .card-dashboard, .light-theme .modal-content, .light-theme .bottom-menu { background: white; color: #111827; }
-        .light-theme input, .light-theme textarea, .light-theme select { background: #f8fafc; color: #111827; border: 1px solid #cbd5e1; }
-        .light-theme input::placeholder, .light-theme textarea::placeholder { color: #64748b; }
-        .light-theme .company-contact div { background: #f1f5f9; color: #111827; }
-        .light-theme .bottom-menu button { color: #111827; }
-        .light-theme #warrantyText { background: #f8fafc; color: #111827; }
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.03) 1px,
+transparent 2px,
+transparent 4px
+);
+z-index:9999;
+}
 
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+/* CONTAINER */
 
-        /* ==========================
-           RESPONSIVIDADE
-        ========================== */
-        @media (max-width: 992px) { .dashboard, .finance-cards { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .container { padding: 10px; padding-bottom: 90px; } .logo { width: 70px; height: 70px; } .logo-area h1 { font-size: 26px; } .company-contact { flex-direction: column; } .dashboard, .finance-cards { grid-template-columns: 1fr; } .top-actions, .modal-buttons { flex-direction: column; } .modal-content { padding: 20px; } .section-title h2 { font-size: 18px; } .fc { font-size: 11px !important; } }
-        @media (max-width: 480px) { .logo-area h1 { font-size: 22px; } .card-dashboard h2 { font-size: 24px; } .finance-card h3 { font-size: 22px; } input, textarea, select, button { font-size: 13px; } .bottom-menu { height: 65px; } .bottom-menu button i { font-size: 18px; } .bottom-menu button span { font-size: 10px; } }
-    </style>
+.container{
+width:100%;
+max-width:450px;
+margin:auto;
+}
+
+/* CARDS */
+
+.company-header,
+.event-form,
+.card-dashboard{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-radius:22px;
+padding:18px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* TOPO */
+
+.company-header{
+margin-bottom:10px;
+text-align:center;
+}
+
+.company-name{
+font-size:24px;
+font-weight:700;
+margin-bottom:12px;
+background:linear-gradient(90deg,#38bdf8,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.company-info{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.company-info p{
+background:rgba(255,255,255,0.05);
+padding:10px;
+border-radius:12px;
+font-size:12px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:10px;
+}
+
+.card-dashboard{
+padding:15px;
+text-align:center;
+}
+
+.card-dashboard h3{
+font-size:24px;
+color:#38bdf8;
+margin-bottom:4px;
+}
+
+.card-dashboard p{
+font-size:11px;
+}
+
+/* CALENDÁRIO */
+
+.calendar-box{
+background:white;
+border-radius:18px;
+padding:6px;
+margin-bottom:10px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+
+.fc{
+font-size:10px !important;
+color:#111827;
+}
+
+.fc-button{
+background:#2563eb !important;
+border:none !important;
+border-radius:8px !important;
+}
+
+.fc-event{
+background:#ef4444 !important;
+border:none !important;
+border-radius:6px !important;
+}
+
+/* FORMULÁRIO */
+
+.event-form h2{
+text-align:center;
+margin-bottom:14px;
+}
+
+/* GRID HORÁRIOS */
+
+.times-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:12px;
+}
+
+/* HORÁRIOS */
+
+.time-slot{
+background:#00c853;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+transition:0.2s;
+}
+
+.time-slot:hover{
+transform:scale(1.03);
+}
+
+.time-slot.occupied{
+background:#ef4444;
+}
+
+.time-slot:disabled{
+opacity:0.5;
+cursor:not-allowed;
+}
+
+/* INPUTS */
+
+input,
+select,
+textarea,
+button{
+width:100%;
+border:none;
+outline:none;
+border-radius:12px;
+padding:12px;
+margin-bottom:10px;
+font-size:12px;
+transition:0.2s;
+}
+
+input,
+select,
+textarea{
+background:rgba(255,255,255,0.08);
+color:white;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+input::placeholder,
+textarea::placeholder{
+color:rgba(255,255,255,0.6);
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border:1px solid #38bdf8;
+box-shadow:0 0 0 3px rgba(56,189,248,0.15);
+}
+
+/* OPTIONS */
+
+select option{
+background:#111827;
+color:white;
+}
+
+/* BOTÕES */
+
+button{
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.95;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+padding:15px;
+}
+
+.modal-content{
+background:#111827;
+padding:20px;
+border-radius:20px;
+width:100%;
+max-width:340px;
+position:relative;
+}
+
+.modal-content h2{
+margin-bottom:15px;
+text-align:center;
+}
+
+.modal-content p{
+margin-bottom:10px;
+font-size:13px;
+line-height:1.5;
+}
+
+.close-modal{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+}
+
+/* TEMA CLARO */
+
+.light-theme{
+background:#f1f5f9;
+color:#111827;
+}
+
+.light-theme .company-header,
+.light-theme .event-form,
+.light-theme .card-dashboard{
+background:white;
+color:#111827;
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select{
+background:#e2e8f0;
+color:#111827;
+}
+
+.light-theme .modal-content{
+background:white;
+color:#111827;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:480px){
+
+.company-name{
+font-size:20px;
+}
+
+.card-dashboard h3{
+font-size:20px;
+}
+
+.fc{
+font-size:9px !important;
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <div class="container">
-        
-        <!-- CABEÇALHO -->
-        <header class="company-header" id="topo">
-            <div class="logo-area">
-                <img src="logo.png" alt="Logo LeoTecnologia" class="logo" onerror="this.src='https://via.placeholder.com/90/2563eb/ffffff?text=Logo'">
-                <h1>LeoTecnologia</h1>
-                <p>Assistência Técnica Especializada</p>
-            </div>
-            <div class="company-contact">
-                <div><i class="fa-solid fa-phone"></i> (98) 99994-2905</div>
-                <div><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
-                <div><i class="fa-brands fa-instagram"></i> @leotecnologia25</div>
-            </div>
-        </header>
+<div class="container">
 
-        <!-- DASHBOARD -->
-        <div class="dashboard">
-            <div class="card-dashboard">
-                <i class="fa-solid fa-calendar-day"></i>
-                <h2 id="todayCount">0</h2>
-                <p>Agendamentos Hoje</p>
-            </div>
-            <div class="card-dashboard">
-                <i class="fa-solid fa-users"></i>
-                <h2 id="clientCount">0</h2>
-                <p>Clientes</p>
-            </div>
-            <div class="card-dashboard">
-                <i class="fa-solid fa-screwdriver-wrench"></i>
-                <h2 id="serviceCount">0</h2>
-                <p>Serviços Realizados</p>
-            </div>
-            <div class="card-dashboard">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <h2 id="revenueMonth">R$ 0,00</h2>
-                <p>Faturamento Global</p>
-            </div>
-        </div>
+<!-- TOPO -->
 
-        <!-- AÇÕES DO TOPO -->
-        <div class="top-actions">
-            <button onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Alternar Tema</button>
-            <button onclick="exportBackup()"><i class="fa-solid fa-download"></i> Exportar Backup</button>
-            <button onclick="importBackup()"><i class="fa-solid fa-upload"></i> Importar Backup</button>
-            <button onclick="showAdminLogin()"><i class="fa-solid fa-lock"></i> Painel Admin</button>
-        </div>
-        <input type="file" id="importFile" class="hidden" accept=".json">
+<div class="company-header">
 
-        <!-- CALENDÁRIO -->
-        <section class="calendar-section" id="agenda">
-            <div class="section-title">
-                <i class="fa-regular fa-calendar-alt"></i>
-                <h2>Agenda de Serviços</h2>
-            </div>
-            <div class="calendar-box">
-                <div id="calendar"></div>
-            </div>
-        </section>
+<div class="company-name">
+LeoTecnologia
+</div>
 
-        <!-- NOVO AGENDAMENTO -->
-        <section class="service-form" id="novo-agendamento">
-            <div class="section-title">
-                <i class="fa-solid fa-calendar-plus"></i>
-                <h2>Novo Agendamento Rápido</h2>
-            </div>
-            
-            <label>Horários Rápidos:</label>
-            <div class="times-grid">
-                <button class="time-slot" onclick="selectTime('08:00')">08:00</button>
-                <button class="time-slot" onclick="selectTime('09:00')">09:00</button>
-                <button class="time-slot" onclick="selectTime('10:00')">10:00</button>
-                <button class="time-slot" onclick="selectTime('11:00')">11:00</button>
-                <button class="time-slot" onclick="selectTime('14:00')">14:00</button>
-                <button class="time-slot" onclick="selectTime('15:00')">15:00</button>
-                <button class="time-slot" onclick="selectTime('16:00')">16:00</button>
-                <button class="time-slot" onclick="selectTime('17:00')">17:00</button>
-            </div>
+<div class="company-info">
 
-            <input type="datetime-local" id="serviceDate" placeholder="Data e Hora">
-            
-            <select id="serviceType">
-                <option value="">-- Selecione o Serviço --</option>
-                <option value="Manutenção de Computador">Manutenção de Computador</option>
-                <option value="Manutenção de Notebook">Manutenção de Notebook</option>
-                <option value="Formatação">Formatação</option>
-                <option value="Troca de Peça">Troca de Peça</option>
-                <option value="Limpeza Preventiva">Limpeza Preventiva</option>
-                <option value="Outros">Outros</option>
-            </select>
+<p>
+<i class="fa-solid fa-location-dot"></i>
+Av. Três Nº733 São José de Ribamar - MA
+</p>
 
-            <button onclick="saveAppointment()" style="width: 100%;"><i class="fa-solid fa-save"></i> Salvar Agendamento</button>
-        </section>
+<p>
+<i class="fa-solid fa-phone"></i>
+(98) 99994-2905
+</p>
 
-        <!-- NOVA OS -->
-        <section class="os-form" id="nova-os">
-            <div class="section-title">
-                <i class="fa-solid fa-file-invoice"></i>
-                <h2>Nova Ordem de Serviço</h2>
-            </div>
-            
-            <input type="text" id="osNumber" readonly title="Número da OS">
-            <input type="text" id="clientName" placeholder="Nome do Cliente">
-            <input type="tel" id="clientPhone" placeholder="Telefone / WhatsApp">
-            <input type="text" id="clientAddress" placeholder="Endereço (Opcional)">
-            <input type="email" id="clientEmail" placeholder="E-mail (Opcional)">
+<p>
+<i class="fa-brands fa-instagram"></i>
+@leotecnologia25
+</p>
 
-            <input type="text" id="equipmentType" placeholder="Tipo de Equipamento (Ex: Notebook, PC)">
-            <input type="text" id="equipmentBrand" placeholder="Marca (Ex: Dell, HP, Samsung)">
-            <input type="text" id="equipmentModel" placeholder="Modelo">
-            <textarea id="reportedProblem" placeholder="Problema Relatado pelo Cliente" rows="3"></textarea>
+</div>
 
-            <select id="serviceStatus">
-                <option value="Recebido" class="status-recebido">Recebido na Loja</option>
-                <option value="Em Análise" class="status-analise">Em Análise / Orçamento</option>
-                <option value="Aguardando Peça" class="status-peca">Aguardando Peça</option>
-                <option value="Finalizado" class="status-finalizado">Finalizado / Pronto</option>
-                <option value="Entregue" class="status-entregue">Entregue ao Cliente</option>
-            </select>
-            
-            <input type="text" id="servicePerformed" placeholder="Serviço Executado / A Executar">
-            <input type="number" id="serviceValue" placeholder="Valor Cobrado (Ex: 150.00)" step="0.01">
-            <textarea id="observations" placeholder="Observações Internas (Não sai na garantia)" rows="2"></textarea>
+</div>
 
-            <button onclick="saveOS()" style="width: 100%;"><i class="fa-solid fa-check"></i> Gerar e Salvar OS</button>
-        </section>
+<!-- DASHBOARD -->
 
-        <!-- CONSULTA RÁPIDA -->
-        <section class="consulta-os" id="consultar-os">
-            <div class="section-title">
-                <i class="fa-solid fa-search"></i>
-                <h2>Consultar Serviço por Telefone</h2>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <input type="tel" id="consultaTelefone" placeholder="Digite o telefone do cliente" style="margin-bottom: 0;">
-                <button onclick="consultarOS()"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
-            </div>
-            <div id="resultadoConsulta" style="margin-top: 15px;"></div>
-        </section>
+<div class="dashboard">
 
-        <!-- HISTÓRICO -->
-        <section class="history-section" id="historico">
-            <div class="section-title">
-                <i class="fa-solid fa-list-ul"></i>
-                <h2>Histórico Geral de OS</h2>
-            </div>
-            <div class="search-box">
-                <input type="text" id="searchClient" placeholder="Buscar por Nome, Telefone ou Número da OS" onkeyup="searchClient()">
-            </div>
-            <div id="serviceHistory"></div>
-        </section>
+<div class="card-dashboard">
+<h3 id="todayCount">0</h3>
+<p>Hoje</p>
+</div>
 
-        <!-- FINANCEIRO -->
-        <section class="finance-section" id="financeiro">
-            <div class="section-title">
-                <i class="fa-solid fa-chart-pie"></i>
-                <h2>Painel Financeiro</h2>
-            </div>
-            <div class="finance-cards">
-                <div class="finance-card">
-                    <h3 id="totalRecebido">R$ 0,00</h3>
-                    <p>Total Recebido (OS Entregues)</p>
-                </div>
-                <div class="finance-card">
-                    <h3 id="totalPendente" style="color: var(--warning);">R$ 0,00</h3>
-                    <p>Valor Pendente (Em andamento)</p>
-                </div>
-                <div class="finance-card">
-                    <h3 id="totalMes" style="color: var(--secondary);">R$ 0,00</h3>
-                    <p>Previsão Bruta Total</p>
-                </div>
-            </div>
-        </section>
+<div class="card-dashboard">
+<h3 id="freeCount">0</h3>
+<p>Livres</p>
+</div>
 
-        <!-- GARANTIA -->
-        <section class="warranty-section" id="garantia">
-            <div class="section-title">
-                <i class="fa-solid fa-shield-halved"></i>
-                <h2>Termo de Garantia</h2>
-            </div>
-            <div class="top-actions">
-                <button onclick="generateWarranty()"><i class="fa-solid fa-file-signature"></i> Gerar Texto de Garantia</button>
-                <button onclick="printWarranty()"><i class="fa-solid fa-print"></i> Imprimir Termo</button>
-            </div>
-            <textarea id="warrantyText" rows="12" placeholder="O texto da garantia aparecerá aqui..."></textarea>
-        </section>
+<div class="card-dashboard">
+<h3 id="clientCount">0</h3>
+<p>Clientes</p>
+</div>
 
-        <!-- PAINEL ADMIN OCULTO -->
-        <section id="adminPanel" class="admin-panel hidden">
-            <div class="section-title">
-                <i class="fa-solid fa-user-shield"></i>
-                <h2>Configurações do Sistema</h2>
-            </div>
-            <div class="admin-actions">
-                <button onclick="generateReport()"><i class="fa-solid fa-chart-line"></i> Gerar Relatório Geral</button>
-                <button onclick="clearDatabase()"><i class="fa-solid fa-trash-can"></i> Apagar Todos os Dados</button>
-            </div>
-        </section>
-    </div>
+</div>
 
-    <!-- MODAIS -->
-    <div id="eventModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div class="section-title" style="margin-bottom: 0;">
-                <i class="fa-solid fa-calendar-check"></i>
-                <h2 style="color: var(--secondary);">Detalhes do Agendamento</h2>
-            </div>
-            <div id="modalBody"></div>
-            <div class="modal-buttons">
-                <button class="btn-whatsapp" onclick="sendWhatsAppUpdate()"><i class="fa-brands fa-whatsapp"></i> Avisar Cliente</button>
-                <button class="btn-delete" onclick="deleteSelectedOS()"><i class="fa-solid fa-trash"></i> Excluir Evento</button>
-            </div>
-        </div>
-    </div>
+<!-- BOTÃO -->
 
-    <div id="adminModal" class="modal">
-        <div class="modal-content" style="max-width: 400px; text-align: center;">
-            <span class="close-modal" onclick="closeAdminModal()">&times;</span>
-            <i class="fa-solid fa-lock" style="font-size: 40px; color: var(--danger); margin-bottom: 10px;"></i>
-            <h2>Área Restrita</h2>
-            <p style="font-size: 13px; opacity: .8;">Digite a senha do proprietário para acessar.</p>
-            <input type="password" id="adminPassword" placeholder="Senha Administrativa">
-            <button onclick="adminLogin()"><i class="fa-solid fa-right-to-bracket"></i> Acessar</button>
-        </div>
-    </div>
+<button type="button" onclick="toggleTheme()">
+🌙 Alternar Tema
+</button>
 
-    <!-- MENU INFERIOR MOBILE -->
-    <div class="bottom-menu">
-        <button onclick="window.location.href='#topo'"><i class="fa-solid fa-home"></i><span>Início</span></button>
-        <button onclick="window.location.href='#agenda'"><i class="fa-regular fa-calendar-alt"></i><span>Agenda</span></button>
-        <button onclick="window.location.href='#nova-os'"><i class="fa-solid fa-plus-circle"></i><span>Nova OS</span></button>
-        <button onclick="window.location.href='#historico'"><i class="fa-solid fa-list"></i><span>OS</span></button>
-        <button onclick="window.location.href='#financeiro'"><i class="fa-solid fa-dollar-sign"></i><span>Finanças</span></button>
-    </div>
+<!-- BUSCA -->
 
-    <!-- SCRIPTS OBRIGATÓRIOS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-    <script>const OWNER_PASSWORD = "123";</script>
-    
-    <!-- LIGAÇÃO COM O SEU JAVASCRIPT -->
-    <!-- IMPORTANTE: O seu arquivo script.js precisa estar em uma pasta chamada 'js' -->
-    <script src="js/script.js"></script>
+<input
+type="text"
+id="searchClient"
+placeholder="🔎 Buscar Cliente"
+onkeyup="searchEvents()"
+>
+
+<!-- CALENDÁRIO -->
+
+<div class="calendar-box">
+
+<div id="calendar"></div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="event-form">
+
+<h2>📅 Novo Agendamento</h2>
+
+<div class="times-grid">
+
+<button type="button" class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
+
+<button type="button" class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
+
+<button type="button" class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
+
+<button type="button" class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
+
+<button type="button" class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
+
+<button type="button" class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
+
+<button type="button" class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
+
+<button type="button" class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
+
+<button type="button" class="time-slot" data-time="17:00" onclick="selectTime('17:00')">17:00</button>
+
+</div>
+
+<select id="serviceType">
+
+<option value="">🛠️ Tipo de Serviço</option>
+
+<option value="Suporte Técnico">💻 Suporte Técnico</option>
+
+<option value="Instalação">🖥️ Instalação</option>
+
+<option value="Manutenção">🔧 Manutenção</option>
+
+<option value="Designer">🎨 Designer</option>
+
+</select>
+
+<select id="statusService">
+
+<option value="Agendado">🟡 Agendado</option>
+
+<option value="Em andamento">🔵 Em andamento</option>
+
+<option value="Finalizado">🟢 Finalizado</option>
+
+<option value="Cancelado">🔴 Cancelado</option>
+
+</select>
+
+<input
+type="text"
+id="clientName"
+placeholder="👤 Nome do Cliente"
+>
+
+<input
+type="tel"
+id="clientPhone"
+placeholder="📞 Telefone"
+>
+
+<textarea
+id="description"
+rows="3"
+placeholder="📝 Descrição"
+></textarea>
+
+<input
+type="datetime-local"
+id="start"
+>
+
+<button
+type="button"
+onclick="addEvent()"
+>
+Salvar Agendamento
+</button>
+
+<button
+type="button"
+onclick="exportBackup()"
+>
+📦 Exportar Backup
+</button>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="eventModal" class="modal">
+
+<div class="modal-content">
+
+<span
+class="close-modal"
+onclick="closeModal()"
+>
+&times;
+</span>
+
+<h2>📅 Detalhes</h2>
+
+<p id="modalTitle"></p>
+
+<p id="modalDescription"></p>
+
+<p id="modalDate"></p>
+
+<button
+type="button"
+onclick="deleteSelectedEvent()"
+>
+🗑️ Deletar
+</button>
+
+</div>
+
+</div>
+
+<!-- FULLCALENDAR -->
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<!-- SCRIPT -->
+
+<script src="script.js"></script>
 
 </body>
 </html>
