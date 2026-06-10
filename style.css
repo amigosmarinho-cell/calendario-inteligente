@@ -1,965 +1,572 @@
 /* ==========================
-   RESET
+   RESET E CONFIGURAÇÕES GERAIS
 ========================== */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-html{
-scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
 }
 
-body{
-background:#0f172a;
-color:#ffffff;
-min-height:100vh;
-overflow-x:hidden;
+body {
+    background: #0f172a;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* ==========================
-   VARIÁVEIS
+   VARIÁVEIS GERAIS
 ========================== */
-
-:root{
-
---primary:#2563eb;
---secondary:#06b6d4;
---success:#10b981;
---danger:#ef4444;
---warning:#f59e0b;
-
---dark:#0f172a;
---dark-card:#1e293b;
-
---light:#f8fafc;
---light-card:#ffffff;
-
---border:rgba(255,255,255,0.08);
-
---shadow:
-0 10px 30px rgba(0,0,0,0.25);
-
+:root {
+    --primary: #2563eb;
+    --secondary: #06b6d4;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f172a;
+    --dark-card: #1e293b;
+    --light: #f8fafc;
+    --light-card: #ffffff;
+    --border: rgba(255, 255, 255, 0.08);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 /* ==========================
-   CONTAINER
+   CONTAINER PRINCIPAL
 ========================== */
-
-.container{
-width:100%;
-max-width:1400px;
-margin:auto;
-padding:15px;
-padding-bottom:90px;
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 15px;
+    padding-bottom: 90px;
 }
 
 /* ==========================
    HEADER
 ========================== */
-
-.company-header{
-
-background:rgba(255,255,255,0.05);
-
-backdrop-filter:blur(12px);
-
-border:1px solid rgba(255,255,255,0.08);
-
-border-radius:25px;
-
-padding:25px;
-
-margin-bottom:20px;
-
-box-shadow:var(--shadow);
-
+.company-header {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 25px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
 }
 
-.logo-area{
-text-align:center;
+.logo-area {
+    text-align: center;
 }
 
-.logo{
-width:90px;
-height:90px;
-object-fit:cover;
-border-radius:50%;
-margin-bottom:10px;
-border:3px solid var(--secondary);
+.logo {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 3px solid var(--secondary);
 }
 
-.logo-area h1{
-font-size:32px;
-font-weight:700;
-background:linear-gradient(
-90deg,
-var(--secondary),
-var(--primary)
-);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+.logo-area h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.logo-area p{
-font-size:14px;
-opacity:.8;
-margin-top:5px;
+.logo-area p {
+    font-size: 14px;
+    opacity: .8;
+    margin-top: 5px;
 }
 
-.company-contact{
-
-margin-top:20px;
-
-display:flex;
-
-justify-content:center;
-
-flex-wrap:wrap;
-
-gap:10px;
-
+.company-contact {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.company-contact div{
-
-background:rgba(255,255,255,.05);
-
-padding:10px 15px;
-
-border-radius:12px;
-
-font-size:13px;
-
-display:flex;
-
-align-items:center;
-
-gap:8px;
-
+.company-contact div {
+    background: rgba(255, 255, 255, .05);
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* ==========================
-   TÍTULOS
+   TÍTULOS DE SEÇÃO
 ========================== */
-
-.section-title{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-margin-bottom:15px;
-
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.section-title i{
-font-size:22px;
-color:var(--secondary);
+.section-title i {
+    font-size: 22px;
+    color: var(--secondary);
 }
 
-.section-title h2{
-font-size:22px;
-font-weight:600;
+.section-title h2 {
+    font-size: 22px;
+    font-weight: 600;
 }
 
 /* ==========================
    DASHBOARD
 ========================== */
-
-.dashboard{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-
-gap:15px;
-
-margin-bottom:20px;
-
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-.card-dashboard{
-
-background:rgba(255,255,255,.05);
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:20px;
-
-padding:20px;
-
-text-align:center;
-
-transition:.3s;
-
-box-shadow:var(--shadow);
-
+.card-dashboard {
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    transition: .3s;
+    box-shadow: var(--shadow);
+    animation: fadeUp .4s ease;
 }
 
-.card-dashboard:hover{
-
-transform:translateY(-5px);
-
+.card-dashboard:hover {
+    transform: translateY(-5px);
 }
 
-.card-dashboard i{
-
-font-size:35px;
-
-color:var(--secondary);
-
-margin-bottom:10px;
-
+.card-dashboard i {
+    font-size: 35px;
+    color: var(--secondary);
+    margin-bottom: 10px;
 }
 
-.card-dashboard h2{
-
-font-size:30px;
-
-font-weight:700;
-
-margin-bottom:5px;
-
+.card-dashboard h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 
-.card-dashboard p{
-
-font-size:14px;
-
-opacity:.8;
-
+.card-dashboard p {
+    font-size: 14px;
+    opacity: .8;
 }
 
 /* ==========================
-   BOTÕES SUPERIORES
+   BOTÕES SUPERIORES E GERAIS
 ========================== */
-
-.top-actions{
-
-display:flex;
-
-flex-wrap:wrap;
-
-gap:10px;
-
-margin-bottom:20px;
-
+.top-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.top-actions button{
+.top-actions button {
+    flex: 1;
+    min-width: 140px;
+}
 
-flex:1;
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: .3s;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
 
-min-width:140px;
+button:hover {
+    transform: translateY(-2px);
+    opacity: .95;
+}
 
+button i {
+    margin-right: 6px;
 }
 
 /* ==========================
-   BOTÕES
+   INPUTS, TEXTAREAS E SELECTS
 ========================== */
-
-button{
-
-border:none;
-
-outline:none;
-
-cursor:pointer;
-
-padding:12px 18px;
-
-border-radius:14px;
-
-font-weight:600;
-
-font-size:14px;
-
-transition:.3s;
-
-background:
-linear-gradient(
-135deg,
-var(--primary),
-var(--secondary)
-);
-
-color:white;
-
+input, textarea, select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: none;
+    outline: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .05);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, .08);
+    font-size: 14px;
+    transition: .3s;
 }
 
-button:hover{
-
-transform:translateY(-2px);
-
-opacity:.95;
-
+input:focus, textarea:focus, select:focus {
+    border: 1px solid var(--secondary);
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, .15);
 }
 
-button i{
-margin-right:6px;
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, .5);
+}
+
+textarea {
+    resize: none;
+}
+
+select option {
+    background: #1e293b;
+    color: white;
+}
+
+.search-box {
+    margin-bottom: 20px;
 }
 
 /* ==========================
-   INPUTS
+   ESTILO GERAL DAS SEÇÕES
 ========================== */
-
-input,
-textarea,
-select{
-
-width:100%;
-
-padding:14px;
-
-margin-bottom:12px;
-
-border:none;
-
-outline:none;
-
-border-radius:14px;
-
-background:rgba(255,255,255,.05);
-
-color:white;
-
-border:1px solid rgba(255,255,255,.08);
-
-font-size:14px;
-
-transition:.3s;
-
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-
-border:1px solid var(--secondary);
-
-box-shadow:
-0 0 0 4px
-rgba(6,182,212,.15);
-
-}
-
-input::placeholder,
-textarea::placeholder{
-
-color:rgba(255,255,255,.5);
-
-}
-
-textarea{
-resize:none;
-}
-
-select option{
-background:#1e293b;
-color:white;
+.calendar-section, .service-form, .client-form, .equipment-form,
+.os-form, .consulta-os, .finance-section, .history-section,
+.warranty-section {
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
 }
 
 /* ==========================
-   BUSCA
+   CALENDÁRIO (FullCalendar)
 ========================== */
+.calendar-box {
+    background: white;
+    border-radius: 20px;
+    padding: 10px;
+    overflow: hidden;
+}
 
-.search-box{
+.fc {
+    font-size: 13px !important;
+    color: #111827;
+}
 
-margin-bottom:20px;
+.fc-toolbar-title {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
 
+.fc-button {
+    background: var(--primary) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 8px 12px !important;
+}
+
+.fc-event {
+    border: none !important;
+    background: var(--danger) !important;
+    border-radius: 8px !important;
+    padding: 2px !important;
+    cursor: pointer;
 }
 
 /* ==========================
-   SEÇÕES
+   HORÁRIOS RÁPIDOS
 ========================== */
-
-.calendar-section,
-.service-form,
-.client-form,
-.equipment-form,
-.os-form,
-.consulta-os,
-.finance-section,
-.history-section,
-.warranty-section{
-
-background:rgba(255,255,255,.05);
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:25px;
-
-padding:20px;
-
-margin-bottom:20px;
-
-box-shadow:var(--shadow);
-
+.times-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-/* ==========================
-   CALENDÁRIO
-========================== */
-
-.calendar-box{
-
-background:white;
-
-border-radius:20px;
-
-padding:10px;
-
-overflow:hidden;
-
+.time-slot {
+    background: var(--success);
+    font-size: 14px;
 }
 
-.fc{
-
-font-size:13px !important;
-
-color:#111827;
-
+.time-slot:hover {
+    transform: scale(1.03);
 }
 
-.fc-toolbar-title{
-
-font-size:18px !important;
-
-font-weight:600 !important;
-
-}
-
-.fc-button{
-
-background:var(--primary) !important;
-
-border:none !important;
-
-border-radius:10px !important;
-
-padding:8px 12px !important;
-
-}
-
-.fc-event{
-
-border:none !important;
-
-background:var(--danger) !important;
-
-border-radius:8px !important;
-
-padding:2px !important;
-
-}
-
-/* ==========================
-   HORÁRIOS
-========================== */
-
-.times-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(90px,1fr));
-
-gap:10px;
-
-margin-bottom:15px;
-
-}
-
-.time-slot{
-
-background:var(--success);
-
-font-size:14px;
-
-}
-
-.time-slot:hover{
-
-transform:scale(1.03);
-
-}
-
-.time-slot.occupied{
-
-background:var(--danger);
-
+.time-slot.occupied {
+    background: var(--danger);
 }
 
 /* ==========================
    ORDEM DE SERVIÇO
 ========================== */
-
-#osNumber{
-
-font-weight:700;
-
-color:#38bdf8;
-
-text-align:center;
-
-font-size:18px;
-
+#osNumber {
+    font-weight: 700;
+    color: #38bdf8;
+    text-align: center;
+    font-size: 18px;
 }
+
 /* ==========================
    FINANCEIRO
 ========================== */
-
-.finance-cards{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-
-gap:15px;
-
-margin-top:15px;
-
+.finance-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
 }
 
-.finance-card{
-
-background:rgba(255,255,255,.05);
-
-border:1px solid rgba(255,255,255,.08);
-
-padding:20px;
-
-border-radius:20px;
-
-text-align:center;
-
-transition:.3s;
-
+.finance-card {
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    transition: .3s;
+    animation: fadeUp .4s ease;
 }
 
-.finance-card:hover{
-
-transform:translateY(-4px);
-
+.finance-card:hover {
+    transform: translateY(-4px);
 }
 
-.finance-card h3{
-
-font-size:28px;
-
-font-weight:700;
-
-color:var(--success);
-
-margin-bottom:8px;
-
+.finance-card h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 8px;
 }
 
-.finance-card p{
-
-font-size:14px;
-
-opacity:.8;
-
+.finance-card p {
+    font-size: 14px;
+    opacity: .8;
 }
 
 /* ==========================
    HISTÓRICO
 ========================== */
-
-#serviceHistory{
-
-display:flex;
-
-flex-direction:column;
-
-gap:12px;
-
+#serviceHistory {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.history-item{
-
-background:rgba(255,255,255,.04);
-
-border:1px solid rgba(255,255,255,.08);
-
-padding:15px;
-
-border-radius:16px;
-
-transition:.3s;
-
+.history-item {
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .08);
+    padding: 15px;
+    border-radius: 16px;
+    transition: .3s;
+    animation: fadeUp .4s ease;
 }
 
-.history-item:hover{
-
-border-color:var(--secondary);
-
+.history-item:hover {
+    border-color: var(--secondary);
 }
 
-.history-item h4{
-
-margin-bottom:8px;
-
-font-size:16px;
-
-color:#38bdf8;
-
+.history-item h4 {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #38bdf8;
 }
 
-.history-item p{
-
-font-size:13px;
-
-line-height:1.6;
-
-opacity:.9;
-
+.history-item p {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: .9;
 }
 
-.empty-history{
-
-text-align:center;
-
-padding:30px;
-
-opacity:.6;
-
+.empty-history {
+    text-align: center;
+    padding: 30px;
+    opacity: .6;
 }
 
 /* ==========================
    GARANTIA
 ========================== */
-
-#warrantyText{
-
-background:#111827;
-
-font-size:13px;
-
-line-height:1.8;
-
-color:white;
-
+#warrantyText {
+    background: #111827;
+    font-size: 13px;
+    line-height: 1.8;
+    color: white;
 }
 
 /* ==========================
    PAINEL ADMIN
 ========================== */
-
-.admin-panel{
-
-background:rgba(239,68,68,.08);
-
-border:1px solid rgba(239,68,68,.2);
-
+.admin-panel {
+    background: rgba(239, 68, 68, .08);
+    border: 1px solid rgba(239, 68, 68, .2);
 }
 
-.admin-actions{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-
-gap:12px;
-
+.admin-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
 }
 
-.admin-actions button{
-
-background:
-linear-gradient(
-135deg,
-#dc2626,
-#ef4444
-);
-
+.admin-actions button {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
 }
 
-.hidden{
-display:none !important;
+.hidden {
+    display: none !important;
 }
 
 /* ==========================
    MODAL
 ========================== */
-
-.modal{
-
-display:none;
-
-position:fixed;
-
-inset:0;
-
-background:rgba(0,0,0,.75);
-
-justify-content:center;
-
-align-items:center;
-
-padding:15px;
-
-z-index:9999;
-
-backdrop-filter:blur(4px);
-
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .75);
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
 }
 
-.modal-content{
-
-background:#1e293b;
-
-width:100%;
-
-max-width:550px;
-
-padding:25px;
-
-border-radius:24px;
-
-position:relative;
-
-box-shadow:
-0 20px 40px rgba(0,0,0,.35);
-
-animation:modalOpen .25s ease;
-
+.modal-content {
+    background: #1e293b;
+    width: 100%;
+    max-width: 550px;
+    padding: 25px;
+    border-radius: 24px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .35);
+    animation: modalOpen .25s ease;
 }
 
-@keyframes modalOpen{
-
-from{
-
-opacity:0;
-transform:translateY(20px);
-
+@keyframes modalOpen {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-to{
-
-opacity:1;
-transform:translateY(0);
-
+.close-modal {
+    position: absolute;
+    right: 18px;
+    top: 12px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    transition: .3s;
 }
 
+.close-modal:hover {
+    color: var(--danger);
 }
 
-.close-modal{
-
-position:absolute;
-
-right:18px;
-
-top:12px;
-
-font-size:30px;
-
-cursor:pointer;
-
-color:white;
-
-transition:.3s;
-
+#modalBody {
+    margin-top: 15px;
+    line-height: 1.8;
+    font-size: 14px;
 }
 
-.close-modal:hover{
-
-color:var(--danger);
-
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-#modalBody{
-
-margin-top:15px;
-
-line-height:1.8;
-
-font-size:14px;
-
+.modal-buttons button {
+    flex: 1;
 }
 
-.modal-buttons{
-
-display:flex;
-
-gap:10px;
-
-margin-top:20px;
-
+.btn-delete {
+    background: linear-gradient(135deg, #dc2626, #ef4444) !important;
 }
 
-.modal-buttons button{
-
-flex:1;
-
+.btn-whatsapp {
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
 }
 
-.btn-delete{
-
-background:
-linear-gradient(
-135deg,
-#dc2626,
-#ef4444
-) !important;
-
+#adminModal input {
+    margin-top: 15px;
 }
 
-.btn-whatsapp{
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#22c55e
-) !important;
-
+#adminModal button {
+    margin-top: 10px;
+    width: 100%;
 }
 
 /* ==========================
-   LOGIN ADMIN
+   MENU INFERIOR (Mobile)
 ========================== */
-
-#adminModal input{
-
-margin-top:15px;
-
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 72px;
+    background: #111827;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 999;
 }
 
-#adminModal button{
+.bottom-menu button {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: white;
+    font-size: 11px;
+    padding: 5px;
+}
 
-margin-top:10px;
+.bottom-menu button i {
+    font-size: 20px;
+    margin: 0;
+}
 
-width:100%;
-
+.bottom-menu button:hover {
+    transform: none;
+    opacity: 1;
+    color: #38bdf8;
 }
 
 /* ==========================
-   MENU INFERIOR
+   CORES DE STATUS OS
 ========================== */
-
-.bottom-menu{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-width:100%;
-
-height:72px;
-
-background:#111827;
-
-border-top:1px solid rgba(255,255,255,.08);
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-z-index:999;
-
-}
-
-.bottom-menu button{
-
-background:none;
-
-border:none;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-justify-content:center;
-
-gap:4px;
-
-color:white;
-
-font-size:11px;
-
-padding:5px;
-
-}
-
-.bottom-menu button i{
-
-font-size:20px;
-
-margin:0;
-
-}
-
-.bottom-menu button:hover{
-
-transform:none;
-
-opacity:1;
-
-color:#38bdf8;
-
-}
+.status-recebido { background: #f59e0b; }
+.status-analise { background: #2563eb; }
+.status-peca { background: #ea580c; }
+.status-finalizado { background: #16a34a; }
+.status-entregue { background: #dc2626; }
 
 /* ==========================
-   STATUS
+   TEMA CLARO (Light Mode)
 ========================== */
-
-.status-recebido{
-
-background:#f59e0b;
-
-}
-
-.status-analise{
-
-background:#2563eb;
-
-}
-
-.status-peca{
-
-background:#ea580c;
-
-}
-
-.status-finalizado{
-
-background:#16a34a;
-
-}
-
-.status-entregue{
-
-background:#dc2626;
-
-}
-
-/* ==========================
-   TEMA CLARO
-========================== */
-
-.light-theme{
-
-background:#f1f5f9;
-
-color:#111827;
-
+.light-theme {
+    background: #f1f5f9;
+    color: #111827;
 }
 
 .light-theme .company-header,
@@ -971,286 +578,131 @@ color:#111827;
 .light-theme .consulta-os,
 .light-theme .finance-section,
 .light-theme .history-section,
-.light-theme .warranty-section{
-
-background:white;
-
-color:#111827;
-
-}
-
-.light-theme .card-dashboard{
-
-background:white;
-
-color:#111827;
-
+.light-theme .warranty-section,
+.light-theme .card-dashboard,
+.light-theme .modal-content,
+.light-theme .bottom-menu {
+    background: white;
+    color: #111827;
 }
 
 .light-theme input,
 .light-theme textarea,
-.light-theme select{
-
-background:#f8fafc;
-
-color:#111827;
-
-border:1px solid #cbd5e1;
-
+.light-theme select {
+    background: #f8fafc;
+    color: #111827;
+    border: 1px solid #cbd5e1;
 }
 
 .light-theme input::placeholder,
-.light-theme textarea::placeholder{
-
-color:#64748b;
-
+.light-theme textarea::placeholder {
+    color: #64748b;
 }
 
-.light-theme .company-contact div{
-
-background:#f1f5f9;
-
-color:#111827;
-
+.light-theme .company-contact div {
+    background: #f1f5f9;
+    color: #111827;
 }
 
-.light-theme .modal-content{
-
-background:white;
-
-color:#111827;
-
+.light-theme .bottom-menu button {
+    color: #111827;
 }
 
-.light-theme .bottom-menu{
-
-background:white;
-
-color:#111827;
-
-}
-
-.light-theme .bottom-menu button{
-
-color:#111827;
-
-}
-
-.light-theme #warrantyText{
-
-background:#f8fafc;
-
-color:#111827;
-
+.light-theme #warrantyText {
+    background: #f8fafc;
+    color: #111827;
 }
 
 /* ==========================
    ANIMAÇÕES
 ========================== */
-
-.card-dashboard,
-.finance-card,
-.history-item{
-
-animation:fadeUp .4s ease;
-
-}
-
-@keyframes fadeUp{
-
-from{
-
-opacity:0;
-transform:translateY(10px);
-
-}
-
-to{
-
-opacity:1;
-transform:translateY(0);
-
-}
-
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================
-   SCROLLBAR
+   SCROLLBAR CUSTOMIZADA
 ========================== */
-
-::-webkit-scrollbar{
-
-width:10px;
-
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-::-webkit-scrollbar-track{
-
-background:#0f172a;
-
+::-webkit-scrollbar-track {
+    background: #0f172a;
 }
 
-::-webkit-scrollbar-thumb{
-
-background:#2563eb;
-
-border-radius:10px;
-
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover{
-
-background:#38bdf8;
-
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
 }
 
 /* ==========================
-   RESPONSIVIDADE TABLET
+   RESPONSIVIDADE (MEDIA QUERIES)
 ========================== */
-
-@media(max-width:992px){
-
-.dashboard{
-
-grid-template-columns:
-repeat(2,1fr);
-
+/* Tablet */
+@media (max-width: 992px) {
+    .dashboard, .finance-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.finance-cards{
-
-grid-template-columns:
-repeat(2,1fr);
-
+/* Celular */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        padding-bottom: 90px;
+    }
+    
+    .logo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .logo-area h1 {
+        font-size: 26px;
+    }
+    
+    .company-contact {
+        flex-direction: column;
+    }
+    
+    .dashboard, .finance-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .top-actions, .modal-buttons {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        padding: 20px;
+    }
+    
+    .section-title h2 {
+        font-size: 18px;
+    }
+    
+    .fc {
+        font-size: 11px !important;
+    }
 }
 
-}
-
-/* ==========================
-   RESPONSIVIDADE CELULAR
-========================== */
-
-@media(max-width:768px){
-
-.container{
-
-padding:10px;
-padding-bottom:90px;
-
-}
-
-.logo{
-
-width:70px;
-height:70px;
-
-}
-
-.logo-area h1{
-
-font-size:26px;
-
-}
-
-.company-contact{
-
-flex-direction:column;
-
-}
-
-.dashboard{
-
-grid-template-columns:1fr;
-
-}
-
-.finance-cards{
-
-grid-template-columns:1fr;
-
-}
-
-.top-actions{
-
-flex-direction:column;
-
-}
-
-.modal-content{
-
-padding:20px;
-
-}
-
-.modal-buttons{
-
-flex-direction:column;
-
-}
-
-.section-title h2{
-
-font-size:18px;
-
-}
-
-.fc{
-
-font-size:11px !important;
-
-}
-
-}
-
-/* ==========================
-   RESPONSIVIDADE PEQUENA
-========================== */
-
-@media(max-width:480px){
-
-.logo-area h1{
-
-font-size:22px;
-
-}
-
-.card-dashboard h2{
-
-font-size:24px;
-
-}
-
-.finance-card h3{
-
-font-size:22px;
-
-}
-
-input,
-textarea,
-select,
-button{
-
-font-size:13px;
-
-}
-
-.bottom-menu{
-
-height:65px;
-
-}
-
-.bottom-menu button i{
-
-font-size:18px;
-
-}
-
-.bottom-menu button span{
-
-font-size:10px;
-
-}
-
+/* Celular Pequeno */
+@media (max-width: 480px) {
+    .logo-area h1 { font-size: 22px; }
+    .card-dashboard h2 { font-size: 24px; }
+    .finance-card h3 { font-size: 22px; }
+    
+    input, textarea, select, button {
+        font-size: 13px;
+    }
+    
+    .bottom-menu { height: 65px; }
+    .bottom-menu button i { font-size: 18px; }
+    .bottom-menu button span { font-size: 10px; }
 }
