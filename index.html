@@ -98,7 +98,7 @@
     <header class="company-header">
       <h1 class="company-name">LeoTecnologia</h1>
       <div class="company-info">
-        <p>Telefone: <a href="tel:+5598999942905">(98) 99994-2905</a></p>
+        <p>Telefone: <a href="tel:+5598999942905">(98) 9 9994-2905</a></p>
         <p>Endereço: Av Três, 77 Parque Araçagy – São Luís, MA</p>
       </div>
     </header>
@@ -133,7 +133,7 @@
           <input type="text" id="clientVehicle" placeholder="Descrição" required />
           <select id="serviceType" required>
             <option value="">Tipo de Serviço</option>
-            <option value="Instalação de Windows">Instação de Windows</option>
+            <option value="Instalação de Windows">Instalação de Windows</option>
             <option value="Remoção de Virus">Remoção de Virus</option>
             <option value="Acesso Remoto">Acesso Remoto</option>
             <option value="Limpeza">Limpeza</option>
@@ -236,9 +236,9 @@
 
     /* ---------- WHATSAPP ---------- */
     function sendWhatsApp(event) {
-      const tel = event.extendedProps.phone.replace(/\D/g, '');
-      const msg = `Olá ${event.title}! Confirmamos seu agendamento para ${event.extendedProps.service} no dia ${new Date(event.start).toLocaleDateString('pt-BR')} às ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}. Endereço: ${event.extendedProps.address}.`;
-      const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+      const fixedNumber = '9899942905'; // número fixo
+      const msg = `Olá ${event.title}! Confirmamos seu agendamento para ${event.extendedProps.service} no dia ${new Date(event.start).toLocaleDateString('pt-BR')} às ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}.\n\nDescrição do serviço: ${event.extendedProps.description || 'Não informado'}\n\nEndereço: ${event.extendedProps.address}`;
+      const url = `https://wa.me/55${fixedNumber}?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
     }
 
@@ -324,7 +324,7 @@
         <p><strong>Horário:</strong> ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
         <p><strong>Telefone:</strong> ${props.phone}</p>
         <p><strong>Endereço:</strong> ${props.address}</p>
-        <p><strong>Veículo:</strong> ${props.description}</p>
+        <p><strong>Veículo:</strong> ${props.vehicle}</p>
         <p><strong>Serviço:</strong> ${props.service}</p>
         <p><strong>Descrição:</strong> ${props.description || '—'}</p>
       `;
