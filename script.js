@@ -1,15 +1,21 @@
-/* ========== VARIÁVEIS GLOBAIS ========== */
+/* =========================================
+   VARIÁVEIS GLOBAIS
+========================================= */
 let calendar;
 const today = new Date().toISOString().split('T')[0];
 
-/* ========== INICIALIZAÇÃO ========== */
+/* =========================================
+   INICIALIZAÇÃO
+========================================= */
 document.addEventListener('DOMContentLoaded', () => {
   initCalendar();
   loadGarantias();
   updateDashboard();
 });
 
-/* ========== CALENDÁRIO ========== */
+/* =========================================
+   CALENDÁRIO
+========================================= */
 function initCalendar() {
   const calendarEl = document.getElementById('calendar');
   calendar = new FullCalendar.Calendar(calendarEl, {
@@ -28,18 +34,44 @@ function initCalendar() {
   calendar.render();
 }
 
-/* ========== EVENTOS ========== */
+/* =========================================
+   EVENTOS (CRUD LOCAL)
+========================================= */
 function loadEvents() {
   return JSON.parse(localStorage.getItem('events')) || [];
 }
 
+function saveEvents(events) {
+  localStorage.setItem('events', JSON.stringify(events));
+}
+
+/* =========================================
+   BLOQUEIO DE HORÁRIO DUPLICADO
+========================================= */
+function isSlotBooked(date, time) {
+  const events = loadEvents();
+  return events.some(e => e.start === `${date}T${time}`);
+}
+
+/* =========================================
+   SALVAR AGENDAMENTO + WHATSAPP
+========================================= */
 function saveEvent(e) {
   e.preventDefault();
+
+  const date = document.getElementById('eventDate').value;
+  const time = document.getElementById('eventTime').value;
+
+  if (isSlotBooked(date, time)) {
+    alert('Horário já ocupado! Escolha outro.');
+    return;
+  }
+
   const events = loadEvents();
   const newEvent = {
     id: Date.now(),
     title: document.getElementById('clientName').value,
-    start: `${document.getElementById('eventDate').value}T${document.getElementById('eventTime').value}`,
+    start: `${date}T${time}`,
     extendedProps: {
       phone: document.getElementById('clientPhone').value,
       address: document.getElementById('clientAddress').value,
@@ -48,15 +80,30 @@ function saveEvent(e) {
       description: document.getElementById('serviceDescription').value
     }
   };
+
   events.push(newEvent);
-  localStorage.setItem('events', JSON.stringify(events));
+  saveEvents(events);
   calendar.addEvent(newEvent);
+
+  sendWhatsApp(newEvent);
   closeEventForm();
   updateDashboard();
   showToast('Agendamento salvo!');
 }
 
-/* ========== DASHBOARD – HOJE ========== */
+/* =========================================
+   ENVIO DE WHATSAPP
+========================================= */
+function sendWhatsApp(event) {
+  const tel = event.extendedProps.phone.replace(/\D/g, '');
+  const msg = `Olá ${event.title}! Confirmamos seu agendamento para *${event.extendedProps.service}* no dia *${new Date(event.start).toLocaleDateString('pt-BR')}* às *${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}*. Endereço: ${event.extendedProps.address}.`;
+  const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+/* =========================================
+   DASHBOARD – HOJE
+========================================= */
 function updateDashboard() {
   const events = loadEvents();
   const todayEvents = events.filter(e => e.start?.startsWith(today));
@@ -80,7 +127,9 @@ function updateDashboard() {
   });
 }
 
-/* ========== GARANTIAS (mock) ========== */
+/* =========================================
+   GARANTIAS (MOCK)
+========================================= */
 function loadGarantias() {
   const garantias = [
     { cliente: 'João Silva', servico: 'Troca de Freio', dias: 25 },
@@ -100,7 +149,9 @@ function loadGarantias() {
   });
 }
 
-/* ========== FORMULÁRIO ========== */
+/* =========================================
+   FORMULÁRIO
+========================================= */
 function openEventForm(date = today, time = '09:00') {
   document.getElementById('eventFormSection').style.display = 'block';
   document.getElementById('eventDate').value = date;
@@ -119,18 +170,23 @@ function generateTimeSlots() {
   grid.innerHTML = '';
   const events = loadEvents();
   const date = document.getElementById('eventDate').value;
+
   for (let h = 8; h < 18; h++) {
     const time = `${h.toString().padStart(2, '0')}:00`;
     const booked = events.some(e => e.start === `${date}T${time}:00`);
     const slot = document.createElement('div');
     slot.className = `time-slot ${booked ? 'booked' : ''}`;
     slot.textContent = time;
-    if (!booked) slot.onclick = () => document.getElementById('eventTime').value = `${time}:00`;
+    if (!booked) {
+      slot.onclick = () => document.getElementById('eventTime').value = `${time}:00`;
+    }
     grid.appendChild(slot);
   }
 }
 
-/* ========== MODAL ========== */
+/* =========================================
+   MODAL
+========================================= */
 function showEventModal(event) {
   const modal = document.getElementById('eventModal');
   const content = document.getElementById('modalContent');
@@ -151,7 +207,9 @@ function closeModal() {
   document.getElementById('eventModal').style.display = 'none';
 }
 
-/* ========== UTILITÁRIOS ========== */
+/* =========================================
+   UTILITÁRIOS
+========================================= */
 function scrollToSection(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
