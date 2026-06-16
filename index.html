@@ -2,17 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Agenda Inteligente</title>
 
   <!-- FullCalendar CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
-  <!-- Ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Fonte -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
 
-  <!-- CSS customizado -->
   <style>
     :root {
       --bg: #f5f7fa;
@@ -27,361 +24,134 @@
       --warning: #ff8b00;
       --danger: #de350b;
       --radius: 12px;
-      --shadow: 0 4px 12px rgba(0, 0, 0, .06);
+      --shadow: 0 4px 12px rgba(0,0,0,.06);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 16px;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      padding-bottom: 70px;
-    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);padding-bottom:70px}
+    .container{max-width:100%;margin:0;padding:12px}
+    @media(min-width:768px){.container{max-width:1140px;margin:0 auto;padding:24px}}
 
-    .container { max-width: 100%; margin: 0; padding: 12px; }
-    @media (min-width: 768px) {
-      .container { max-width: 1140px; margin: 0 auto; padding: 24px; }
-    }
+    .company-header{background:var(--bg-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;text-align:center;margin-bottom:16px}
+    .company-name{font-size:1.5rem;font-weight:700;color:var(--primary)}
+    .company-info p{font-size:.875rem;color:var(--text-muted);margin-top:4px}
+    .company-info a{color:var(--primary);text-decoration:none}
 
-    .company-header {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .company-name { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
-    .company-info p { font-size: 0.875rem; color: var(--text-muted); margin-top: 4px; }
-    .company-info a { color: var(--primary); text-decoration: none; }
+    .today-list{background:var(--bg-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:16px}
+    .today-list h2{font-size:1.125rem;margin-bottom:12px;color:var(--primary)}
+    .today-list ul{list-style:none}
+    .today-list li{padding:10px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px}
+    .today-list li:last-child{border-bottom:none}
+    .today-list li strong{font-weight:600}
+    .today-list li span{font-size:.75rem;color:var(--text-muted)}
+    .today-list li p{font-size:.875rem;color:var(--text-muted)}
 
-    /* Dashboard – lista de hoje */
-    .today-list {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .today-list h2 {
-      font-size: 1.125rem;
-      margin-bottom: 12px;
-      color: var(--primary);
-    }
-    .today-list ul { list-style: none; }
-    .today-list li {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .today-list li:last-child { border-bottom: none; }
-    .today-list li strong { font-weight: 600; }
-    .today-list li span {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-    .today-list li p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
+    .garantia-box{background:var(--bg-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:16px}
+    .garantia-box h2{font-size:1.125rem;margin-bottom:12px;color:var(--text)}
+    .garantia-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;font-size:.875rem;background:var(--primary-light)}
+    .garantia-badge{padding:4px 8px;border-radius:var(--radius);font-size:.75rem;font-weight:600;color:#fff}
+    .garantia-badge.green{background:var(--success)}
+    .garantia-badge.warning{background:var(--warning)}
+    .garantia-badge.danger{background:var(--danger)}
 
-    .garantia-box {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .garantia-box h2 {
-      font-size: 1.125rem;
-      margin-bottom: 12px;
-      color: var(--text);
-    }
-    .garantia-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 8px;
-      font-size: 0.875rem;
-      background: var(--primary-light);
-    }
-    .garantia-badge {
-      padding: 4px 8px;
-      border-radius: var(--radius);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #fff;
-    }
-    .garantia-badge.green { background: var(--success); }
-    .garantia-badge.warning { background: var(--warning); }
-    .garantia-badge.danger { background: var(--danger); }
+    .top-actions{display:flex;gap:12px;margin-bottom:16px}
+    .top-actions button,.top-actions input{flex:1;padding:12px;font-size:.875rem;border:none;border-radius:var(--radius)}
+    .top-actions button{background:var(--primary);color:#fff;font-weight:600;cursor:pointer}
+    .top-actions input{background:var(--bg-card);border:1px solid var(--border);color:var(--text)}
 
-    .top-actions {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .top-actions button,
-    .top-actions input {
-      flex: 1;
-      padding: 12px;
-      font-size: 0.875rem;
-      border: none;
-      border-radius: var(--radius);
-    }
-    .top-actions button {
-      background: var(--primary);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .top-actions input {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
+    .calendar-box{background:var(--bg-card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+    #calendar{font-size:.875rem;padding:8px}
 
-    .calendar-box {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-    }
-    #calendar {
-      font-size: 0.875rem;
-      padding: 8px;
-    }
+    .event-form{background:var(--bg-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .event-form h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+    .times-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+    .time-slot{padding:12px 8px;border:1px solid var(--border);border-radius:var(--radius);background:var(--primary-light);font-size:.875rem;text-align:center;cursor:pointer;transition:.2s}
+    .time-slot.booked{background:var(--danger);color:#fff;cursor:not-allowed}
+    .form-grid{display:flex;flex-direction:column;gap:12px}
+    .form-grid input,.form-grid select,.form-grid textarea{padding:14px;border:1px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font);background:var(--bg-card);color:var(--text)}
+    .button-grid{display:flex;gap:12px;margin-top:16px}
+    .button-grid button{flex:1;padding:14px;font-size:1rem;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer}
+    #saveBtn{background:var(--success);color:#fff}
 
-    .event-form {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-    }
-    .event-form h2 {
-      font-size: 1.25rem;
-      margin-bottom: 16px;
-      color: var(--text);
-    }
-    .times-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .time-slot {
-      padding: 12px 8px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--primary-light);
-      font-size: 0.875rem;
-      text-align: center;
-      cursor: pointer;
-      transition: .2s;
-    }
-    .time-slot.booked {
-      background: var(--danger);
-      color: #fff;
-      cursor: not-allowed;
-    }
-    .form-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .form-grid input,
-    .form-grid select,
-    .form-grid textarea {
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 1rem;
-      font-family: var(--font);
-      background: var(--bg-card);
-      color: var(--text);
-    }
-    .button-grid {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .button-grid button {
-      flex: 1;
-      padding: 14px;
-      font-size: 1rem;
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      cursor: pointer;
-    }
-    #saveBtn {
-      background: var(--success);
-      color: #fff;
-    }
+    .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.4)}
+    .modal-content{background:var(--bg-card);margin:10% auto;padding:20px;border-radius:var(--radius);width:95%;max-width:400px;position:relative}
+    .close-modal{position:absolute;top:12px;right:16px;font-size:1.5rem;cursor:pointer;border:none;background:none;color:var(--text)}
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, .4);
-    }
-    .modal-content {
-      background: var(--bg-card);
-      margin: 10% auto;
-      padding: 20px;
-      border-radius: var(--radius);
-      width: 95%;
-      max-width: 400px;
-      position: relative;
-    }
-    .close-modal {
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      border: none;
-      background: none;
-      color: var(--text);
-    }
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--bg-card);display:flex;box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:1000}
+    .bottom-nav button{flex:1;padding:12px;border:none;background:none;font-size:.75rem;color:var(--text-muted);cursor:pointer}
 
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--bg-card);
-      display: flex;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, .06);
-      z-index: 1000;
-    }
-    .bottom-nav button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      background: none;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
+    .success-message{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:12px 20px;border-radius:var(--radius);z-index:9999;font-size:.875rem}
 
-    .success-message {
-      position: fixed;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--success);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: var(--radius);
-      z-index: 9999;
-      font-size: 0.875rem;
-    }
-
-    @media (min-width: 768px) {
-      body { padding-bottom: 0; }
-      .times-grid { grid-template-columns: repeat(6, 1fr); }
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-      .form-grid .full-width { grid-column: 1 / -1; }
-      .bottom-nav { display: none; }
+    @media(min-width:768px){
+      body{padding-bottom:0}
+      .times-grid{grid-template-columns:repeat(6,1fr)}
+      .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      .form-grid .full-width{grid-column:1/-1}
+      .bottom-nav{display:none}
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <!-- Cabeçalho -->
     <header class="company-header">
-      <h1 class="company-name">LeoTecnologia</h1>
+      <h1 class="company-name">Agenda Inteligente</h1>
       <div class="company-info">
-        <p>Telefone: <a href="tel:+559899994-2905">(98) 99994-2905</a></p>
-        <p>Endereço: Av Três, 70 Parque Araçagy – São Luís, MA</p>
+        <p>Telefone: <a href="tel:+559999999999">(99) 99999-9999</a></p>
+        <p>Endereço: Rua Exemplo, 123 – São Luís, MA</p>
       </div>
     </header>
 
-    <!-- Lista de agendamentos de hoje -->
     <section class="today-list">
       <h2>Hoje – Agendamentos</h2>
-      <ul id="todayEventsList">
-        <!-- preenchido via JS -->
-      </ul>
+      <ul id="todayEventsList"></ul>
     </section>
 
-    <!-- Garantias -->
     <section class="garantia-box">
       <h2>Garantias Pendentes</h2>
-      <div id="garantiaList">
-        <!-- preenchido via JS -->
-      </div>
+      <div id="garantiaList"></div>
     </section>
 
-    <!-- Ações rápidas -->
     <section class="top-actions">
       <button onclick="openEventForm()"><i class="fas fa-plus"></i> Novo Agendamento</button>
       <input type="search" placeholder="Buscar cliente..." onkeyup="searchEvents(this.value)">
     </section>
 
-    <!-- Calendário -->
     <section class="calendar-box">
       <div id="calendar"></div>
     </section>
 
-    <!-- Formulário de evento -->
     <section id="eventFormSection" class="event-form" style="display:none;">
       <h2>Novo Agendamento</h2>
-
-      <div class="times-grid" id="timesGrid">
-        <!-- preenchido via JS -->
-      </div>
-
+      <div class="times-grid" id="timesGrid"></div>
       <form id="eventForm" onsubmit="saveEvent(event)">
         <div class="form-grid">
           <input type="text" id="clientName" placeholder="Nome do Cliente" required />
-          <input type="tel" id="clientPhone" placeholder="Telefone" required />
+          <input type="tel" id="clientPhone" placeholder="Telefone (com DDD)" required />
           <input type="text" id="clientAddress" placeholder="Endereço" required />
-          <input type="text" id="clientVehicle" placeholder="Serviço" required />
+          <input type="text" id="clientVehicle" placeholder="Veículo" required />
           <select id="serviceType" required>
             <option value="">Tipo de Serviço</option>
-            <option value="Revisão">Manutenção</option>
-            <option value="Troca de Óleo">Eletrica</option>
-            <option value="Freios">Manicure e Pedicure</option>
-            <option value="Suspensão">Acesso Remoto</option>
-            <option value="Elétrica">Instalacao de Software</option>
+            <option value="Revisão">Revisão</option>
+            <option value="Troca de Óleo">Troca de Óleo</option>
+            <option value="Freios">Freios</option>
+            <option value="Suspensão">Suspensão</option>
+            <option value="Elétrica">Elétrica</option>
             <option value="Outro">Outro</option>
           </select>
           <textarea id="serviceDescription" placeholder="Descrição do Serviço" rows="3" class="full-width"></textarea>
           <input type="hidden" id="eventDate" />
           <input type="hidden" id="eventTime" />
         </div>
-
         <div class="button-grid">
-          <button type="submit" id="saveBtn">Salvar</button>
+          <button type="submit" id="saveBtn">Salvar & Enviar WhatsApp</button>
           <button type="button" onclick="closeEventForm()">Cancelar</button>
         </div>
       </form>
     </section>
   </div>
 
-  <!-- Modal de detalhes -->
   <div id="eventModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -390,37 +160,31 @@
     </div>
   </div>
 
-  <!-- Navegação inferior (mobile) -->
   <nav class="bottom-nav">
     <button onclick="scrollToSection('calendar')"><i class="fas fa-calendar"></i><br>Calendário</button>
     <button onclick="scrollToSection('today-list')"><i class="fas fa-list"></i><br>Hoje</button>
     <button onclick="scrollToSection('garantia-box')"><i class="fas fa-tools"></i><br>Garantias</button>
   </nav>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script>
-    /* ---------- Variáveis globais ---------- */
+    /* ---------- VARIÁVEIS ---------- */
     let calendar;
     const today = new Date().toISOString().split('T')[0];
 
-    /* ---------- Inicialização ---------- */
+    /* ---------- INICIALIZAÇÃO ---------- */
     document.addEventListener('DOMContentLoaded', () => {
       initCalendar();
       loadGarantias();
       updateDashboard();
     });
 
-    /* ---------- Calendário ---------- */
+    /* ---------- CALENDÁRIO ---------- */
     function initCalendar() {
       const calendarEl = document.getElementById('calendar');
       calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
         locale: 'pt-br',
         slotMinTime: '08:00:00',
         slotMaxTime: '18:00:00',
@@ -430,18 +194,30 @@
       calendar.render();
     }
 
-    /* ---------- Eventos ---------- */
+    /* ---------- EVENTOS ---------- */
     function loadEvents() {
       return JSON.parse(localStorage.getItem('events')) || [];
     }
 
+    function isSlotBooked(date, time) {
+      const events = loadEvents();
+      return events.some(e => e.start === `${date}T${time}`);
+    }
+
     function saveEvent(e) {
       e.preventDefault();
+      const date = document.getElementById('eventDate').value;
+      const time = document.getElementById('eventTime').value;
+      if (isSlotBooked(date, time)) {
+        alert('Horário já ocupado! Escolha outro.');
+        return;
+      }
+
       const events = loadEvents();
       const newEvent = {
         id: Date.now(),
         title: document.getElementById('clientName').value,
-        start: `${document.getElementById('eventDate').value}T${document.getElementById('eventTime').value}`,
+        start: `${date}T${time}`,
         extendedProps: {
           phone: document.getElementById('clientPhone').value,
           address: document.getElementById('clientAddress').value,
@@ -453,23 +229,30 @@
       events.push(newEvent);
       localStorage.setItem('events', JSON.stringify(events));
       calendar.addEvent(newEvent);
+      sendWhatsApp(newEvent);
       closeEventForm();
       updateDashboard();
       showToast('Agendamento salvo!');
     }
 
-    /* ---------- Dashboard – lista de hoje ---------- */
+    /* ---------- WHATSAPP ---------- */
+    function sendWhatsApp(event) {
+      const tel = event.extendedProps.phone.replace(/\D/g, '');
+      const msg = `Olá ${event.title}! Confirmamos seu agendamento para ${event.extendedProps.service} no dia ${new Date(event.start).toLocaleDateString('pt-BR')} às ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}. Endereço: ${event.extendedProps.address}.`;
+      const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    /* ---------- DASHBOARD HOJE ---------- */
     function updateDashboard() {
       const events = loadEvents();
       const todayEvents = events.filter(e => e.start?.startsWith(today));
       const listEl = document.getElementById('todayEventsList');
       listEl.innerHTML = '';
-
       if (todayEvents.length === 0) {
         listEl.innerHTML = '<li style="color:#4d4d4d">Nenhum agendamento hoje.</li>';
         return;
       }
-
       todayEvents.forEach(ev => {
         const li = document.createElement('li');
         const time = new Date(ev.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -482,7 +265,7 @@
       });
     }
 
-    /* ---------- Garantias ---------- */
+    /* ---------- GARANTIAS ---------- */
     function loadGarantias() {
       const garantias = [
         { cliente: 'João Silva', servico: 'Troca de Freio', dias: 25 },
@@ -493,7 +276,7 @@
       garantias.forEach(g => {
         const div = document.createElement('div');
         div.className = 'garantia-item';
-        let badgeClass = g.dias > 20 ? 'green' : g.dias > 10 ? 'warning' : 'danger';
+        const badgeClass = g.dias > 20 ? 'green' : g.dias > 10 ? 'warning' : 'danger';
         div.innerHTML = `
           <span>${g.cliente} – ${g.servico}</span>
           <span class="garantia-badge ${badgeClass}">${g.dias} dias</span>
@@ -502,7 +285,7 @@
       });
     }
 
-    /* ---------- Formulário ---------- */
+    /* ---------- FORMULÁRIO ---------- */
     function openEventForm(date = today, time = '09:00') {
       document.getElementById('eventFormSection').style.display = 'block';
       document.getElementById('eventDate').value = date;
@@ -532,7 +315,7 @@
       }
     }
 
-    /* ---------- Modal ---------- */
+    /* ---------- MODAL ---------- */
     function showEventModal(event) {
       const modal = document.getElementById('eventModal');
       const content = document.getElementById('modalContent');
@@ -553,7 +336,7 @@
       document.getElementById('eventModal').style.display = 'none';
     }
 
-    /* ---------- Utilitários ---------- */
+    /* ---------- OUTROS ---------- */
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
