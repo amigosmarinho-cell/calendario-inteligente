@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initCalendar() {
   const calendarEl = document.getElementById('calendar');
   calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: window.innerWidth < 768 ? 'listWeek' : 'timeGridWeek',
+    initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
     locale: 'pt-br',
     height: 'auto',
     headerToolbar: {
