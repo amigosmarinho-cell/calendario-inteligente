@@ -69,6 +69,12 @@
         opacity: 0.6;
         pointer-events: none;
     }
+    
+    .current-time {
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 10px;
+    }
 </style>
 </head>
 <body>
@@ -160,6 +166,12 @@ FORMULÁRIO
         <i class="fas fa-info-circle"></i> 
         Cada horário marcado representa 1 hora de atendimento
     </p>
+    
+    <!-- HORA ATUAL -->
+    <div class="current-time" id="currentTime">
+        <i class="fas fa-clock"></i>
+        <span id="currentDateTime"></span>
+    </div>
     
     <!-- HORÁRIOS -->
     <div class="times-grid" role="group" aria-label="Horários disponíveis">
@@ -298,20 +310,41 @@ function showSuccessMessage(message) {
     setTimeout(() => successDiv.remove(), 3000);
 }
 
+// Função para atualizar hora e data atual
+function updateCurrentTime() {
+    const now = new Date();
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    const formatted = now.toLocaleDateString('pt-BR', options);
+    document.getElementById('currentDateTime').textContent = formatted;
+}
+
+// Atualizar hora a cada segundo
+setInterval(updateCurrentTime, 1000);
+updateCurrentTime();
+
 // Função para marcar horários ocupados
 function updateBookedTimes() {
-    const today = new Date().toISOString().split('T')[0];
+    const selectedDate = document.getElementById('start').value.split('T')[0];
     const events = JSON.parse(localStorage.getItem('events')) || [];
     
     // Resetar todos os horários
     document.querySelectorAll('.time-slot').forEach(slot => {
         slot.classList.remove('booked');
         slot.disabled = false;
+        slot.title = '';
     });
     
     // Marcar horários ocupados
     events.forEach(event => {
-        if (event.start && event.start.startsWith(today)) {
+        if (event.start && event.start.startsWith(selectedDate)) {
             const time = event.start.split('T')[1].substring(0, 5);
             const slot = document.querySelector(`[data-time="${time}"]`);
             if (slot) {
@@ -323,38 +356,245 @@ function updateBookedTimes() {
     });
 }
 
-// Atualizar horários quando o calendário mudar
-document.addEventListener('DOMContentLoaded', function() {
-    updateBookedTimes();
+// Função para selecionar horário
+function selectTime(time) {
+    const startInput = document.getElementById('start');
+    const currentDate = startInput.value ? startInput.value.split('T')[0] : new Date().toISOString().split('T')[0];
     
-    // Atualizar também quando mudar de dia no calendário
-    if (window.calendar) {
-        window.calendar.on('datesSet', updateBookedTimes);
+    if (startInput.value === '') {
+        // Se não houver data selecionada, usar data atual
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        startInput.value = `${formattedDate}T${time}`;
+    } else {
+        // Manter data selecionada e apenas alterar hora
+        startInput.value = `${currentDate}T${time}`;
     }
+    
+    updateBookedTimes();
+}
+
+// Função para carregar data/hora atual no formulário
+function loadCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    document.getElementById('start').value = currentDateTime;
+    
+    // Atualizar horários ocupados
+    updateBookedTimes();
+}
+
+// Atualizar quando mudar a data
+document.getElementById('start').addEventListener('change', updateBookedTimes);
+
+// Configurar calendário com visualização semanal
+document.addEventListener('DOMContentLoaded', function() {
+    loadCurrentDateTime();
+    
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek',
+        locale: 'pt-br',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        buttonText: {
+            today: 'Hoje',
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia'
+        },
+        slotMinTime: '08:00:00',
+        slotMaxTime: '18:00:00',
+        businessHours: {
+            daysOfWeek: [1, 2, 3, 4, 5, 6],
+            startTime: '08:00',
+            endTime: '18:00'
+        },
+        events: function(fetchInfo, successCallback, failureCallback) {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            successCallback(events);
+        },
+        eventClick: function(info) {
+            openModal(info.event);
+        },
+        dateClick: function(info) {
+            document.getElementById('start').value = info.dateStr.substring(0, 16);
+            updateBookedTimes();
+        },
+        datesSet: function() {
+            updateBookedTimes();
+            updateDashboard();
+        }
+    });
+    
+    calendar.render();
+    window.calendar = calendar;
+    
+    // Atualizar dashboard inicial
+    updateDashboard();
 });
 
+// Função para atualizar dashboard
+function updateDashboard() {
+    const today = new Date().toISOString().split('T')[0];
+    const events = JSON.parse(localStorage.getItem('events')) || [];
+    
+    const todayEvents = events.filter(e => e.start && e.start.startsWith(today));
+    const freeSlots = 9 - todayEvents.length; // 9 horários disponíveis por dia
+    const uniqueClients = [...new Set(events.map(e => e.title))];
+    
+    document.getElementById('todayCount').textContent = todayEvents.length;
+    document.getElementById('freeCount').textContent = Math.max(0, freeSlots);
+    document.getElementById('clientCount').textContent = uniqueClients.length;
+}
+
 // Adicionar ao addEvent() original
-const originalAddEvent = addEvent;
 window.addEvent = function() {
-    const result = originalAddEvent();
-    if (result !== false) {
-        updateBookedTimes();
-        showSuccessMessage('✅ Agendamento salvo com sucesso!');
+    const serviceType = document.getElementById('serviceType').value;
+    const statusService = document.getElementById('statusService').value;
+    const clientName = document.getElementById('clientName').value;
+    const clientPhone = document.getElementById('clientPhone').value;
+    const description = document.getElementById('description').value;
+    const start = document.getElementById('start').value;
+    
+    if (!serviceType || !clientName || !clientPhone || !description || !start) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return false;
     }
-    return result;
+    
+    const events = JSON.parse(localStorage.getItem('events')) || [];
+    
+    // Verificar se já existe agendamento no mesmo horário
+    const existingEvent = events.find(e => e.start === start);
+    if (existingEvent) {
+        alert('Este horário já está agendado. Por favor, escolha outro horário.');
+        return false;
+    }
+    
+    const newEvent = {
+        id: Date.now(),
+        title: clientName,
+        start: start,
+        end: new Date(new Date(start).getTime() + 60 * 60 * 1000).toISOString().slice(0, 16),
+        description: description,
+        serviceType: serviceType,
+        status: statusService,
+        phone: clientPhone,
+        color: getColorByStatus(statusService)
+    };
+    
+    events.push(newEvent);
+    localStorage.setItem('events', JSON.stringify(events));
+    
+    if (window.calendar) {
+        window.calendar.refetchEvents();
+    }
+    
+    updateBookedTimes();
+    updateDashboard();
+    showSuccessMessage('✅ Agendamento salvo com sucesso!');
+    
+    // Limpar formulário
+    document.querySelector('form').reset();
+    loadCurrentDateTime();
+    
+    return true;
 };
 
-// Adicionar ao deleteSelectedEvent() original
-const originalDeleteEvent = deleteSelectedEvent;
+// Função auxiliar para cores por status
+function getColorByStatus(status) {
+    const colors = {
+        'Agendado': '#ffc107',
+        'Em andamento': '#007bff',
+        'Finalizado': '#28a745',
+        'Cancelado': '#dc3545'
+    };
+    return colors[status] || '#6c757d';
+}
+
+// Função para deletar evento
 window.deleteSelectedEvent = function() {
-    const result = originalDeleteEvent();
-    if (result !== false) {
+    if (!window.selectedEvent) return false;
+    
+    if (confirm('Tem certeza que deseja excluir este agendamento?')) {
+        const events = JSON.parse(localStorage.getItem('events')) || [];
+        const updatedEvents = events.filter(e => e.id !== window.selectedEvent.id);
+        localStorage.setItem('events', JSON.stringify(updatedEvents));
+        
+        if (window.calendar) {
+            window.calendar.refetchEvents();
+        }
+        
         updateBookedTimes();
+        updateDashboard();
+        closeModal();
         showSuccessMessage('🗑️ Agendamento removido com sucesso!');
     }
-    return result;
+    
+    return true;
 };
+
+// Funções auxiliares
+function closeModal() {
+    document.getElementById('eventModal').style.display = 'none';
+    window.selectedEvent = null;
+}
+
+function openModal(event) {
+    window.selectedEvent = event;
+    document.getElementById('modalTitle').textContent = event.title;
+    document.getElementById('modalDescription').textContent = event.extendedProps.description || '';
+    document.getElementById('modalDate').textContent = new Date(event.start).toLocaleString('pt-BR');
+    document.getElementById('eventModal').style.display = 'block';
+}
+
+function exportBackup() {
+    const events = JSON.parse(localStorage.getItem('events')) || [];
+    const dataStr = JSON.stringify(events, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `backup-agenda-${new Date().toISOString().split('T')[0]}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+}
+
+function searchEvents() {
+    const searchTerm = document.getElementById('searchClient').value.toLowerCase();
+    if (window.calendar && searchTerm) {
+        const events = JSON.parse(localStorage.getItem('events')) || [];
+        const filteredEvents = events.filter(e => 
+            e.title.toLowerCase().includes(searchTerm) || 
+            e.description.toLowerCase().includes(searchTerm)
+        );
+        
+        if (filteredEvents.length > 0) {
+            const firstEvent = filteredEvents[0];
+            window.calendar.gotoDate(firstEvent.start);
+        }
+    }
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+}
+
+// Carregar tema salvo
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+}
 </script>
-<script defer src="script.js"></script>
 </body>
 </html>
