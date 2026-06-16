@@ -1,284 +1,216 @@
-// =========================================
-// VARIÁVEIS GLOBAIS
-// =========================================
-let calendar;
-let selectedEvent = null;
+/* =========================================================
+   AGENDA INTELIGENTE – JavaScript Completo (Mobile-First)
+   ========================================================= */
 
-// =========================================
-// INICIALIZAÇÃO
-// =========================================
-document.addEventListener('DOMContentLoaded', function () {
-    initCalendar();
-    updateDashboard();
-    updateBookedTimes();
-    loadTheme();
+/* ---------------------------------------------------------
+   VARIÁVEIS GLOBAIS
+   --------------------------------------------------------- */
+let calendar;          // instância FullCalendar
+let selectedEvent = null; // evento selecionado no modal
+
+/* ---------------------------------------------------------
+   INICIALIZAÇÃO
+   --------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  initCalendar();
+  loadCurrentTime();
+  setInterval(loadCurrentTime, 60_000); // atualiza relógio a cada minuto
+  updateDashboard();
+  applyStoredTheme();
 });
 
-// =========================================
-// CALENDÁRIO FULLCALENDAR
-// =========================================
+/* ---------------------------------------------------------
+   FULLCALENDAR
+   --------------------------------------------------------- */
 function initCalendar() {
-    const calendarEl = document.getElementById('calendar');
-    calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridWeek',
-        locale: 'pt-br',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        buttonText: {
-            today: 'Hoje',
-            month: 'Mês',
-            week: 'Semana',
-            day: 'Dia'
-        },
-        slotMinTime: '08:00:00',
-        slotMaxTime: '18:00:00',
-        businessHours: {
-            daysOfWeek: [1, 2, 3, 4, 5, 6],
-            startTime: '08:00',
-            endTime: '18:00'
-        },
-        events: function (fetchInfo, successCallback) {
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            successCallback(events);
-        },
-        eventClick: function (info) {
-            openModal(info.event);
-        },
-        dateClick: function (info) {
-            document.getElementById('start').value = info.dateStr.substring(0, 16);
-            updateBookedTimes();
-        },
-        datesSet: function () {
-            updateBookedTimes();
-            updateDashboard();
-        }
-    });
-    calendar.render();
+  const calendarEl = document.getElementById('calendar');
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: window.innerWidth < 768 ? 'listWeek' : 'timeGridWeek',
+    locale: 'pt-br',
+    height: 'auto',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: window.innerWidth < 768 ? '' : 'dayGridMonth,timeGridWeek'
+    },
+    slotMinTime: '08:00',
+    slotMaxTime: '18:00',
+    events: fetchEvents,
+    eventClick: handleEventClick,
+    datesSet: updateDashboard
+  });
+  calendar.render();
 }
 
-// =========================================
-// FUNÇÕES DE EVENTOS
-// =========================================
+function fetchEvents(info, successCallback) {
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  successCallback(events);
+}
+
+/* ---------------------------------------------------------
+   CRUD DE EVENTOS
+   --------------------------------------------------------- */
 function addEvent() {
-    const serviceType = document.getElementById('serviceType').value;
-    const statusService = document.getElementById('statusService').value;
-    const clientName = document.getElementById('clientName').value;
-    const clientPhone = document.getElementById('clientPhone').value;
-    const description = document.getElementById('description').value;
-    const start = document.getElementById('start').value;
+  const form = {
+    title: getValue('clientName'),
+    start: getValue('start'),
+    description: getValue('description'),
+    serviceType: getValue('serviceType'),
+    status: getValue('statusService'),
+    phone: getValue('clientPhone')
+  };
 
-    if (!serviceType || !clientName || !clientPhone || !description || !start) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return false;
-    }
+  if (!form.title || !form.start) {
+    alert('Preencha nome e horário');
+    return;
+  }
 
-    const events = JSON.parse(localStorage.getItem('events')) || [];
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  if (events.find(e => e.start === form.start)) {
+    alert('Horário já ocupado');
+    return;
+  }
 
-    // Verificar conflito de horário
-    const conflict = events.find(e => e.start === start);
-    if (conflict) {
-        alert('Este horário já está agendado.        return false;
-    }
+  events.push({
+    id: Date.now(),
+    ...form,
+    color: {
+      Agendado: '#ffc107',
+      'Em andamento': '#007bff',
+      Finalizado: '#28a745',
+      Cancelado: '#dc3545'
+    }[form.status]
+  });
 
-    const newEvent = {
-        id: Date.now(),
-        title: clientName,
-        start: start,
-        end: new Date(new Date(start).getTime() + 60 * 60 * 1000).toISOString().slice(0, 16),
-        description: description,
-        serviceType: serviceType,
-        status: statusService,
-        phone: clientPhone,
-        color: getColorByStatus(statusService)
-    };
-
-    events.push(newEvent);
-    localStorage.setItem('events', JSON.stringify(events));
-
-    calendar.refetchEvents();
-    updateBookedTimes();
-    updateDashboard();
-    showSuccessMessage('✅ Agendamento salvo com sucesso!');
-    resetForm();
-    return true;
+  localStorage.setItem('events', JSON.stringify(events));
+  calendar.refetchEvents();
+  updateDashboard();
+  showToast('✅ Agendamento salvo');
+  resetForm();
 }
 
 function deleteSelectedEvent() {
-    if (!selectedEvent) return false;
+  if (!selectedEvent || !confirm('Confirma exclusão?')) return;
 
-    if (confirm('Tem certeza que deseja excluir este agendamento?')) {
-        const events = JSON.parse(localStorage.getItem('events')) || [];
-        const updatedEvents = events.filter(e => e.id !== selectedEvent.id);
-        localStorage.setItem('events', JSON.stringify(updatedEvents));
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  const filtered = events.filter(e => e.id !== selectedEvent.id);
+  localStorage.setItem('events', JSON.stringify(filtered));
 
-        calendar.refetchEvents();
-        updateBookedTimes();
-        updateDashboard();
-        closeModal();
-        showSuccessMessage('🗑️ Agendamento removido com sucesso!');
-    }
-    return true;
+  calendar.refetchEvents();
+  updateDashboard();
+  closeModal();
+  showToast('🗑️ Excluído');
 }
 
-// =========================================
-// FUNÇÕES AUXILIARES
-// =========================================
-function updateBookedTimes() {
-    const selectedDate = document.getElementById('start').value.split('T')[0];
-    const events = JSON.parse(localStorage.getItem('events')) || [];
-
-    document.querySelectorAll('.time-slot').forEach(slot => {
-        slot.classList.remove('booked');
-        slot.disabled = false;
-        slot.title = '';
-    });
-
-    events.forEach(event => {
-        if (event.start && event.start.startsWith(selectedDate)) {
-            const time = event.start.split('T')[1].substring(0, 5);
-            const slot = document.querySelector(`[data-time="${time}"]`);
-            if (slot) {
-                slot.classList.add('booked');
-                slot.disabled = true;
-                slot.title = `Horário ${time} já agendado`;
-            }
-        }
-    });
+/* ---------------------------------------------------------
+   UTILITÁRIOS DE FORMULÁRIO
+   --------------------------------------------------------- */
+function resetForm() {
+  document.querySelector('form').reset();
+  loadCurrentTime();
 }
 
-function updateDashboard() {
-    const today = new Date().toISOString().split('T')[0];
-    const events = JSON.parse(localStorage.getItem('events')) || [];
-
-    const todayEvents = events.filter(e => e.start && e.start.startsWith(today));
-    const freeSlots = 9 - todayEvents.length;
-    const uniqueClients = [...new Set(events.map(e => e.title))];
-
-    document.getElementById('todayCount').textContent = todayEvents.length;
-    document.getElementById('freeCount').textContent = Math.max(0, freeSlots);
-    document.getElementById('clientCount').textContent = uniqueClients.length;
-}
-
-function loadCurrentDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    document.getElementById('start').value = `${year}-${month}-${day}T${hours}:${minutes}`;
-    updateBookedTimes();
+function loadCurrentTime() {
+  const now = new Date();
+  const date = now.toISOString().slice(0, 16);
+  setValue('start', date);
+  updateBookedTimes();
 }
 
 function selectTime(time) {
-    const startInput = document.getElementById('start');
-    const currentDate = startInput.value ? startInput.value.split('T')[0] : new Date().toISOString().split('T')[0];
-    startInput.value = `${currentDate}T${time}`;
-    updateBookedTimes();
+  const date = getValue('start')?.split('T')[0] || new Date().toISOString().split('T')[0];
+  setValue('start', `${date}T${time}`);
+  updateBookedTimes();
 }
 
-function resetForm() {
-    document.querySelector('form').reset();
-    loadCurrentDateTime();
+function updateBookedTimes() {
+  const date = getValue('start')?.split('T')[0] || new Date().toISOString().split('T')[0];
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  document.querySelectorAll('.time-slot').forEach(slot => {
+    const time = slot.dataset.time;
+    const isBooked = events.some(e => e.start === `${date}T${time}`);
+    slot.classList.toggle('booked', isBooked);
+    slot.disabled = isBooked;
+  });
 }
 
-function getColorByStatus(status) {
-    const colors = {
-        'Agendado': '#ffc107',
-        'Em andamento': '#007bff',
-        'Finalizado': '#28a745',
-        'Cancelado': '#dc3545'
-    };
-    return colors[status] || '#6c757d';
+/* ---------------------------------------------------------
+   DASHBOARD
+   --------------------------------------------------------- */
+function updateDashboard() {
+  const today = new Date().toISOString().split('T')[0];
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  const todayEvents = events.filter(e => e.start?.startsWith(today));
+  const freeSlots = Math.max(0, 9 - todayEvents.length);
+  const uniqueClients = [...new Set(events.map(e => e.title))];
+
+  setText('todayCount', todayEvents.length);
+  setText('freeCount', freeSlots);
+  setText('clientCount', uniqueClients.length);
 }
 
-function showSuccessMessage(message) {
-    const successDiv = document.createElement('div');
-    successDiv.className = 'success-message';
-    successDiv.textContent = message;
-    document.body.appendChild(successDiv);
-    setTimeout(() => successDiv.remove(), 3000);
-}
-
-// =========================================
-// MODAL
-// =========================================
+/* ---------------------------------------------------------
+   MODAL
+   --------------------------------------------------------- */
 function openModal(event) {
-    selectedEvent = event;
-    document.getElementById('modalTitle').textContent = event.title;
-    document.getElementById('modalDescription').textContent = event.extendedProps.description || '';
-    document.getElementById('modalDate').textContent = new Date(event.start).toLocaleString('pt-BR');
-    document.getElementById('eventModal').style.display = 'block';
+  selectedEvent = event;
+  setText('modalTitle', event.title);
+  setText('modalDescription', event.extendedProps.description || '');
+  setText('modalDate', new Date(event.start).toLocaleString('pt-BR'));
+  showModal();
 }
 
+function showModal() {
+  document.getElementById('eventModal').style.display = 'block';
+}
 function closeModal() {
-    document.getElementById('eventModal').style.display = 'none';
-    selectedEvent = null;
+  document.getElementById('eventModal').style.display = 'none';
+  selectedEvent = null;
 }
 
-// =========================================
-// UTILITÁRIOS
-// =========================================
-function exportBackup() {
-    const events = JSON.parse(localStorage.getItem('events')) || [];
-    const dataStr = JSON.stringify(events, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-    const exportFileDefaultName = `backup-agenda-${new Date().toISOString().split('T')[0]}.json`;
-
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-}
-
-function searchEvents() {
-    const searchTerm = document.getElementById('searchClient').value.toLowerCase();
-    if (searchTerm) {
-        const events = JSON.parse(localStorage.getItem('events')) || [];
-        const filteredEvents = events.filter(e =>
-            e.title.toLowerCase().includes(searchTerm) ||
-            e.description.toLowerCase().includes(searchTerm)
-        );
-
-        if (filteredEvents.length > 0) {
-            calendar.gotoDate(filteredEvents[0].start);
-        }
-    }
-}
-
+/* ---------------------------------------------------------
+   TEMA
+   --------------------------------------------------------- */
 function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+  document.body.classList.toggle('dark-theme');
+  const isDark = document.body.classList.contains('dark-theme');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+function applyStoredTheme() {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+  }
 }
 
-function loadTheme() {
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-theme');
-    }
+/* ---------------------------------------------------------
+   BACKUP & RESTAURAÇÃO
+   --------------------------------------------------------- */
+function exportBackup() {
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `backup-agenda-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
 }
 
-// =========================================
-// ATUALIZAR HORA EM TEMPO REAL
-// =========================================
-function updateCurrentTime() {
-    const now = new Date();
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    };
-    const formatted = now.toLocaleDateString('pt-BR', options);
-    const el = document.getElementById('currentDateTime');
-    if (el) el.textContent = formatted;
+/* ---------------------------------------------------------
+   BUSCA
+   --------------------------------------------------------- */
+function searchEvents() {
+  const term = getValue('searchClient').toLowerCase();
+  if (!term) return;
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  const found = events.find(e =>
+    e.title.toLowerCase().includes(term) ||
+    e.description.toLowerCase().includes(term)
+  );
+  if (found) calendar.gotoDate(found.start);
 }
 
-setInterval(updateCurrentTime, 1000);
-updateCurrentTime();
+/* ---------------------------------------------------------
+   HELPERS RÁPIDOS
+   --------------------------------------------------------- */
+const getValue = id => document.getElementById(id).value.trim();
+const setValue = (id, val) => document.getElementById(id).value = val;
+const setText = (id, val) => document.getElementById(id).textContent = val;
