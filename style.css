@@ -1,37 +1,36 @@
 /* =========================================
-   VARIÁVEIS & RESET
+   VARIÁVEIS – PALETA MODERNA & ACESSÍVEL
    ========================================= */
 :root {
-  --primary: #0d6efd;
-  --success: #198754;
-  --danger: #dc3545;
-  --warning: #ffc107;
-  --info: #0dcaf0;
-  --light: #f8f9fa;
-  --dark: #212529;
-  --radius: 8px;
-  --shadow: 0 2px 8px rgba(0, 0, 0, .1);
-  --font: 'Poppins', sans-serif;
+  --bg: #f5f7fa;              /* cinza-claro neutro */
+  --bg-card: #ffffff;
+  --primary: #0052cc;         /* azul royal – alto contraste */
+  --primary-light: #e6efff;
+  --secondary: #00c4b4;       /* turquesa vibrante */
+  --text: #1a1a1a;            /* preto suave */
+  --text-muted: #4d4d4d;
+  --border: #e1e5eb;
+  --success: #00875a;
+  --warning: #ff8b00;
+  --danger: #de350b;
+  --radius: 12px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, .06);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+/* =========================================
+   RESET & BASE
+   ========================================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
-  background: #f5f5f5;
-  color: var(--dark);
-  line-height: 1.4;
+  background: var(--bg);
+  color: var(--text);
   font-size: 16px;
-  padding-bottom: 70px; /* espaço para bottom-nav */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 70px;
 }
 
 /* =========================================
@@ -40,220 +39,198 @@ body {
 .container {
   max-width: 100%;
   margin: 0;
-  padding: 8px;
+  padding: 12px;
+}
+@media (min-width: 768px) {
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px; }
 }
 
 /* =========================================
    HEADER
    ========================================= */
 .company-header {
-  background: white;
-  padding: 12px;
+  background: var(--bg-card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  margin-bottom: 8px;
+  padding: 16px;
   text-align: center;
+  margin-bottom: 16px;
 }
-
 .company-name {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary);
 }
-
 .company-info p {
-  font-size: 0.85rem;
-  margin: 2px 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 4px;
 }
-
-.company-info a {
-  color: var(--primary);
-  text-decoration: none;
-}
+.company-info a { color: var(--primary); text-decoration: none; }
 
 /* =========================================
-   DASHBOARD
+   DASHBOARD CARDS
    ========================================= */
 .dashboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
-
 .card-dashboard {
-  background: white;
-  padding: 12px 8px;
+  background: var(--bg-card);
   border-radius: var(--radius);
-  text-align: center;
   box-shadow: var(--shadow);
+  padding: 16px 12px;
+  text-align: center;
 }
-
 .card-dashboard h3 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--primary);
 }
-
 .card-dashboard p {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--text-muted);
+  margin-top: 4px;
 }
 
 /* =========================================
    GARANTIAS
    ========================================= */
 .garantia-box {
-  background: white;
-  padding: 12px;
+  background: var(--bg-card);
   border-radius: var(--radius);
-  margin-bottom: 12px;
   box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 16px;
 }
-
 .garantia-box h2 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-size: 1.125rem;
+  margin-bottom: 12px;
+  color: var(--text);
 }
-
 .garantia-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
-  border: 1px solid #eee;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  margin-bottom: 6px;
-  font-size: 0.85rem;
-  background: var(--light);
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  background: var(--primary-light);
 }
-
 .garantia-badge {
-  padding: 2px 6px;
+  padding: 4px 8px;
   border-radius: var(--radius);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #fff;
 }
-
-.garantia-badge.green {
-  background: var(--success);
-}
-
-.garantia-badge.warning {
-  background: var(--warning);
-  color: #000;
-}
-
-.garantia-badge.danger {
-  background: var(--danger);
-}
+.garantia-badge.green { background: var(--success); }
+.garantia-badge.warning { background: var(--warning); }
+.garantia-badge.danger { background: var(--danger); }
 
 /* =========================================
    TOP ACTIONS
    ========================================= */
 .top-actions {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
-
 .top-actions button,
 .top-actions input {
   flex: 1;
-  padding: 10px;
-  font-size: 0.85rem;
+  padding: 12px;
+  font-size: 0.875rem;
   border: none;
   border-radius: var(--radius);
 }
-
 .top-actions button {
   background: var(--primary);
-  color: white;
-  white-space: nowrap;
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
 }
-
 .top-actions input {
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
 }
 
 /* =========================================
    CALENDAR
    ========================================= */
 .calendar-box {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
-
 #calendar {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
+  padding: 8px;
 }
 
 /* =========================================
    FORM
    ========================================= */
 .event-form {
-  background: white;
-  padding: 12px;
+  background: var(--bg-card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  padding: 16px;
 }
-
 .event-form h2 {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  color: var(--text);
 }
-
 .times-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
-
 .time-slot {
-  padding: 10px 5px;
-  border: 1px solid #ddd;
+  padding: 12px 8px;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: #f8f9fa;
-  font-size: 0.8rem;
+  background: var(--primary-light);
+  font-size: 0.875rem;
   text-align: center;
   cursor: pointer;
   transition: .2s;
 }
-
 .time-slot.booked {
   background: var(--danger);
-  color: white;
+  color: #fff;
   cursor: not-allowed;
 }
-
 .form-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
-
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
-  padding: 12px;
-  border: 1px solid #ddd;
+  padding: 14px;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: 1rem;
   font-family: var(--font);
+  background: var(--bg-card);
+  color: var(--text);
 }
-
 .button-grid {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 16px;
 }
-
 .button-grid button {
   flex: 1;
   padding: 14px;
@@ -263,10 +240,9 @@ body {
   font-weight: 600;
   cursor: pointer;
 }
-
 #saveBtn {
   background: var(--success);
-  color: white;
+  color: #fff;
 }
 
 /* =========================================
@@ -280,11 +256,10 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .4);
 }
-
 .modal-content {
-  background: white;
+  background: var(--bg-card);
   margin: 10% auto;
   padding: 20px;
   border-radius: var(--radius);
@@ -292,127 +267,67 @@ body {
   max-width: 400px;
   position: relative;
 }
-
 .close-modal {
   position: absolute;
-  top: 8px;
-  right: 12px;
+  top: 12px;
+  right: 16px;
   font-size: 1.5rem;
   cursor: pointer;
   border: none;
   background: none;
+  color: var(--text);
 }
 
 /* =========================================
-   BOTTOM NAV (opcional)
+   BOTTOM NAV
    ========================================= */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
+  background: var(--bg-card);
   display: flex;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, .1);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, .06);
   z-index: 1000;
 }
-
 .bottom-nav button {
   flex: 1;
   padding: 12px;
   border: none;
   background: none;
   font-size: 0.75rem;
+  color: var(--text-muted);
   cursor: pointer;
 }
 
 /* =========================================
-   SUCCESS MESSAGE (toast)
+   TOAST
    ========================================= */
 .success-message {
   position: fixed;
-  bottom: 80px;
+  bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--success);
   color: #fff;
-  padding: 10px 16px;
+  padding: 12px 20px;
   border-radius: var(--radius);
   z-index: 9999;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 /* =========================================
-   DARK THEME
-   ========================================= */
-body.dark-theme {
-  background: #121212;
-  color: #e5e5e5;
-}
-
-body.dark-theme .company-header,
-body.dark-theme .card-dashboard,
-body.dark-theme .garantia-box,
-body.dark-theme .calendar-box,
-body.dark-theme .event-form,
-body.dark-theme .modal-content {
-  background: #1e1e1e;
-  border-color: #333;
-}
-
-body.dark-theme .form-grid input,
-body.dark-theme .form-grid select,
-body.dark-theme .form-grid textarea,
-body.dark-theme .top-actions input {
-  background: #2c2c2c;
-  border-color: #444;
-  color: #e5e5e5;
-}
-
-body.dark-theme .time-slot {
-  background: #2c2c2c;
-  border-color: #444;
-}
-
-body.dark-theme .time-slot.booked {
-  background: var(--danger);
-}
-
-/* =========================================
-   DESKTOP ADJUSTMENTS
+   DESKTOP GRID
    ========================================= */
 @media (min-width: 768px) {
-  body {
-    padding-bottom: 0;
-    font-size: 14px;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-  }
-
-  .dashboard {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .times-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
+  body { padding-bottom: 0; }
+  .times-grid { grid-template-columns: repeat(6, 1fr); }
   .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
-
-  .form-grid .full-width {
-    grid-column: 1 / -1;
-  }
-
-  .bottom-nav {
-    display: none;
-  }
+  .form-grid .full-width { grid-column: 1 / -1; }
+  .bottom-nav { display: none; }
 }
