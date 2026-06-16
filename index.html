@@ -96,10 +96,10 @@
 <body>
   <div class="container">
     <header class="company-header">
-      <h1 class="company-name">Agenda Inteligente</h1>
+      <h1 class="company-name">LeoTecnologia</h1>
       <div class="company-info">
-        <p>Telefone: <a href="tel:+559999999999">(99) 99999-9999</a></p>
-        <p>Endereço: Rua Exemplo, 123 – São Luís, MA</p>
+        <p>Telefone: <a href="tel:+5598999942905">(98) 99994-2905</a></p>
+        <p>Endereço: Av Três, 77 Parque Araçagy – São Luís, MA</p>
       </div>
     </header>
 
@@ -133,12 +133,11 @@
           <input type="text" id="clientVehicle" placeholder="Veículo" required />
           <select id="serviceType" required>
             <option value="">Tipo de Serviço</option>
-            <option value="Revisão">Revisão</option>
-            <option value="Troca de Óleo">Troca de Óleo</option>
-            <option value="Freios">Freios</option>
-            <option value="Suspensão">Suspensão</option>
-            <option value="Elétrica">Elétrica</option>
-            <option value="Outro">Outro</option>
+            <option value="Instalação de Windows">Instação de Windows</option>
+            <option value="Remoção de Virus">Remoção de Virus</option>
+            <option value="Acesso Remoto">Acesso Remoto</option>
+            <option value="Limpeza">Limpeza</option>
+            <option value="Outros">Outros</option>
           </select>
           <textarea id="serviceDescription" placeholder="Descrição do Serviço" rows="3" class="full-width"></textarea>
           <input type="hidden" id="eventDate" />
@@ -268,8 +267,8 @@
     /* ---------- GARANTIAS ---------- */
     function loadGarantias() {
       const garantias = [
-        { cliente: 'João Silva', servico: 'Troca de Freio', dias: 25 },
-        { cliente: 'Maria Souza', servico: 'Revisão', dias: 5 }
+        { cliente: 'João Silva', servico: 'Limpeza de Computador', dias: 15 },
+        { cliente: 'Maria Souza', servico: 'Remoção de Virus', dias: 5 }
       ];
       const box = document.getElementById('garantiaList');
       box.innerHTML = '';
