@@ -1,562 +1,580 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Inteligente – LeoTecnologia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FullCalendar -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0d6efd;
-            --success: #198754;
-            --danger: #dc3545;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --radius: 8px;
-            --shadow: 0 2px 8px rgba(0,0,0,.1);
-            --font: 'Poppins', sans-serif;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            font-family: var(--font);
-            background: #f5f5f5;
-            color: var(--dark);
-            line-height: 1.4;
-            font-size: 16px;
-            padding-bottom: 70px; /* espaço para bottom-nav */
-        }
-        .container {
-            max-width: 100%;
-            margin: 0;
-            padding: 8px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agenda Inteligente</title>
 
-        /* HEADER */
-        .company-header {
-            background: white;
-            padding: 12px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .company-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .company-info p {
-            font-size: 0.85rem;
-            margin: 2px 0;
-        }
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+  <!-- Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-        /* DASHBOARD */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .card-dashboard {
-            background: white;
-            padding: 12px 8px;
-            border-radius: var(--radius);
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-        .card-dashboard h3 {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-        .card-dashboard p {
-            font-size: 0.75rem;
-            color: #666;
-        }
+  <!-- CSS customizado -->
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --bg-card: #ffffff;
+      --primary: #0052cc;
+      --primary-light: #e6efff;
+      --secondary: #00c4b4;
+      --text: #1a1a1a;
+      --text-muted: #4d4d4d;
+      --border: #e1e5eb;
+      --success: #00875a;
+      --warning: #ff8b00;
+      --danger: #de350b;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, .06);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-        /* GARANTIAS */
-        .garantia-box {
-            background: white;
-            padding: 12px;
-            border-radius: var(--radius);
-            margin-bottom: 12px;
-            box-shadow: var(--shadow);
-        }
-        .garantia-box h2 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-        .garantia-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            border: 1px solid #eee;
-            border-radius: var(--radius);
-            margin-bottom: 6px;
-            font-size: 0.85rem;
-            background: var(--light);
-        }
-        .garantia-badge {
-            padding: 2px 6px;
-            border-radius: var(--radius);
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #fff;
-        }
-        .garantia-badge.green { background: var(--success); }
-        .garantia-badge.warning { background: #ffc107; color:#000; }
-        .garantia-badge.danger { background: var(--danger); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 70px;
+    }
 
-        /* TOP ACTIONS */
-        .top-actions {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .top-actions button,
-        .top-actions input {
-            flex: 1;
-            padding: 10px;
-            font-size: 0.85rem;
-            border: none;
-            border-radius: var(--radius);
-        }
-        .top-actions button {
-            background: var(--primary);
-            color: white;
-            white-space: nowrap;
-        }
+    .container { max-width: 100%; margin: 0; padding: 12px; }
+    @media (min-width: 768px) {
+      .container { max-width: 1140px; margin: 0 auto; padding: 24px; }
+    }
 
-        /* CALENDAR */
-        .calendar-box {
-            background: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            margin-bottom: 12px;
-        }
-        #calendar {
-            font-size: 0.75rem;
-        }
+    .company-header {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .company-name { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .company-info p { font-size: 0.875rem; color: var(--text-muted); margin-top: 4px; }
+    .company-info a { color: var(--primary); text-decoration: none; }
 
-        /* FORM */
-        .event-form {
-            background: white;
-            padding: 12px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-        .event-form h2 {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-        }
-        .times-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-        .time-slot {
-            padding: 10px 5px;
-            border: 1px solid #ddd;
-            border-radius: var(--radius);
-            background: #f8f9fa;
-            font-size: 0.8rem;
-            text-align: center;
-            cursor: pointer;
-        }
-        .time-slot.booked {
-            background: var(--danger);
-            color: white;
-            cursor: not-allowed;
-        }
-        .form-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .form-grid input,
-        .form-grid select,
-        .form-grid textarea {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: var(--radius);
-            font-size: 1rem;
-        }
-        .button-grid {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-        .button-grid button {
-            flex: 1;
-            padding: 14px;
-            font-size: 1rem;
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 600;
-        }
-        #saveBtn {
-            background: var(--success);
-            color: white;
-        }
+    /* Dashboard – lista de hoje */
+    .today-list {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .today-list h2 {
+      font-size: 1.125rem;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+    .today-list ul { list-style: none; }
+    .today-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .today-list li:last-child { border-bottom: none; }
+    .today-list li strong { font-weight: 600; }
+    .today-list li span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .today-list li p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
 
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,.5);
-        }
-        .modal-content {
-            background: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: var(--radius);
-            width: 95%;
-            max-width: 400px;
-            position: relative;
-        }
-        .close-modal {
-            position: absolute;
-            top: 8px; right: 12px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
+    .garantia-box {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .garantia-box h2 {
+      font-size: 1.125rem;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .garantia-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      font-size: 0.875rem;
+      background: var(--primary-light);
+    }
+    .garantia-badge {
+      padding: 4px 8px;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .garantia-badge.green { background: var(--success); }
+    .garantia-badge.warning { background: var(--warning); }
+    .garantia-badge.danger { background: var(--danger); }
 
-        /* BOTTOM NAV (opcional) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0; right: 0;
-            background: white;
-            display: flex;
-            box-shadow: 0 -2px 10px rgba(0,0,0,.1);
-            z-index: 1000;
-        }
-        .bottom-nav button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: none;
-            font-size: 0.75rem;
-        }
+    .top-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .top-actions button,
+    .top-actions input {
+      flex: 1;
+      padding: 12px;
+      font-size: 0.875rem;
+      border: none;
+      border-radius: var(--radius);
+    }
+    .top-actions button {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .top-actions input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
 
-        /* DESKTOP */
-        @media (min-width: 768px) {
-            body { padding-bottom: 0; font-size: 14px; }
-            .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-            .dashboard { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-            .times-grid { grid-template-columns: repeat(6, 1fr); }
-            .form-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-            .form-grid .full-width { grid-column: 1/-1; }
-            .bottom-nav { display: none; }
-        }
+    .calendar-box {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    #calendar {
+      font-size: 0.875rem;
+      padding: 8px;
+    }
 
-        /* TEMA ESCURO */
-        body.dark-theme {
-            background: #121212;
-            color: #e5e5e5;
-        }
-        body.dark-theme .company-header,
-        body.dark-theme .card-dashboard,
-        body.dark-theme .garantia-box,
-        body.dark-theme .calendar-box,
-        body.dark-theme .event-form,
-        body.dark-theme .modal-content {
-            background: #1e1e1e;
-            border-color: #333;
-        }
-    </style>
+    .event-form {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .event-form h2 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .times-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .time-slot {
+      padding: 12px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--primary-light);
+      font-size: 0.875rem;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .time-slot.booked {
+      background: var(--danger);
+      color: #fff;
+      cursor: not-allowed;
+    }
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-family: var(--font);
+      background: var(--bg-card);
+      color: var(--text);
+    }
+    .button-grid {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .button-grid button {
+      flex: 1;
+      padding: 14px;
+      font-size: 1rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #saveBtn {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .4);
+    }
+    .modal-content {
+      background: var(--bg-card);
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: var(--radius);
+      width: 95%;
+      max-width: 400px;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      display: flex;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, .06);
+      z-index: 1000;
+    }
+    .bottom-nav button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: none;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .success-message {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--success);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      z-index: 9999;
+      font-size: 0.875rem;
+    }
+
+    @media (min-width: 768px) {
+      body { padding-bottom: 0; }
+      .times-grid { grid-template-columns: repeat(6, 1fr); }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .form-grid .full-width { grid-column: 1 / -1; }
+      .bottom-nav { display: none; }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <header class="company-header">
-            <h1 class="company-name">LeoTecnologia</h1>
-            <div class="company-info">
-                <p>CNPJ: 12.345.678/0001-90</p>
-                <p>WhatsApp: <a href="https://wa.me/5599999999999" target="_blank">(99) 99999-9999</a></p>
-                <p>Endereço: São Luís - MA</p>
-            </div>
-        </header>
+  <div class="container">
+    <!-- Cabeçalho -->
+    <header class="company-header">
+      <h1 class="company-name">Agenda Inteligente</h1>
+      <div class="company-info">
+        <p>Telefone: <a href="tel:+559999999999">(99) 99999-9999</a></p>
+        <p>Endereço: Rua Exemplo, 123 – São Luís, MA</p>
+      </div>
+    </header>
 
-        <!-- DASHBOARD -->
-        <section class="dashboard">
-            <div class="card-dashboard">
-                <h3 id="todayCount">0</h3>
-                <p>Hoje</p>
-            </div>
-            <div class="card-dashboard">
-                <h3 id="freeCount">9</h3>
-                <p>Livres</p>
-            </div>
-            <div class="card-dashboard">
-                <h3 id="clientCount">0</h3>
-                <p>Clientes</p>
-            </div>
-        </section>
+    <!-- Lista de agendamentos de hoje -->
+    <section class="today-list">
+      <h2>Hoje – Agendamentos</h2>
+      <ul id="todayEventsList">
+        <!-- preenchido via JS -->
+      </ul>
+    </section>
 
-        <!-- GARANTIAS -->
-        <section class="garantia-box">
-            <h2>Status das Garantias</h2>
-            <div class="garantia-item">
-                <span>iPhone 12 – Troca de Bateria</span>
-                <span class="garantia-badge green">Em garantia</span>
-            </div>
-            <div class="garantia-item">
-                <span>Samsung A54 – Tela</span>
-                <span class="garantia-badge warning">Próx. vencer</span>
-            </div>
-            <div class="garantia-item">
-                <span>Motorola G60 – Placa</span>
-                <span class="garantia-badge danger">Vencida</span>
-            </div>
-        </section>
+    <!-- Garantias -->
+    <section class="garantia-box">
+      <h2>Garantias Pendentes</h2>
+      <div id="garantiaList">
+        <!-- preenchido via JS -->
+      </div>
+    </section>
 
-        <!-- AÇÕES RÁPIDAS -->
-        <section class="top-actions">
-            <button onclick="toggleTheme()">🌙 Tema</button>
-            <input type="search" id="searchClient" placeholder="Buscar cliente..." onkeyup="searchEvents()">
-            <button onclick="exportBackup()">💾 Backup</button>
-        </section>
+    <!-- Ações rápidas -->
+    <section class="top-actions">
+      <button onclick="openEventForm()"><i class="fas fa-plus"></i> Novo Agendamento</button>
+      <input type="search" placeholder="Buscar cliente..." onkeyup="searchEvents(this.value)">
+    </section>
 
-        <!-- CALENDÁRIO -->
-        <section class="calendar-box">
-            <div id="calendar"></div>
-        </section>
+    <!-- Calendário -->
+    <section class="calendar-box">
+      <div id="calendar"></div>
+    </section>
 
-        <!-- FORMULÁRIO -->
-        <section class="event-form">
-            <h2>Novo Agendamento</h2>
+    <!-- Formulário de evento -->
+    <section id="eventFormSection" class="event-form" style="display:none;">
+      <h2>Novo Agendamento</h2>
 
-            <label>Horários disponíveis</label>
-            <div class="times-grid">
-                <button class="time-slot" data-time="08:00" onclick="selectTime('08:00')">08:00</button>
-                <button class="time-slot" data-time="09:00" onclick="selectTime('09:00')">09:00</button>
-                <button class="time-slot" data-time="10:00" onclick="selectTime('10:00')">10:00</button>
-                <button class="time-slot" data-time="11:00" onclick="selectTime('11:00')">11:00</button>
-                <button class="time-slot" data-time="12:00" onclick="selectTime('12:00')">12:00</button>
-                <button class="time-slot" data-time="13:00" onclick="selectTime('13:00')">13:00</button>
-                <button class="time-slot" data-time="14:00" onclick="selectTime('14:00')">14:00</button>
-                <button class="time-slot" data-time="15:00" onclick="selectTime('15:00')">15:00</button>
-                <button class="time-slot" data-time="16:00" onclick="selectTime('16:00')">16:00</button>
-            </div>
+      <div class="times-grid" id="timesGrid">
+        <!-- preenchido via JS -->
+      </div>
 
-            <form onsubmit="return false;">
-                <div class="form-grid">
-                    <input type="datetime-local" id="start" required>
-                    <select id="serviceType">
-                        <option value="">Tipo de Serviço</option>
-                        <option>Manutenção</option>
-                        <option>Troca de Peça</option>
-                        <option>Software</option>
-                        <option>Orçamento</option>
-                    </select>
-                    <input type="text" id="clientName" placeholder="Nome do Cliente" required>
-                    <input type="tel" id="clientPhone" placeholder="Telefone" required>
-                    <select id="statusService" class="full-width">
-                        <option value="Agendado">Agendado</option>
-                        <option value="Em andamento">Em andamento</option>
-                        <option value="Finalizado">Finalizado</option>
-                        <option value="Cancelado">Cancelado</option>
-                    </select>
-                    <textarea id="description" class="full-width" rows="3" placeholder="Descrição do serviço..." required></textarea>
-                </div>
-
-                <div class="button-grid">
-                    <button type="button" id="saveBtn" onclick="addEvent()">Salvar</button>
-                    <button type="button" onclick="resetForm()">Limpar</button>
-                </div>
-            </form>
-        </section>
-    </div>
-
-    <!-- MODAL -->
-    <div id="eventModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle"></h3>
-            <p id="modalDescription"></p>
-            <p id="modalDate"></p>
-            <button class="btn-danger" onclick="deleteSelectedEvent()">Excluir</button>
+      <form id="eventForm" onsubmit="saveEvent(event)">
+        <div class="form-grid">
+          <input type="text" id="clientName" placeholder="Nome do Cliente" required />
+          <input type="tel" id="clientPhone" placeholder="Telefone" required />
+          <input type="text" id="clientAddress" placeholder="Endereço" required />
+          <input type="text" id="clientVehicle" placeholder="Veículo" required />
+          <select id="serviceType" required>
+            <option value="">Tipo de Serviço</option>
+            <option value="Revisão">Revisão</option>
+            <option value="Troca de Óleo">Troca de Óleo</option>
+            <option value="Freios">Freios</option>
+            <option value="Suspensão">Suspensão</option>
+            <option value="Elétrica">Elétrica</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <textarea id="serviceDescription" placeholder="Descrição do Serviço" rows="3" class="full-width"></textarea>
+          <input type="hidden" id="eventDate" />
+          <input type="hidden" id="eventTime" />
         </div>
+
+        <div class="button-grid">
+          <button type="submit" id="saveBtn">Salvar</button>
+          <button type="button" onclick="closeEventForm()">Cancelar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Modal de detalhes -->
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h3>Detalhes do Agendamento</h3>
+      <div id="modalContent"></div>
     </div>
+  </div>
 
-    <!-- MENU INFERIOR OPCIONAL -->
-    <nav class="bottom-nav">
-        <button onclick="calendar.today()">Hoje</button>
-        <button onclick="calendar.prev()">◀ Anterior</button>
-        <button onclick="calendar.next()">Próximo ▶</button>
-    </nav>
+  <!-- Navegação inferior (mobile) -->
+  <nav class="bottom-nav">
+    <button onclick="scrollToSection('calendar')"><i class="fas fa-calendar"></i><br>Calendário</button>
+    <button onclick="scrollToSection('today-list')"><i class="fas fa-list"></i><br>Hoje</button>
+    <button onclick="scrollToSection('garantia-box')"><i class="fas fa-tools"></i><br>Garantias</button>
+  </nav>
 
-    <!-- SCRIPTS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/pt-br.js"></script>
-    <script>
-        let calendar, selectedEvent;
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script>
+    /* ---------- Variáveis globais ---------- */
+    let calendar;
+    const today = new Date().toISOString().split('T')[0];
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', () => {
-            initCalendar();
-            loadCurrentTime();
-            setInterval(loadCurrentTime, 60000);
-            updateDashboard();
-        });
+    /* ---------- Inicialização ---------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      initCalendar();
+      loadGarantias();
+      updateDashboard();
+    });
 
-        // Calendário
-        function initCalendar() {
-            const calendarEl = document.getElementById('calendar');
-            calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: window.innerWidth < 768 ? 'listWeek' : 'timeGridWeek',
-                locale: 'pt-br',
-                height: 'auto',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: window.innerWidth < 768 ? '' : 'dayGridMonth,timeGridWeek'
-                },
-                slotMinTime: '08:00',
-                slotMaxTime: '18:00',
-                events: () => JSON.parse(localStorage.getItem('events')) || [],
-                eventClick: (info) => openModal(info.event),
-                datesSet: () => updateDashboard()
-            });
-            calendar.render();
-        }
+    /* ---------- Calendário ---------- */
+    function initCalendar() {
+      const calendarEl = document.getElementById('calendar');
+      calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        locale: 'pt-br',
+        slotMinTime: '08:00:00',
+        slotMaxTime: '18:00:00',
+        events: loadEvents(),
+        eventClick: (info) => showEventModal(info.event)
+      });
+      calendar.render();
+    }
 
-        // CRUD Eventos
-        function addEvent() {
-            const form = {
-                title: document.getElementById('clientName').value,
-                start: document.getElementById('start').value,
-                description: document.getElementById('description').value,
-                serviceType: document.getElementById('serviceType').value,
-                status: document.getElementById('statusService').value,
-                phone: document.getElementById('clientPhone').value
-            };
+    /* ---------- Eventos ---------- */
+    function loadEvents() {
+      return JSON.parse(localStorage.getItem('events')) || [];
+    }
 
-            if (!form.title || !form.start) { alert('Preencha nome e horário'); return; }
+    function saveEvent(e) {
+      e.preventDefault();
+      const events = loadEvents();
+      const newEvent = {
+        id: Date.now(),
+        title: document.getElementById('clientName').value,
+        start: `${document.getElementById('eventDate').value}T${document.getElementById('eventTime').value}`,
+        extendedProps: {
+          phone: document.getElementById('clientPhone').value,
+          address: document.getElementById('clientAddress').value,
+          vehicle: document.getElementById('clientVehicle').value,
+          service: document.getElementById('serviceType').value,
+          description: document.getElementById('serviceDescription').value
+        }
+      };
+      events.push(newEvent);
+      localStorage.setItem('events', JSON.stringify(events));
+      calendar.addEvent(newEvent);
+      closeEventForm();
+      updateDashboard();
+      showToast('Agendamento salvo!');
+    }
 
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            if (events.find(e => e.start === form.start)) { alert('Horário ocupado'); return; }
+    /* ---------- Dashboard – lista de hoje ---------- */
+    function updateDashboard() {
+      const events = loadEvents();
+      const todayEvents = events.filter(e => e.start?.startsWith(today));
+      const listEl = document.getElementById('todayEventsList');
+      listEl.innerHTML = '';
 
-            events.push({
-                id: Date.now(),
-                ...form,
-                color: {Agendado:'#ffc107','Em andamento':'#007bff',Finalizado:'#28a745',Cancelado:'#dc3545'}[form.status]
-            });
+      if (todayEvents.length === 0) {
+        listEl.innerHTML = '<li style="color:#4d4d4d">Nenhum agendamento hoje.</li>';
+        return;
+      }
 
-            localStorage.setItem('events', JSON.stringify(events));
-            calendar.refetchEvents();
-            updateDashboard();
-            showToast('✅ Salvo!');
-            document.querySelector('form').reset();
-            loadCurrentTime();
-        }
+      todayEvents.forEach(ev => {
+        const li = document.createElement('li');
+        const time = new Date(ev.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        li.innerHTML = `
+          <strong>${ev.title}</strong>
+          <span>${time}</span>
+          <p>${ev.extendedProps.description || 'Sem descrição'}</p>
+        `;
+        listEl.appendChild(li);
+      });
+    }
 
-        function deleteSelectedEvent() {
-            if (!selectedEvent || !confirm('Excluir?')) return;
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            const filtered = events.filter(e => e.id !== selectedEvent.id);
-            localStorage.setItem('events', JSON.stringify(filtered));
-            calendar.refetchEvents();
-            updateDashboard();
-            closeModal();
-            showToast('🗑️ Excluído');
-        }
+    /* ---------- Garantias ---------- */
+    function loadGarantias() {
+      const garantias = [
+        { cliente: 'João Silva', servico: 'Troca de Freio', dias: 25 },
+        { cliente: 'Maria Souza', servico: 'Revisão', dias: 5 }
+      ];
+      const box = document.getElementById('garantiaList');
+      box.innerHTML = '';
+      garantias.forEach(g => {
+        const div = document.createElement('div');
+        div.className = 'garantia-item';
+        let badgeClass = g.dias > 20 ? 'green' : g.dias > 10 ? 'warning' : 'danger';
+        div.innerHTML = `
+          <span>${g.cliente} – ${g.servico}</span>
+          <span class="garantia-badge ${badgeClass}">${g.dias} dias</span>
+        `;
+        box.appendChild(div);
+      });
+    }
 
-        // Utilidades
-        function loadCurrentTime() {
-            const now = new Date();
-            const date = now.toISOString().slice(0, 16);
-            document.getElementById('start').value = date;
-            updateBookedTimes();
-        }
-        function selectTime(time) {
-            const date = document.getElementById('start').value?.split('T')[0] || new Date().toISOString().split('T')[0];
-            document.getElementById('start').value = `${date}T${time}`;
-            updateBookedTimes();
-        }
-        function updateBookedTimes() {
-            const date = document.getElementById('start').value?.split('T')[0] || new Date().toISOString().split('T')[0];
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            document.querySelectorAll('.time-slot').forEach(slot => {
-                const time = slot.dataset.time;
-                const isBooked = events.some(e => e.start === `${date}T${time}`);
-                slot.classList.toggle('booked', isBooked);
-                slot.disabled = isBooked;
-            });
-        }
-        function updateDashboard() {
-            const today = new Date().toISOString().split('T')[0];
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            const todayEvents = events.filter(e => e.start?.startsWith(today));
-            const freeSlots = 9 - todayEvents.length;
-            const uniqueClients = [...new Set(events.map(e => e.title))];
-            document.getElementById('todayCount').textContent = todayEvents.length;
-            document.getElementById('freeCount').textContent = Math.max(0, freeSlots);
-            document.getElementById('clientCount').textContent = uniqueClients.length;
-        }
-        function resetForm() {
-            document.querySelector('form').reset();
-            loadCurrentTime();
-        }
-        function showToast(msg) {
-            const div = document.createElement('div');
-            div.style.position='fixed'; div.style.bottom='80px'; div.style.left='50%';
-            div.style.transform='translateX(-50%)'; div.style.background='var(--success)';
-            div.style.color='#fff'; div.style.padding='10px 16px'; div.style.borderRadius='var(--radius)';
-            div.style.zIndex='9999'; div.textContent = msg;
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 2000);
-        }
-        function openModal(event) {
-            selectedEvent = event;
-            document.getElementById('modalTitle').textContent = event.title;
-            document.getElementById('modalDescription').textContent = event.extendedProps.description || '';
-            document.getElementById('modalDate').textContent = new Date(event.start).toLocaleString('pt-BR');
-            document.getElementById('eventModal').style.display = 'block';
-        }
-        function closeModal() {
-            document.getElementById('eventModal').style.display = 'none';
-            selectedEvent = null;
-        }
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
-        }
-        function exportBackup() {
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            const blob = new Blob([JSON.stringify(events, null, 2)], {type:'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `backup-agenda-${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-        }
-        function searchEvents() {
-            const term = document.getElementById('searchClient').value.toLowerCase();
-            if (!term) return;
-            const events = JSON.parse(localStorage.getItem('events')) || [];
-            const found = events.find(e => e.title.toLowerCase().includes(term) || e.description.toLowerCase().includes(term));
-            if (found) calendar.gotoDate(found.start);
-        }
-        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');
-    </script>
+    /* ---------- Formulário ---------- */
+    function openEventForm(date = today, time = '09:00') {
+      document.getElementById('eventFormSection').style.display = 'block';
+      document.getElementById('eventDate').value = date;
+      document.getElementById('eventTime').value = time;
+      generateTimeSlots();
+      scrollToSection('eventFormSection');
+    }
+
+    function closeEventForm() {
+      document.getElementById('eventFormSection').style.display = 'none';
+      document.getElementById('eventForm').reset();
+    }
+
+    function generateTimeSlots() {
+      const grid = document.getElementById('timesGrid');
+      grid.innerHTML = '';
+      const events = loadEvents();
+      const date = document.getElementById('eventDate').value;
+      for (let h = 8; h < 18; h++) {
+        const time = `${h.toString().padStart(2, '0')}:00`;
+        const booked = events.some(e => e.start === `${date}T${time}:00`);
+        const slot = document.createElement('div');
+        slot.className = `time-slot ${booked ? 'booked' : ''}`;
+        slot.textContent = time;
+        if (!booked) slot.onclick = () => document.getElementById('eventTime').value = `${time}:00`;
+        grid.appendChild(slot);
+      }
+    }
+
+    /* ---------- Modal ---------- */
+    function showEventModal(event) {
+      const modal = document.getElementById('eventModal');
+      const content = document.getElementById('modalContent');
+      const props = event.extendedProps;
+      content.innerHTML = `
+        <p><strong>Cliente:</strong> ${event.title}</p>
+        <p><strong>Horário:</strong> ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+        <p><strong>Telefone:</strong> ${props.phone}</p>
+        <p><strong>Endereço:</strong> ${props.address}</p>
+        <p><strong>Veículo:</strong> ${props.vehicle}</p>
+        <p><strong>Serviço:</strong> ${props.service}</p>
+        <p><strong>Descrição:</strong> ${props.description || '—'}</p>
+      `;
+      modal.style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('eventModal').style.display = 'none';
+    }
+
+    /* ---------- Utilitários ---------- */
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function searchEvents(query) {
+      calendar.removeAllEvents();
+      const events = loadEvents();
+      const filtered = events.filter(e =>
+        e.title.toLowerCase().includes(query.toLowerCase()) ||
+        e.extendedProps.service.toLowerCase().includes(query.toLowerCase())
+      );
+      calendar.addEventSource(filtered);
+    }
+
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'success-message';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
 </body>
 </html>
