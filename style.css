@@ -1,6 +1,6 @@
-/* =========================================
-   VARIÁVEIS DE CORES E TEMA
-========================================= */
+/* ==========================================================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   ========================================================================== */
 :root {
   --bg: #f5f7fa;
   --bg-card: #ffffff;
@@ -18,25 +18,17 @@
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* =========================================
-   RESET & BASE
-========================================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-html {
-  scroll-behavior: smooth;
-}
+
 body {
   font-family: var(--font);
   background: var(--bg);
   color: var(--text);
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  padding-bottom: 70px;
+  padding-bottom: 70px; /* Espaço para o menu inferior no mobile */
 }
 
 .container {
@@ -44,17 +36,10 @@ body {
   margin: 0;
   padding: 12px;
 }
-@media (min-width: 768px) {
-  .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 24px;
-  }
-}
 
-/* =========================================
-   CABEÇALHO
-========================================= */
+/* ==========================================================================
+   2. CABEÇALHO DA EMPRESA
+   ========================================================================== */
 .company-header {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -63,43 +48,49 @@ body {
   text-align: center;
   margin-bottom: 16px;
 }
+
 .company-name {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary);
 }
+
 .company-info p {
   font-size: 0.875rem;
   color: var(--text-muted);
   margin-top: 4px;
 }
+
 .company-info a {
   color: var(--primary);
   text-decoration: none;
 }
 
-/* =========================================
-   SEÇÕES
-========================================= */
-.today-list,
-.garantia-box,
-.event-form {
+.company-info a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   3. PAINEL DE AGENDAMENTOS DE HOJE
+   ========================================================================== */
+.today-list {
   background: var(--bg-card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 16px;
   margin-bottom: 16px;
 }
-.today-list h2,
-.garantia-box h2,
-.event-form h2 {
+
+.today-list h2 {
   font-size: 1.125rem;
   margin-bottom: 12px;
   color: var(--primary);
 }
+
 .today-list ul {
   list-style: none;
 }
+
 .today-list li {
   padding: 10px 0;
   border-bottom: 1px solid var(--border);
@@ -107,24 +98,42 @@ body {
   flex-direction: column;
   gap: 4px;
 }
+
 .today-list li:last-child {
   border-bottom: none;
 }
+
 .today-list li strong {
   font-weight: 600;
 }
+
 .today-list li span {
   font-size: 0.75rem;
   color: var(--text-muted);
 }
+
 .today-list li p {
   font-size: 0.875rem;
   color: var(--text-muted);
 }
 
-/* =========================================
-   GARANTIAS
-========================================= */
+/* ==========================================================================
+   4. PAINEL DE GARANTIAS
+   ========================================================================== */
+.garantia-box {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.garantia-box h2 {
+  font-size: 1.125rem;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
 .garantia-item {
   display: flex;
   justify-content: space-between;
@@ -136,6 +145,7 @@ body {
   font-size: 0.875rem;
   background: var(--primary-light);
 }
+
 .garantia-badge {
   padding: 4px 8px;
   border-radius: var(--radius);
@@ -143,24 +153,28 @@ body {
   font-weight: 600;
   color: #fff;
 }
+
 .garantia-badge.green {
   background: var(--success);
 }
+
 .garantia-badge.warning {
   background: var(--warning);
 }
+
 .garantia-badge.danger {
   background: var(--danger);
 }
 
-/* =========================================
-   AÇÕES RÁPIDAS
-========================================= */
+/* ==========================================================================
+   5. BARRA DE AÇÕES SUPERIOR (BOTÃO NOVO + BUSCA)
+   ========================================================================== */
 .top-actions {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
 }
+
 .top-actions button,
 .top-actions input {
   flex: 1;
@@ -169,21 +183,32 @@ body {
   border: none;
   border-radius: var(--radius);
 }
+
 .top-actions button {
   background: var(--primary);
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
 }
+
+.top-actions button:hover {
+  background: #0041a3;
+}
+
 .top-actions input {
   background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text);
 }
 
-/* =========================================
-   CALENDÁRIO
-========================================= */
+.top-actions input:focus {
+  outline: 2px solid var(--primary);
+}
+
+/* ==========================================================================
+   6. CONTAINER DO CALENDÁRIO
+   ========================================================================== */
 .calendar-box {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -191,20 +216,36 @@ body {
   box-shadow: var(--shadow);
   margin-bottom: 16px;
 }
+
 #calendar {
   font-size: 0.875rem;
   padding: 8px;
 }
 
-/* =========================================
-   FORMULÁRIO
-========================================= */
+/* ==========================================================================
+   7. FORMULÁRIO DE AGENDAMENTO E GRID DE HORÁRIOS
+   ========================================================================== */
+.event-form {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.event-form h2 {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+/* Slots de Horários */
 .times-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   margin-bottom: 16px;
 }
+
 .time-slot {
   padding: 12px 8px;
   border: 1px solid var(--border);
@@ -213,18 +254,36 @@ body {
   font-size: 0.875rem;
   text-align: center;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease-in-out;
 }
+
+.time-slot:hover:not(.booked) {
+  border-color: var(--primary);
+}
+
+/* Estado: Selecionado pelo usuário */
+.time-slot.selected {
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 700;
+  border-color: var(--primary);
+}
+
+/* Estado: Ocupado/Reservado */
 .time-slot.booked {
   background: var(--danger);
-  color: #fff;
+  color: #ffffff;
   cursor: not-allowed;
+  opacity: 0.8;
 }
+
+/* Campos de Entrada */
 .form-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
@@ -236,11 +295,19 @@ body {
   background: var(--bg-card);
   color: var(--text);
 }
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+  outline: 2px solid var(--primary);
+}
+
 .button-grid {
   display: flex;
   gap: 12px;
   margin-top: 16px;
 }
+
 .button-grid button {
   flex: 1;
   padding: 14px;
@@ -249,15 +316,21 @@ body {
   border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-}
-#saveBtn {
-  background: var(--success);
-  color: #fff;
+  transition: opacity 0.2s;
 }
 
-/* =========================================
-   MODAL
-========================================= */
+.button-grid button:hover {
+  opacity: 0.9;
+}
+
+#saveBtn {
+  background: var(--success);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   8. MODAL E NOTIFICAÇÕES (TOAST)
+   ========================================================================== */
 .modal {
   display: none;
   position: fixed;
@@ -268,6 +341,7 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
 }
+
 .modal-content {
   background: var(--bg-card);
   margin: 10% auto;
@@ -276,7 +350,9 @@ body {
   width: 95%;
   max-width: 400px;
   position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
+
 .close-modal {
   position: absolute;
   top: 12px;
@@ -288,9 +364,29 @@ body {
   color: var(--text);
 }
 
-/* =========================================
-   NAVEGAÇÃO INFERIOR (MOBILE)
-========================================= */
+.success-message {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--success);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  z-index: 9999;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ==========================================================================
+   9. NAVEGAÇÃO INFERIOR (MOBILE)
+   ========================================================================== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -301,6 +397,7 @@ body {
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
   z-index: 1000;
 }
+
 .bottom-nav button {
   flex: 1;
   padding: 12px;
@@ -311,40 +408,39 @@ body {
   cursor: pointer;
 }
 
-/* =========================================
-   TOAST / MENSAGEM DE SUCESSO
-========================================= */
-.success-message {
-  position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--success);
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  z-index: 9999;
-  font-size: 0.875rem;
+.bottom-nav button i {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
 }
 
-/* =========================================
-   RESPONSIVO (DESKTOP)
-========================================= */
+/* ==========================================================================
+   10. MEDIA QUERIES (TETAS DE TELA MAIORES / DESKTOP)
+   ========================================================================== */
 @media (min-width: 768px) {
   body {
     padding-bottom: 0;
   }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
   .times-grid {
     grid-template-columns: repeat(6, 1fr);
   }
+
   .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+
   .form-grid .full-width {
     grid-column: 1 / -1;
   }
+
   .bottom-nav {
     display: none;
   }
