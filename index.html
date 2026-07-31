@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Agenda Inteligente</title>
 
-  <!-- FullCalendar CSS -->
+  <!-- FullCalendar CSS & FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -67,6 +67,7 @@
     .event-form h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
     .times-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
     .time-slot{padding:12px 8px;border:1px solid var(--border);border-radius:var(--radius);background:var(--primary-light);font-size:.875rem;text-align:center;cursor:pointer;transition:.2s}
+    .time-slot.selected{background:var(--primary);color:#fff;font-weight:bold}
     .time-slot.booked{background:var(--danger);color:#fff;cursor:not-allowed}
     .form-grid{display:flex;flex-direction:column;gap:12px}
     .form-grid input,.form-grid select,.form-grid textarea{padding:14px;border:1px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font);background:var(--bg-card);color:var(--text)}
@@ -103,12 +104,12 @@
       </div>
     </header>
 
-    <section class="today-list">
+    <section id="today-list" class="today-list">
       <h2>Hoje – Agendamentos</h2>
       <ul id="todayEventsList"></ul>
     </section>
 
-    <section class="garantia-box">
+    <section id="garantia-box" class="garantia-box">
       <h2>Garantias Pendentes</h2>
       <div id="garantiaList"></div>
     </section>
@@ -118,19 +119,20 @@
       <input type="search" placeholder="Buscar cliente..." onkeyup="searchEvents(this.value)">
     </section>
 
-    <section class="calendar-box">
+    <section id="calendar-section" class="calendar-box">
       <div id="calendar"></div>
     </section>
 
     <section id="eventFormSection" class="event-form" style="display:none;">
       <h2>Novo Agendamento</h2>
+      <p style="font-size:0.875rem; margin-bottom:8px; color:var(--text-muted);">Selecione o horário:</p>
       <div class="times-grid" id="timesGrid"></div>
       <form id="eventForm" onsubmit="saveEvent(event)">
         <div class="form-grid">
           <input type="text" id="clientName" placeholder="Nome do Cliente" required />
-          <input type="tel" id="clientPhone" placeholder="Telefone (com DDD)" required />
+          <input type="tel" id="clientPhone" placeholder="Telefone com DDD (ex: 98999999999)" required />
           <input type="text" id="clientAddress" placeholder="Endereço" required />
-          <input type="text" id="clientVehicle" placeholder="Descrição" required />
+          <input type="text" id="clientVehicle" placeholder="Equipamento / Modelo" required />
           <select id="serviceType" required>
             <option value="">Tipo de Serviço</option>
             <option value="Instalação de Windows">Instalação de Windows</option>
@@ -160,7 +162,7 @@
   </div>
 
   <nav class="bottom-nav">
-    <button onclick="scrollToSection('calendar')"><i class="fas fa-calendar"></i><br>Calendário</button>
+    <button onclick="scrollToSection('calendar-section')"><i class="fas fa-calendar"></i><br>Calendário</button>
     <button onclick="scrollToSection('today-list')"><i class="fas fa-list"></i><br>Hoje</button>
     <button onclick="scrollToSection('garantia-box')"><i class="fas fa-tools"></i><br>Garantias</button>
   </nav>
@@ -200,13 +202,19 @@
 
     function isSlotBooked(date, time) {
       const events = loadEvents();
-      return events.some(e => e.start === `${date}T${time}`);
+      return events.some(e => e.start === `${date}T${time}:00`);
     }
 
     function saveEvent(e) {
       e.preventDefault();
       const date = document.getElementById('eventDate').value;
       const time = document.getElementById('eventTime').value;
+
+      if (!time) {
+        alert('Por favor, selecione um horário disponível!');
+        return;
+      }
+
       if (isSlotBooked(date, time)) {
         alert('Horário já ocupado! Escolha outro.');
         return;
@@ -214,9 +222,9 @@
 
       const events = loadEvents();
       const newEvent = {
-        id: Date.now(),
+        id: Date.now().toString(),
         title: document.getElementById('clientName').value,
-        start: `${date}T${time}`,
+        start: `${date}T${time}:00`,
         extendedProps: {
           phone: document.getElementById('clientPhone').value,
           address: document.getElementById('clientAddress').value,
@@ -225,20 +233,31 @@
           description: document.getElementById('serviceDescription').value
         }
       };
+
       events.push(newEvent);
       localStorage.setItem('events', JSON.stringify(events));
       calendar.addEvent(newEvent);
+      
       sendWhatsApp(newEvent);
       closeEventForm();
       updateDashboard();
-      showToast('Agendamento salvo!');
+      showToast('Agendamento salvo com sucesso!');
     }
 
     /* ---------- WHATSAPP ---------- */
     function sendWhatsApp(event) {
-      const fixedNumber = '9899942905'; // número fixo
-      const msg = `Olá ${event.title}! Confirmamos seu agendamento para ${event.extendedProps.service} no dia ${new Date(event.start).toLocaleDateString('pt-BR')} às ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}.\n\nDescrição do serviço: ${event.extendedProps.description || 'Não informado'}\n\nEndereço: ${event.extendedProps.address}`;
-      const url = `https://wa.me/55${fixedNumber}?text=${encodeURIComponent(msg)}`;
+      // Formata e limpa o telefone informado no formulário
+      let rawPhone = event.extendedProps.phone.replace(/\D/g, ''); 
+      if (!rawPhone.startsWith('55') && rawPhone.length <= 11) {
+        rawPhone = '55' + rawPhone;
+      }
+
+      const formattedDate = event.start.split('T')[0].split('-').reverse().join('/');
+      const formattedTime = event.start.split('T')[1].substring(0, 5);
+
+      const msg = `Olá ${event.title}! Confirmamos seu agendamento para *${event.extendedProps.service}* no dia *${formattedDate}* às *${formattedTime}*.\n\n*Descrição:* ${event.extendedProps.description || 'Não informada'}\n*Endereço:* ${event.extendedProps.address}`;
+      
+      const url = `https://wa.me/${rawPhone}?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
     }
 
@@ -248,16 +267,18 @@
       const todayEvents = events.filter(e => e.start?.startsWith(today));
       const listEl = document.getElementById('todayEventsList');
       listEl.innerHTML = '';
+
       if (todayEvents.length === 0) {
         listEl.innerHTML = '<li style="color:#4d4d4d">Nenhum agendamento hoje.</li>';
         return;
       }
+
       todayEvents.forEach(ev => {
         const li = document.createElement('li');
-        const time = new Date(ev.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const time = ev.start.split('T')[1].substring(0, 5);
         li.innerHTML = `
-          <strong>${ev.title}</strong>
-          <span>${time}</span>
+          <strong>${ev.title} - ${time}h</strong>
+          <span>${ev.extendedProps.service}</span>
           <p>${ev.extendedProps.description || 'Sem descrição'}</p>
         `;
         listEl.appendChild(li);
@@ -301,15 +322,31 @@
     function generateTimeSlots() {
       const grid = document.getElementById('timesGrid');
       grid.innerHTML = '';
-      const events = loadEvents();
       const date = document.getElementById('eventDate').value;
+      const selectedTime = document.getElementById('eventTime').value;
+
       for (let h = 8; h < 18; h++) {
-        const time = `${h.toString().padStart(2, '0')}:00`;
-        const booked = events.some(e => e.start === `${date}T${time}:00`);
+        const timeFormatted = `${h.toString().padStart(2, '0')}:00`;
+        const booked = isSlotBooked(date, timeFormatted);
+
         const slot = document.createElement('div');
-        slot.className = `time-slot ${booked ? 'booked' : ''}`;
-        slot.textContent = time;
-        if (!booked) slot.onclick = () => document.getElementById('eventTime').value = `${time}:00`;
+        let slotClass = 'time-slot';
+        
+        if (booked) {
+          slotClass += ' booked';
+        } else if (selectedTime === timeFormatted) {
+          slotClass += ' selected';
+        }
+
+        slot.className = slotClass;
+        slot.textContent = timeFormatted;
+
+        if (!booked) {
+          slot.onclick = () => {
+            document.getElementById('eventTime').value = timeFormatted;
+            generateTimeSlots(); // Atualiza a seleção visual
+          };
+        }
         grid.appendChild(slot);
       }
     }
@@ -319,12 +356,16 @@
       const modal = document.getElementById('eventModal');
       const content = document.getElementById('modalContent');
       const props = event.extendedProps;
+      
+      const formattedDate = event.startStr.split('T')[0].split('-').reverse().join('/');
+      const formattedTime = event.startStr.split('T')[1] ? event.startStr.split('T')[1].substring(0, 5) : '—';
+
       content.innerHTML = `
         <p><strong>Cliente:</strong> ${event.title}</p>
-        <p><strong>Horário:</strong> ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+        <p><strong>Data/Hora:</strong> ${formattedDate} às ${formattedTime}</p>
         <p><strong>Telefone:</strong> ${props.phone}</p>
         <p><strong>Endereço:</strong> ${props.address}</p>
-        <p><strong>Veículo:</strong> ${props.vehicle}</p>
+        <p><strong>Equipamento:</strong> ${props.vehicle}</p>
         <p><strong>Serviço:</strong> ${props.service}</p>
         <p><strong>Descrição:</strong> ${props.description || '—'}</p>
       `;
@@ -337,7 +378,8 @@
 
     /* ---------- OUTROS ---------- */
     function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({ behavior: 'smooth' });
     }
 
     function searchEvents(query) {
