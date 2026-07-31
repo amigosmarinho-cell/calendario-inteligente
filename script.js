@@ -1,21 +1,18 @@
-/* =========================================
-   VARIÁVEIS GLOBAIS
-========================================= */
+/* ==========================================================================
+   1. VARIÁVEIS GERAIS E INICIALIZAÇÃO
+   ========================================================================== */
 let calendar;
 const today = new Date().toISOString().split('T')[0];
 
-/* =========================================
-   INICIALIZAÇÃO
-========================================= */
 document.addEventListener('DOMContentLoaded', () => {
   initCalendar();
   loadGarantias();
   updateDashboard();
 });
 
-/* =========================================
-   CALENDÁRIO
-========================================= */
+/* ==========================================================================
+   2. CONFIGURAÇÃO DO FULLCALENDAR
+   ========================================================================== */
 function initCalendar() {
   const calendarEl = document.getElementById('calendar');
   calendar = new FullCalendar.Calendar(calendarEl, {
@@ -34,33 +31,30 @@ function initCalendar() {
   calendar.render();
 }
 
-/* =========================================
-   EVENTOS (CRUD LOCAL)
-========================================= */
+/* ==========================================================================
+   3. PERSISTÊNCIA E MANIPULAÇÃO DE EVENTOS
+   ========================================================================== */
+// Carrega os eventos salvos no LocalStorage
 function loadEvents() {
   return JSON.parse(localStorage.getItem('events')) || [];
 }
 
-function saveEvents(events) {
-  localStorage.setItem('events', JSON.stringify(events));
-}
-
-/* =========================================
-   BLOQUEIO DE HORÁRIO DUPLICADO
-========================================= */
+// Verifica se um horário específico já possui agendamento
 function isSlotBooked(date, time) {
   const events = loadEvents();
-  return events.some(e => e.start === `${date}T${time}`);
+  return events.some(e => e.start === `${date}T${time}:00`);
 }
 
-/* =========================================
-   SALVAR AGENDAMENTO + WHATSAPP
-========================================= */
+// Salva o evento e dispara as atualizações na tela e no WhatsApp
 function saveEvent(e) {
   e.preventDefault();
-
   const date = document.getElementById('eventDate').value;
   const time = document.getElementById('eventTime').value;
+
+  if (!time) {
+    alert('Por favor, selecione um horário disponível!');
+    return;
+  }
 
   if (isSlotBooked(date, time)) {
     alert('Horário já ocupado! Escolha outro.');
@@ -69,9 +63,9 @@ function saveEvent(e) {
 
   const events = loadEvents();
   const newEvent = {
-    id: Date.now(),
+    id: Date.now().toString(),
     title: document.getElementById('clientName').value,
-    start: `${date}T${time}`,
+    start: `${date}T${time}:00`,
     extendedProps: {
       phone: document.getElementById('clientPhone').value,
       address: document.getElementById('clientAddress').value,
@@ -82,28 +76,39 @@ function saveEvent(e) {
   };
 
   events.push(newEvent);
-  saveEvents(events);
+  localStorage.setItem('events', JSON.stringify(events));
   calendar.addEvent(newEvent);
 
   sendWhatsApp(newEvent);
   closeEventForm();
   updateDashboard();
-  showToast('Agendamento salvo!');
+  showToast('Agendamento salvo com sucesso!');
 }
 
-/* =========================================
-   ENVIO DE WHATSAPP
-========================================= */
+/* ==========================================================================
+   4. INTEGRAÇÃO COM WHATSAPP
+   ========================================================================== */
 function sendWhatsApp(event) {
-  const tel = event.extendedProps.phone.replace(/\D/g, '');
-  const msg = `Olá ${event.title}! Confirmamos seu agendamento para *${event.extendedProps.service}* no dia *${new Date(event.start).toLocaleDateString('pt-BR')}* às *${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}*. Endereço: ${event.extendedProps.address}.`;
-  const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+  // Limpa caracteres especiais do telefone digitado
+  let rawPhone = event.extendedProps.phone.replace(/\D/g, ''); 
+
+  // Adiciona o código do Brasil se o usuário colocar só o DDD + número
+  if (!rawPhone.startsWith('55') && rawPhone.length <= 11) {
+    rawPhone = '55' + rawPhone;
+  }
+
+  const formattedDate = event.start.split('T')[0].split('-').reverse().join('/');
+  const formattedTime = event.start.split('T')[1].substring(0, 5);
+
+  const msg = `Olá ${event.title}! Confirmamos seu agendamento para *${event.extendedProps.service}* no dia *${formattedDate}* às *${formattedTime}*.\n\n*Descrição:* ${event.extendedProps.description || 'Não informada'}\n*Endereço:* ${event.extendedProps.address}`;
+
+  const url = `https://wa.me/${rawPhone}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 }
 
-/* =========================================
-   DASHBOARD – HOJE
-========================================= */
+/* ==========================================================================
+   5. DASHBOARD (PAINEL DE HOJE E GARANTIAS)
+   ========================================================================== */
 function updateDashboard() {
   const events = loadEvents();
   const todayEvents = events.filter(e => e.start?.startsWith(today));
@@ -117,26 +122,24 @@ function updateDashboard() {
 
   todayEvents.forEach(ev => {
     const li = document.createElement('li');
-    const time = new Date(ev.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const time = ev.start.split('T')[1].substring(0, 5);
     li.innerHTML = `
-      <strong>${ev.title}</strong>
-      <span>${time}</span>
+      <strong>${ev.title} - ${time}h</strong>
+      <span>${ev.extendedProps.service}</span>
       <p>${ev.extendedProps.description || 'Sem descrição'}</p>
     `;
     listEl.appendChild(li);
   });
 }
 
-/* =========================================
-   GARANTIAS (MOCK)
-========================================= */
 function loadGarantias() {
   const garantias = [
-    { cliente: 'João Silva', servico: 'Troca de Freio', dias: 25 },
-    { cliente: 'Maria Souza', servico: 'Revisão', dias: 5 }
+    { cliente: 'João Silva', servico: 'Limpeza de Computador', dias: 15 },
+    { cliente: 'Maria Souza', servico: 'Remoção de Virus', dias: 5 }
   ];
   const box = document.getElementById('garantiaList');
   box.innerHTML = '';
+
   garantias.forEach(g => {
     const div = document.createElement('div');
     div.className = 'garantia-item';
@@ -149,9 +152,9 @@ function loadGarantias() {
   });
 }
 
-/* =========================================
-   FORMULÁRIO
-========================================= */
+/* ==========================================================================
+   6. CONTROLE DO FORMULÁRIO E SLOTS DE HORÁRIO
+   ========================================================================== */
 function openEventForm(date = today, time = '09:00') {
   document.getElementById('eventFormSection').style.display = 'block';
   document.getElementById('eventDate').value = date;
@@ -168,35 +171,53 @@ function closeEventForm() {
 function generateTimeSlots() {
   const grid = document.getElementById('timesGrid');
   grid.innerHTML = '';
-  const events = loadEvents();
   const date = document.getElementById('eventDate').value;
+  const selectedTime = document.getElementById('eventTime').value;
 
+  // Cria botões de horário comercial das 08h às 17h
   for (let h = 8; h < 18; h++) {
-    const time = `${h.toString().padStart(2, '0')}:00`;
-    const booked = events.some(e => e.start === `${date}T${time}:00`);
+    const timeFormatted = `${h.toString().padStart(2, '0')}:00`;
+    const booked = isSlotBooked(date, timeFormatted);
+
     const slot = document.createElement('div');
-    slot.className = `time-slot ${booked ? 'booked' : ''}`;
-    slot.textContent = time;
+    let slotClass = 'time-slot';
+
+    if (booked) {
+      slotClass += ' booked';
+    } else if (selectedTime === timeFormatted) {
+      slotClass += ' selected';
+    }
+
+    slot.className = slotClass;
+    slot.textContent = timeFormatted;
+
     if (!booked) {
-      slot.onclick = () => document.getElementById('eventTime').value = `${time}:00`;
+      slot.onclick = () => {
+        document.getElementById('eventTime').value = timeFormatted;
+        generateTimeSlots(); // Recarrega para destacar o horário selecionado
+      };
     }
     grid.appendChild(slot);
   }
 }
 
-/* =========================================
-   MODAL
-========================================= */
+/* ==========================================================================
+   7. MODAL DE DETALHES E BUSCA
+   ========================================================================== */
 function showEventModal(event) {
   const modal = document.getElementById('eventModal');
   const content = document.getElementById('modalContent');
   const props = event.extendedProps;
+
+  const formattedDate = event.startStr.split('T')[0].split('-').reverse().join('/');
+  const formattedTime = event.startStr.split('T')[1] ? event.startStr.split('T')[1].substring(0, 5) : '—';
+
   content.innerHTML = `
     <p><strong>Cliente:</strong> ${event.title}</p>
-    <p><strong>Horário:</strong> ${new Date(event.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+    <p><strong>Data/Hora:</strong> ${formattedDate} às ${formattedTime}</p>
     <p><strong>Telefone:</strong> ${props.phone}</p>
     <p><strong>Endereço:</strong> ${props.address}</p>
-    <p><strong>Veículo:</strong> ${props.vehicle}</p>
+    <p><strong>Equipamento:</strong> ${props.vehicle}</p>
     <p><strong>Serviço:</strong> ${props.service}</p>
     <p><strong>Descrição:</strong> ${props.description || '—'}</p>
   `;
@@ -207,13 +228,6 @@ function closeModal() {
   document.getElementById('eventModal').style.display = 'none';
 }
 
-/* =========================================
-   UTILITÁRIOS
-========================================= */
-function scrollToSection(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-}
-
 function searchEvents(query) {
   calendar.removeAllEvents();
   const events = loadEvents();
@@ -222,6 +236,14 @@ function searchEvents(query) {
     e.extendedProps.service.toLowerCase().includes(query.toLowerCase())
   );
   calendar.addEventSource(filtered);
+}
+
+/* ==========================================================================
+   8. UTILITÁRIOS (SCROLL E MENSAGEM TOAST)
+   ========================================================================== */
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
 function showToast(msg) {
